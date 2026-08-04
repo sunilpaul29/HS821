@@ -1,0 +1,45 @@
+---
+title: "Course Introduction"
+subtitle: "HS 821: Topics in Time Series Econometrics"
+author: "Sunil Paul"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    transition: fade
+execute:
+  enabled: false
+---
+
+## Topics in Time Series Econometrics
+
+### HS 821
+
+- Univariate time-series models
+- Nonstationarity and unit roots
+- Volatility modelling
+- Vector autoregressions
+- Cointegration
+- Bayesian and frequentist inference
+
+## Course organisation
+
+- Two lectures each week
+- R-based computational exercises
+- Lecture notes available on the course website
+- Datasets distributed through Moodle
+
+## Software
+
+Students will use:
+
+- R
+- Jupyter
+- Quarto
+- Relevant R packages
+
+## Data access
+
+Course datasets are distributed only through Moodle.
+
+Download the datasets and place them inside the local `data` folder.

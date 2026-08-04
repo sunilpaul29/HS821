@@ -1,0 +1,383 @@
+[
+  {
+    "objectID": "Slides/00-course-introduction.html#topics-in-time-series-econometrics",
+    "href": "Slides/00-course-introduction.html#topics-in-time-series-econometrics",
+    "title": "Course Introduction",
+    "section": "Topics in Time Series Econometrics",
+    "text": "Topics in Time Series Econometrics\nHS 821\n\nUnivariate time-series models\nNonstationarity and unit roots\nVolatility modelling\nVector autoregressions\nCointegration\nBayesian and frequentist inference",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Course introduction"
+    ]
+  },
+  {
+    "objectID": "Slides/00-course-introduction.html#course-organisation",
+    "href": "Slides/00-course-introduction.html#course-organisation",
+    "title": "Course Introduction",
+    "section": "Course organisation",
+    "text": "Course organisation\n\nTwo lectures each week\nR-based computational exercises\nLecture notes available on the course website\nDatasets distributed through Moodle",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Course introduction"
+    ]
+  },
+  {
+    "objectID": "Slides/00-course-introduction.html#software",
+    "href": "Slides/00-course-introduction.html#software",
+    "title": "Course Introduction",
+    "section": "Software",
+    "text": "Software\nStudents will use:\n\nR\nJupyter\nQuarto\nRelevant R packages",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Course introduction"
+    ]
+  },
+  {
+    "objectID": "Slides/00-course-introduction.html#data-access",
+    "href": "Slides/00-course-introduction.html#data-access",
+    "title": "Course Introduction",
+    "section": "Data access",
+    "text": "Data access\nCourse datasets are distributed only through Moodle.\nDownload the datasets and place them inside the local data folder.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Course introduction"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html",
+    "href": "Notebooks/01-Review-R.html",
+    "title": "An Overview of R",
+    "section": "",
+    "text": "Course lecture notes — Lecture 1\nSunil Paul\nDate: 04-08-2026 | R version: 4.5.3\nThese notes introduce the R language: how to run it, how its objects and data structures work, how to import data, how to control program flow, and how to write your own functions. T",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#setup",
+    "href": "Notebooks/01-Review-R.html#setup",
+    "title": "An Overview of R",
+    "section": "Setup",
+    "text": "Setup\nThese notes assume a working R installation with the packages used below.\nSoftware. Install R from CRAN. Most people also use an interface such as RStudio. To run these notes as a Jupyter notebook you additionally need the IRkernel package, registered once with IRkernel::installspec().\nPackages. This lecture uses only packages that ship with R: datasets and MASS. If a package is missing, install it once with install.packages(\"MASS\") and load it with library(MASS).",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#overview-of-r",
+    "href": "Notebooks/01-Review-R.html#overview-of-r",
+    "title": "An Overview of R",
+    "section": "Overview of R",
+    "text": "Overview of R\nR is a free, open-source language and environment for statistical computing and graphics. It runs on almost every platform, has a clean and intuitive syntax, and is backed by a large, active community, so help is easy to find. R is user-extensible: anyone can write extensions and share them with others.\nR is built around packages — collections of functions, data, and documentation. The base system that ships with R already includes the essential packages, and thousands more (over 20,000 on CRAN today) extend it into almost every area of data analysis.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#installing-and-loading-packages",
+    "href": "Notebooks/01-Review-R.html#installing-and-loading-packages",
+    "title": "An Overview of R",
+    "section": "Installing and loading packages",
+    "text": "Installing and loading packages\nYou can install a package through a menu (in RStudio, Tools ▸ Install Packages…) or from the console with install.packages(\"package_name\"). Installation is a one-time step. In each new session you make a package available by loading it with library(\"package_name\") or require(\"package_name\").",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#r-commands-and-syntax",
+    "href": "Notebooks/01-Review-R.html#r-commands-and-syntax",
+    "title": "An Overview of R",
+    "section": "R commands and syntax",
+    "text": "R commands and syntax\nR’s syntax is deliberately simple. The console shows a &gt; prompt when it is ready for a command; if a command is incomplete, the prompt changes to + to show that R is waiting for the rest of the input. Values are assigned to names with the &lt;- operator, comments begin with #, and names are case-sensitive (x and X are different objects). Functions are called by writing the function name followed by its arguments in parentheses: functionname(arg1, arg2, ...).",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#objects-in-r",
+    "href": "Notebooks/01-Review-R.html#objects-in-r",
+    "title": "An Overview of R",
+    "section": "Objects in R",
+    "text": "Objects in R\nEverything you create in R — a variable, a function, a data set — is an object. Two properties describe an object at a basic level: its mode (numeric, logical, character, list, and so on) and its length (the number of elements it contains). The functions below inspect these and related properties.\n\n\nShow R code\nx &lt;- 42\n\n\n\n\nShow R code\nmode(x)\n\n\n'numeric'\n\n\n\n\nShow R code\nlength(x)\n\n\n1\n\n\n\n\nShow R code\ntypeof(x)\n\n\n'double'\n\n\nstr() gives a compact summary of any object’s structure — a quick way to see what you are dealing with.\n\n\nShow R code\nstr(x)\n\n\n num 42",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#working-directory-and-workspace",
+    "href": "Notebooks/01-Review-R.html#working-directory-and-workspace",
+    "title": "An Overview of R",
+    "section": "Working directory and workspace",
+    "text": "Working directory and workspace\nThe objects you create live in an in-memory workspace. The working directory is the folder on disk that R reads from and writes to by default, so it is where a saved workspace is stored and loaded from.\nA few commands manage all of this. getwd() returns the current working directory and setwd(\"path/to/folder\") changes it. ls() lists the objects in the workspace and rm(list = ls()) removes them all. save.image(\"intro1.Rdata\") saves the whole workspace to a file and load(\"intro1.Rdata\") restores it, while dir() lists the files in the working directory.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#getting-help-in-r",
+    "href": "Notebooks/01-Review-R.html#getting-help-in-r",
+    "title": "An Overview of R",
+    "section": "Getting help in R",
+    "text": "Getting help in R\nR has extensive built-in help. Use help(function) or the shortcut ?function to open a function’s documentation, and args(function) to see just its arguments. When you don’t know the exact name, help.search(\"topic\") searches the installed packages and RSiteSearch(\"topic\") searches online resources.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#functions-in-r",
+    "href": "Notebooks/01-Review-R.html#functions-in-r",
+    "title": "An Overview of R",
+    "section": "Functions in R",
+    "text": "Functions in R\nR works by calling functions. A function takes arguments as input and returns a value as output; both the inputs and the output are themselves objects. Some functions come with base R, and others arrive with the packages you load.\n\n\nShow R code\nlog(100)\n\n\n4.60517018598809\n\n\n\n\nShow R code\nlog(100, base = 10)\n\n\n2\n\n\n\n\nShow R code\nlog10(100)\n\n\n2\n\n\n\n\nShow R code\nlog(100, b = 10)\n\n\n2\n\n\nArguments can be supplied by position or by name. log(100, base = 10) names the second argument explicitly. R also allows partial matching of argument names, which is why log(100, b = 10) works — but partial names are fragile and best avoided in code you intend to keep.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#data-types",
+    "href": "Notebooks/01-Review-R.html#data-types",
+    "title": "An Overview of R",
+    "section": "Data types",
+    "text": "Data types\nEvery value in R has a type. The most common are logical (TRUE, FALSE), integer (whole numbers), double (floating-point numbers such as 1.23e6), and character (text strings). R also has special values for missing or undefined data: NA marks a missing value, and NaN (“not a number”) results from undefined operations such as 0/0.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#the-r-console",
+    "href": "Notebooks/01-Review-R.html#the-r-console",
+    "title": "An Overview of R",
+    "section": "The R console",
+    "text": "The R console\nThe primary way to interact with R is through the console: you type a command, press Enter, and R prints the result. Graphical environments such as RStudio are conveniences built on top of this same console. The examples below show R evaluating arithmetic, comparisons, and type checks one expression at a time.\n\n\nShow R code\n2 + 3\n\n\n5\n\n\n\n\nShow R code\n2 - 3\n\n\n-1\n\n\n\n\nShow R code\n2 * 3\n\n\n6\n\n\n\n\nShow R code\n2 / 3\n\n\n0.666666666666667\n\n\n\n\nShow R code\n2 ^ 3\n\n\n8\n\n\n\n\nShow R code\n2 ** 3\n\n\n8\n\n\n\n\nShow R code\n\"Hello\"\n\n\n'Hello'\n\n\n\n\nShow R code\nsqrt(-17)\n\n\nWarning message in sqrt(-17):\n\"NaNs produced\"\n\n\nNaN\n\n\n\n\nShow R code\nsqrt(-17 + 1i)\n\n\n0.12121544028382+4.12488705093403i\n\n\nsqrt(-17) returns NaN with a warning because the square root of a negative number is not a real number. Supplying a complex number instead — sqrt(-17 + 1i) — gives a complex result.\n\n\nShow R code\n7 &gt; 5\n\n\nTRUE\n\n\n\n\nShow R code\n7 &lt; 5\n\n\nFALSE\n\n\n\n\nShow R code\n7 &gt;= 7\n\n\nTRUE\n\n\n\n\nShow R code\n7 == 5\n\n\nFALSE\n\n\n\n\nShow R code\n7 != 5\n\n\nTRUE\n\n\n\n\nShow R code\n(5 &gt; 7) & (6*7 == 42)\n\n\nFALSE\n\n\n\n\nShow R code\n(5 &gt; 7) | (6*7 == 42)\n\n\nTRUE\n\n\n\n\nShow R code\ntypeof(7)\n\n\n'double'\n\n\n\n\nShow R code\nis.numeric(7)\n\n\nTRUE\n\n\n\n\nShow R code\nis.na(7/0)\n\n\nFALSE\n\n\n\n\nShow R code\nis.na(0/0)\n\n\nTRUE\n\n\n\n\nShow R code\nis.character(7)\n\n\nFALSE\n\n\n\n\nShow R code\nis.character(\"seven\")\n\n\nTRUE\n\n\n\n\nShow R code\nas.character(5/6)\n\n\n'0.833333333333333'\n\n\n\n\nShow R code\nas.numeric(\"0.833333\")\n\n\n0.833333",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#data-structures",
+    "href": "Notebooks/01-Review-R.html#data-structures",
+    "title": "An Overview of R",
+    "section": "Data structures",
+    "text": "Data structures\nR organises data into structures that differ by their number of dimensions and by whether they hold one type of element or several. Vectors and lists are one-dimensional; matrices and data frames are two-dimensional; arrays can have any number of dimensions. A structure is homogeneous if every element must share the same type (vectors, matrices, arrays) and heterogeneous if it may mix types (lists, data frames).\n\nVectors\nA vector is the most basic R data structure: an ordered, one-dimensional collection of elements that all share the same type. The c() function (“combine”) builds one.\n\n\nShow R code\nx &lt;- c(1, 2, 3)\n\n\n\n\nShow R code\nstr(x)\n\n\n num [1:3] 1 2 3\n\n\n\n\nShow R code\nx1 &lt;- c(0.5, 0.6)\n\n\n\n\nShow R code\nx2 &lt;- c(TRUE, FALSE)\n\n\n\n\nShow R code\nx3 &lt;- c(\"a\", \"b\", \"c\")\n\n\n\n\nShow R code\nx4 &lt;- 9:29\n\n\n\n\nShow R code\nx5 &lt;- c(1 + 0i, 2 + 4i)\n\n\n\n\nShow R code\ntypeof(x2)\n\n\n'logical'\n\n\n\n\nShow R code\nmode(x2)\n\n\n'logical'\n\n\n\n\nShow R code\nlength(x2)\n\n\n2\n\n\n\n\nMatrices\nA matrix is a two-dimensional, homogeneous structure. You can build one with matrix(), turn a vector into a matrix by giving it a dim attribute, or bind vectors together as columns (cbind()) or rows (rbind()).\n\n\nShow R code\nm &lt;- matrix(nrow = 2, ncol = 3)\n\n\n\n\nShow R code\ndim(m)\n\n\n\n23\n\n\n\n\nShow R code\nattributes(m)\n\n\n$dim = \n23\n\n\n\n\nShow R code\nm\n\n\n\n23\n\n\n$dim = \n23\n\n\n\nA matrix: 2 × 3 of type lgl\n\n\nNA\nNA\nNA\n\n\nNA\nNA\nNA\n\n\n\n\n\n\n\nShow R code\nm &lt;- matrix(1:6, ncol = 2, nrow = 3)\nm\n\n\n\nA matrix: 3 × 2 of type int\n\n\n1\n4\n\n\n2\n5\n\n\n3\n6\n\n\n\n\n\n\n\nShow R code\nm &lt;- 1:4\n\n\n\n\nShow R code\nm\n\n\n\n1234\n\n\n\n\nShow R code\ndim(m) &lt;- c(2, 2)\nm\n\n\n\nA matrix: 2 × 2 of type int\n\n\n1\n3\n\n\n2\n4\n\n\n\n\n\n\n\nShow R code\nx &lt;- 1:3\ny &lt;- 4:6\n\n\n\n\nShow R code\ny\n\n\n\n456\n\n\n\n\nShow R code\nm &lt;- cbind(x, y)\n\n\n\n\nShow R code\nm\n\n\n\nA matrix: 2 × 3 of type int\n\n\nx\n1\n2\n3\n\n\ny\n4\n5\n6\n\n\n\n\n\n\n\nShow R code\nm &lt;- rbind(x, y)\n\n\n\n\nLists\nA list is one-dimensional but heterogeneous: each element can be a different type, and can itself be another structure such as a vector or another list. This makes lists the natural container for grouping related but dissimilar pieces of data.\n\n\nShow R code\nx &lt;- list(1:3, \"a\", c(TRUE, FALSE, TRUE), c(2.3, 5.9))\nstr(x)\n\n\nList of 4\n $ : int [1:3] 1 2 3\n $ : chr \"a\"\n $ : logi [1:3] TRUE FALSE TRUE\n $ : num [1:2] 2.3 5.9\n\n\n\n\nData frames\nA data frame is the workhorse structure for tabular data. It is two-dimensional like a matrix, but each column may have its own type, so one column can be numeric while another is character. Each column is a variable and each row is an observation.\n\n\nShow R code\ndf1 &lt;- data.frame(x = 1:3, y = 4:6)\n\n\n\n\nShow R code\ntypeof(df1)\n\n\n'list'\n\n\n\n\nShow R code\nstr(df1)\n\n\n'data.frame':   3 obs. of  2 variables:\n $ x: int  1 2 3\n $ y: int  4 5 6\n\n\n\n\nShow R code\ndf1\n\n\n\nA data.frame: 3 × 2\n\n\nx\ny\n\n\n&lt;int&gt;\n&lt;int&gt;\n\n\n\n\n1\n4\n\n\n2\n5\n\n\n3\n6\n\n\n\n\n\n\n\nShow R code\nx &lt;- 1:3\n\n\n\n\nShow R code\ny &lt;- c(\"a\", \"b\", \"c\")\n\n\n\n\nShow R code\ndf2 &lt;- data.frame(x, y)\n\n\n\n\nShow R code\ndf2\n\n\n\nA data.frame: 3 × 2\n\n\nx\ny\n\n\n&lt;int&gt;\n&lt;chr&gt;\n\n\n\n\n1\na\n\n\n2\nb\n\n\n3\nc\n\n\n\n\n\n\n\nShow R code\nstr(df2)\n\n\n'data.frame':   3 obs. of  2 variables:\n $ x: int  1 2 3\n $ y: chr  \"a\" \"b\" \"c\"\n\n\n\n\nShow R code\ndf3 &lt;- data.frame(x, y, stringsAsFactors = FALSE)\n\n\n\n\nShow R code\nstr(df3)\n\n\n'data.frame':   3 obs. of  2 variables:\n $ x: int  1 2 3\n $ y: chr  \"a\" \"b\" \"c\"\n\n\n\n\nShow R code\ndf1\n\n\n\nA data.frame: 3 × 2\n\n\nx\ny\n\n\n&lt;int&gt;\n&lt;int&gt;\n\n\n\n\n1\n4\n\n\n2\n5\n\n\n3\n6\n\n\n\n\n\n\n\nShow R code\ndf1$x\n\n\n\n123\n\n\n\n\nShow R code\ndf1[1, ]\n\n\n\nA data.frame: 1 × 2\n\n\n\nx\ny\n\n\n\n&lt;int&gt;\n&lt;int&gt;\n\n\n\n\n1\n1\n4\n\n\n\n\n\n\n\nShow R code\ndf1[, 1]\n\n\n\n123\n\n\n\n\nShow R code\ndf1[1, 1]\n\n\n1\n\n\nTwo convenience functions are worth knowing but using with care. attach(df) lets you refer to a data frame’s columns by name alone, but it can cause confusing name clashes and is generally discouraged in favour of df$column or with(). fix(df) and data.entry(df) open a simple spreadsheet-style editor for a data frame.\n\n\nShow R code\nlength(df1)\n\n\n2\n\n\n\n\nShow R code\nmode(df1)\n\n\n'list'\n\n\n\n\nShow R code\ntypeof(df1)\n\n\n'list'\n\n\n\n\nShow R code\nclass(df1)\n\n\n'data.frame'\n\n\n\n\nShow R code\nattributes(df1)\n\n\n\n    $names\n        \n'x''y'\n\n    $class\n        'data.frame'\n    $row.names\n        \n123\n\n\n\n\n\n\nShow R code\nsummary(df1)\n\n\n       x             y      \n Min.   :1.0   Min.   :4.0  \n 1st Qu.:1.5   1st Qu.:4.5  \n Median :2.0   Median :5.0  \n Mean   :2.0   Mean   :5.0  \n 3rd Qu.:2.5   3rd Qu.:5.5  \n Max.   :3.0   Max.   :6.0  \n\n\n\n\nShow R code\nstr(df1)\ndput(df1)\nunclass(df1)\n\n\n2\n\n\n'list'\n\n\n'list'\n\n\n'data.frame'\n\n\n\n    $names\n        \n'x''y'\n\n    $class\n        'data.frame'\n    $row.names\n        \n123\n\n\n\n\n       x             y      \n Min.   :1.0   Min.   :4.0  \n 1st Qu.:1.5   1st Qu.:4.5  \n Median :2.0   Median :5.0  \n Mean   :2.0   Mean   :5.0  \n 3rd Qu.:2.5   3rd Qu.:5.5  \n Max.   :3.0   Max.   :6.0  \n\n\n'data.frame':   3 obs. of  2 variables:\n $ x: int  1 2 3\n $ y: int  4 5 6\nstructure(list(x = 1:3, y = 4:6), class = \"data.frame\", row.names = c(NA, \n-3L))\n\n\n\n    $x\n        \n123\n\n    $y\n        \n456",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#importing-data",
+    "href": "Notebooks/01-Review-R.html#importing-data",
+    "title": "An Overview of R",
+    "section": "Importing data",
+    "text": "Importing data\nMost real analyses start by reading data from a file. read.csv() reads comma-separated files and read.table() reads more general delimited files; both return a data frame. To keep these notes reproducible, the example below writes a built-in data set to a temporary CSV and reads it straight back — in your own work you would instead point read.csv() at your file, e.g. read.csv(\"mydata.csv\").\n\n\nShow R code\n# R reads tabular files with read.csv() and read.table().\n# To keep this example self-contained, write a small CSV to a temporary\n# file, then read it back in.\n\ntmp &lt;- tempfile(fileext = \".csv\")\nwrite.csv(mtcars, tmp, row.names = TRUE)\n\ndata &lt;- read.csv(tmp)\nhead(data, 2)\ntail(data, 2)\n\n\n\nPractice: sheep measurements\nTry the following in R (a worked solution is in the Solutions section):\n\nCreate a vector of sheep weights (kg) from the sample 84.5, 72.6, 75.7, 94.8, 71.3, and find its sum, mean, and length.\nCreate a second vector of heights: 86.5, 71.8, 77.2, 84.9, 75.4.\nCombine weight and height into a data frame called sheep, then add a third column, backlength: 130.4, 100.2, 109.4, 140.6, 101.4.\nGenerate descriptive statistics for the data frame.\nFit a regression of weight on height.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#recap-data-frames",
+    "href": "Notebooks/01-Review-R.html#recap-data-frames",
+    "title": "An Overview of R",
+    "section": "Recap: data frames",
+    "text": "Recap: data frames\nA data frame has two dimensions, rows and columns. Each row is a single unit or observation and each column is a variable, which may be numeric, character, logical, and so on. Both rows and columns can carry names that you can use to refer to them. The examples below build a richer data frame from R’s built-in state data.\n\n\nShow R code\nlibrary(datasets)\n\n\n\n\nShow R code\nhead(state.x77, 2)\n\n\n\nA matrix: 2 × 8 of type dbl\n\n\n\nPopulation\nIncome\nIlliteracy\nLife Exp\nMurder\nHS Grad\nFrost\nArea\n\n\n\n\nAlabama\n3615\n3624\n2.1\n69.05\n15.1\n41.3\n20\n50708\n\n\nAlaska\n365\n6315\n1.5\n69.31\n11.3\n66.7\n152\n566432\n\n\n\n\n\n\n\nShow R code\ntail(state.x77, 2)\n\n\n\nA matrix: 2 × 8 of type dbl\n\n\n\nPopulation\nIncome\nIlliteracy\nLife Exp\nMurder\nHS Grad\nFrost\nArea\n\n\n\n\nWisconsin\n4589\n4468\n0.7\n72.48\n3.0\n54.5\n149\n54464\n\n\nWyoming\n376\n4566\n0.6\n70.29\n6.9\n62.9\n173\n97203\n\n\n\n\n\n\n\nShow R code\nstates &lt;- data.frame(\n  state.x77,\n  abb = state.abb,\n  region = state.region,\n  division = state.division\n)\n\n\n\n\nShow R code\ncolnames(states)\n\n\n\n'Population''Income''Illiteracy''Life.Exp''Murder''HS.Grad''Frost''Area''abb''region''division'\n\n\n\nSubsetting\nYou select parts of a data frame with square brackets, df[rows, columns]. Rows and columns can be given by position (a numeric index), by name, or by a logical condition that keeps the rows where it is TRUE. Leaving one side of the comma blank keeps all of that dimension.\n\n\nShow R code\nstates[49, 3]  # By row and column index\n\n\n0.7\n\n\n\n\nShow R code\nstates[\"Wisconsin\", \"Illiteracy\"]  # By row and column name\n\n\n\n\nShow R code\nstates[\"Wisconsin\", ]  # Entire row for Wisconsin\n\n\n\nA data.frame: 1 × 11\n\n\n\nPopulation\nIncome\nIlliteracy\nLife.Exp\nMurder\nHS.Grad\nFrost\nArea\nabb\nregion\ndivision\n\n\n\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;chr&gt;\n&lt;fct&gt;\n&lt;fct&gt;\n\n\n\n\nWisconsin\n4589\n4468\n0.7\n72.48\n3\n54.5\n149\n54464\nWI\nNorth Central\nEast North Central\n\n\n\n\n\n\n\nShow R code\nstates[states$division == \"New England\", \"Illiteracy\"]\n\n\n\n1.10.71.10.71.30.6\n\n\n\n\nShow R code\nstates[states$region == \"South\", \"Illiteracy\"]\n\n\n\n2.11.90.91.321.62.80.92.41.81.12.31.72.21.41.4\n\n\n\n\nShow R code\nsummary(states$HS.Grad)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  37.80   48.05   53.25   53.11   59.15   67.30 \n\n\n\n\nShow R code\nstates$HS.Grad &lt;- states$HS.Grad / 100\n\n\n\n\nShow R code\nsummary(states$HS.Grad)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n 0.3780  0.4805  0.5325  0.5311  0.5915  0.6730 \n\n\n\n\nShow R code\nstates$HS.Grad &lt;- 100 * states$HS.Grad\n\n\n\n\nShow R code\nhead(100 * (states$HS.Grad / (100 - states$Illiteracy)))\n\n\n\n42.185903983656867.715736040609159.164969450101840.672782874617763.296258847320564.3504531722054\n\n\n\n\nShow R code\nwith(states, head(100 * (HS.Grad / (100 - Illiteracy))))\n\n\n\n42.185903983656867.715736040609159.164969450101840.672782874617763.296258847320564.3504531722054\n\n\n\n\nShow R code\nplot(Illiteracy ~ Frost, data = states)\n\n\n\n\n\n\n\n\n\n\n\nPractice: exploring a data frame\nUse the built-in airquality data set (it loads with the datasets package, so no import is needed):\n\nHow many rows and columns does it have? (nrow(), ncol(), dim())\nWhat are the names of its columns? (names())\nWhat is the value in row 5, column 4?\nDisplay the second row in full.\n\nIf your course provides the file rnf6080.dat, you can do the same with rain.df &lt;- read.table(\"rnf6080.dat\").\n\n\nPractice: the Cars93 data set\nThe Cars93 data set comes with the MASS package. Load it with library(MASS), then explore:\n\nInspect it with View(Cars93) and summarise it with summary(Cars93).\nWhat is the minimum horsepower among cars with a 7-passenger capacity?\nWhat about cars with a capacity of at least 6 passengers?\nWhat is the mean price of rear-wheel-drive cars?\n\n\n\nShow R code\nlibrary(MASS)\n\n\n\n\nShow R code\ncolnames(Cars93)\n\n\n\n'Manufacturer''Model''Type''Min.Price''Price''Max.Price''MPG.city''MPG.highway''AirBags''DriveTrain''Cylinders''EngineSize''Horsepower''RPM''Rev.per.mile''Man.trans.avail''Fuel.tank.capacity''Passengers''Length''Wheelbase''Width''Turn.circle''Rear.seat.room''Luggage.room''Weight''Origin''Make'",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#control-structures",
+    "href": "Notebooks/01-Review-R.html#control-structures",
+    "title": "An Overview of R",
+    "section": "Control structures",
+    "text": "Control structures\nControl structures direct the flow of execution through a program. R’s main ones are if/else for choosing between branches, for and while for repetition, and the less common repeat. The sections below take them in turn.\n\nif and else\nAn if statement runs a block of code only when a condition is TRUE, and an optional else block runs otherwise. The condition must evaluate to a single TRUE or FALSE value.\nif (condition) {\n  ## runs when condition is TRUE\n} else {\n  ## runs when condition is FALSE\n}\n\n\nShow R code\nx &lt;- 3\n\nif (x &gt; 5) {\n  print(\"x is greater than 5\")\n} else {\n  print(\"x is 5 or less\")\n}\n\n\n[1] \"x is 5 or less\"\n\n\n\n\nShow R code\nfun1 &lt;- function(x){if (x &gt; 50) {\n  print(\"x is greater than 50\")\n} else {\n  print(\"x is 50 or less\")\n}}\n\n\n\n\nShow R code\nfun1(51)\n\n\n[1] \"x is greater than 50\"\n\n\n\n\nNested if\nBecause the body of an else can contain another if, you can nest conditions to any depth to distinguish more than two cases.\nif (condition1) {\n  ## expression\n} else {\n  if (condition2) {\n    ## expression\n  } else {\n    ## expression\n  }\n}\n\n\nShow R code\nx &lt;- 7\n\nif (x &gt; 10) {\n  print(\"x &gt; 10\")\n} else {\n  if (x &gt; 5) {\n    print(\"5 &lt; x &lt;= 10\")\n  } else {\n    print(\"x &lt;= 5\")\n  }\n}",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#iteration",
+    "href": "Notebooks/01-Review-R.html#iteration",
+    "title": "An Overview of R",
+    "section": "Iteration",
+    "text": "Iteration\nIteration automates a multi-step process: you group the actions that need to be repeated and let R run through them for you.\n\nThe for loop\nA for loop steps a counter (here i) through the elements of a vector and runs its body once for each element — it iterates over the vector. It is the natural choice when you know in advance how many times to repeat.\n\n\nShow R code\ntable.of.logarithms &lt;- vector(length = 7, mode = \"numeric\")\ntable.of.logarithms\n\n\n\n0000000\n\n\n\n\nShow R code\nfor (i in 1:length(table.of.logarithms)) {\n  table.of.logarithms[i] &lt;- log(i)\n}\ntable.of.logarithms\n\n\n\n00.6931471805599451.098612288668111.386294361119891.60943791243411.791759469228051.94591014905531\n\n\n\n\nNested loops\nOne loop nested inside another visits every cell of a two-dimensional structure. Here we fill a 9 × 9 matrix so that each entry is the product of its row and column indices — a multiplication table.\n\n\nShow R code\n# Build a 9 x 9 matrix whose entry [i, j] is i * j (a multiplication table)\nmymat &lt;- matrix(nrow = 9, ncol = 9)\n\nfor (i in 1:nrow(mymat)) {\n  for (j in 1:ncol(mymat)) {\n    mymat[i, j] &lt;- i * j\n  }\n}\n\nmymat\n\n\n\n\nNested loops with a 3-D array\nThe same idea extends to more dimensions. Here three nested loops fill a 3 × 3 × 3 array so that each entry is the product of its three indices.\n\n\nShow R code\n# Build a 3 x 3 x 3 array whose entry [i, j, k] is i * j * k\nmy_array &lt;- array(0, dim = c(3, 3, 3))\n\nfor (i in 1:dim(my_array)[1]) {\n  for (j in 1:dim(my_array)[2]) {\n    for (k in 1:dim(my_array)[3]) {\n      my_array[i, j, k] &lt;- i * j * k\n    }\n  }\n}\n\nmy_array\n\n\n\nThe R way. Explicit loops like these are clear for learning, but R is usually faster and more idiomatic when you vectorise — operating on whole vectors at once — or use the apply family (apply(), sapply(), lapply()). The entire multiplication table above, for instance, is just outer(1:9, 1:9). See the Vectorization and the apply family section below.\n\n\n\nThe while loop\nA while loop repeats its body as long as a condition stays TRUE. As with if, the condition must be a single Boolean value. Use while when you can recognise when to stop but cannot say in advance how many iterations that will take. Two cautions follow: the body never runs at all if the condition starts out FALSE, and it runs forever if the condition never becomes FALSE, so the body must make progress toward stopping.\nwhile (condition) {\n  ## expressions\n}\n\nExample: Fibonacci numbers with while\nEach Fibonacci number is the sum of the previous two. This loop prints terms until the value reaches 50.\n\n\nShow R code\n### while Loop (Fibonacci example)\n### Generate first few Fibonacci numbers: 0, 1, 1, 2, 3, 5, 8, 13, … where each number is the sum of the previous two numbers.\na &lt;- 0\nb &lt;- 1\nprint(a)\n\nwhile (b &lt; 50) {\n  print(b)\n  temp &lt;- a + b\n  a &lt;- b\n  b &lt;- temp\n}\n\n\n[1] 0\n[1] 1\n[1] 1\n[1] 2\n[1] 3\n[1] 5\n[1] 8\n[1] 13\n[1] 21\n[1] 34\n\n\n\n\nBuilding up a vector with while\nThis loop grows a vector one element at a time, stopping once it reaches length 10 — a length-driven condition rather than a value-driven one.\n\n\nShow R code\nx &lt;- c(0, 1)\n\nwhile (length(x) &lt; 10) {\n  position &lt;- length(x)\n  new &lt;- x[position] + x[position - 1]\n  x &lt;- c(x, new)\n}\nx\n\n\n\n\n\nfor versus while\nUse a for loop when the number of repetitions — the set of values to iterate over — is known in advance. Use a while loop when you can tell when to stop only once you get there, even if you couldn’t predict it beforehand. In principle every for loop can be rewritten as a while loop, but the for version is usually clearer when it applies.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#user-defined-functions",
+    "href": "Notebooks/01-Review-R.html#user-defined-functions",
+    "title": "An Overview of R",
+    "section": "User-defined functions",
+    "text": "User-defined functions\nWriting your own functions lets you package repetitive steps and reuse them. You create a function with the function() directive and store it in a name, exactly like any other object. Functions are themselves objects, so they can be passed as arguments to other functions and defined inside one another. A function returns the value of the last expression evaluated in its body, or whatever you pass to return().\nObjects created inside a function are local: they live in the function’s own environment and do not exist outside it. To make a result available to the rest of your program, return it.\nname.of.function &lt;- function(arg1, arg2) {\n  statements\n  return(result)\n}\n\nExample: squaring\n\n\nShow R code\nsquare.it &lt;- function(x) {\n  square &lt;- x * x\n  return(square)\n}\n\n\n\n\nShow R code\nsquare.it(5)\n\n\n25\n\n\n\n\nShow R code\nsquare.it(c(1, 4, 2))\n\n\n\n1164\n\n\n\n\nShow R code\nsquare.it(matrix(c(3, 4, 10, 5), nrow = 2))\n\n\n\nA matrix: 2 × 2 of type dbl\n\n\n9\n100\n\n\n16\n25\n\n\n\n\n\n\n\nreturn() and local scope\nThe objects created inside a function stay in its local environment and will not appear in your global workspace; only the value you return() comes back to the caller. The next two functions show the difference: fun1() returns w explicitly, while fun2() computes y but never returns it — so calling it produces no visible result.\n\n\nShow R code\nfun1 &lt;- function(x) {\n  y &lt;- 3 * x - 1\nz &lt;- 5*x+3\nw &lt;- y*z\n    return(w)\n}\n\n\n\n\nShow R code\nfun1(5)\n\n\n392\n\n\n\n\nShow R code\nfun2 &lt;- function(x) {\n  y &lt;- 3 * x - 1\n}\n\n\n\n\nShow R code\nfun2(5)\n\n\n\n\nCalling other functions\nA function can take several arguments and call other functions inside its body. The example below takes three arguments — a matrix, a vector, and a scalar — squares the scalar with the square.it() function defined earlier, multiplies the matrix by the vector, and multiplies those two results together before returning the final object.\n\n\nShow R code\nmy.fun &lt;- function(X.matrix, y.vec, z.scalar) {\n  sq.scalar &lt;- square.it(z.scalar) # use my previous function square.it() to square the scalar and save result\n  mult &lt;- X.matrix %*% y.vec # use my previous function square.it() to square the scalar and save result\n  final &lt;- mult * sq.scalar # multiply the two resulting objects together to get a final object\n  return(final) # return the result\n}\n\n\n\n\nShow R code\n# save a matrix and a vector object\nmy.mat &lt;- cbind(c(1, 3, 4), c(5, 4, 3))\nmy.vec &lt;- c(4, 3)\n\n# pass my.mat and my.vec into the my.fun function\nmy.fun(my.mat, my.vec, 9)\n\n\n\nA matrix: 3 × 1 of type dbl\n\n\n1539\n\n\n1944\n\n\n2025\n\n\n\n\n\n\n\nReturning several values in a list\nA function can return only one object, so to hand back several results you bundle them into a list. Here the function returns both a transposed matrix and an element-wise squared vector; the caller pulls them apart afterwards with the [[ ]] operator.\n\n\nShow R code\nanother.fun &lt;- function(sq.matrix, vector) {\n    # transpose matrix and square the vector\n  step1 &lt;- t(sq.matrix)\n  step2 &lt;- vector * vector\n    \n    # save both results in a list and return\n  final &lt;- list(step1, step2)\n  return(final)\n}\n# call the function and save result in object called outcome\noutcome &lt;- another.fun(cbind(c(1, 2), c(3, 4)), c(2, 3))\n# Now to separate those objects for use in your further code, you can extract them using the [[#]] operator:\noutcome[[1]]  # Transposed matrix\noutcome[[2]]  # Squared vector\n\n\n\nA matrix: 2 × 2 of type dbl\n\n\n1\n2\n\n\n3\n4\n\n\n\n\n\n\n49\n\n\n\n\nDebugging and sanity checks\nWhen a function runs several statements, something can go wrong partway through. R evaluates the body one statement at a time and stops at the first error, so the trick is to find where it stopped. In the function below the dimensions matter: you cannot multiply matrices whose dimensions do not conform, so passing a vector of the wrong length triggers an error.\n\n\nShow R code\nmy.fun &lt;- function(X.matrix, y.vec, z.scalar) {\n  print(\"Matrix:\")\n  print(X.matrix)\n  print(\"Vector:\")\n  print(y.vec)\n  print(\"Dimensions:\")\n  print(dim(X.matrix))\n  print(length(y.vec))\n  \n  sq.scalar &lt;- square.it(z.scalar)\n  print(paste(\"sq.scalar =\", sq.scalar))\n  \n  mult &lt;- X.matrix %*% y.vec\n  final &lt;- mult * sq.scalar\n  \n  return(final)\n}\n\n\nThe call below is expected to fail: my.mat has two columns but y.vec has five elements, so X.matrix %*% y.vec is non-conformable. The print() statements show how far execution got before the error.\n\n\nShow R code\nmy.fun(X.matrix = my.mat, y.vec = c(2, 3, 6, 4, 1), z.scalar = 9)\n\n\n[1] \"Matrix:\"\n     [,1] [,2]\n[1,]    1    5\n[2,]    3    4\n[3,]    4    3\n[1] \"Vector:\"\n[1] 2 3 6 4 1\n[1] \"Dimensions:\"\n[1] 3 2\n[1] 5\n[1] \"sq.scalar = 81\"\n\n\nERROR: Error in X.matrix %*% y.vec: non-conformable arguments\n\nError in X.matrix %*% y.vec: non-conformable arguments\nTraceback:\n\n1. my.fun(X.matrix = my.mat, y.vec = c(2, 3, 6, 4, 1), z.scalar = 9)\n\n\n\n\nShow R code\n# When a function stops with an error, traceback() shows the call stack that\n# led to it, which helps locate the problem:\ntraceback()\n\n# For step-by-step interactive debugging in RStudio or the R console you would\n# use debug(my.fun) and then call the function, stepping through it line by line.\n# debug() is interactive, so it is not run here.\n\n\nA cleaner approach is defensive programming: check the inputs at the top of the function and stop with a helpful message if they are wrong, rather than letting R fail deeper in with a cryptic error. stop() (and stopifnot()) do exactly this.\n\n\nShow R code\nmy.second.fun &lt;- function(matrix, vector) {\n  if (dim(matrix)[2] != length(vector)) {\n    stop(\"Dimension mismatch: can't multiply matrix %*% vector\")\n  }\n  return(matrix %*% vector)\n}\n\n\n\n\nShow R code\nmy.second.fun(my.mat, c(6, 5))       # Works\n\n\nThe next call passes a length-3 vector to a function expecting length 2, so the guard triggers and stops with our custom message — an expected, deliberate error.\n\n\nShow R code\nmy.second.fun(my.mat, c(6, 5, 7))    # Triggers error\n\n\n\nA matrix: 3 × 1 of type dbl\n\n\n31\n\n\n38\n\n\n39\n\n\n\n\n\nERROR: Error in my.second.fun(my.mat, c(6, 5, 7)): Dimension mismatch: can't multiply matrix %*% vector\n\nError in my.second.fun(my.mat, c(6, 5, 7)): Dimension mismatch: can't multiply matrix %*% vector\nTraceback:\n\n1. my.second.fun(my.mat, c(6, 5, 7))\n2. stop(\"Dimension mismatch: can't multiply matrix %*% vector\")   # at line 3 of file &lt;text&gt;\n\n\n\n\nGuidelines for writing functions\nKeep functions short and focused on a single task, and give them and their arguments meaningful names with comments where the intent isn’t obvious. Build in sanity checks — print() while developing, and stop() or stopifnot() to fail early on bad input — and make sure the function returns something useful. Finally, test on simple examples where you already know the answer before relying on it.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#vectorization-and-the-apply-family",
+    "href": "Notebooks/01-Review-R.html#vectorization-and-the-apply-family",
+    "title": "An Overview of R",
+    "section": "Vectorization and the apply family",
+    "text": "Vectorization and the apply family\nExplicit for and while loops are clear for learning, but R is usually faster and more idiomatic when you work on whole objects at once. This section introduces vectorization and the apply family of functions, which together replace most of the loops you would write in other languages.\n\nVectorization\nMost arithmetic, comparison, and math functions in R are already vectorized: they apply to every element of a vector without a loop. The loop and the vectorized version below give the same answer, but the vectorized one is shorter, clearer, and faster, because the iteration happens in compiled C rather than in interpreted R.\n\n\nShow R code\nx &lt;- 1:5\n\nx * 2        # multiply every element\nsqrt(x)      # square-root every element\nx &gt; 2        # compare every element -&gt; a logical vector\n\n\n\n\nShow R code\n# Explicit loop\nout &lt;- numeric(length(x))\nfor (i in seq_along(x)) {\n  out[i] &lt;- x[i]^2\n}\nout\n\n# Vectorized equivalent -- prefer this\nx^2\n\n\nWhen two vectors differ in length, R recycles the shorter one to line up with the longer. This is convenient but can hide bugs, so it is worth recognising — R warns when the shorter length does not divide evenly into the longer.\n\n\nShow R code\nc(1, 2, 3, 4) + c(10, 20)   # 11 22 13 24 : c(10, 20) is recycled\n\n\n\n\nThe apply family\nWhen an operation is not already vectorized — because you want to run a function over the rows or columns of a matrix, or over the elements of a list — the apply family replaces the loop. The members differ mainly in what they take and what they return.\n\napply(): over rows and columns\napply(X, MARGIN, FUN) runs FUN over the margins of a matrix or array. MARGIN = 1 works over rows, MARGIN = 2 over columns.\n\n\nShow R code\nm &lt;- matrix(1:6, nrow = 2)\nm\n\napply(m, 1, sum)   # sum of each row\napply(m, 2, sum)   # sum of each column\n\n# For plain sums and means, the dedicated helpers are faster:\nrowSums(m)\ncolMeans(m)\n\n\n\n\nlapply() and sapply(): over list or vector elements\nlapply(X, FUN) applies FUN to each element of a list or vector and always returns a list. sapply() does the same but simplifies the result to a vector or matrix when it can, which is why it is the one you reach for most often.\n\n\nShow R code\nnums &lt;- list(a = 1:5, b = 6:10)\n\nlapply(nums, mean)             # returns a list\nsapply(nums, mean)             # returns a named vector: a 3, b 8\n\nsapply(1:3, function(i) i^2)   # 1 4 9\nsapply(mtcars, class)          # class of each column of a data frame\n\n\n\n\nvapply(), mapply(), and tapply()\nThree more are worth knowing. vapply() is a stricter sapply() in which you declare the return type up front, so it fails loudly instead of silently returning something unexpected. mapply() walks several vectors in parallel. tapply() splits a vector into groups and applies a function to each group.\n\n\nShow R code\n# vapply: state that each result is a single numeric value\nvapply(1:3, function(i) i^2, numeric(1))\n\n# mapply: add corresponding elements of two vectors\nmapply(function(a, b) a + b, 1:3, 4:6)   # 5 7 9\n\n# tapply: mean mpg for each cylinder count in mtcars\ntapply(mtcars$mpg, mtcars$cyl, mean)\n\n\n\nWhich one? If the operation is already vectorized, use it directly. For a function over matrix rows or columns, use apply(). Over the elements of a list or vector, use lapply() (list out) or sapply() (simplified out). Across several inputs in parallel, use mapply(); by group, use tapply().",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "Notebooks/01-Review-R.html#exercises",
+    "href": "Notebooks/01-Review-R.html#exercises",
+    "title": "An Overview of R",
+    "section": "Exercises",
+    "text": "Exercises\nWork through these to consolidate the lecture. Worked solutions follow in the next section.\n\nControl structures\n\nWrite an if/else statement that reports whether a number is positive, negative, or zero.\nFor score &lt;- 75, write nested if/else logic that prints “Excellent” for a score of 90 or more, “Good” for 70–89, “Needs improvement” for 50–69, and “Fail” below 50.\nUse a for loop to build a vector of the squares of the numbers 1 to 10.\nUse a while loop to generate the Fibonacci sequence up to (but not exceeding) 100.\n\n\n\nFunctions\n\nWrite celsius_to_fahrenheit(c) that converts Celsius to Fahrenheit using \\(F = C \\times \\tfrac{9}{5} + 32\\).\nWrite max_of_three(a, b, c) that returns the largest of its three arguments.\nWrite filter_positive(x) that returns only the positive numbers from a numeric vector.\nWrite a function that takes a numeric vector and returns a list containing its mean and standard deviation.\nWrite scale_matrix(m, scalar) that multiplies every element of a matrix m by scalar.\n\n\n\nVectorization and the apply family\n\nFor v &lt;- c(3, -1, 4, -1, 5, -9, 2, 6), use vectorization to get the absolute values, and to count how many elements are negative (hint: sum() on a logical vector).\nUse sapply() to get the length of each element of list(1:3, 1:7, 1:2).\nBuild a 4 × 4 matrix and use apply() to get the maximum of each row.\nUse tapply() on airquality to compute the mean Temp for each Month.\nRewrite this loop with sapply(): for (i in 1:10) squares[i] &lt;- i^2.\n\n\n\nFurther reading\n\nAn Introduction to R — the official manual: https://cran.r-project.org/manuals.html\nWickham & Grolemund, R for Data Science: https://r4ds.hadley.nz\nCRAN task views, for packages grouped by subject area: https://cran.r-project.org/web/views/",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Review of R"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Topics in Time Series Econometrics",
+    "section": "",
+    "text": "These notes accompany the course Topics in Time Series Econometrics.\nThey combine:\n\nStatistical and probability foundations\nR programming examples\nTime-series concepts\nEmpirical applications\nExercises and interpretation questions\n\n\n\nStudents should:\n\nRead the conceptual discussion.\nExamine the R examples.\nDownload the corresponding notebook from Moodle.\nRun and modify the code in Jupyter.\nComplete the exercises provided in Moodle.\n\n\n\n\nMoodle remains the official platform for:\n\nAnnouncements\nDatasets\nAssessments\nSubmission links\nRestricted readings\nAnswer keys",
+    "crumbs": [
+      "Home",
+      "Course home"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use-the-notes",
+    "href": "index.html#how-to-use-the-notes",
+    "title": "Topics in Time Series Econometrics",
+    "section": "",
+    "text": "Students should:\n\nRead the conceptual discussion.\nExamine the R examples.\nDownload the corresponding notebook from Moodle.\nRun and modify the code in Jupyter.\nComplete the exercises provided in Moodle.",
+    "crumbs": [
+      "Home",
+      "Course home"
+    ]
+  },
+  {
+    "objectID": "index.html#moodle",
+    "href": "index.html#moodle",
+    "title": "Topics in Time Series Econometrics",
+    "section": "",
+    "text": "Moodle remains the official platform for:\n\nAnnouncements\nDatasets\nAssessments\nSubmission links\nRestricted readings\nAnswer keys",
+    "crumbs": [
+      "Home",
+      "Course home"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html",
+    "href": "Notebooks/02-Review-stats.html",
+    "title": "HS 821: Topics in Timeseries Econometrics",
+    "section": "",
+    "text": "(Reference: Stock and Watson) *** ## Some definitions\nSample Space (\\(S\\))\nThe set of all possible outcomes of an experiment.\nOutcome (or Event)\nA subset of the sample space representing mutually exclusive potential results of a random process.\n- Example 1: Your grade on an exam.\n- Example 2: While attending an online class, the wireless connection might never fail, fail once, fail twice, and so on.\nProbability (\\(P\\))\nCaptures the idea of “chance”. The probability of an event \\(A\\) is denoted \\(P(A)\\).",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html#review-of-statistics-and-probability",
+    "href": "Notebooks/02-Review-stats.html#review-of-statistics-and-probability",
+    "title": "HS 821: Topics in Timeseries Econometrics",
+    "section": "",
+    "text": "(Reference: Stock and Watson) *** ## Some definitions\nSample Space (\\(S\\))\nThe set of all possible outcomes of an experiment.\nOutcome (or Event)\nA subset of the sample space representing mutually exclusive potential results of a random process.\n- Example 1: Your grade on an exam.\n- Example 2: While attending an online class, the wireless connection might never fail, fail once, fail twice, and so on.\nProbability (\\(P\\))\nCaptures the idea of “chance”. The probability of an event \\(A\\) is denoted \\(P(A)\\).",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html#kolmogorovs-three-axioms-of-probability",
+    "href": "Notebooks/02-Review-stats.html#kolmogorovs-three-axioms-of-probability",
+    "title": "HS 821: Topics in Timeseries Econometrics",
+    "section": "Kolmogorov’s Three Axioms of Probability",
+    "text": "Kolmogorov’s Three Axioms of Probability\n\nNon-negativity:\n\\[\nP(A) \\geq 0 \\quad \\text{for any event } A \\subseteq S\n\\]\nNormalization:\n\\[\nP(S) = 1\n  \\]\nAdditivity (Disjoint Events):\nIf \\(A\\) and \\(B\\) are mutually exclusive events (\\(A \\cap B = \\varnothing\\)), then\n\\[\nP(A \\cup B) = P(A) + P(B)\n\\]\n\n\n\nAxiom III and Joint Probability\nAxiom III applies when events are disjoint—that is, they cannot happen together.\nFor non-disjoint events, the general addition rule uses joint probability:\n\\[\nP(A \\cup B) = P(A) + P(B) - P(A \\cap B)\n\\]\n\nHere, \\(P(A \\cap B)\\) is the joint probability: the probability that both \\(A\\) and \\(B\\) occur together.\n\nIf \\(A\\) and \\(B\\) are disjoint, \\(P(A \\cap B) = 0\\), and the formula reduces to Axiom III",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html#conditional-probability",
+    "href": "Notebooks/02-Review-stats.html#conditional-probability",
+    "title": "HS 821: Topics in Timeseries Econometrics",
+    "section": "Conditional Probability",
+    "text": "Conditional Probability\nThe conditional probability of event \\(A\\) (forward looking probability)given that event \\(B\\) has occurred is denoted by: \\[\nP(A \\mid B) = \\frac{P(A \\cap B)}{P(B)}, \\quad \\text{provided } P(B) &gt; 0\n\\]\n\n\\(P(A \\cap B)\\) is the joint probability (both \\(A\\) and \\(B\\) happen).\n\n\\(P(B)\\) is the marginal probability of \\(B\\).\n\nThis formula adjusts the probability of \\(A\\) to reflect the knowledge that \\(B\\) has already occurred.\n\nExample:\nIf 30% of students play football (\\(P(F) = 0.3\\)),\nand 10% of students play both football and cricket (\\(P(F \\cap C) = 0.1\\)),\nthen the probability that a football player also plays cricket is: \\[\nP(C \\mid F) = \\frac{0.1}{0.3} \\approx 0.33\n\\]",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html#bayes-theorem",
+    "href": "Notebooks/02-Review-stats.html#bayes-theorem",
+    "title": "HS 821: Topics in Timeseries Econometrics",
+    "section": "Bayes’ Theorem",
+    "text": "Bayes’ Theorem\nStatement:\nBayes’ theorem relates conditional and marginal probabilities, allowing us to update beliefs in light of new evidence.\n\\[\nP(B \\mid A) = \\frac{P(A \\cap B)}{P(A)}=\\frac{P(A \\mid B) \\cdot P(B)}{P(A)}\n\\]\nWhere: - \\(P(B)\\) = Prior probability of \\(B\\).\n- \\(P(A \\mid B)\\) = Likelihood: probability of observing \\(A\\) if \\(B\\) is true.\n- \\(P(A)\\) = Marginal probability of \\(A\\): \\[\nP(A) = \\sum_{i} P(A \\mid B_i) \\cdot P(B_i)\n\\] for all mutually exclusive and exhaustive events \\(B_i\\).\nNote: By the law of total probability\n\\[\nP(A) = P(A \\mid B) \\cdot P(B) + P(A \\mid B') \\cdot P(B')\n\\] where \\(B'\\) is the complement of \\(B\\) —\n\nExample (Medical Test):**\n\n\\(P(D)\\): Probability a patient has the disease = 0.01.\n\n\\(P(\\text{Positive} \\mid D)\\): Test is positive if disease is present = 0.99.\n\n\\(P(\\text{Positive} \\mid \\neg D)\\): Test is positive if disease is absent = 0.05.\n\nWe want \\(P(D \\mid \\text{Positive})\\).\nFirst, find \\(P(\\text{Positive})\\): \\[\nP(\\text{Positive}) = P(\\text{Positive} \\mid D)P(D) + P(\\text{Positive} \\mid \\neg D)P(\\neg D)\n\\] \\[\n= 0.99(0.01) + 0.05(0.99) = 0.0099 + 0.0495 = 0.0594\n\\]\nThen, apply Bayes’ theorem: \\[\nP(D \\mid \\text{Positive}) = \\frac{0.99 \\cdot 0.01}{0.0594} \\approx 0.1667\n\\]\nInterpretation:\nEven with a highly accurate test, the probability of having the disease given a positive result is only ~16.7%, due to the low base rate (\\(P(D)\\)).\n\n\nExample 2.4 — Contact Tracing and Self-Quarantine Study\nA scientist is studying methods to slow the spread of an RNA-based virus that causes fever. Using contact tracing, they collect data on patients to identify: 1. The patient, 2. The mode of transmission, 3. The infection duration, 4. The self-isolation or self-quarantine period, 5. The role of asymptomatic individuals, who can spread the virus but are harder to identify.\nFrom 59 patients surveyed: - 15 patients did not know how they became infected. - 44 patients knew the source of their infection.\nLet: - \\(A\\): “Known source of infection” - \\(A'\\): “Unknown source of infection”\nThus: \\[\nP(A) = \\frac{44}{59} \\approx 0.75,\\quad P(A') = \\frac{15}{59} \\approx 0.25\n\\]\nIt was also found that: - 43 of the 44 patients who knew the source \\((A)\\) self-quarantined for 14 days. - 6 of the 15 patients with unknown source (\\(A'\\)) did not self-quarantine.\nLet: - \\(Q\\): “Patient self-quarantined” - \\(Q'\\): “Patient did not self-quarantine”\nWe can calculate: - \\[\n  P(Q|A) = \\frac{43}{44} \\approx 0.98\n  \\] - \\[\n  P(Q|A') = 1 - \\frac{6}{15} = 0.6\n  \\]\nWe also find: \\[\nP(A' \\cap Q) = P(A') \\times P(Q|A') = 0.25 \\times 0.6 = 0.15\n\\]\nFinally, the scientist is interested in:\n\\(P(A'|Q)\\) = Probability that a patient did not know the source of infection given they self-quarantined\nThis requires Bayes’ theorem and the law of total probability.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html#excercises",
+    "href": "Notebooks/02-Review-stats.html#excercises",
+    "title": "HS 821: Topics in Timeseries Econometrics",
+    "section": "Excercises",
+    "text": "Excercises\n\n1) Credit Risk\nA bank lends to two borrower types: - Low-risk borrowers occur with probability \\(P(L)=0.70\\). Their default rate is \\(P(D\\mid L)=0.02\\). - High-risk borrowers occur with probability \\(P(H)=0.30\\). Their default rate is \\(P(D\\mid H)=0.10\\).\nTasks 1. Draw the full probability tree (first split by borrower type, then by default/no-default). 2. Compute the overall default probability \\(P(D)\\). 3. Using Bayes’ theorem, find the posterior probability that a defaulter is high-risk: \\(P(H\\mid D)\\).\n\n\n\n2) Market Research (Product Returns)\nA firm sells in two regions: - Urban market share \\(P(U)=0.60\\); return rate \\(P(R\\mid U)=0.05\\). - Rural market share \\(P(Ru)=0.40\\); return rate \\(P(R\\mid Ru)=0.12\\).\nTasks 1. Draw the full probability tree (first split by region, then by return/no-return). 2. Compute the overall return probability \\(P(R)\\). 3. Using Bayes’ theorem, find the probability a returned product came from the rural market: \\(P(Ru\\mid R)\\).\n\n\n\n3) Monetary Policy Forecast\nHistorically, the central bank raises rates with probability \\(P(H)=0.30\\) (no hike \\(H'\\) with \\(0.70\\).\nAnalyst A’s forecasting performance: - \\(P(\\text{Predict Hike}\\mid H)=0.80\\). - \\(P(\\text{Predict Hike}\\mid H')=0.20\\).\nTasks 1. Draw the full probability tree (first split by true outcome \\(H\\) vs. \\(H'\\), then by Analyst A’s prediction). 2. Compute the overall probability that Analyst A predicts a hike. 3. Using Bayes’ theorem, compute \\(P(H\\mid \\text{Predict Hike})\\).",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability"
+    ]
+  }
+]

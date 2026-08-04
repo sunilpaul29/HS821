@@ -1,0 +1,71 @@
+project:
+  type: website
+  output-dir: docs
+  execute-dir: project
+
+  render:
+    - index.qmd
+    - "Notebooks/*.ipynb"
+    - "Slides/*.qmd"
+
+website:
+  title: "HS 821: Topics in Time Series Econometrics"
+
+  # This must match your GitHub username and repository name
+  site-url: "https://sunilpaul29.github.io/hs821-TS/"
+
+  description: "Lecture notes, R examples, and supporting resources"
+
+  page-navigation: true
+
+  navbar:
+    background: primary
+
+    left:
+      - href: index.qmd
+        text: Home
+
+    right:
+      - icon: mortarboard
+        text: Moodle
+        href: "https://moodle.iitgoa.ac.in/course/view.php?id=1275"
+
+  sidebar:
+    style: docked
+    search: true
+
+    contents:
+      - href: index.qmd
+        text: Course home
+
+      - section: "Preliminaries"
+        contents:
+          - href: Notebooks/01-Review-R.ipynb
+            text: Review of R
+
+          - href: Notebooks/02-Review-stats.ipynb
+            text: Statistics and probability
+
+      - section: "Lecture slides"
+        contents:
+          - href: Slides/00-course-introduction.qmd
+            text: Course introduction
+
+  page-footer:
+    left: "HS 821: Topics in Time Series Econometrics"
+    right: "Moodle remains the official course platform."
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    code-fold: true
+    code-summary: "Show R code"
+    code-tools: true
+    code-overflow: wrap
+    link-external-newwindow: true
+
+execute:
+  enabled: false

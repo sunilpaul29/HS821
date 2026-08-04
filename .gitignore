@@ -1,0 +1,15 @@
+# Quarto temporary files
+.quarto/
+**/*.quarto_ipynb
+
+# Jupyter temporary files
+**/.ipynb_checkpoints/
+
+# R temporary files
+.Rhistory
+.RData
+.Rproj.user/
+
+# Operating-system files
+Thumbs.db
+.DS_Store

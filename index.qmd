@@ -1,0 +1,36 @@
+---
+title: "Topics in Time Series Econometrics"
+---
+
+# About these notes
+
+These notes accompany the course **Topics in Time Series Econometrics**.
+
+They combine:
+
+- Statistical and probability foundations
+- R programming examples
+- Time-series concepts
+- Empirical applications
+- Exercises and interpretation questions
+
+## How to use the notes
+
+Students should:
+
+1. Read the conceptual discussion.
+2. Examine the R examples.
+3. Download the corresponding notebook from Moodle.
+4. Run and modify the code in Jupyter.
+5. Complete the exercises provided in Moodle.
+
+## Moodle
+
+Moodle remains the official platform for:
+
+- Announcements
+- Datasets
+- Assessments
+- Submission links
+- Restricted readings
+- Answer keys
