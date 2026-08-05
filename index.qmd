@@ -12,7 +12,7 @@ They combine:
 - R programming examples
 - Time-series concepts
 - Empirical applications
-- Exercises and interpretation questions
+
 
 ## How to use the notes
 
