@@ -287,7 +287,7 @@ window.Quarto = {
   <li><a href="#moments" id="toc-moments" class="nav-link" data-scroll-target="#moments">Moments</a></li>
   <li><a href="#skewness-and-kurtosis" id="toc-skewness-and-kurtosis" class="nav-link" data-scroll-target="#skewness-and-kurtosis">Skewness and kurtosis</a></li>
   </ul></li>
-  <li><a href="#joint-marginal-and-conditional-distributions" id="toc-joint-marginal-and-conditional-distributions" class="nav-link" data-scroll-target="#joint-marginal-and-conditional-distributions">5. Joint, marginal and conditional distributions</a>
+  <li><a href="#joint-marginal-and-conditional-distributions" id="toc-joint-marginal-and-conditional-distributions" class="nav-link" data-scroll-target="#joint-marginal-and-conditional-distributions">Joint, marginal and conditional distributions</a>
   <ul class="collapse">
   <li><a href="#independence-covariance-and-correlation" id="toc-independence-covariance-and-correlation" class="nav-link" data-scroll-target="#independence-covariance-and-correlation">Independence, covariance and correlation</a></li>
   <li><a href="#random-sampling-and-iid-observations" id="toc-random-sampling-and-iid-observations" class="nav-link" data-scroll-target="#random-sampling-and-iid-observations">Random sampling and iid observations</a></li>
@@ -324,7 +324,7 @@ window.Quarto = {
 </header>
 
 
-<p><strong>HS 821 · Lecture 2 · Topics in Time Series Econometrics</strong> <strong>Sunil Paul</strong> · 5 August 2026 · R 4.5</p>
+<p><strong>HS 821 · Lecture 2 · Topics in Time Series Econometrics</strong> <strong>Sunil Paul</strong> · 5 August 2026 · R 4.6</p>
 <p>These notes review the probability and statistical concepts used throughout time-series econometrics. The emphasis is on random variables, dependence, sampling, likelihood-based estimation, and the distinction between frequentist and Bayesian inference.</p>
 <section id="definitions" class="level2">
 <h2 class="anchored" data-anchor-id="definitions">Definitions</h2>
@@ -332,9 +332,13 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="sample-space-outcomes-and-events">Sample space, outcomes, and events</h3>
 <p>A <strong>sample space</strong>, denoted by <span class="math inline">\(S\)</span>, is the set of all possible outcomes of a random experiment.</p>
 <p>An <strong>outcome</strong> is one element <span class="math inline">\(s\in S\)</span>. An <strong>event</strong> is a subset <span class="math inline">\(A\subseteq S\)</span>. <strong>Example.</strong> Suppose <span class="math inline">\(M\)</span> is the number of times an internet connection fails during a lecture. A possible sample space is</p>
-<p>$ S={0,1,2,3,4,}. $</p>
+<p><span class="math display">\[
+S=\{0,1,2,3,4,\ldots\}.
+\]</span></p>
 <p>The statement “the connection fails at most once” describes the event</p>
-<p>$ A={0,1}. $</p>
+<p><span class="math display">\[
+A=\{0,1\}.
+\]</span></p>
 <p><strong>Probability (<span class="math inline">\(P\)</span>)</strong><br>
 Captures the idea of “chance”. The probability of an event <span class="math inline">\(A\)</span> is denoted <span class="math inline">\(P(A)\)</span>.</p>
 </section>
@@ -503,7 +507,7 @@ Analyst A’s forecasting performance: - <span class="math inline">\(P(\text{Pre
 </section>
 </section>
 <section id="joint-marginal-and-conditional-distributions" class="level2">
-<h2 class="anchored" data-anchor-id="joint-marginal-and-conditional-distributions">5. Joint, marginal and conditional distributions</h2>
+<h2 class="anchored" data-anchor-id="joint-marginal-and-conditional-distributions">Joint, marginal and conditional distributions</h2>
 <p>We use the following binary random variables throughout: <span class="math inline">\(X=1\)</span> if the day is very cold and <span class="math inline">\(X=0\)</span> otherwise; <span class="math inline">\(Y=1\)</span> if it rains and <span class="math inline">\(Y=0\)</span> otherwise..</p>
 <center>
 <b>Joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span></b>
