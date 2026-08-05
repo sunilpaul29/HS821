@@ -276,8 +276,9 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#law-of-total-probability" id="toc-law-of-total-probability" class="nav-link" data-scroll-target="#law-of-total-probability">Law of total probability</a></li>
   <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem">Bayes’ theorem</a></li>
-  <li><a href="#example-2-contact-tracing" id="toc-example-2-contact-tracing" class="nav-link" data-scroll-target="#example-2-contact-tracing">Example 2: Contact tracing</a></li>
   <li><a href="#exercise-1-credit-risk" id="toc-exercise-1-credit-risk" class="nav-link" data-scroll-target="#exercise-1-credit-risk">Exercise 1: Credit risk</a></li>
+  <li><a href="#exercise-2-market-research-product-returns" id="toc-exercise-2-market-research-product-returns" class="nav-link" data-scroll-target="#exercise-2-market-research-product-returns">Exercise 2: Market Research (Product Returns)</a></li>
+  <li><a href="#exercise-3-monetary-policy-forecast" id="toc-exercise-3-monetary-policy-forecast" class="nav-link" data-scroll-target="#exercise-3-monetary-policy-forecast">Exercise 3: Monetary Policy Forecast</a></li>
   </ul></li>
   <li><a href="#random-variables-and-distributions" id="toc-random-variables-and-distributions" class="nav-link" data-scroll-target="#random-variables-and-distributions">Random variables and distributions</a></li>
   <li><a href="#measures-of-the-shape-of-a-distribution" id="toc-measures-of-the-shape-of-a-distribution" class="nav-link" data-scroll-target="#measures-of-the-shape-of-a-distribution">Measures of the shape of a distribution</a>
@@ -287,17 +288,19 @@ window.Quarto = {
   <li><a href="#moments" id="toc-moments" class="nav-link" data-scroll-target="#moments">Moments</a></li>
   <li><a href="#skewness-and-kurtosis" id="toc-skewness-and-kurtosis" class="nav-link" data-scroll-target="#skewness-and-kurtosis">Skewness and kurtosis</a></li>
   </ul></li>
-  <li><a href="#joint-marginal-and-conditional-distributions" id="toc-joint-marginal-and-conditional-distributions" class="nav-link" data-scroll-target="#joint-marginal-and-conditional-distributions">Joint, marginal and conditional distributions</a>
+  <li><a href="#joint-marginal-and-conditional-distributions" id="toc-joint-marginal-and-conditional-distributions" class="nav-link" data-scroll-target="#joint-marginal-and-conditional-distributions">Joint, marginal and conditional distributions</a></li>
+  <li><a href="#independence-covariance-and-correlation" id="toc-independence-covariance-and-correlation" class="nav-link" data-scroll-target="#independence-covariance-and-correlation">Independence, covariance and correlation</a>
   <ul class="collapse">
-  <li><a href="#independence-covariance-and-correlation" id="toc-independence-covariance-and-correlation" class="nav-link" data-scroll-target="#independence-covariance-and-correlation">Independence, covariance and correlation</a></li>
+  <li><a href="#r-exercise-2-zero-correlation-does-not-imply-independence" id="toc-r-exercise-2-zero-correlation-does-not-imply-independence" class="nav-link" data-scroll-target="#r-exercise-2-zero-correlation-does-not-imply-independence">R exercise 2: zero correlation does not imply independence</a></li>
+  </ul></li>
+  <li><a href="#population-sample-and-sampling-distributions" id="toc-population-sample-and-sampling-distributions" class="nav-link" data-scroll-target="#population-sample-and-sampling-distributions">Population, sample, and sampling distributions</a>
+  <ul class="collapse">
   <li><a href="#random-sampling-and-iid-observations" id="toc-random-sampling-and-iid-observations" class="nav-link" data-scroll-target="#random-sampling-and-iid-observations">Random sampling and iid observations</a></li>
   <li><a href="#sampling-distribution-and-standard-error" id="toc-sampling-distribution-and-standard-error" class="nav-link" data-scroll-target="#sampling-distribution-and-standard-error">Sampling distribution and standard error</a></li>
-  <li><a href="#law-of-large-numbers-and-central-limit-theorem" id="toc-law-of-large-numbers-and-central-limit-theorem" class="nav-link" data-scroll-target="#law-of-large-numbers-and-central-limit-theorem">Law of large numbers and Central limit theorem</a></li>
+  </ul></li>
+  <li><a href="#law-of-large-numbers-and-central-limit-theorem" id="toc-law-of-large-numbers-and-central-limit-theorem" class="nav-link" data-scroll-target="#law-of-large-numbers-and-central-limit-theorem">Law of large numbers and Central limit theorem</a>
+  <ul class="collapse">
   <li><a href="#a-practical-example-estimating-average-delivery-time" id="toc-a-practical-example-estimating-average-delivery-time" class="nav-link" data-scroll-target="#a-practical-example-estimating-average-delivery-time">A practical example: estimating average delivery time</a></li>
-  <li><a href="#step-1-construct-a-population-of-delivery-times" id="toc-step-1-construct-a-population-of-delivery-times" class="nav-link" data-scroll-target="#step-1-construct-a-population-of-delivery-times">Step 1: Construct a population of delivery times</a></li>
-  <li><a href="#step-2-draw-one-random-sample" id="toc-step-2-draw-one-random-sample" class="nav-link" data-scroll-target="#step-2-draw-one-random-sample">Step 2: Draw one random sample</a></li>
-  <li><a href="#step-3-repeat-the-sampling-procedure" id="toc-step-3-repeat-the-sampling-procedure" class="nav-link" data-scroll-target="#step-3-repeat-the-sampling-procedure">Step 3: Repeat the sampling procedure</a></li>
-  <li><a href="#step-4-change-the-sample-size" id="toc-step-4-change-the-sample-size" class="nav-link" data-scroll-target="#step-4-change-the-sample-size">Step 4: Change the sample size</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -409,12 +412,12 @@ P(D \mid \text{Positive}) = \frac{0.99 \cdot 0.01}{0.0594} \approx 0.1667
 <p><strong>Interpretation:</strong><br>
 Even with a highly accurate test, the probability of having the disease given a positive result is only ~16.7%, due to the low base rate (<span class="math inline">\(P(D)\)</span>).</p>
 </section>
-</section>
-<section id="example-2-contact-tracing" class="level3">
-<h3 class="anchored" data-anchor-id="example-2-contact-tracing">Example 2: Contact tracing</h3>
+<section id="example-2-contact-tracing" class="level4">
+<h4 class="anchored" data-anchor-id="example-2-contact-tracing">Example 2: Contact tracing</h4>
 <p>Of 59 traced patients: 44 knew their infection source (<span class="math inline">\(A\)</span>), 15 did not (<span class="math inline">\(A'\)</span>): <span class="math display">\[P(A)=\tfrac{44}{59}\approx 0.75,\qquad P(A')=\tfrac{15}{59}\approx 0.25.\]</span> Self-quarantine (<span class="math inline">\(Q\)</span>): 43 of the 44 with a known source quarantined, and 6 of the 15 with unknown source did <strong>not</strong>: <span class="math display">\[P(Q\mid A)=\tfrac{43}{44}\approx 0.98,\qquad P(Q\mid A')=1-\tfrac{6}{15}=0.6.\]</span></p>
 <p><strong>Question:</strong> given a patient quarantined, what is the chance their source was unknown, <span class="math inline">\(P(A'\mid Q)\)</span>?</p>
 <p><span class="math display">\[P(Q)=P(Q\mid A)P(A)+P(Q\mid A')P(A')=\tfrac{43}{59}+\tfrac{9}{59}=\tfrac{52}{59}\approx 0.881\]</span> <span class="math display">\[\boxed{P(A'\mid Q)=\frac{P(Q\mid A')P(A')}{P(Q)}=\frac{9/59}{52/59}=\frac{9}{52}\approx 0.173}\]</span></p>
+</section>
 </section>
 <section id="exercise-1-credit-risk" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-1-credit-risk">Exercise 1: Credit risk</h3>
@@ -427,17 +430,17 @@ P(L)=0.70,\qquad P(H)=0.30,
 P(D\mid L)=0.02,\qquad P(D\mid H)=0.10.
 \]</span></p>
 <p><strong>Tasks</strong> 1. Draw the full probability tree (first split by borrower type, then by default/no-default). 2. Compute the overall default probability <span class="math inline">\(P(D)\)</span>. 3. Using Bayes’ theorem, find the posterior probability that a defaulter is high-risk: <span class="math inline">\(P(H\mid D)\)</span>.</p>
-<section id="exercise-2-market-research-product-returns" class="level4">
-<h4 class="anchored" data-anchor-id="exercise-2-market-research-product-returns">Exercise 2: Market Research (Product Returns)</h4>
+</section>
+<section id="exercise-2-market-research-product-returns" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2-market-research-product-returns">Exercise 2: Market Research (Product Returns)</h3>
 <p>A firm sells in two regions: - Urban market share <span class="math inline">\(P(U)=0.60\)</span>; return rate <span class="math inline">\(P(R\mid U)=0.05\)</span>. - Rural market share <span class="math inline">\(P(Ru)=0.40\)</span>; return rate <span class="math inline">\(P(R\mid Ru)=0.12\)</span>.</p>
 <p><strong>Tasks</strong> 1. Draw the full probability tree (first split by region, then by return/no-return). 2. Compute the overall return probability <span class="math inline">\(P(R)\)</span>. 3. Using Bayes’ theorem, find the probability a returned product came from the rural market: <span class="math inline">\(P(Ru\mid R)\)</span>.</p>
 </section>
-<section id="exercise-3-monetary-policy-forecast" class="level4">
-<h4 class="anchored" data-anchor-id="exercise-3-monetary-policy-forecast">Exercise 3: Monetary Policy Forecast</h4>
+<section id="exercise-3-monetary-policy-forecast" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3-monetary-policy-forecast">Exercise 3: Monetary Policy Forecast</h3>
 <p>Historically, the central bank raises rates with probability <span class="math inline">\(P(H)=0.30\)</span> (no hike <span class="math inline">\(H'\)</span> with <span class="math inline">\(0.70\)</span>.<br>
 Analyst A’s forecasting performance: - <span class="math inline">\(P(\text{Predict Hike}\mid H)=0.80\)</span>. - <span class="math inline">\(P(\text{Predict Hike}\mid H')=0.20\)</span>.</p>
 <p><strong>Tasks</strong> 1. Draw the full probability tree (first split by true outcome <span class="math inline">\(H\)</span> vs.&nbsp;<span class="math inline">\(H'\)</span>, then by Analyst A’s prediction). 2. Compute the overall probability that Analyst A predicts a hike. 3. Using Bayes’ theorem, compute <span class="math inline">\(P(H\mid \text{Predict Hike})\)</span>.</p>
-</section>
 </section>
 </section>
 <section id="random-variables-and-distributions" class="level2">
@@ -549,16 +552,17 @@ Analyst A’s forecasting performance: - <span class="math inline">\(P(\text{Pre
 <blockquote class="blockquote">
 <p>In forecasting, <span class="math inline">\(E(Y\mid X)\)</span> is the <strong>best predictor of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span></strong> in the mean-squared-error sense — the reason conditional expectations are central to time series.</p>
 </blockquote>
-<section id="independence-covariance-and-correlation" class="level3">
-<h3 class="anchored" data-anchor-id="independence-covariance-and-correlation">Independence, covariance and correlation</h3>
+</section>
+<section id="independence-covariance-and-correlation" class="level2">
+<h2 class="anchored" data-anchor-id="independence-covariance-and-correlation">Independence, covariance and correlation</h2>
 <p><strong>Independence:</strong> <span class="math inline">\(X,Y\)</span> are independent if the conditional distribution of <span class="math inline">\(Y\)</span> does not depend on <span class="math inline">\(X\)</span>, <span class="math display">\[\Pr(Y=y\mid X=x)=\Pr(Y=y)\ \Longrightarrow\ \Pr(X=x,Y=y)=\Pr(X=x)\Pr(Y=y).\]</span></p>
 <p><strong>Mean independence:</strong> <span class="math inline">\(E(Y\mid X)=E(Y)\)</span> for all <span class="math inline">\(X\)</span>.</p>
 <p><strong>Covariance</strong> measures how <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> move together: <span class="math display">\[\mathrm{Cov}(X,Y)=\sum_{i}\sum_{j}(x_j-\mu_X)(y_i-\mu_Y)\,\Pr(X=x_j,Y=y_i).\]</span></p>
 <p>For the table above (<span class="math inline">\(\mu_X=0.30\)</span>, <span class="math inline">\(\mu_Y=0.22\)</span>): <span class="math display">\[\mathrm{Cov}(X,Y)=(0.7)(0.78)(0.15)+(0.7)(-0.22)(0.15)+(-0.3)(0.78)(0.07)+(-0.3)(-0.22)(0.63)=0.084.\]</span></p>
 <p><strong>Correlation</strong> is the unit-free version: <span class="math display">\[\mathrm{Corr}(X,Y)=\frac{\mathrm{Cov}(X,Y)}{\sqrt{\mathrm{Var}(X)\mathrm{Var}(Y)}}\in[-1,1].\]</span></p>
 <p><strong>Key logical points</strong> - Independent <span class="math inline">\(\Rightarrow\)</span> uncorrelated, and <span class="math inline">\(\Rightarrow\)</span> mean independent. - Mean independent <span class="math inline">\(\Rightarrow\)</span> uncorrelated. - <strong>Uncorrelated does <em>not</em> imply mean independence or independence</strong> — correlation only captures <em>linear</em> co-movement. This matters for nonlinear time-series models (e.g.&nbsp;GARCH), where returns can be uncorrelated yet dependent.</p>
-<section id="r-exercise-2-zero-correlation-does-not-imply-independence" class="level4">
-<h4 class="anchored" data-anchor-id="r-exercise-2-zero-correlation-does-not-imply-independence">R exercise 2: zero correlation does not imply independence</h4>
+<section id="r-exercise-2-zero-correlation-does-not-imply-independence" class="level3">
+<h3 class="anchored" data-anchor-id="r-exercise-2-zero-correlation-does-not-imply-independence">R exercise 2: zero correlation does not imply independence</h3>
 <p>Generate <span class="math inline">\(X\sim N(0,1)\)</span> and</p>
 <p><span class="math display">\[
 Y=X^2+u,\qquad u\sim N(0,0.2^2).
@@ -594,7 +598,10 @@ Y=X^2+u,\qquad u\sim N(0,0.2^2).
 </div>
 </div>
 </div>
-<p>Population, sample, and sampling distributions</p>
+</section>
+</section>
+<section id="population-sample-and-sampling-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="population-sample-and-sampling-distributions">Population, sample, and sampling distributions</h2>
 <p>A <strong>population</strong> is the collection of possible observations described by a probability model. A numerical feature of the population, such as <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma^2\)</span>, or <span class="math inline">\(\rho\)</span>, is a <strong>parameter</strong>.</p>
 <p>A <strong>sample</strong> is the observed data:</p>
 <p><span class="math display">\[
@@ -606,8 +613,6 @@ Y_1,Y_2,\ldots,Y_n.
 \bar Y=\frac{1}{n}\sum_{i=1}^n Y_i
 \]</span></p>
 <p>is an estimator of the population mean <span class="math inline">\(\mu\)</span>.</p>
-</section>
-</section>
 <section id="random-sampling-and-iid-observations" class="level3">
 <h3 class="anchored" data-anchor-id="random-sampling-and-iid-observations">Random sampling and iid observations</h3>
 <p>A random sample is commonly assumed to be <strong>independent and identically distributed</strong>:</p>
@@ -621,15 +626,15 @@ Y_1,\ldots,Y_n\overset{iid}{\sim}f(y\mid\theta).
 <p>Because an estimator is a function of random data, it has a probability distribution across repeated samples. This is its <strong>sampling distribution</strong>.</p>
 <p>The standard deviation of an estimator’s sampling distribution is its <strong>standard error</strong>.</p>
 </section>
-<section id="law-of-large-numbers-and-central-limit-theorem" class="level3">
-<h3 class="anchored" data-anchor-id="law-of-large-numbers-and-central-limit-theorem">Law of large numbers and Central limit theorem</h3>
+</section>
+<section id="law-of-large-numbers-and-central-limit-theorem" class="level2">
+<h2 class="anchored" data-anchor-id="law-of-large-numbers-and-central-limit-theorem">Law of large numbers and Central limit theorem</h2>
 <p>For an i.i.d. sample <span class="math inline">\(Y_1,\dots,Y_n\)</span> with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, define the sample mean <span class="math inline">\(\bar Y_n=\frac1n\sum_{i=1}^n Y_i\)</span>.</p>
 <p><strong>Law of Large Numbers (LLN).</strong> <span class="math inline">\(\bar Y_n \xrightarrow{p} \mu\)</span> as <span class="math inline">\(n\to\infty\)</span>: averages converge to the true mean. This is why estimators can be <strong>consistent</strong>.</p>
 <p><strong>Central Limit Theorem (CLT).</strong> Regardless of the shape of the underlying distribution, <span class="math display">\[\sqrt{n}\,\frac{\bar Y_n-\mu}{\sigma}\ \xrightarrow{d}\ N(0,1).\]</span> This is why <span class="math inline">\(t\)</span>-, <span class="math inline">\(\chi^2\)</span>- and <span class="math inline">\(F\)</span>-based inference works even for non-normal data, and why the normal distribution is everywhere.</p>
 <blockquote class="blockquote">
 <p><strong>Time-series caveat:</strong> the classical LLN/CLT assume independence. Time-series data are <em>dependent</em>, so we rely on their generalizations for <strong>stationary, weakly dependent (ergodic)</strong> processes.</p>
 </blockquote>
-</section>
 <section id="a-practical-example-estimating-average-delivery-time" class="level3">
 <h3 class="anchored" data-anchor-id="a-practical-example-estimating-average-delivery-time">A practical example: estimating average delivery time</h3>
 <p>Suppose a food-delivery company wants to estimate the average delivery time in a city.</p>
@@ -650,9 +655,8 @@ Y_1,Y_2,\ldots,Y_{30}.
 <li>the <strong>Central Limit Theorem</strong> implies that the distribution of sample means becomes approximately normal, even though individual delivery times are not normally distributed.</li>
 </ul>
 <p>The iid assumption would be questionable if deliveries were recorded consecutively. Deliveries during the same rush hour or rainstorm may be correlated. This illustrates why time-series data require methods that allow for dependence.</p>
-</section>
-<section id="step-1-construct-a-population-of-delivery-times" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-construct-a-population-of-delivery-times">Step 1: Construct a population of delivery times</h3>
+<section id="step-1-construct-a-population-of-delivery-times" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-construct-a-population-of-delivery-times">Step 1: Construct a population of delivery times</h4>
 <p>In practice, the company cannot observe every possible delivery. For this simulation, however, we construct a large artificial population so that the population characteristics are known.</p>
 <p>Delivery times are generated from a gamma distribution. This is reasonable because delivery times must be positive and are often right-skewed: most deliveries take a moderate amount of time, while a few take considerably longer.</p>
 <div id="cell-21" class="cell" data-execution_count="10">
@@ -731,8 +735,8 @@ Y_1,Y_2,\ldots,Y_{30}.
 </div>
 <p>The population distribution is visibly right-skewed. The vertical line shows the population mean. We will now examine whether averages calculated from random samples have the same shape and variability.</p>
 </section>
-<section id="step-2-draw-one-random-sample" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-draw-one-random-sample">Step 2: Draw one random sample</h3>
+<section id="step-2-draw-one-random-sample" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-draw-one-random-sample">Step 2: Draw one random sample</h4>
 <p>Suppose the company records the delivery times of only <span class="math inline">\(n=30\)</span> randomly selected deliveries. The sample mean is then used to estimate the unknown population mean.</p>
 <div id="cell-25" class="cell" data-execution_count="12">
 <details class="code-fold">
@@ -758,8 +762,8 @@ Y_1,Y_2,\ldots,Y_{30}.
 <p>The sample mean will generally not be exactly equal to the population mean. The difference arises from <strong>sampling variation</strong>: a different random sample of 30 deliveries would usually produce a different sample mean.</p>
 <p>Thus, one sample provides only one possible estimate of the population mean.</p>
 </section>
-<section id="step-3-repeat-the-sampling-procedure" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-repeat-the-sampling-procedure">Step 3: Repeat the sampling procedure</h3>
+<section id="step-3-repeat-the-sampling-procedure" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-repeat-the-sampling-procedure">Step 3: Repeat the sampling procedure</h4>
 <p>To study sampling variation, imagine repeating the study many times. Each time, we select 30 deliveries and calculate their mean.</p>
 <p>The distribution of these repeated sample means is called the <strong>sampling distribution of the sample mean</strong>.</p>
 <div id="cell-27" class="cell" data-execution_count="13">
@@ -840,8 +844,8 @@ SE(\bar{Y})\approx\frac{\sigma}{\sqrt{n}}.
 \]</span></p>
 <p>This measures how much sample means typically differ across repeated samples.</p>
 </section>
-<section id="step-4-change-the-sample-size" class="level3">
-<h3 class="anchored" data-anchor-id="step-4-change-the-sample-size">Step 4: Change the sample size</h3>
+<section id="step-4-change-the-sample-size" class="level4">
+<h4 class="anchored" data-anchor-id="step-4-change-the-sample-size">Step 4: Change the sample size</h4>
 <p>We now repeat the experiment using sample sizes (n=5), (30), (100), and (500).</p>
 <p>The population and number of repetitions are held constant. Therefore, any change in the sampling distribution is caused by the change in sample size.</p>
 <div id="cell-30" class="cell" data-execution_count="14">
@@ -951,6 +955,7 @@ For <span class="math inline">\(n=5\)</span>, some right-skewness inherited from
 </ol>
 
 
+</section>
 </section>
 </section>
 
