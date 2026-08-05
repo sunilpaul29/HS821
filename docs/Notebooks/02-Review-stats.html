@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>HS 821: Topics in Timeseries Econometrics – HS 821: Topics in Time Series Econometrics</title>
+<title>Review of Statistics and Probability I – HS 821: Topics in Time Series Econometrics</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,10 +26,45 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -75,6 +110,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -147,7 +185,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/01-Review-R.html">Preliminaries</a></li><li class="breadcrumb-item"><a href="../Notebooks/02-Review-stats.html">Statistics and probability</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/01-Review-R.html">Preliminaries</a></li><li class="breadcrumb-item"><a href="../Notebooks/02-Review-stats.html">Statistics and probability I</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -191,7 +229,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Notebooks/02-Review-stats.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Statistics and probability</span></a>
+ <span class="menu-text">Statistics and probability I</span></a>
   </div>
 </li>
       </ul>
@@ -211,6 +249,12 @@ window.Quarto = {
  <span class="menu-text">Course introduction</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/01-Review-stats-slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob I</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -223,23 +267,47 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#review-of-statistics-and-probability" id="toc-review-of-statistics-and-probability" class="nav-link active" data-scroll-target="#review-of-statistics-and-probability">Review of Statistics and Probability</a>
+  <li><a href="#definitions" id="toc-definitions" class="nav-link active" data-scroll-target="#definitions">Definitions</a>
   <ul class="collapse">
-  <li><a href="#sunil-paul" id="toc-sunil-paul" class="nav-link" data-scroll-target="#sunil-paul">Sunil Paul</a></li>
+  <li><a href="#sample-space-outcomes-and-events" id="toc-sample-space-outcomes-and-events" class="nav-link" data-scroll-target="#sample-space-outcomes-and-events">Sample space, outcomes, and events</a></li>
+  <li><a href="#kolmogorovs-three-axioms" id="toc-kolmogorovs-three-axioms" class="nav-link" data-scroll-target="#kolmogorovs-three-axioms">Kolmogorov’s three axioms</a></li>
   </ul></li>
-  <li><a href="#kolmogorovs-three-axioms-of-probability" id="toc-kolmogorovs-three-axioms-of-probability" class="nav-link" data-scroll-target="#kolmogorovs-three-axioms-of-probability">Kolmogorov’s Three Axioms of Probability</a></li>
-  <li><a href="#conditional-probability" id="toc-conditional-probability" class="nav-link" data-scroll-target="#conditional-probability">Conditional Probability</a></li>
-  <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem">Bayes’ Theorem</a></li>
-  <li><a href="#excercises" id="toc-excercises" class="nav-link" data-scroll-target="#excercises">Excercises</a></li>
+  <li><a href="#conditional-probability-and-bayes-theorem" id="toc-conditional-probability-and-bayes-theorem" class="nav-link" data-scroll-target="#conditional-probability-and-bayes-theorem">Conditional probability and Bayes’ theorem</a>
+  <ul class="collapse">
+  <li><a href="#law-of-total-probability" id="toc-law-of-total-probability" class="nav-link" data-scroll-target="#law-of-total-probability">Law of total probability</a></li>
+  <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem">Bayes’ theorem</a></li>
+  <li><a href="#example-2-contact-tracing" id="toc-example-2-contact-tracing" class="nav-link" data-scroll-target="#example-2-contact-tracing">Example 2: Contact tracing</a></li>
+  <li><a href="#exercise-1-credit-risk" id="toc-exercise-1-credit-risk" class="nav-link" data-scroll-target="#exercise-1-credit-risk">Exercise 1: Credit risk</a></li>
+  </ul></li>
+  <li><a href="#random-variables-and-distributions" id="toc-random-variables-and-distributions" class="nav-link" data-scroll-target="#random-variables-and-distributions">Random variables and distributions</a></li>
+  <li><a href="#measures-of-the-shape-of-a-distribution" id="toc-measures-of-the-shape-of-a-distribution" class="nav-link" data-scroll-target="#measures-of-the-shape-of-a-distribution">Measures of the shape of a distribution</a>
+  <ul class="collapse">
+  <li><a href="#expected-value-mean" id="toc-expected-value-mean" class="nav-link" data-scroll-target="#expected-value-mean">Expected value (mean)</a></li>
+  <li><a href="#variance-and-covariance" id="toc-variance-and-covariance" class="nav-link" data-scroll-target="#variance-and-covariance">Variance and covariance</a></li>
+  <li><a href="#moments" id="toc-moments" class="nav-link" data-scroll-target="#moments">Moments</a></li>
+  <li><a href="#skewness-and-kurtosis" id="toc-skewness-and-kurtosis" class="nav-link" data-scroll-target="#skewness-and-kurtosis">Skewness and kurtosis</a></li>
+  </ul></li>
+  <li><a href="#joint-marginal-and-conditional-distributions" id="toc-joint-marginal-and-conditional-distributions" class="nav-link" data-scroll-target="#joint-marginal-and-conditional-distributions">5. Joint, marginal and conditional distributions</a>
+  <ul class="collapse">
+  <li><a href="#independence-covariance-and-correlation" id="toc-independence-covariance-and-correlation" class="nav-link" data-scroll-target="#independence-covariance-and-correlation">Independence, covariance and correlation</a></li>
+  <li><a href="#random-sampling-and-iid-observations" id="toc-random-sampling-and-iid-observations" class="nav-link" data-scroll-target="#random-sampling-and-iid-observations">Random sampling and iid observations</a></li>
+  <li><a href="#sampling-distribution-and-standard-error" id="toc-sampling-distribution-and-standard-error" class="nav-link" data-scroll-target="#sampling-distribution-and-standard-error">Sampling distribution and standard error</a></li>
+  <li><a href="#law-of-large-numbers-and-central-limit-theorem" id="toc-law-of-large-numbers-and-central-limit-theorem" class="nav-link" data-scroll-target="#law-of-large-numbers-and-central-limit-theorem">Law of large numbers and Central limit theorem</a></li>
+  <li><a href="#a-practical-example-estimating-average-delivery-time" id="toc-a-practical-example-estimating-average-delivery-time" class="nav-link" data-scroll-target="#a-practical-example-estimating-average-delivery-time">A practical example: estimating average delivery time</a></li>
+  <li><a href="#step-1-construct-a-population-of-delivery-times" id="toc-step-1-construct-a-population-of-delivery-times" class="nav-link" data-scroll-target="#step-1-construct-a-population-of-delivery-times">Step 1: Construct a population of delivery times</a></li>
+  <li><a href="#step-2-draw-one-random-sample" id="toc-step-2-draw-one-random-sample" class="nav-link" data-scroll-target="#step-2-draw-one-random-sample">Step 2: Draw one random sample</a></li>
+  <li><a href="#step-3-repeat-the-sampling-procedure" id="toc-step-3-repeat-the-sampling-procedure" class="nav-link" data-scroll-target="#step-3-repeat-the-sampling-procedure">Step 3: Repeat the sampling procedure</a></li>
+  <li><a href="#step-4-change-the-sample-size" id="toc-step-4-change-the-sample-size" class="nav-link" data-scroll-target="#step-4-change-the-sample-size">Step 4: Change the sample size</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/01-Review-R.html">Preliminaries</a></li><li class="breadcrumb-item"><a href="../Notebooks/02-Review-stats.html">Statistics and probability</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/01-Review-R.html">Preliminaries</a></li><li class="breadcrumb-item"><a href="../Notebooks/02-Review-stats.html">Statistics and probability I</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">HS 821: Topics in Timeseries Econometrics</h1>
+<div class="quarto-title-block"><div><h1 class="title">Review of Statistics and Probability I</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
 </div>
 
 
@@ -256,92 +324,68 @@ window.Quarto = {
 </header>
 
 
-<section id="review-of-statistics-and-probability" class="level2">
-<h2 class="anchored" data-anchor-id="review-of-statistics-and-probability">Review of Statistics and Probability</h2>
-<section id="sunil-paul" class="level3">
-<h3 class="anchored" data-anchor-id="sunil-paul">Sunil Paul</h3>
-<p>(Reference: Stock and Watson) *** ## Some definitions</p>
-<p><strong>Sample Space (<span class="math inline">\(S\)</span>)</strong><br>
-The set of all possible outcomes of an experiment.</p>
-<p><strong>Outcome (or Event)</strong><br>
-A subset of the sample space representing mutually exclusive potential results of a random process.<br>
-- <strong>Example 1:</strong> Your grade on an exam.<br>
-- <strong>Example 2:</strong> While attending an online class, the wireless connection might never fail, fail once, fail twice, and so on.</p>
+<p><strong>HS 821 · Lecture 2 · Topics in Time Series Econometrics</strong> <strong>Sunil Paul</strong> · 5 August 2026 · R 4.5</p>
+<p>These notes review the probability and statistical concepts used throughout time-series econometrics. The emphasis is on random variables, dependence, sampling, likelihood-based estimation, and the distinction between frequentist and Bayesian inference.</p>
+<section id="definitions" class="level2">
+<h2 class="anchored" data-anchor-id="definitions">Definitions</h2>
+<section id="sample-space-outcomes-and-events" class="level3">
+<h3 class="anchored" data-anchor-id="sample-space-outcomes-and-events">Sample space, outcomes, and events</h3>
+<p>A <strong>sample space</strong>, denoted by <span class="math inline">\(S\)</span>, is the set of all possible outcomes of a random experiment.</p>
+<p>An <strong>outcome</strong> is one element <span class="math inline">\(s\in S\)</span>. An <strong>event</strong> is a subset <span class="math inline">\(A\subseteq S\)</span>. <strong>Example.</strong> Suppose <span class="math inline">\(M\)</span> is the number of times an internet connection fails during a lecture. A possible sample space is</p>
+<p>$ S={0,1,2,3,4,}. $</p>
+<p>The statement “the connection fails at most once” describes the event</p>
+<p>$ A={0,1}. $</p>
 <p><strong>Probability (<span class="math inline">\(P\)</span>)</strong><br>
 Captures the idea of “chance”. The probability of an event <span class="math inline">\(A\)</span> is denoted <span class="math inline">\(P(A)\)</span>.</p>
-<hr>
 </section>
-</section>
-<section id="kolmogorovs-three-axioms-of-probability" class="level2">
-<h2 class="anchored" data-anchor-id="kolmogorovs-three-axioms-of-probability">Kolmogorov’s Three Axioms of Probability</h2>
+<section id="kolmogorovs-three-axioms" class="level3">
+<h3 class="anchored" data-anchor-id="kolmogorovs-three-axioms">Kolmogorov’s three axioms</h3>
 <ol type="1">
-<li><p><strong>Non-negativity:</strong><br>
-<span class="math display">\[
-P(A) \geq 0 \quad \text{for any event } A \subseteq S
-\]</span></p></li>
-<li><p><strong>Normalization:</strong><br>
-<span class="math display">\[
-P(S) = 1
-  \]</span></p></li>
-<li><p><strong>Additivity (Disjoint Events):</strong><br>
-If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are mutually exclusive events (<span class="math inline">\(A \cap B = \varnothing\)</span>), then<br>
-<span class="math display">\[
-P(A \cup B) = P(A) + P(B)
-\]</span></p></li>
+<li><strong>Non-negativity:</strong> <span class="math inline">\(P(A)\ge 0\)</span> for any <span class="math inline">\(A\subseteq S\)</span>.</li>
+<li><strong>Normalization:</strong> <span class="math inline">\(P(S)=1\)</span>.</li>
+<li><strong>Additivity:</strong> if <span class="math inline">\(A\cap B=\varnothing\)</span> (disjoint), then <span class="math inline">\(P(A\cup B)=P(A)+P(B)\)</span>.</li>
 </ol>
-<hr>
-<section id="axiom-iii-and-joint-probability" class="level4">
-<h4 class="anchored" data-anchor-id="axiom-iii-and-joint-probability">Axiom III and Joint Probability</h4>
-<p>Axiom III applies when <strong>events are disjoint</strong>—that is, they cannot happen together.<br>
-For <strong>non-disjoint</strong> events, the general addition rule uses <strong>joint probability</strong>:<br>
-<span class="math display">\[
-P(A \cup B) = P(A) + P(B) - P(A \cap B)
-\]</span></p>
-<ul>
-<li>Here, <span class="math inline">\(P(A \cap B)\)</span> is the <strong>joint probability</strong>: the probability that both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> occur together.<br>
-</li>
-<li>If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are disjoint, <span class="math inline">\(P(A \cap B) = 0\)</span>, and the formula reduces to Axiom III</li>
-</ul>
+<p><strong>General addition rule</strong> (events need not be disjoint): <span class="math display">\[P(A\cup B)=P(A)+P(B)-P(A\cap B)\]</span> where <span class="math inline">\(P(A\cap B)\)</span> is the <strong>joint probability</strong>. If <span class="math inline">\(A,B\)</span> are disjoint, <span class="math inline">\(P(A\cap B)=0\)</span> and this reduces to Axiom 3.</p>
 </section>
 </section>
-<section id="conditional-probability" class="level2">
-<h2 class="anchored" data-anchor-id="conditional-probability">Conditional Probability</h2>
-<p>The <strong>conditional probability</strong> of event <span class="math inline">\(A\)</span> (forward looking probability)given that event <span class="math inline">\(B\)</span> has occurred is denoted by: <span class="math display">\[
-P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad \text{provided } P(B) &gt; 0
-\]</span></p>
-<ul>
-<li><span class="math inline">\(P(A \cap B)\)</span> is the <strong>joint probability</strong> (both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> happen).<br>
-</li>
-<li><span class="math inline">\(P(B)\)</span> is the <strong>marginal probability</strong> of <span class="math inline">\(B\)</span>.<br>
-</li>
-<li>This formula adjusts the probability of <span class="math inline">\(A\)</span> to reflect the knowledge that <span class="math inline">\(B\)</span> has already occurred.</li>
-</ul>
-<p><strong>Example:</strong><br>
-If 30% of students play football (<span class="math inline">\(P(F) = 0.3\)</span>),<br>
-and 10% of students play both football and cricket (<span class="math inline">\(P(F \cap C) = 0.1\)</span>),<br>
-then the probability that a football player also plays cricket is: <span class="math display">\[
-P(C \mid F) = \frac{0.1}{0.3} \approx 0.33
-\]</span></p>
-<hr>
-</section>
-<section id="bayes-theorem" class="level2">
-<h2 class="anchored" data-anchor-id="bayes-theorem">Bayes’ Theorem</h2>
-<p><strong>Statement:</strong><br>
-Bayes’ theorem relates <strong>conditional</strong> and <strong>marginal</strong> probabilities, allowing us to update beliefs in light of new evidence.</p>
+<section id="conditional-probability-and-bayes-theorem" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-probability-and-bayes-theorem">Conditional probability and Bayes’ theorem</h2>
+<p>The conditional probability of <span class="math inline">\(A\)</span>, given that <span class="math inline">\(B\)</span> has occurred, is</p>
 <p><span class="math display">\[
-P(B \mid A) = \frac{P(A \cap B)}{P(A)}=\frac{P(A \mid B) \cdot P(B)}{P(A)}
+P(A\mid B)=\frac{P(A\cap B)}{P(B)}, \qquad P(B)&gt;0.
 \]</span></p>
-<p>Where: - <span class="math inline">\(P(B)\)</span> = <strong>Prior probability</strong> of <span class="math inline">\(B\)</span>.<br>
-- <span class="math inline">\(P(A \mid B)\)</span> = <strong>Likelihood</strong>: probability of observing <span class="math inline">\(A\)</span> if <span class="math inline">\(B\)</span> is true.<br>
-- <span class="math inline">\(P(A)\)</span> = <strong>Marginal probability</strong> of <span class="math inline">\(A\)</span>: <span class="math display">\[
-P(A) = \sum_{i} P(A \mid B_i) \cdot P(B_i)
-\]</span> for all mutually exclusive and exhaustive events <span class="math inline">\(B_i\)</span>.</p>
-<p><em>Note:</em> By the <strong>law of total probability</strong><br>
-<span class="math display">\[
-P(A) = P(A \mid B) \cdot P(B) + P(A \mid B') \cdot P(B')
-\]</span> where <span class="math inline">\(B'\)</span> is the complement of <span class="math inline">\(B\)</span> —</p>
+<p><strong>Example.</strong> Suppose 30% of students play football and 10% play both football and cricket:</p>
+<p><span class="math display">\[
+P(F)=0.30,\qquad P(F\cap C)=0.10.
+\]</span></p>
+<p>The probability that a football player also plays cricket is</p>
+<p><span class="math display">\[
+P(C\mid F)=\frac{P(C\cap F)}{P(F)}
+=\frac{0.10}{0.30}
+=\frac{1}{3}.
+\]</span></p>
+<section id="law-of-total-probability" class="level3">
+<h3 class="anchored" data-anchor-id="law-of-total-probability">Law of total probability</h3>
+<p>If <span class="math inline">\(B_1,\ldots,B_k\)</span> are mutually exclusive and exhaustive events, then</p>
+<p>$ P(A)=_{i=1}^{k}P(AB_i)P(B_i). $</p>
+</section>
+<section id="bayes-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="bayes-theorem">Bayes’ theorem</h3>
+<p><span class="math display">\[
+P(B_j\mid A)
+=
+\frac{P(A\mid B_j)P(B_j)}
+{\sum_{i=1}^{k}P(A\mid B_i)P(B_i)}.
+\]</span></p>
+<p>In this expression:</p>
+<ul>
+<li><span class="math inline">\(P(B_j)\)</span> is the <strong>prior probability</strong>;</li>
+<li><span class="math inline">\(P(A\mid B_j)\)</span> is the probability of the evidence under <span class="math inline">\(B_j\)</span>;</li>
+<li><span class="math inline">\(P(B_j\mid A)\)</span> is the <strong>updated</strong> or posterior probability.</li>
+</ul>
+<p>The use of the word <em>likelihood</em> in statistical estimation will be defined more precisely later.</p>
 <section id="example-medical-test" class="level4">
-<h4 class="anchored" data-anchor-id="example-medical-test">Example (Medical Test):**</h4>
+<h4 class="anchored" data-anchor-id="example-medical-test">Example (Medical Test):</h4>
 <ul>
 <li><span class="math inline">\(P(D)\)</span>: Probability a patient has the disease = 0.01.<br>
 </li>
@@ -361,48 +405,546 @@ P(D \mid \text{Positive}) = \frac{0.99 \cdot 0.01}{0.0594} \approx 0.1667
 <p><strong>Interpretation:</strong><br>
 Even with a highly accurate test, the probability of having the disease given a positive result is only ~16.7%, due to the low base rate (<span class="math inline">\(P(D)\)</span>).</p>
 </section>
-<section id="example-2.4-contact-tracing-and-self-quarantine-study" class="level4">
-<h4 class="anchored" data-anchor-id="example-2.4-contact-tracing-and-self-quarantine-study">Example 2.4 — Contact Tracing and Self-Quarantine Study</h4>
-<p>A scientist is studying methods to slow the spread of an RNA-based virus that causes fever. Using contact tracing, they collect data on patients to identify: 1. The patient, 2. The mode of transmission, 3. The infection duration, 4. The self-isolation or self-quarantine period, 5. The role of asymptomatic individuals, who can spread the virus but are harder to identify.</p>
-<p>From 59 patients surveyed: - <strong>15 patients</strong> did <strong>not</strong> know how they became infected. - <strong>44 patients</strong> knew the source of their infection.</p>
-<p>Let: - <span class="math inline">\(A\)</span>: “Known source of infection” - <span class="math inline">\(A'\)</span>: “Unknown source of infection”</p>
-<p>Thus: <span class="math display">\[
-P(A) = \frac{44}{59} \approx 0.75,\quad P(A') = \frac{15}{59} \approx 0.25
-\]</span></p>
-<p>It was also found that: - 43 of the 44 patients who knew the source <span class="math inline">\((A)\)</span> self-quarantined for 14 days. - 6 of the 15 patients with unknown source (<span class="math inline">\(A'\)</span>) did not self-quarantine.</p>
-<p>Let: - <span class="math inline">\(Q\)</span>: “Patient self-quarantined” - <span class="math inline">\(Q'\)</span>: “Patient did not self-quarantine”</p>
-<p>We can calculate: - <span class="math display">\[
-  P(Q|A) = \frac{43}{44} \approx 0.98
-  \]</span> - <span class="math display">\[
-  P(Q|A') = 1 - \frac{6}{15} = 0.6
-  \]</span></p>
-<p>We also find: <span class="math display">\[
-P(A' \cap Q) = P(A') \times P(Q|A') = 0.25 \times 0.6 = 0.15
-\]</span></p>
-<p>Finally, the scientist is interested in:</p>
-<p><span class="math inline">\(P(A'|Q)\)</span> = Probability that a patient did not know the source of infection given they self-quarantined</p>
-<p>This requires <strong>Bayes’ theorem</strong> and the <strong>law of total probability</strong>.</p>
 </section>
+<section id="example-2-contact-tracing" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-contact-tracing">Example 2: Contact tracing</h3>
+<p>Of 59 traced patients: 44 knew their infection source (<span class="math inline">\(A\)</span>), 15 did not (<span class="math inline">\(A'\)</span>): <span class="math display">\[P(A)=\tfrac{44}{59}\approx 0.75,\qquad P(A')=\tfrac{15}{59}\approx 0.25.\]</span> Self-quarantine (<span class="math inline">\(Q\)</span>): 43 of the 44 with a known source quarantined, and 6 of the 15 with unknown source did <strong>not</strong>: <span class="math display">\[P(Q\mid A)=\tfrac{43}{44}\approx 0.98,\qquad P(Q\mid A')=1-\tfrac{6}{15}=0.6.\]</span></p>
+<p><strong>Question:</strong> given a patient quarantined, what is the chance their source was unknown, <span class="math inline">\(P(A'\mid Q)\)</span>?</p>
+<p><span class="math display">\[P(Q)=P(Q\mid A)P(A)+P(Q\mid A')P(A')=\tfrac{43}{59}+\tfrac{9}{59}=\tfrac{52}{59}\approx 0.881\]</span> <span class="math display">\[\boxed{P(A'\mid Q)=\frac{P(Q\mid A')P(A')}{P(Q)}=\frac{9/59}{52/59}=\frac{9}{52}\approx 0.173}\]</span></p>
 </section>
-<section id="excercises" class="level2">
-<h2 class="anchored" data-anchor-id="excercises">Excercises</h2>
-<section id="credit-risk" class="level4">
-<h4 class="anchored" data-anchor-id="credit-risk">1) Credit Risk</h4>
-<p>A bank lends to two borrower types: - Low-risk borrowers occur with probability <span class="math inline">\(P(L)=0.70\)</span>. Their default rate is <span class="math inline">\(P(D\mid L)=0.02\)</span>. - High-risk borrowers occur with probability <span class="math inline">\(P(H)=0.30\)</span>. Their default rate is <span class="math inline">\(P(D\mid H)=0.10\)</span>.</p>
+<section id="exercise-1-credit-risk" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1-credit-risk">Exercise 1: Credit risk</h3>
+<p>A bank lends to two types of borrowers:</p>
+<p><span class="math display">\[
+P(L)=0.70,\qquad P(H)=0.30,
+\]</span></p>
+<p>where <span class="math inline">\(L\)</span> denotes low risk and <span class="math inline">\(H\)</span> denotes high risk. Their default probabilities are</p>
+<p><span class="math display">\[
+P(D\mid L)=0.02,\qquad P(D\mid H)=0.10.
+\]</span></p>
 <p><strong>Tasks</strong> 1. Draw the full probability tree (first split by borrower type, then by default/no-default). 2. Compute the overall default probability <span class="math inline">\(P(D)\)</span>. 3. Using Bayes’ theorem, find the posterior probability that a defaulter is high-risk: <span class="math inline">\(P(H\mid D)\)</span>.</p>
-<hr>
-</section>
-<section id="market-research-product-returns" class="level4">
-<h4 class="anchored" data-anchor-id="market-research-product-returns">2) Market Research (Product Returns)</h4>
+<section id="exercise-2-market-research-product-returns" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-2-market-research-product-returns">Exercise 2: Market Research (Product Returns)</h4>
 <p>A firm sells in two regions: - Urban market share <span class="math inline">\(P(U)=0.60\)</span>; return rate <span class="math inline">\(P(R\mid U)=0.05\)</span>. - Rural market share <span class="math inline">\(P(Ru)=0.40\)</span>; return rate <span class="math inline">\(P(R\mid Ru)=0.12\)</span>.</p>
 <p><strong>Tasks</strong> 1. Draw the full probability tree (first split by region, then by return/no-return). 2. Compute the overall return probability <span class="math inline">\(P(R)\)</span>. 3. Using Bayes’ theorem, find the probability a returned product came from the rural market: <span class="math inline">\(P(Ru\mid R)\)</span>.</p>
-<hr>
 </section>
-<section id="monetary-policy-forecast" class="level4">
-<h4 class="anchored" data-anchor-id="monetary-policy-forecast">3) Monetary Policy Forecast</h4>
+<section id="exercise-3-monetary-policy-forecast" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-3-monetary-policy-forecast">Exercise 3: Monetary Policy Forecast</h4>
 <p>Historically, the central bank raises rates with probability <span class="math inline">\(P(H)=0.30\)</span> (no hike <span class="math inline">\(H'\)</span> with <span class="math inline">\(0.70\)</span>.<br>
 Analyst A’s forecasting performance: - <span class="math inline">\(P(\text{Predict Hike}\mid H)=0.80\)</span>. - <span class="math inline">\(P(\text{Predict Hike}\mid H')=0.20\)</span>.</p>
 <p><strong>Tasks</strong> 1. Draw the full probability tree (first split by true outcome <span class="math inline">\(H\)</span> vs.&nbsp;<span class="math inline">\(H'\)</span>, then by Analyst A’s prediction). 2. Compute the overall probability that Analyst A predicts a hike. 3. Using Bayes’ theorem, compute <span class="math inline">\(P(H\mid \text{Predict Hike})\)</span>.</p>
+</section>
+</section>
+</section>
+<section id="random-variables-and-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="random-variables-and-distributions">Random variables and distributions</h2>
+<p>A <strong>random variable</strong> is a numerical summary of a random outcome (e.g.&nbsp;the number of connection failures <span class="math inline">\(\in\{0,1,2,3,4\}\)</span>).</p>
+<ul>
+<li><strong>Discrete</strong> RV — takes countably many values; each occurs with some probability.</li>
+<li><strong>Continuous</strong> RV — takes a continuum of values (e.g.&nbsp;tomorrow’s temperature).</li>
+</ul>
+<p>The <strong>probability distribution</strong> of a discrete RV lists its values and their probabilities. The <strong>cumulative distribution function (CDF)</strong> gives <span class="math inline">\(\Pr(Y\le y)\)</span>.</p>
+<center>
+<b>Probability of your network connection failing <span class="math inline">\(M\)</span> times</b>
+</center>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Outcome (failures)</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>pmf</strong> <span class="math inline">\(\Pr(M=m)\)</span></td>
+<td>0.80</td>
+<td>0.10</td>
+<td>0.06</td>
+<td>0.03</td>
+<td>0.01</td>
+</tr>
+<tr class="even">
+<td><strong>CDF</strong> <span class="math inline">\(\Pr(M\le m)\)</span></td>
+<td>0.80</td>
+<td>0.90</td>
+<td>0.96</td>
+<td>0.99</td>
+<td>1.00</td>
+</tr>
+</tbody>
+</table>
+<p>For a continuous RV a value-by-value list is not possible; probability is described by a <strong>probability density function (pdf)</strong>, and <span class="math inline">\(\Pr(a\le Y\le b)=\int_a^b f(y)\,dy\)</span>.</p>
+</section>
+<section id="measures-of-the-shape-of-a-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="measures-of-the-shape-of-a-distribution">Measures of the shape of a distribution</h2>
+<section id="expected-value-mean" class="level3">
+<h3 class="anchored" data-anchor-id="expected-value-mean">Expected value (mean)</h3>
+<p>Long-run average over repeated trials. <span class="math display">\[E[Y]=\sum_i y_i p_i=\mu \quad(\text{discrete}),\qquad E[Y]=\int_{-\infty}^{\infty} y\,f(y)\,dy=\mu \quad(\text{continuous})\]</span> <strong>Properties:</strong> <span class="math inline">\(E[X+Y]=E[X]+E[Y]\)</span>, and <span class="math inline">\(E[aX+b]=aE[X]+b\)</span>.</p>
+</section>
+<section id="variance-and-covariance" class="level3">
+<h3 class="anchored" data-anchor-id="variance-and-covariance">Variance and covariance</h3>
+<p><span class="math display">\[\mathrm{Var}(Y)=E[(Y-\mu)^2]=\sigma^2 = E[Y^2]-(E[Y])^2\]</span> <strong>Properties:</strong> <span class="math inline">\(\mathrm{Var}(b)=0\)</span>; <span class="math inline">\(\ \mathrm{Var}(aX+b)=a^2\mathrm{Var}(X)\)</span>; <span class="math inline">\(\ \mathrm{Var}(X+Y)=\mathrm{Var}(X)+\mathrm{Var}(Y)+2\,\mathrm{Cov}(X,Y)\)</span>; <span class="math display">\[\mathrm{Cov}(X,Y)=E[(X-E X)(Y-E Y)]=E[XY]-E[X]E[Y].\]</span></p>
+</section>
+<section id="moments" class="level3">
+<h3 class="anchored" data-anchor-id="moments">Moments</h3>
+<ul>
+<li>Raw <span class="math inline">\(r\)</span>-th moment: <span class="math inline">\(\mu'_r=E[Y^r]\)</span>.</li>
+<li>Central <span class="math inline">\(r\)</span>-th moment: <span class="math inline">\(\mu_r=E[(Y-\mu)^r]\)</span>.</li>
+<li>Standardized <span class="math inline">\(r\)</span>-th moment: <span class="math inline">\(\gamma_r=\mu_r/\sigma^r\)</span> <span class="math inline">\((\sigma&gt;0)\)</span>.</li>
+</ul>
+</section>
+<section id="skewness-and-kurtosis" class="level3">
+<h3 class="anchored" data-anchor-id="skewness-and-kurtosis">Skewness and kurtosis</h3>
+<p><span class="math display">\[\text{Skew}(Y)=\gamma_3=\frac{\mu_3}{\sigma^3},\qquad \beta_2=\frac{\mu_4}{\sigma^4},\qquad \text{Excess kurtosis}=\beta_2-3.\]</span> Skewness measures asymmetry; excess kurtosis measures heavy tails relative to the normal (which has <span class="math inline">\(\beta_2=3\)</span>).</p>
+</section>
+</section>
+<section id="joint-marginal-and-conditional-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="joint-marginal-and-conditional-distributions">5. Joint, marginal and conditional distributions</h2>
+<p>We use the following binary random variables throughout: <span class="math inline">\(X=1\)</span> if the day is very cold and <span class="math inline">\(X=0\)</span> otherwise; <span class="math inline">\(Y=1\)</span> if it rains and <span class="math inline">\(Y=0\)</span> otherwise..</p>
+<center>
+<b>Joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span></b>
+</center>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Very cold (<span class="math inline">\(X=1\)</span>)</th>
+<th>Not very cold (<span class="math inline">\(X=0\)</span>)</th>
+<th><strong>Total</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Rain (<span class="math inline">\(Y=1\)</span>)</strong></td>
+<td>0.15</td>
+<td>0.07</td>
+<td><strong>0.22</strong></td>
+</tr>
+<tr class="even">
+<td><strong>No rain (<span class="math inline">\(Y=0\)</span>)</strong></td>
+<td>0.15</td>
+<td>0.63</td>
+<td><strong>0.78</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><strong>0.30</strong></td>
+<td><strong>0.70</strong></td>
+<td><strong>1.00</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Marginal distribution</strong> — sum the joint over the other variable: <span class="math display">\[\Pr(Y=y)=\sum_i \Pr(X=x_i,Y=y),\qquad \Pr(Y=1)=0.15+0.07=0.22.\]</span></p>
+<p><strong>Conditional distribution</strong> — distribution of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> takes a value: <span class="math display">\[\Pr(Y=y\mid X=x)=\frac{\Pr(Y=y,X=x)}{\Pr(X=x)},\qquad \Pr(Y=1\mid X=1)=\frac{0.15}{0.30}=0.5.\]</span></p>
+<p><strong>Conditional expectation:</strong> <span class="math display">\[E(Y\mid X=x)=\sum_i y_i\,\Pr(Y=y_i\mid X=x),\qquad E(Y\mid X=1)=1(0.5)+0(0.5)=0.5.\]</span></p>
+<p><strong>Law of iterated expectations</strong> — the unconditional mean is the average of the conditional means: <span class="math display">\[E[Y]=E\big[\,E(Y\mid X)\,\big]=\sum_x E(Y\mid X=x)\,\Pr(X=x).\]</span></p>
+<blockquote class="blockquote">
+<p>In forecasting, <span class="math inline">\(E(Y\mid X)\)</span> is the <strong>best predictor of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span></strong> in the mean-squared-error sense — the reason conditional expectations are central to time series.</p>
+</blockquote>
+<section id="independence-covariance-and-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="independence-covariance-and-correlation">Independence, covariance and correlation</h3>
+<p><strong>Independence:</strong> <span class="math inline">\(X,Y\)</span> are independent if the conditional distribution of <span class="math inline">\(Y\)</span> does not depend on <span class="math inline">\(X\)</span>, <span class="math display">\[\Pr(Y=y\mid X=x)=\Pr(Y=y)\ \Longrightarrow\ \Pr(X=x,Y=y)=\Pr(X=x)\Pr(Y=y).\]</span></p>
+<p><strong>Mean independence:</strong> <span class="math inline">\(E(Y\mid X)=E(Y)\)</span> for all <span class="math inline">\(X\)</span>.</p>
+<p><strong>Covariance</strong> measures how <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> move together: <span class="math display">\[\mathrm{Cov}(X,Y)=\sum_{i}\sum_{j}(x_j-\mu_X)(y_i-\mu_Y)\,\Pr(X=x_j,Y=y_i).\]</span></p>
+<p>For the table above (<span class="math inline">\(\mu_X=0.30\)</span>, <span class="math inline">\(\mu_Y=0.22\)</span>): <span class="math display">\[\mathrm{Cov}(X,Y)=(0.7)(0.78)(0.15)+(0.7)(-0.22)(0.15)+(-0.3)(0.78)(0.07)+(-0.3)(-0.22)(0.63)=0.084.\]</span></p>
+<p><strong>Correlation</strong> is the unit-free version: <span class="math display">\[\mathrm{Corr}(X,Y)=\frac{\mathrm{Cov}(X,Y)}{\sqrt{\mathrm{Var}(X)\mathrm{Var}(Y)}}\in[-1,1].\]</span></p>
+<p><strong>Key logical points</strong> - Independent <span class="math inline">\(\Rightarrow\)</span> uncorrelated, and <span class="math inline">\(\Rightarrow\)</span> mean independent. - Mean independent <span class="math inline">\(\Rightarrow\)</span> uncorrelated. - <strong>Uncorrelated does <em>not</em> imply mean independence or independence</strong> — correlation only captures <em>linear</em> co-movement. This matters for nonlinear time-series models (e.g.&nbsp;GARCH), where returns can be uncorrelated yet dependent.</p>
+<section id="r-exercise-2-zero-correlation-does-not-imply-independence" class="level4">
+<h4 class="anchored" data-anchor-id="r-exercise-2-zero-correlation-does-not-imply-independence">R exercise 2: zero correlation does not imply independence</h4>
+<p>Generate <span class="math inline">\(X\sim N(0,1)\)</span> and</p>
+<p><span class="math display">\[
+Y=X^2+u,\qquad u\sim N(0,0.2^2).
+\]</span></p>
+<p>The relationship is nonlinear and therefore may not be captured by correlation.</p>
+<div id="cell-16" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">821</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fl">0.2</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> u</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x, y)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  x, y,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.5</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"X"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Y"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"A nonlinear dependence with near-zero correlation"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+-0.00896053543530812
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02-Review-stats_files/figure-html/cell-2-output-2.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Population, sample, and sampling distributions</p>
+<p>A <strong>population</strong> is the collection of possible observations described by a probability model. A numerical feature of the population, such as <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma^2\)</span>, or <span class="math inline">\(\rho\)</span>, is a <strong>parameter</strong>.</p>
+<p>A <strong>sample</strong> is the observed data:</p>
+<p><span class="math display">\[
+Y_1,Y_2,\ldots,Y_n.
+\]</span></p>
+<p>A <strong>statistic</strong> is a function of the sample that does not contain unknown parameters. An <strong>estimator</strong> is a statistic used to estimate a parameter. Once evaluated using observed data, it produces an <strong>estimate</strong>.</p>
+<p>For example,</p>
+<p><span class="math display">\[
+\bar Y=\frac{1}{n}\sum_{i=1}^n Y_i
+\]</span></p>
+<p>is an estimator of the population mean <span class="math inline">\(\mu\)</span>.</p>
+</section>
+</section>
+<section id="random-sampling-and-iid-observations" class="level3">
+<h3 class="anchored" data-anchor-id="random-sampling-and-iid-observations">Random sampling and iid observations</h3>
+<p>A random sample is commonly assumed to be <strong>independent and identically distributed</strong>:</p>
+<p><span class="math display">\[
+Y_1,\ldots,Y_n\overset{iid}{\sim}f(y\mid\theta).
+\]</span></p>
+<p>The iid assumption means that all observations have the same marginal distribution and are mutually independent. Time-series observations generally violate the independence part of this assumption.</p>
+</section>
+<section id="sampling-distribution-and-standard-error" class="level3">
+<h3 class="anchored" data-anchor-id="sampling-distribution-and-standard-error">Sampling distribution and standard error</h3>
+<p>Because an estimator is a function of random data, it has a probability distribution across repeated samples. This is its <strong>sampling distribution</strong>.</p>
+<p>The standard deviation of an estimator’s sampling distribution is its <strong>standard error</strong>.</p>
+</section>
+<section id="law-of-large-numbers-and-central-limit-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="law-of-large-numbers-and-central-limit-theorem">Law of large numbers and Central limit theorem</h3>
+<p>For an i.i.d. sample <span class="math inline">\(Y_1,\dots,Y_n\)</span> with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, define the sample mean <span class="math inline">\(\bar Y_n=\frac1n\sum_{i=1}^n Y_i\)</span>.</p>
+<p><strong>Law of Large Numbers (LLN).</strong> <span class="math inline">\(\bar Y_n \xrightarrow{p} \mu\)</span> as <span class="math inline">\(n\to\infty\)</span>: averages converge to the true mean. This is why estimators can be <strong>consistent</strong>.</p>
+<p><strong>Central Limit Theorem (CLT).</strong> Regardless of the shape of the underlying distribution, <span class="math display">\[\sqrt{n}\,\frac{\bar Y_n-\mu}{\sigma}\ \xrightarrow{d}\ N(0,1).\]</span> This is why <span class="math inline">\(t\)</span>-, <span class="math inline">\(\chi^2\)</span>- and <span class="math inline">\(F\)</span>-based inference works even for non-normal data, and why the normal distribution is everywhere.</p>
+<blockquote class="blockquote">
+<p><strong>Time-series caveat:</strong> the classical LLN/CLT assume independence. Time-series data are <em>dependent</em>, so we rely on their generalizations for <strong>stationary, weakly dependent (ergodic)</strong> processes.</p>
+</blockquote>
+</section>
+<section id="a-practical-example-estimating-average-delivery-time" class="level3">
+<h3 class="anchored" data-anchor-id="a-practical-example-estimating-average-delivery-time">A practical example: estimating average delivery time</h3>
+<p>Suppose a food-delivery company wants to estimate the average delivery time in a city.</p>
+<p>The <strong>population</strong> consists of all possible deliveries made under similar operating conditions. The unknown population mean delivery time, <span class="math inline">\(\mu\)</span>, is a <strong>parameter</strong>.</p>
+<p>Because observing every delivery is impractical, the company records a random <strong>sample</strong> of (<span class="math inline">\(n=30\)</span>) deliveries:</p>
+<p><span class="math display">\[
+Y_1,Y_2,\ldots,Y_{30}.
+\]</span></p>
+<p>The sample mean,</p>
+<p><span class="math display">\[
+\bar Y=\frac{1}{30}\sum_{i=1}^{30}Y_i,
+\]</span></p>
+<p>is an <strong>estimator</strong> of <span class="math inline">\(\mu\)</span>. Its observed value is an <strong>estimate</strong>.</p>
+<p>A different sample of 30 deliveries would produce a different sample mean. The distribution of sample means obtained from repeatedly drawing samples of size 30 is the <strong>sampling distribution</strong> of <span class="math inline">\(\bar Y\)</span>. Its standard deviation is the <strong>standard error</strong>.</p>
+<p>Delivery times are usually right-skewed: most deliveries are completed reasonably quickly, but a few take much longer because of traffic, weather, or restaurant delays. Nevertheless:</p>
+<ul>
+<li>the <strong>Law of Large Numbers</strong> implies that the sample mean approaches the true average delivery time as the sample size increases;</li>
+<li>the <strong>Central Limit Theorem</strong> implies that the distribution of sample means becomes approximately normal, even though individual delivery times are not normally distributed.</li>
+</ul>
+<p>The iid assumption would be questionable if deliveries were recorded consecutively. Deliveries during the same rush hour or rainstorm may be correlated. This illustrates why time-series data require methods that allow for dependence.</p>
+</section>
+<section id="step-1-construct-a-population-of-delivery-times" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-construct-a-population-of-delivery-times">Step 1: Construct a population of delivery times</h3>
+<p>In practice, the company cannot observe every possible delivery. For this simulation, however, we construct a large artificial population so that the population characteristics are known.</p>
+<p>Delivery times are generated from a gamma distribution. This is reasonable because delivery times must be positive and are often right-skewed: most deliveries take a moderate amount of time, while a few take considerably longer.</p>
+<div id="cell-21" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">821</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Size of the simulated population</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters of the gamma distribution</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>shape <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>scale <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct the population</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  N,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> shape,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> scale</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical population parameters</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> shape <span class="sc">*</span> scale</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(shape <span class="sc">*</span> scale<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Characteristics of the simulated population</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>population_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(population)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>population_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(population)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>population_variance <span class="ot">&lt;-</span> <span class="fu">var</span>(population)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">theoretical_mean =</span> mu,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">simulated_mean =</span> population_mean,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">theoretical_sd =</span> sigma,</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">simulated_sd =</span> population_sd</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style><dl class="dl-inline"><dt>theoretical_mean</dt><dd>20</dd><dt>simulated_mean</dt><dd>20.01</dd><dt>theoretical_sd</dt><dd>10</dd><dt>simulated_sd</dt><dd>10</dd></dl>
+</div>
+</div>
+<p>The theoretical mean delivery time is <span class="math inline">\(4\times5=20\)</span> minutes, while the theoretical standard deviation is <span class="math inline">\(10\)</span> minutes. The simulated values should be close to these theoretical values because the population is very large.</p>
+<p>In a real empirical study, these population parameters would be unknown. They are visible here only because we constructed the population ourselves.</p>
+<div id="cell-23" class="cell" data-scrolled="true" data-execution_count="11">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width =</span> <span class="dv">8</span>, <span class="at">repr.plot.height =</span> <span class="dv">5</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  population,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="dv">60</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Population distribution of delivery times"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Delivery time in minutes"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"grey85"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">border =</span> <span class="st">"white"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> population_mean, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02-Review-stats_files/figure-html/cell-4-output-1.png" width="480" height="300" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The population distribution is visibly right-skewed. The vertical line shows the population mean. We will now examine whether averages calculated from random samples have the same shape and variability.</p>
+</section>
+<section id="step-2-draw-one-random-sample" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-draw-one-random-sample">Step 2: Draw one random sample</h3>
+<p>Suppose the company records the delivery times of only <span class="math inline">\(n=30\)</span> randomly selected deliveries. The sample mean is then used to estimate the unknown population mean.</p>
+<div id="cell-25" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>sample_delivery_times <span class="ot">&lt;-</span> <span class="fu">sample</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  population,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> n,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">replace =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(sample_delivery_times)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(sample_mean, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+21.81
+</div>
+</div>
+<p>The sample mean will generally not be exactly equal to the population mean. The difference arises from <strong>sampling variation</strong>: a different random sample of 30 deliveries would usually produce a different sample mean.</p>
+<p>Thus, one sample provides only one possible estimate of the population mean.</p>
+</section>
+<section id="step-3-repeat-the-sampling-procedure" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-repeat-the-sampling-procedure">Step 3: Repeat the sampling procedure</h3>
+<p>To study sampling variation, imagine repeating the study many times. Each time, we select 30 deliveries and calculate their mean.</p>
+<p>The distribution of these repeated sample means is called the <strong>sampling distribution of the sample mean</strong>.</p>
+<div id="cell-27" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">456</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>sample_means_30 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  B,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      population,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> n,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">replace =</span> <span class="cn">FALSE</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  sample_means_30,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="dv">40</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Sampling distribution of the sample mean"</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">sub =</span> <span class="st">"Sample size n = 30"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Mean delivery time"</span>,</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"grey85"</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">border =</span> <span class="st">"white"</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Population mean</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">v =</span> population_mean,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"red"</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Normal approximation</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dnorm</span>(</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    x,</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> population_mean,</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> population_sd <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty =</span> <span class="dv">2</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>  <span class="st">"topright"</span>,</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Population mean"</span>, <span class="st">"Normal approximation"</span>),</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"blue"</span>),</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">bty =</span> <span class="st">"n"</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02-Review-stats_files/figure-html/cell-6-output-1.png" width="480" height="300" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Although individual delivery times are right-skewed, the distribution of the sample mean is approximately bell-shaped.</p>
+<p>The sampling distribution is centred close to the population mean. Its standard deviation is the <strong>standard error</strong>:</p>
+<p><span class="math display">\[
+SE(\bar{Y})\approx\frac{\sigma}{\sqrt{n}}.
+\]</span></p>
+<p>For <span class="math inline">\(n=30\)</span>, the standard error is approximately</p>
+<p><span class="math display">\[
+\frac{10}{\sqrt{30}}\approx1.83\text{ minutes}.
+\]</span></p>
+<p>This measures how much sample means typically differ across repeated samples.</p>
+</section>
+<section id="step-4-change-the-sample-size" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-change-the-sample-size">Step 4: Change the sample size</h3>
+<p>We now repeat the experiment using sample sizes (n=5), (30), (100), and (500).</p>
+<p>The population and number of repetitions are held constant. Therefore, any change in the sampling distribution is caused by the change in sample size.</p>
+<div id="cell-30" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">789</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">500</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a sampling distribution for each sample size</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>sampling_distributions <span class="ot">&lt;-</span> <span class="fu">lapply</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  sample_sizes,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(n) {</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replicate</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      B,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mean</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sample</span>(</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>          population,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">size =</span> n,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>          <span class="at">replace =</span> <span class="cn">FALSE</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sampling_distributions) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"n = "</span>, sample_sizes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-31" class="cell" data-scrolled="true" data-execution_count="15">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width =</span> <span class="dv">12</span>, <span class="at">repr.plot.height =</span> <span class="dv">8</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the same horizontal scale in every graph</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>common_xlim <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">unlist</span>(sampling_distributions))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_along</span>(sample_sizes)) {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> sample_sizes[j]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  means_n <span class="ot">&lt;-</span> sampling_distributions[[j]]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Standard error with a finite-population correction</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  theoretical_se <span class="ot">&lt;-</span> population_sd <span class="sc">/</span> <span class="fu">sqrt</span>(n) <span class="sc">*</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>((N <span class="sc">-</span> n) <span class="sc">/</span> (N <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hist</span>(</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    means_n,</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="dv">40</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> common_xlim,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="fu">paste0</span>(</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"n = "</span>, n,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"; SE = "</span>, <span class="fu">round</span>(<span class="fu">sd</span>(means_n), <span class="dv">2</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Sample mean delivery time"</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"grey85"</span>,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">border =</span> <span class="st">"white"</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># True population mean</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">v =</span> population_mean,</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"red"</span>,</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Corresponding normal approximation</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">curve</span>(</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>      x,</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> population_mean,</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> theoretical_se</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">add =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"blue"</span>,</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">lty =</span> <span class="dv">2</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02-Review-stats_files/figure-html/cell-8-output-1.png" width="720" height="480" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The figures illustrate three important results.</p>
+<ol type="1">
+<li><p><strong>The centre remains approximately unchanged.</strong><br>
+For every sample size, the sampling distribution is centred near the population mean of 20 minutes. Increasing the sample size does not systematically raise or lower the sample mean.</p></li>
+<li><p><strong>The sampling distribution becomes narrower.</strong><br>
+Larger samples produce more precise estimates. Because</p>
+<p><span class="math display">\[
+SE(\bar Y)\approx\frac{\sigma}{\sqrt n},
+\]</span></p>
+<p>increasing <span class="math inline">\(n\)</span> reduces the variability of the sample mean.</p></li>
+<li><p><strong>The sampling distribution becomes more nearly normal.</strong><br>
+For <span class="math inline">\(n=5\)</span>, some right-skewness inherited from the population may remain. For <span class="math inline">\(n=30\)</span>, the distribution is already reasonably bell-shaped. For <span class="math inline">\(n=100\)</span> and <span class="math inline">\(n=500\)</span>, it is highly concentrated and approximately normal.</p></li>
+</ol>
 
 
 </section>

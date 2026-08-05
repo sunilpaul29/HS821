@@ -1,50 +1,611 @@
 [
   {
-    "objectID": "Slides/00-course-introduction.html#topics-in-time-series-econometrics",
-    "href": "Slides/00-course-introduction.html#topics-in-time-series-econometrics",
-    "title": "Course Introduction",
-    "section": "Topics in Time Series Econometrics",
-    "text": "Topics in Time Series Econometrics\nHS 821\n\nUnivariate time-series models\nNonstationarity and unit roots\nVolatility modelling\nVector autoregressions\nCointegration\nBayesian and frequentist inference",
+    "objectID": "Slides/01-Review-stats-slides.html#sample-space-outcomes-events",
+    "href": "Slides/01-Review-stats-slides.html#sample-space-outcomes-events",
+    "title": "Review of Statistics and Probability I",
+    "section": "Sample space, outcomes, events",
+    "text": "Sample space, outcomes, events\n\nA sample space \\(S\\) is the set of all possible outcomes of a random experiment.\nAn outcome is one element \\(s\\in S\\); an event is a subset \\(A\\subseteq S\\).",
     "crumbs": [
       "Home",
       "Lecture slides",
-      "Course introduction"
+      "Review of Stats and Prob I"
     ]
   },
   {
-    "objectID": "Slides/00-course-introduction.html#course-organisation",
-    "href": "Slides/00-course-introduction.html#course-organisation",
-    "title": "Course Introduction",
-    "section": "Course organisation",
-    "text": "Course organisation\n\nTwo lectures each week\nR-based computational exercises\nLecture notes available on the course website\nDatasets distributed through Moodle",
+    "objectID": "Slides/01-Review-stats-slides.html#sample-space-outcomes-events-1",
+    "href": "Slides/01-Review-stats-slides.html#sample-space-outcomes-events-1",
+    "title": "Review of Statistics and Probability I",
+    "section": "Sample space, outcomes, events",
+    "text": "Sample space, outcomes, events\n\nExample. Let \\(M\\) = number of times the internet fails during a lecture: \\[S=\\{0,1,2,3,4,\\ldots\\}.\\] “The connection fails at most once” is the event \\(A=\\{0,1\\}\\).\n\nThe probability of an event \\(A\\), written \\(P(A)\\), captures the idea of chance.",
     "crumbs": [
       "Home",
       "Lecture slides",
-      "Course introduction"
+      "Review of Stats and Prob I"
     ]
   },
   {
-    "objectID": "Slides/00-course-introduction.html#software",
-    "href": "Slides/00-course-introduction.html#software",
-    "title": "Course Introduction",
-    "section": "Software",
-    "text": "Software\nStudents will use:\n\nR\nJupyter\nQuarto\nRelevant R packages",
+    "objectID": "Slides/01-Review-stats-slides.html#kolmogorovs-three-axioms",
+    "href": "Slides/01-Review-stats-slides.html#kolmogorovs-three-axioms",
+    "title": "Review of Statistics and Probability I",
+    "section": "Kolmogorov’s three axioms",
+    "text": "Kolmogorov’s three axioms\n\n\nNon-negativity: \\(P(A)\\ge 0\\) for any \\(A\\subseteq S\\).\nNormalization: \\(P(S)=1\\).\nAdditivity: if \\(A\\cap B=\\varnothing\\), then \\(P(A\\cup B)=P(A)+P(B)\\).",
     "crumbs": [
       "Home",
       "Lecture slides",
-      "Course introduction"
+      "Review of Stats and Prob I"
     ]
   },
   {
-    "objectID": "Slides/00-course-introduction.html#data-access",
-    "href": "Slides/00-course-introduction.html#data-access",
-    "title": "Course Introduction",
-    "section": "Data access",
-    "text": "Data access\nCourse datasets are distributed only through Moodle.\nDownload the datasets and place them inside the local data folder.",
+    "objectID": "Slides/01-Review-stats-slides.html#kolmogorovs-three-axioms-1",
+    "href": "Slides/01-Review-stats-slides.html#kolmogorovs-three-axioms-1",
+    "title": "Review of Statistics and Probability I",
+    "section": "Kolmogorov’s three axioms",
+    "text": "Kolmogorov’s three axioms\nGeneral addition rule (events need not be disjoint): \\[P(A\\cup B)=P(A)+P(B)-P(A\\cap B),\\]\nwhere \\(P(A\\cap B)\\) is the joint probability. - If \\(A,B\\) are disjoint, \\(P(A\\cap B)=0\\) and this reduces to Axiom 3.",
     "crumbs": [
       "Home",
       "Lecture slides",
-      "Course introduction"
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#conditional-probability",
+    "href": "Slides/01-Review-stats-slides.html#conditional-probability",
+    "title": "Review of Statistics and Probability I",
+    "section": "Conditional probability",
+    "text": "Conditional probability\n\\[P(A\\mid B)=\\frac{P(A\\cap B)}{P(B)},\\qquad P(B)&gt;0.\\]\n\nExample. \\(30\\%\\) of students play football, \\(10\\%\\) play both football and cricket: \\[P(F)=0.30,\\quad P(F\\cap C)=0.10.\\] What is the probability that a football player also plays cricket?",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#conditional-probability-1",
+    "href": "Slides/01-Review-stats-slides.html#conditional-probability-1",
+    "title": "Review of Statistics and Probability I",
+    "section": "Conditional probability",
+    "text": "Conditional probability\n\nAns: \\[P(C\\mid F)=\\frac{P(C\\cap F)}{P(F)}=\\frac{0.10}{0.30}=\\tfrac{1}{3}.\\]",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#law-of-total-probability",
+    "href": "Slides/01-Review-stats-slides.html#law-of-total-probability",
+    "title": "Review of Statistics and Probability I",
+    "section": "Law of total probability",
+    "text": "Law of total probability\nIf \\(B_1,\\ldots,B_k\\) are mutually exclusive and exhaustive, then \\[P(A)=\\sum_{i=1}^{k}P(A\\mid B_i)\\,P(B_i).\\]\nThis lets us assemble an overall probability from conditional pieces — exactly what we need to normalize Bayes’ theorem.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#bayes-theorem",
+    "href": "Slides/01-Review-stats-slides.html#bayes-theorem",
+    "title": "Review of Statistics and Probability I",
+    "section": "Bayes’ theorem",
+    "text": "Bayes’ theorem\n\\[P(B_j\\mid A)=\\frac{P(A\\mid B_j)\\,P(B_j)}{\\sum_{i=1}^{k}P(A\\mid B_i)\\,P(B_i)}.\\]\n\n\n\n\\(P(B_j)\\) — the prior\n\\(P(A\\mid B_j)\\) — probability of the evidence under \\(B_j\\)\n\\(P(B_j\\mid A)\\) — the posterior (updated belief)\n\n\n\nIdea. Bayes’ theorem is a rule for updating a prior belief in light of evidence. The word likelihood will be defined precisely when we reach estimation.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#example-a-medical-test",
+    "href": "Slides/01-Review-stats-slides.html#example-a-medical-test",
+    "title": "Review of Statistics and Probability I",
+    "section": "Example — a medical test",
+    "text": "Example — a medical test\n\n\n\n\\(P(D)=0.01\\) — prevalence\n\\(P(+\\mid D)=0.99\\) — sensitivity\n\\(P(+\\mid \\neg D)=0.05\\) — false-positive rate\n\n\\[P(+)=0.99(0.01)+0.05(0.99)=0.0594\\] \\[P(D\\mid +)=\\frac{0.99\\cdot 0.01}{0.0594}\\approx 0.167\\]\n\n\nThe base-rate lesson. Even a highly accurate test gives only a ~16.7% chance of disease after a positive result — because the disease is rare. Most positives are false positives drawn from the large healthy group.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#try-it-base-rate-matters",
+    "href": "Slides/01-Review-stats-slides.html#try-it-base-rate-matters",
+    "title": "Review of Statistics and Probability I",
+    "section": "Try it: base rate matters",
+    "text": "Try it: base rate matters\n\n\n\n\n\nviewof prev = Inputs.range([0.001, 0.5], {\n  value: 0.01, step: 0.001, label: \"Prevalence\"\n})\n\nviewof sens = Inputs.range([0.50, 1.00], {\n  value: 0.99, step: 0.005, label: \"Sensitivity\"\n})\n\nviewof fpr = Inputs.range([0.00, 0.50], {\n  value: 0.05, step: 0.005, label: \"False positive\"\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nN = 100000\ndiseased = Math.round(prev * N)\nhealthy  = N - diseased\ntp = Math.round(sens * diseased)\nfp = Math.round(fpr * healthy)\nposterior = tp / (tp + fp)\n\nhtml`\n&lt;div&gt;\n  &lt;div class=\"muted\"&gt;Posterior probability: P(D | +)&lt;/div&gt;\n  &lt;div class=\"posterior\"&gt;${(posterior * 100).toFixed(1)}%&lt;/div&gt;\n\n  &lt;table&gt;\n    &lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;Test +&lt;/th&gt;&lt;th&gt;Test −&lt;/th&gt;&lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;td&gt;&lt;b&gt;Disease&lt;/b&gt;&lt;/td&gt;\n      &lt;td style=\"color:#1b3a6b\"&gt;&lt;b&gt;${tp.toLocaleString()}&lt;/b&gt;&lt;/td&gt;\n      &lt;td&gt;${(diseased - tp).toLocaleString()}&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;td&gt;&lt;b&gt;Healthy&lt;/b&gt;&lt;/td&gt;\n      &lt;td style=\"color:#c0392b\"&gt;&lt;b&gt;${fp.toLocaleString()}&lt;/b&gt;&lt;/td&gt;\n      &lt;td&gt;${(healthy - fp).toLocaleString()}&lt;/td&gt;\n    &lt;/tr&gt;\n  &lt;/table&gt;\n\n  &lt;div class=\"note\"&gt;\n    Out of ${N.toLocaleString()} people, ${diseased.toLocaleString()} have the disease.\n    Of ${Number(tp + fp).toLocaleString()} positive tests,\n    ${tp.toLocaleString()} are true positives.\n  &lt;/div&gt;\n&lt;/div&gt;`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMove only prevalence first. The test is unchanged, but the posterior changes sharply.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#example-2-contact-tracing",
+    "href": "Slides/01-Review-stats-slides.html#example-2-contact-tracing",
+    "title": "Review of Statistics and Probability I",
+    "section": "Example 2 — contact tracing",
+    "text": "Example 2 — contact tracing\nOf 59 traced patients: 44 knew their infection source \\((A)\\), 15 did not \\((A')\\). \\[P(A)=\\tfrac{44}{59}\\approx 0.75,\\qquad P(A')=\\tfrac{15}{59}\\approx 0.25.\\]\nSelf-quarantine \\((Q)\\): 43 of the 44 with a known source quarantined; 6 of the 15 with unknown source did not. \\[P(Q\\mid A)=\\tfrac{43}{44}\\approx 0.98,\\qquad P(Q\\mid A')=1-\\tfrac{6}{15}=0.6.\\]\nGiven a patient quarantined, what is the chance their source was unknown?",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#example-2-contact-tracing-1",
+    "href": "Slides/01-Review-stats-slides.html#example-2-contact-tracing-1",
+    "title": "Review of Statistics and Probability I",
+    "section": "Example 2 — contact tracing",
+    "text": "Example 2 — contact tracing\nAns:\n\\[P(Q)=\\tfrac{43}{59}+\\tfrac{9}{59}=\\tfrac{52}{59}\\approx 0.881,\\qquad\n\\boxed{P(A'\\mid Q)=\\frac{9/59}{52/59}=\\frac{9}{52}\\approx 0.173.}\\]",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#your-turn-three-bayes-exercises",
+    "href": "Slides/01-Review-stats-slides.html#your-turn-three-bayes-exercises",
+    "title": "Review of Statistics and Probability I",
+    "section": "Your turn — three Bayes exercises",
+    "text": "Your turn — three Bayes exercises\n\n\n1 · Credit risk\nA bank lends to Low-risk(L) and High-risk(H) borrowers: \\(P(L)=0.70,\\ P(H)=0.30\\).\nTheir default probs: \\(P(D\\mid L)=0.02,\\ P(D\\mid H)=0.10\\).\nFind \\(P(D)\\) and the posterior \\(P(H\\mid D)\\).\n\n2 · Product returns\nA firm sells in two regions : Urban(U) and Rural (R) \\(P(U)=0.60,\\ P(R\\mid U)=0.05\\);\n\\(P(Ru)=0.40,\\ P(R\\mid Ru)=0.12\\).\nFind \\(P(R)\\) and \\(P(Ru\\mid R)\\).\n\n3 · Rate forecast\nThe central bank raises rates with probability \\(P(H)=0.30\\);\nAnalyst A’s forecasting performance: \\(P(\\text{pred }H\\mid H)=0.80\\), \\(P(\\text{pred }H\\mid H')=0.20\\).\nFind \\(P(H\\mid \\text{pred }H)\\).\n\n\nFor each: draw the probability tree (split by type, then by outcome), get the overall probability by the law of total probability, then invert with Bayes’ theorem.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#random-variables",
+    "href": "Slides/01-Review-stats-slides.html#random-variables",
+    "title": "Review of Statistics and Probability I",
+    "section": "Random variables",
+    "text": "Random variables\nA random variable is a numerical summary of a random outcome.\n\nDiscrete RV — countably many values, each with a probability.\nContinuous RV — a continuum of values (e.g. tomorrow’s temperature).",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#random-variables-1",
+    "href": "Slides/01-Review-stats-slides.html#random-variables-1",
+    "title": "Review of Statistics and Probability I",
+    "section": "Random variables",
+    "text": "Random variables\nThe pmf lists values and probabilities;\nthe CDF gives \\(\\Pr(Y\\le y)\\).\n\nProbability that your connection fails \\(M\\) times\n\n\n\n\nOutcome \\(m\\)\n0\n1\n2\n3\n4\n\n\n\n\npmf \\(\\Pr(M=m)\\)\n0.80\n0.10\n0.06\n0.03\n0.01\n\n\nCDF \\(\\Pr(M\\le m)\\)\n0.80\n0.90\n0.96\n0.99\n1.00\n\n\n\nFor a continuous RV, probability is a pdf: \\(\\Pr(a\\le Y\\le b)=\\int_a^b f(y)\\,dy\\).",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#expected-value-variance",
+    "href": "Slides/01-Review-stats-slides.html#expected-value-variance",
+    "title": "Review of Statistics and Probability I",
+    "section": "Expected value & variance",
+    "text": "Expected value & variance\nExpected value (mean) — the long-run average: \\[E[Y]=\\sum_i y_i p_i=\\mu \\quad(\\text{discrete}),\\qquad E[Y]=\\int y\\,f(y)\\,dy=\\mu \\quad(\\text{continuous}).\\] Linearity: \\(E[X+Y]=E[X]+E[Y]\\) and \\(E[aX+b]=aE[X]+b\\).\nVariance & covariance: \\[\\mathrm{Var}(Y)=E[(Y-\\mu)^2]=E[Y^2]-(E[Y])^2=\\sigma^2.\\] \\[\\mathrm{Var}(aX+b)=a^2\\mathrm{Var}(X),\\] \\[\\qquad \\mathrm{Var}(X+Y)=\\mathrm{Var}(X)+\\mathrm{Var}(Y)+2\\,\\mathrm{Cov}(X,Y).\\] \\[\\mathrm{Cov}(X,Y)=E[(X-EX)(Y-EY)]=E[XY]-E[X]E[Y].\\]",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#moments-skewness-kurtosis",
+    "href": "Slides/01-Review-stats-slides.html#moments-skewness-kurtosis",
+    "title": "Review of Statistics and Probability I",
+    "section": "Moments, skewness, kurtosis",
+    "text": "Moments, skewness, kurtosis\n\nRaw \\(r\\)-th moment: \\(\\mu'_r=E[Y^r]\\).\nCentral \\(r\\)-th moment: \\(\\mu_r=E[(Y-\\mu)^r]\\).\nStandardized \\(r\\)-th moment: \\(\\gamma_r=\\mu_r/\\sigma^r\\).",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#moments-skewness-kurtosis-1",
+    "href": "Slides/01-Review-stats-slides.html#moments-skewness-kurtosis-1",
+    "title": "Review of Statistics and Probability I",
+    "section": "Moments, skewness, kurtosis",
+    "text": "Moments, skewness, kurtosis\n\\[\\text{Skew}(Y)=\\gamma_3=\\frac{\\mu_3}{\\sigma^3},\\qquad\n\\beta_2=\\frac{\\mu_4}{\\sigma^4},\\]\n\\[\\text{Excess kurtosis}=\\beta_2-3.\\]\n\nSkewness measures asymmetry.\nExcess kurtosis measures heavy tails relative to the normal (which has \\(\\beta_2=3\\)). Financial returns are typically leptokurtic — heavy-tailed.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#one-joint-distribution-throughout",
+    "href": "Slides/01-Review-stats-slides.html#one-joint-distribution-throughout",
+    "title": "Review of Statistics and Probability I",
+    "section": "One joint distribution throughout",
+    "text": "One joint distribution throughout\n\\(X\\) and \\(Y\\) are binary variables representing two weather conditions: very cold and rain\n\nJoint distribution of \\(X\\) and \\(Y\\)\n\n\n\n\n\nVery cold \\((X=1)\\)\nNot very cold \\((X=0)\\)\nTotal\n\n\n\n\nRain \\((Y=1)\\)\n0.15\n0.07\n0.22\n\n\nNo rain \\((Y=0)\\)\n0.15\n0.63\n0.78\n\n\nTotal\n0.30\n0.70\n1.00\n\n\n\nMarginal — sum over the other variable: \\(\\ \\Pr(Y=1)=0.15+0.07=0.22.\\)\nConditional — \\(\\ \\Pr(Y=1\\mid X=1)=\\dfrac{0.15}{0.30}=0.5.\\)",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#conditional-expectation",
+    "href": "Slides/01-Review-stats-slides.html#conditional-expectation",
+    "title": "Review of Statistics and Probability I",
+    "section": "Conditional expectation",
+    "text": "Conditional expectation\nConditional expectation: \\[E(Y\\mid X=x)=\\sum_i y_i\\,\\Pr(Y=y_i\\mid X=x),\\] \\[E(Y\\mid X=1)=1(0.5)+0(0.5)=0.5.\\]",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#law-of-iterated-expectations",
+    "href": "Slides/01-Review-stats-slides.html#law-of-iterated-expectations",
+    "title": "Review of Statistics and Probability I",
+    "section": "Law of iterated expectations",
+    "text": "Law of iterated expectations\nLaw of iterated expectations — the unconditional mean is the average of conditional means: \\[E[Y]=E\\big[\\,E(Y\\mid X)\\,\\big]=\\sum_x E(Y\\mid X=x)\\,\\Pr(X=x).\\]\n\nWhy this matters for time series. \\(E(Y\\mid X)\\) is the best predictor of \\(Y\\) given \\(X\\) in the mean-squared-error sense. Conditional expectations are forecasts — which is why they sit at the centre of the course.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#independence-covariance-correlation",
+    "href": "Slides/01-Review-stats-slides.html#independence-covariance-correlation",
+    "title": "Review of Statistics and Probability I",
+    "section": "Independence, covariance, correlation",
+    "text": "Independence, covariance, correlation\nIndependence: \\(\\ \\Pr(Y=y\\mid X=x)=\\Pr(Y=y) \\qquad \\Longrightarrow\\ \\Pr(X=x,Y=y)=\\Pr(X=x)\\Pr(Y=y).\\)\nMean independence: \\(\\ E(Y\\mid X)=E(Y)\\) for all \\(X\\).\nCovariance: \\(\\ \\mathrm{Cov}(X,Y)=E[XY]-E[X]E[Y]\\).\nFor the table above, \\(=0.15-0.30(0.22)=0.084.\\)",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#independence-covariance-correlation-1",
+    "href": "Slides/01-Review-stats-slides.html#independence-covariance-correlation-1",
+    "title": "Review of Statistics and Probability I",
+    "section": "Independence, covariance, correlation",
+    "text": "Independence, covariance, correlation\nCorrelation (unit-free): \\(\\ \\mathrm{Corr}(X,Y)=\\dfrac{\\mathrm{Cov}(X,Y)}{\\sqrt{\\mathrm{Var}(X)\\mathrm{Var}(Y)}}\\in[-1,1].\\)\n\n\nIndependent \\(\\Rightarrow\\) mean independent \\(\\Rightarrow\\) uncorrelated.\nUncorrelated does not imply independence — correlation captures only linear co-movement.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#r-demo-zero-correlation-clear-dependence",
+    "href": "Slides/01-Review-stats-slides.html#r-demo-zero-correlation-clear-dependence",
+    "title": "Review of Statistics and Probability I",
+    "section": "R demo — zero correlation, clear dependence",
+    "text": "R demo — zero correlation, clear dependence\nGenerate \\(X\\sim N(0,1)\\) and \\(Y=X^2+u,\\ u\\sim N(0,0.2^2)\\).\nThe link is nonlinear, so correlation misses it.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#r-demo-zero-correlation-clear-dependence-1",
+    "href": "Slides/01-Review-stats-slides.html#r-demo-zero-correlation-clear-dependence-1",
+    "title": "Review of Statistics and Probability I",
+    "section": "R demo — zero correlation, clear dependence",
+    "text": "R demo — zero correlation, clear dependence\n\nset.seed(821)\nn &lt;- 2000\nx &lt;- rnorm(n)\nu &lt;- rnorm(n, mean = 0, sd = 0.2)\ny &lt;- x^2 + u\n\ncor(x, y)                       # near zero\nplot(x, y, pch = 16, cex = 0.5,\n     xlab = \"X\", ylab = \"Y\",\n     main = \"Nonlinear dependence with near-zero correlation\")",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#the-vocabulary-of-inference",
+    "href": "Slides/01-Review-stats-slides.html#the-vocabulary-of-inference",
+    "title": "Review of Statistics and Probability I",
+    "section": "The vocabulary of inference",
+    "text": "The vocabulary of inference\n\nA population is the collection of possible observations described by a probability model. A feature of it — \\(\\mu,\\ \\sigma^2,\\ \\rho\\) — is a parameter.\nA sample is the observed data \\(Y_1,\\ldots,Y_n\\).\nA statistic is a function of the sample with no unknown parameters.\nAn estimator is a statistic used to estimate a parameter; its realized value is an estimate.\n\n\\[\\bar Y=\\frac{1}{n}\\sum_{i=1}^n Y_i \\quad\\text{is an estimator of } \\mu.\\]",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#the-vocabulary-of-inference-1",
+    "href": "Slides/01-Review-stats-slides.html#the-vocabulary-of-inference-1",
+    "title": "Review of Statistics and Probability I",
+    "section": "The vocabulary of inference",
+    "text": "The vocabulary of inference\nRandom sampling — iid: \\(\\ Y_1,\\ldots,Y_n\\overset{iid}{\\sim}f(y\\mid\\theta)\\): same marginal distribution, mutually independent.\n\nTime-series observations generally violate the independence part of iid.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#sampling-distribution-standard-error",
+    "href": "Slides/01-Review-stats-slides.html#sampling-distribution-standard-error",
+    "title": "Review of Statistics and Probability I",
+    "section": "Sampling distribution & standard error",
+    "text": "Sampling distribution & standard error\nBecause an estimator is a function of random data, it has a distribution across repeated samples — its sampling distribution.\n\nThe standard deviation of an estimator’s sampling distribution is its standard error.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#lln-and-clt",
+    "href": "Slides/01-Review-stats-slides.html#lln-and-clt",
+    "title": "Review of Statistics and Probability I",
+    "section": "LLN and CLT",
+    "text": "LLN and CLT\nFor iid \\(Y_1,\\dots,Y_n\\) with mean \\(\\mu\\), variance \\(\\sigma^2\\), and \\(\\bar Y_n=\\frac1n\\sum Y_i\\):\nLaw of Large Numbers. \\(\\ \\bar Y_n \\xrightarrow{p} \\mu\\) as \\(n\\to\\infty\\) — averages converge to the truth. This is why estimators can be consistent.\nCentral Limit Theorem. Whatever the shape of the population, \\[\\sqrt{n}\\,\\frac{\\bar Y_n-\\mu}{\\sigma}\\ \\xrightarrow{d}\\ N(0,1).\\]",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#see-the-clt-happen",
+    "href": "Slides/01-Review-stats-slides.html#see-the-clt-happen",
+    "title": "Review of Statistics and Probability I",
+    "section": "See the CLT happen",
+    "text": "See the CLT happen\nPopulation = right-skewed delivery times, Gamma(shape 4, scale 5): \\(\\mu=20\\), \\(\\sigma=10\\). Drag \\(n\\) and redraw.\n\n\nviewof nCLT = Inputs.range([2, 500], {value: 30, step: 1, label: \"Sample size n\"})\nviewof reroll = Inputs.button(\"Draw new samples\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nexpDraw = (theta) =&gt; -theta * Math.log(Math.random())\ngammaDraw = () =&gt; expDraw(5) + expDraw(5) + expDraw(5) + expDraw(5)   // Gamma(4, scale 5)\nsampleMean = (n) =&gt; { let s = 0; for (let i = 0; i &lt; n; i++) s += gammaDraw(); return s / n; }\n\nB = 3000\nmeans = { reroll; return Array.from({length: B}, () =&gt; sampleMean(nCLT)); }\nse = 10 / Math.sqrt(nCLT)\n\ndnorm = (x, m, s) =&gt; Math.exp(-((x - m) ** 2) / (2 * s * s)) / (s * Math.sqrt(2 * Math.PI))\nbinw = 0.4\nedges = d3.range(12, 28.0001, binw)\ngrid = d3.range(12, 28, 0.1).map(x =&gt; ({x, y: B * binw * dnorm(x, 20, se)}))\n\nPlot.plot({\n  height: 300,\n  marginLeft: 50,\n  x: {label: \"Sample mean delivery time (min)\", domain: [12, 28]},\n  y: {label: \"count\", grid: true},\n  marks: [\n    Plot.rectY(means, Plot.binX({y: \"count\"}, {x: d =&gt; d, thresholds: edges,\n      fill: \"#c9d6ea\", stroke: \"white\"})),\n    Plot.line(grid, {x: \"x\", y: \"y\", stroke: \"#1b3a6b\", strokeWidth: 2.5, strokeDasharray: \"5 3\"}),\n    Plot.ruleX([20], {stroke: \"#c0392b\", strokeWidth: 2}),\n    Plot.ruleY([0])\n  ]\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nhtml`&lt;div class=\"muted\" style=\"font-size:0.85em\"&gt;\n  &lt;b style=\"color:#c0392b\"&gt;━&lt;/b&gt; population mean = 20 &nbsp;·&nbsp;\n  &lt;b style=\"color:#1b3a6b\"&gt;╌&lt;/b&gt; normal approximation &nbsp;·&nbsp;\n  standard error  σ/√n ≈ &lt;b&gt;${se.toFixed(2)}&lt;/b&gt; min\n&lt;/div&gt;`\n\n\n\n\n\n\n\n\nAt \\(n=2\\) the histogram inherits the population’s right skew; by \\(n=30\\) it is already bell-shaped; large \\(n\\) makes it tight around 20.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#an-example",
+    "href": "Slides/01-Review-stats-slides.html#an-example",
+    "title": "Review of Statistics and Probability I",
+    "section": "An Example",
+    "text": "An Example\nA food-delivery company wants the average delivery time \\(\\mu\\) in a city.\n\nPopulation: all possible deliveries under similar conditions (\\(\\mu\\) is a parameter).\nSample: they record \\(n=30\\) deliveries, \\(Y_1,\\ldots,Y_{30}\\).\n\\(\\bar Y=\\frac{1}{30}\\sum Y_i\\) is an estimator of \\(\\mu\\); its value is an estimate.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#an-example-1",
+    "href": "Slides/01-Review-stats-slides.html#an-example-1",
+    "title": "Review of Statistics and Probability I",
+    "section": "An Example",
+    "text": "An Example\nDelivery times are right-skewed (a few very long trips). Still, the LLN makes \\(\\bar Y\\) approach \\(\\mu\\), and the CLT makes \\(\\bar Y\\) approximately normal.\n\nIf deliveries are recorded consecutively — same rush hour, same rainstorm — iid is questionable. That is precisely the time-series situation.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#step-1-build-a-known-population",
+    "href": "Slides/01-Review-stats-slides.html#step-1-build-a-known-population",
+    "title": "Review of Statistics and Probability I",
+    "section": "Step 1 — build a known population",
+    "text": "Step 1 — build a known population\nWe construct a large artificial population so the parameters are known (in real world they never are).\n\nset.seed(821)\nN &lt;- 100000                     # size of simulated population\nshape &lt;- 4; scale &lt;- 5          # gamma parameters\n\npopulation &lt;- rgamma(N, shape = shape, scale = scale)\n\nmu    &lt;- shape * scale                 # theoretical mean = 20\nsigma &lt;- sqrt(shape * scale^2)         # theoretical sd   = 10\n\nround(c(theoretical_mean = mu,\n        simulated_mean   = mean(population),\n        theoretical_sd   = sigma,\n        simulated_sd     = sd(population)), 2)\n\nThe simulated values sit close to the theoretical mean (20 min) and sd (10 min) because the population is large.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#the-population-is-right-skewed",
+    "href": "Slides/01-Review-stats-slides.html#the-population-is-right-skewed",
+    "title": "Review of Statistics and Probability I",
+    "section": "The population is right-skewed",
+    "text": "The population is right-skewed\n\nhist(population, breaks = 60, probability = TRUE,\n     main = \"Population distribution of delivery times\",\n     xlab = \"Delivery time (minutes)\", col = \"grey85\", border = \"white\")\nabline(v = mean(population), col = \"red\", lwd = 2)",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#step-2-one-random-sample",
+    "href": "Slides/01-Review-stats-slides.html#step-2-one-random-sample",
+    "title": "Review of Statistics and Probability I",
+    "section": "Step 2 — one random sample",
+    "text": "Step 2 — one random sample\nRecord only \\(n=30\\) deliveries and estimate \\(\\mu\\) by the sample mean.\n\nset.seed(123)\nn &lt;- 30\nsample_delivery_times &lt;- sample(population, size = n, replace = FALSE)\nround(mean(sample_delivery_times), 2)\n\nThe sample mean is not exactly \\(\\mu\\): a different 30 deliveries would give a different mean. That variability is sampling variation — one sample gives one estimate.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#step-3-repeat-the-study-5000-times",
+    "href": "Slides/01-Review-stats-slides.html#step-3-repeat-the-study-5000-times",
+    "title": "Review of Statistics and Probability I",
+    "section": "Step 3 — repeat the study 5000 times",
+    "text": "Step 3 — repeat the study 5000 times\nRepeating the whole study and collecting the means traces out the sampling distribution of \\(\\bar Y\\).\n\nset.seed(456)\nB &lt;- 5000; n &lt;- 30\nsample_means_30 &lt;- replicate(B, mean(sample(population, size = n, replace = FALSE)))\n\nhist(sample_means_30, breaks = 40, probability = TRUE,\n     main = \"Sampling distribution of the sample mean\", sub = \"n = 30\",\n     xlab = \"Mean delivery time\", col = \"grey85\", border = \"white\")\nabline(v = mean(population), col = \"red\", lwd = 2)\ncurve(dnorm(x, mean = mean(population), sd = sd(population)/sqrt(n)),\n      add = TRUE, col = \"blue\", lwd = 2, lty = 2)\nlegend(\"topright\", legend = c(\"Population mean\", \"Normal approx.\"),\n       col = c(\"red\",\"blue\"), lty = c(1,2), lwd = 2, bty = \"n\")",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#from-skew-to-bell",
+    "href": "Slides/01-Review-stats-slides.html#from-skew-to-bell",
+    "title": "Review of Statistics and Probability I",
+    "section": "From skew to bell",
+    "text": "From skew to bell\nAlthough individual times are right-skewed, the distribution of \\(\\bar Y\\) is approximately bell-shaped and centred at \\(\\mu\\). Its spread is the standard error:\n\\[SE(\\bar Y)\\approx\\frac{\\sigma}{\\sqrt{n}},\\qquad \\frac{10}{\\sqrt{30}}\\approx 1.83\\text{ minutes.}\\]\nThis is how much sample means typically differ across repeated samples.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#step-4-vary-the-sample-size",
+    "href": "Slides/01-Review-stats-slides.html#step-4-vary-the-sample-size",
+    "title": "Review of Statistics and Probability I",
+    "section": "Step 4 — vary the sample size",
+    "text": "Step 4 — vary the sample size\nSame population, same 5000 repetitions — only \\(n\\) changes.\n\nset.seed(789)\nB &lt;- 5000; sample_sizes &lt;- c(5, 30, 100, 500)\n\nsampling_distributions &lt;- lapply(sample_sizes, function(n)\n  replicate(B, mean(sample(population, size = n, replace = FALSE))))\n\ncommon_xlim &lt;- range(unlist(sampling_distributions))\npar(mfrow = c(2, 2), mar = c(4, 4, 3, 1))\nfor (n in sample_sizes) {\n  means_n &lt;- sampling_distributions[[which(sample_sizes == n)]]\n  se_n &lt;- sd(population)/sqrt(n) * sqrt((N - n)/(N - 1))   # finite-pop. correction\n  hist(means_n, breaks = 40, probability = TRUE, xlim = common_xlim,\n       main = paste0(\"n = \", n, \";  SE = \", round(sd(means_n), 2)),\n       xlab = \"Sample mean\", col = \"grey85\", border = \"white\")\n  abline(v = mean(population), col = \"red\", lwd = 2)\n  curve(dnorm(x, mean = mean(population), sd = se_n),\n        add = TRUE, col = \"blue\", lwd = 2, lty = 2)\n}\npar(mfrow = c(1, 1))",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#three-results-to-remember",
+    "href": "Slides/01-Review-stats-slides.html#three-results-to-remember",
+    "title": "Review of Statistics and Probability I",
+    "section": "Three results to remember",
+    "text": "Three results to remember\n\nThe centre barely moves. Every sampling distribution is centred near \\(\\mu=20\\). Larger \\(n\\) does not systematically shift \\(\\bar Y\\) — the estimator is unbiased.\nThe spread shrinks. Since \\(SE(\\bar Y)\\approx \\sigma/\\sqrt n\\), larger samples give more precise estimates.\nThe shape becomes normal. Skewed at \\(n=5\\), bell-shaped by \\(n=30\\), sharply normal at \\(n=100,500\\) — the CLT at work.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#the-bridge-to-time-series",
+    "href": "Slides/01-Review-stats-slides.html#the-bridge-to-time-series",
+    "title": "Review of Statistics and Probability I",
+    "section": "The bridge to time series",
+    "text": "The bridge to time series\nEvery classical result today leaned on one assumption: independence.\n\n\n\n\n\n\n\n\nConcept\niid world (today)\nTime-series world (the course)\n\n\n\n\nDependence\nnone\nserial dependence is the object of study\n\n\nBest forecast\n\\(E(Y)\\)\n\\(E(Y_t \\mid \\text{past})\\)\n\n\nLLN / CLT\nclassical\nergodic / weak-dependence versions\n\n\n“Uncorrelated”\noften “independent enough”\ncan still be strongly dependent (GARCH)\n\n\n\n\nKeep two tools close: Bayes’ theorem (updating beliefs) and the sampling distribution (quantifying estimator uncertainty). Everything ahead builds on them.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#recap",
+    "href": "Slides/01-Review-stats-slides.html#recap",
+    "title": "Review of Statistics and Probability I",
+    "section": "Recap",
+    "text": "Recap\n\nProbability obeys Kolmogorov’s axioms; Bayes’ theorem updates a prior into a posterior — and base rates dominate.\nA distribution is summarised by its moments: mean, variance, skewness, kurtosis.\nConditional expectation is the best predictor — the seed of forecasting.\nUncorrelated \\(\\neq\\) independent; correlation sees only linear structure.\nAn estimator has a sampling distribution; its spread is the standard error.\nLLN + CLT justify inference — if observations are independent, which time series are not.\n\n\nNotebook: 02-Review-stats.ipynb · R 4.5 · base R only. Interactive widgets run in the browser (Observable JS); the R figures are produced at render time.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Slides/01-Review-stats-slides.html#section",
+    "href": "Slides/01-Review-stats-slides.html#section",
+    "title": "Review of Statistics and Probability I",
+    "section": "",
+    "text": "Questions?\n\n\nHS 821 · Lecture 2 · Sunil Paul",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Review of Stats and Prob I"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html",
+    "href": "Notebooks/02-Review-stats.html",
+    "title": "Review of Statistics and Probability I",
+    "section": "",
+    "text": "HS 821 · Lecture 2 · Topics in Time Series Econometrics Sunil Paul · 5 August 2026 · R 4.5\nThese notes review the probability and statistical concepts used throughout time-series econometrics. The emphasis is on random variables, dependence, sampling, likelihood-based estimation, and the distinction between frequentist and Bayesian inference.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability I"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html#definitions",
+    "href": "Notebooks/02-Review-stats.html#definitions",
+    "title": "Review of Statistics and Probability I",
+    "section": "Definitions",
+    "text": "Definitions\n\nSample space, outcomes, and events\nA sample space, denoted by \\(S\\), is the set of all possible outcomes of a random experiment.\nAn outcome is one element \\(s\\in S\\). An event is a subset \\(A\\subseteq S\\). Example. Suppose \\(M\\) is the number of times an internet connection fails during a lecture. A possible sample space is\n$ S={0,1,2,3,4,}. $\nThe statement “the connection fails at most once” describes the event\n$ A={0,1}. $\nProbability (\\(P\\))\nCaptures the idea of “chance”. The probability of an event \\(A\\) is denoted \\(P(A)\\).\n\n\nKolmogorov’s three axioms\n\nNon-negativity: \\(P(A)\\ge 0\\) for any \\(A\\subseteq S\\).\nNormalization: \\(P(S)=1\\).\nAdditivity: if \\(A\\cap B=\\varnothing\\) (disjoint), then \\(P(A\\cup B)=P(A)+P(B)\\).\n\nGeneral addition rule (events need not be disjoint): \\[P(A\\cup B)=P(A)+P(B)-P(A\\cap B)\\] where \\(P(A\\cap B)\\) is the joint probability. If \\(A,B\\) are disjoint, \\(P(A\\cap B)=0\\) and this reduces to Axiom 3.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability I"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html#conditional-probability-and-bayes-theorem",
+    "href": "Notebooks/02-Review-stats.html#conditional-probability-and-bayes-theorem",
+    "title": "Review of Statistics and Probability I",
+    "section": "Conditional probability and Bayes’ theorem",
+    "text": "Conditional probability and Bayes’ theorem\nThe conditional probability of \\(A\\), given that \\(B\\) has occurred, is\n\\[\nP(A\\mid B)=\\frac{P(A\\cap B)}{P(B)}, \\qquad P(B)&gt;0.\n\\]\nExample. Suppose 30% of students play football and 10% play both football and cricket:\n\\[\nP(F)=0.30,\\qquad P(F\\cap C)=0.10.\n\\]\nThe probability that a football player also plays cricket is\n\\[\nP(C\\mid F)=\\frac{P(C\\cap F)}{P(F)}\n=\\frac{0.10}{0.30}\n=\\frac{1}{3}.\n\\]\n\nLaw of total probability\nIf \\(B_1,\\ldots,B_k\\) are mutually exclusive and exhaustive events, then\n$ P(A)=_{i=1}^{k}P(AB_i)P(B_i). $\n\n\nBayes’ theorem\n\\[\nP(B_j\\mid A)\n=\n\\frac{P(A\\mid B_j)P(B_j)}\n{\\sum_{i=1}^{k}P(A\\mid B_i)P(B_i)}.\n\\]\nIn this expression:\n\n\\(P(B_j)\\) is the prior probability;\n\\(P(A\\mid B_j)\\) is the probability of the evidence under \\(B_j\\);\n\\(P(B_j\\mid A)\\) is the updated or posterior probability.\n\nThe use of the word likelihood in statistical estimation will be defined more precisely later.\n\nExample (Medical Test):\n\n\\(P(D)\\): Probability a patient has the disease = 0.01.\n\n\\(P(\\text{Positive} \\mid D)\\): Test is positive if disease is present = 0.99.\n\n\\(P(\\text{Positive} \\mid \\neg D)\\): Test is positive if disease is absent = 0.05.\n\nWe want \\(P(D \\mid \\text{Positive})\\).\nFirst, find \\(P(\\text{Positive})\\): \\[\nP(\\text{Positive}) = P(\\text{Positive} \\mid D)P(D) + P(\\text{Positive} \\mid \\neg D)P(\\neg D)\n\\] \\[\n= 0.99(0.01) + 0.05(0.99) = 0.0099 + 0.0495 = 0.0594\n\\]\nThen, apply Bayes’ theorem: \\[\nP(D \\mid \\text{Positive}) = \\frac{0.99 \\cdot 0.01}{0.0594} \\approx 0.1667\n\\]\nInterpretation:\nEven with a highly accurate test, the probability of having the disease given a positive result is only ~16.7%, due to the low base rate (\\(P(D)\\)).\n\n\n\nExample 2: Contact tracing\nOf 59 traced patients: 44 knew their infection source (\\(A\\)), 15 did not (\\(A'\\)): \\[P(A)=\\tfrac{44}{59}\\approx 0.75,\\qquad P(A')=\\tfrac{15}{59}\\approx 0.25.\\] Self-quarantine (\\(Q\\)): 43 of the 44 with a known source quarantined, and 6 of the 15 with unknown source did not: \\[P(Q\\mid A)=\\tfrac{43}{44}\\approx 0.98,\\qquad P(Q\\mid A')=1-\\tfrac{6}{15}=0.6.\\]\nQuestion: given a patient quarantined, what is the chance their source was unknown, \\(P(A'\\mid Q)\\)?\n\\[P(Q)=P(Q\\mid A)P(A)+P(Q\\mid A')P(A')=\\tfrac{43}{59}+\\tfrac{9}{59}=\\tfrac{52}{59}\\approx 0.881\\] \\[\\boxed{P(A'\\mid Q)=\\frac{P(Q\\mid A')P(A')}{P(Q)}=\\frac{9/59}{52/59}=\\frac{9}{52}\\approx 0.173}\\]\n\n\nExercise 1: Credit risk\nA bank lends to two types of borrowers:\n\\[\nP(L)=0.70,\\qquad P(H)=0.30,\n\\]\nwhere \\(L\\) denotes low risk and \\(H\\) denotes high risk. Their default probabilities are\n\\[\nP(D\\mid L)=0.02,\\qquad P(D\\mid H)=0.10.\n\\]\nTasks 1. Draw the full probability tree (first split by borrower type, then by default/no-default). 2. Compute the overall default probability \\(P(D)\\). 3. Using Bayes’ theorem, find the posterior probability that a defaulter is high-risk: \\(P(H\\mid D)\\).\n\nExercise 2: Market Research (Product Returns)\nA firm sells in two regions: - Urban market share \\(P(U)=0.60\\); return rate \\(P(R\\mid U)=0.05\\). - Rural market share \\(P(Ru)=0.40\\); return rate \\(P(R\\mid Ru)=0.12\\).\nTasks 1. Draw the full probability tree (first split by region, then by return/no-return). 2. Compute the overall return probability \\(P(R)\\). 3. Using Bayes’ theorem, find the probability a returned product came from the rural market: \\(P(Ru\\mid R)\\).\n\n\nExercise 3: Monetary Policy Forecast\nHistorically, the central bank raises rates with probability \\(P(H)=0.30\\) (no hike \\(H'\\) with \\(0.70\\).\nAnalyst A’s forecasting performance: - \\(P(\\text{Predict Hike}\\mid H)=0.80\\). - \\(P(\\text{Predict Hike}\\mid H')=0.20\\).\nTasks 1. Draw the full probability tree (first split by true outcome \\(H\\) vs. \\(H'\\), then by Analyst A’s prediction). 2. Compute the overall probability that Analyst A predicts a hike. 3. Using Bayes’ theorem, compute \\(P(H\\mid \\text{Predict Hike})\\).",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability I"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html#random-variables-and-distributions",
+    "href": "Notebooks/02-Review-stats.html#random-variables-and-distributions",
+    "title": "Review of Statistics and Probability I",
+    "section": "Random variables and distributions",
+    "text": "Random variables and distributions\nA random variable is a numerical summary of a random outcome (e.g. the number of connection failures \\(\\in\\{0,1,2,3,4\\}\\)).\n\nDiscrete RV — takes countably many values; each occurs with some probability.\nContinuous RV — takes a continuum of values (e.g. tomorrow’s temperature).\n\nThe probability distribution of a discrete RV lists its values and their probabilities. The cumulative distribution function (CDF) gives \\(\\Pr(Y\\le y)\\).\n\nProbability of your network connection failing \\(M\\) times\n\n\n\n\nOutcome (failures)\n0\n1\n2\n3\n4\n\n\n\n\npmf \\(\\Pr(M=m)\\)\n0.80\n0.10\n0.06\n0.03\n0.01\n\n\nCDF \\(\\Pr(M\\le m)\\)\n0.80\n0.90\n0.96\n0.99\n1.00\n\n\n\nFor a continuous RV a value-by-value list is not possible; probability is described by a probability density function (pdf), and \\(\\Pr(a\\le Y\\le b)=\\int_a^b f(y)\\,dy\\).",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability I"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html#measures-of-the-shape-of-a-distribution",
+    "href": "Notebooks/02-Review-stats.html#measures-of-the-shape-of-a-distribution",
+    "title": "Review of Statistics and Probability I",
+    "section": "Measures of the shape of a distribution",
+    "text": "Measures of the shape of a distribution\n\nExpected value (mean)\nLong-run average over repeated trials. \\[E[Y]=\\sum_i y_i p_i=\\mu \\quad(\\text{discrete}),\\qquad E[Y]=\\int_{-\\infty}^{\\infty} y\\,f(y)\\,dy=\\mu \\quad(\\text{continuous})\\] Properties: \\(E[X+Y]=E[X]+E[Y]\\), and \\(E[aX+b]=aE[X]+b\\).\n\n\nVariance and covariance\n\\[\\mathrm{Var}(Y)=E[(Y-\\mu)^2]=\\sigma^2 = E[Y^2]-(E[Y])^2\\] Properties: \\(\\mathrm{Var}(b)=0\\); \\(\\ \\mathrm{Var}(aX+b)=a^2\\mathrm{Var}(X)\\); \\(\\ \\mathrm{Var}(X+Y)=\\mathrm{Var}(X)+\\mathrm{Var}(Y)+2\\,\\mathrm{Cov}(X,Y)\\); \\[\\mathrm{Cov}(X,Y)=E[(X-E X)(Y-E Y)]=E[XY]-E[X]E[Y].\\]\n\n\nMoments\n\nRaw \\(r\\)-th moment: \\(\\mu'_r=E[Y^r]\\).\nCentral \\(r\\)-th moment: \\(\\mu_r=E[(Y-\\mu)^r]\\).\nStandardized \\(r\\)-th moment: \\(\\gamma_r=\\mu_r/\\sigma^r\\) \\((\\sigma&gt;0)\\).\n\n\n\nSkewness and kurtosis\n\\[\\text{Skew}(Y)=\\gamma_3=\\frac{\\mu_3}{\\sigma^3},\\qquad \\beta_2=\\frac{\\mu_4}{\\sigma^4},\\qquad \\text{Excess kurtosis}=\\beta_2-3.\\] Skewness measures asymmetry; excess kurtosis measures heavy tails relative to the normal (which has \\(\\beta_2=3\\)).",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability I"
+    ]
+  },
+  {
+    "objectID": "Notebooks/02-Review-stats.html#joint-marginal-and-conditional-distributions",
+    "href": "Notebooks/02-Review-stats.html#joint-marginal-and-conditional-distributions",
+    "title": "Review of Statistics and Probability I",
+    "section": "5. Joint, marginal and conditional distributions",
+    "text": "5. Joint, marginal and conditional distributions\nWe use the following binary random variables throughout: \\(X=1\\) if the day is very cold and \\(X=0\\) otherwise; \\(Y=1\\) if it rains and \\(Y=0\\) otherwise..\n\nJoint distribution of \\(X\\) and \\(Y\\)\n\n\n\n\n\nVery cold (\\(X=1\\))\nNot very cold (\\(X=0\\))\nTotal\n\n\n\n\nRain (\\(Y=1\\))\n0.15\n0.07\n0.22\n\n\nNo rain (\\(Y=0\\))\n0.15\n0.63\n0.78\n\n\nTotal\n0.30\n0.70\n1.00\n\n\n\nMarginal distribution — sum the joint over the other variable: \\[\\Pr(Y=y)=\\sum_i \\Pr(X=x_i,Y=y),\\qquad \\Pr(Y=1)=0.15+0.07=0.22.\\]\nConditional distribution — distribution of \\(Y\\) given \\(X\\) takes a value: \\[\\Pr(Y=y\\mid X=x)=\\frac{\\Pr(Y=y,X=x)}{\\Pr(X=x)},\\qquad \\Pr(Y=1\\mid X=1)=\\frac{0.15}{0.30}=0.5.\\]\nConditional expectation: \\[E(Y\\mid X=x)=\\sum_i y_i\\,\\Pr(Y=y_i\\mid X=x),\\qquad E(Y\\mid X=1)=1(0.5)+0(0.5)=0.5.\\]\nLaw of iterated expectations — the unconditional mean is the average of the conditional means: \\[E[Y]=E\\big[\\,E(Y\\mid X)\\,\\big]=\\sum_x E(Y\\mid X=x)\\,\\Pr(X=x).\\]\n\nIn forecasting, \\(E(Y\\mid X)\\) is the best predictor of \\(Y\\) given \\(X\\) in the mean-squared-error sense — the reason conditional expectations are central to time series.\n\n\nIndependence, covariance and correlation\nIndependence: \\(X,Y\\) are independent if the conditional distribution of \\(Y\\) does not depend on \\(X\\), \\[\\Pr(Y=y\\mid X=x)=\\Pr(Y=y)\\ \\Longrightarrow\\ \\Pr(X=x,Y=y)=\\Pr(X=x)\\Pr(Y=y).\\]\nMean independence: \\(E(Y\\mid X)=E(Y)\\) for all \\(X\\).\nCovariance measures how \\(X\\) and \\(Y\\) move together: \\[\\mathrm{Cov}(X,Y)=\\sum_{i}\\sum_{j}(x_j-\\mu_X)(y_i-\\mu_Y)\\,\\Pr(X=x_j,Y=y_i).\\]\nFor the table above (\\(\\mu_X=0.30\\), \\(\\mu_Y=0.22\\)): \\[\\mathrm{Cov}(X,Y)=(0.7)(0.78)(0.15)+(0.7)(-0.22)(0.15)+(-0.3)(0.78)(0.07)+(-0.3)(-0.22)(0.63)=0.084.\\]\nCorrelation is the unit-free version: \\[\\mathrm{Corr}(X,Y)=\\frac{\\mathrm{Cov}(X,Y)}{\\sqrt{\\mathrm{Var}(X)\\mathrm{Var}(Y)}}\\in[-1,1].\\]\nKey logical points - Independent \\(\\Rightarrow\\) uncorrelated, and \\(\\Rightarrow\\) mean independent. - Mean independent \\(\\Rightarrow\\) uncorrelated. - Uncorrelated does not imply mean independence or independence — correlation only captures linear co-movement. This matters for nonlinear time-series models (e.g. GARCH), where returns can be uncorrelated yet dependent.\n\nR exercise 2: zero correlation does not imply independence\nGenerate \\(X\\sim N(0,1)\\) and\n\\[\nY=X^2+u,\\qquad u\\sim N(0,0.2^2).\n\\]\nThe relationship is nonlinear and therefore may not be captured by correlation.\n\n\nShow R code\nset.seed(821)\n\nn &lt;- 2000\nx &lt;- rnorm(n)\nu &lt;- rnorm(n, mean = 0, sd = 0.2)\ny &lt;- x^2 + u\n\ncor(x, y)\nplot(\n  x, y,\n  pch = 16,\n  cex = 0.5,\n  xlab = \"X\",\n  ylab = \"Y\",\n  main = \"A nonlinear dependence with near-zero correlation\")\n\n\n-0.00896053543530812\n\n\n\n\n\n\n\n\n\nPopulation, sample, and sampling distributions\nA population is the collection of possible observations described by a probability model. A numerical feature of the population, such as \\(\\mu\\), \\(\\sigma^2\\), or \\(\\rho\\), is a parameter.\nA sample is the observed data:\n\\[\nY_1,Y_2,\\ldots,Y_n.\n\\]\nA statistic is a function of the sample that does not contain unknown parameters. An estimator is a statistic used to estimate a parameter. Once evaluated using observed data, it produces an estimate.\nFor example,\n\\[\n\\bar Y=\\frac{1}{n}\\sum_{i=1}^n Y_i\n\\]\nis an estimator of the population mean \\(\\mu\\).\n\n\n\nRandom sampling and iid observations\nA random sample is commonly assumed to be independent and identically distributed:\n\\[\nY_1,\\ldots,Y_n\\overset{iid}{\\sim}f(y\\mid\\theta).\n\\]\nThe iid assumption means that all observations have the same marginal distribution and are mutually independent. Time-series observations generally violate the independence part of this assumption.\n\n\nSampling distribution and standard error\nBecause an estimator is a function of random data, it has a probability distribution across repeated samples. This is its sampling distribution.\nThe standard deviation of an estimator’s sampling distribution is its standard error.\n\n\nLaw of large numbers and Central limit theorem\nFor an i.i.d. sample \\(Y_1,\\dots,Y_n\\) with mean \\(\\mu\\) and variance \\(\\sigma^2\\), define the sample mean \\(\\bar Y_n=\\frac1n\\sum_{i=1}^n Y_i\\).\nLaw of Large Numbers (LLN). \\(\\bar Y_n \\xrightarrow{p} \\mu\\) as \\(n\\to\\infty\\): averages converge to the true mean. This is why estimators can be consistent.\nCentral Limit Theorem (CLT). Regardless of the shape of the underlying distribution, \\[\\sqrt{n}\\,\\frac{\\bar Y_n-\\mu}{\\sigma}\\ \\xrightarrow{d}\\ N(0,1).\\] This is why \\(t\\)-, \\(\\chi^2\\)- and \\(F\\)-based inference works even for non-normal data, and why the normal distribution is everywhere.\n\nTime-series caveat: the classical LLN/CLT assume independence. Time-series data are dependent, so we rely on their generalizations for stationary, weakly dependent (ergodic) processes.\n\n\n\nA practical example: estimating average delivery time\nSuppose a food-delivery company wants to estimate the average delivery time in a city.\nThe population consists of all possible deliveries made under similar operating conditions. The unknown population mean delivery time, \\(\\mu\\), is a parameter.\nBecause observing every delivery is impractical, the company records a random sample of (\\(n=30\\)) deliveries:\n\\[\nY_1,Y_2,\\ldots,Y_{30}.\n\\]\nThe sample mean,\n\\[\n\\bar Y=\\frac{1}{30}\\sum_{i=1}^{30}Y_i,\n\\]\nis an estimator of \\(\\mu\\). Its observed value is an estimate.\nA different sample of 30 deliveries would produce a different sample mean. The distribution of sample means obtained from repeatedly drawing samples of size 30 is the sampling distribution of \\(\\bar Y\\). Its standard deviation is the standard error.\nDelivery times are usually right-skewed: most deliveries are completed reasonably quickly, but a few take much longer because of traffic, weather, or restaurant delays. Nevertheless:\n\nthe Law of Large Numbers implies that the sample mean approaches the true average delivery time as the sample size increases;\nthe Central Limit Theorem implies that the distribution of sample means becomes approximately normal, even though individual delivery times are not normally distributed.\n\nThe iid assumption would be questionable if deliveries were recorded consecutively. Deliveries during the same rush hour or rainstorm may be correlated. This illustrates why time-series data require methods that allow for dependence.\n\n\nStep 1: Construct a population of delivery times\nIn practice, the company cannot observe every possible delivery. For this simulation, however, we construct a large artificial population so that the population characteristics are known.\nDelivery times are generated from a gamma distribution. This is reasonable because delivery times must be positive and are often right-skewed: most deliveries take a moderate amount of time, while a few take considerably longer.\n\n\nShow R code\nset.seed(821)\n\n# Size of the simulated population\nN &lt;- 100000\n\n# Parameters of the gamma distribution\nshape &lt;- 4\nscale &lt;- 5\n\n# Construct the population\npopulation &lt;- rgamma(\n  N,\n  shape = shape,\n  scale = scale\n)\n\n# Theoretical population parameters\nmu &lt;- shape * scale\nsigma &lt;- sqrt(shape * scale^2)\n\n# Characteristics of the simulated population\npopulation_mean &lt;- mean(population)\npopulation_sd &lt;- sd(population)\npopulation_variance &lt;- var(population)\n\nround(\n  c(\n    theoretical_mean = mu,\n    simulated_mean = population_mean,\n    theoretical_sd = sigma,\n    simulated_sd = population_sd\n  ),\n  2\n)\n\n\ntheoretical_mean20simulated_mean20.01theoretical_sd10simulated_sd10\n\n\nThe theoretical mean delivery time is \\(4\\times5=20\\) minutes, while the theoretical standard deviation is \\(10\\) minutes. The simulated values should be close to these theoretical values because the population is very large.\nIn a real empirical study, these population parameters would be unknown. They are visible here only because we constructed the population ourselves.\n\n\nShow R code\noptions(repr.plot.width = 8, repr.plot.height = 5)\n\nhist(\n  population,\n  breaks = 60,\n  probability = TRUE,\n  main = \"Population distribution of delivery times\",\n  xlab = \"Delivery time in minutes\",\n  col = \"grey85\",\n  border = \"white\"\n)\n\nabline(v = population_mean, col = \"red\", lwd = 2)\n\n\n\n\n\n\n\n\n\nThe population distribution is visibly right-skewed. The vertical line shows the population mean. We will now examine whether averages calculated from random samples have the same shape and variability.\n\n\nStep 2: Draw one random sample\nSuppose the company records the delivery times of only \\(n=30\\) randomly selected deliveries. The sample mean is then used to estimate the unknown population mean.\n\n\nShow R code\nset.seed(123)\n\nn &lt;- 30\n\nsample_delivery_times &lt;- sample(\n  population,\n  size = n,\n  replace = FALSE\n)\n\nsample_mean &lt;- mean(sample_delivery_times)\n\nround(sample_mean, 2)\n\n\n21.81\n\n\nThe sample mean will generally not be exactly equal to the population mean. The difference arises from sampling variation: a different random sample of 30 deliveries would usually produce a different sample mean.\nThus, one sample provides only one possible estimate of the population mean.\n\n\nStep 3: Repeat the sampling procedure\nTo study sampling variation, imagine repeating the study many times. Each time, we select 30 deliveries and calculate their mean.\nThe distribution of these repeated sample means is called the sampling distribution of the sample mean.\n\n\nShow R code\nset.seed(456)\n\nB &lt;- 5000\nn &lt;- 30\n\nsample_means_30 &lt;- replicate(\n  B,\n  mean(\n    sample(\n      population,\n      size = n,\n      replace = FALSE\n    )\n  )\n)\n\nhist(\n  sample_means_30,\n  breaks = 40,\n  probability = TRUE,\n  main = \"Sampling distribution of the sample mean\",\n  sub = \"Sample size n = 30\",\n  xlab = \"Mean delivery time\",\n  col = \"grey85\",\n  border = \"white\"\n)\n\n# Population mean\nabline(\n  v = population_mean,\n  col = \"red\",\n  lwd = 2\n)\n\n# Normal approximation\ncurve(\n  dnorm(\n    x,\n    mean = population_mean,\n    sd = population_sd / sqrt(n)\n  ),\n  add = TRUE,\n  col = \"blue\",\n  lwd = 2,\n  lty = 2\n)\n\nlegend(\n  \"topright\",\n  legend = c(\"Population mean\", \"Normal approximation\"),\n  col = c(\"red\", \"blue\"),\n  lty = c(1, 2),\n  lwd = 2,\n  bty = \"n\"\n)\n\n\n\n\n\n\n\n\n\nAlthough individual delivery times are right-skewed, the distribution of the sample mean is approximately bell-shaped.\nThe sampling distribution is centred close to the population mean. Its standard deviation is the standard error:\n\\[\nSE(\\bar{Y})\\approx\\frac{\\sigma}{\\sqrt{n}}.\n\\]\nFor \\(n=30\\), the standard error is approximately\n\\[\n\\frac{10}{\\sqrt{30}}\\approx1.83\\text{ minutes}.\n\\]\nThis measures how much sample means typically differ across repeated samples.\n\n\nStep 4: Change the sample size\nWe now repeat the experiment using sample sizes (n=5), (30), (100), and (500).\nThe population and number of repetitions are held constant. Therefore, any change in the sampling distribution is caused by the change in sample size.\n\n\nShow R code\nset.seed(789)\n\nB &lt;- 5000\nsample_sizes &lt;- c(5, 30, 100, 500)\n\n# Generate a sampling distribution for each sample size\nsampling_distributions &lt;- lapply(\n  sample_sizes,\n  function(n) {\n    replicate(\n      B,\n      mean(\n        sample(\n          population,\n          size = n,\n          replace = FALSE\n        )\n      )\n    )\n  }\n)\n\nnames(sampling_distributions) &lt;- paste0(\"n = \", sample_sizes)\n\n\n\n\nShow R code\noptions(repr.plot.width = 12, repr.plot.height = 8)\n\n# Use the same horizontal scale in every graph\ncommon_xlim &lt;- range(unlist(sampling_distributions))\n\npar(mfrow = c(2, 2), mar = c(4, 4, 3, 1))\n\nfor (j in seq_along(sample_sizes)) {\n\n  n &lt;- sample_sizes[j]\n  means_n &lt;- sampling_distributions[[j]]\n\n  # Standard error with a finite-population correction\n  theoretical_se &lt;- population_sd / sqrt(n) *\n    sqrt((N - n) / (N - 1))\n\n  hist(\n    means_n,\n    breaks = 40,\n    probability = TRUE,\n    xlim = common_xlim,\n    main = paste0(\n      \"n = \", n,\n      \"; SE = \", round(sd(means_n), 2)\n    ),\n    xlab = \"Sample mean delivery time\",\n    col = \"grey85\",\n    border = \"white\"\n  )\n\n  # True population mean\n  abline(\n    v = population_mean,\n    col = \"red\",\n    lwd = 2\n  )\n\n  # Corresponding normal approximation\n  curve(\n    dnorm(\n      x,\n      mean = population_mean,\n      sd = theoretical_se\n    ),\n    add = TRUE,\n    col = \"blue\",\n    lwd = 2,\n    lty = 2\n  )\n}\n\npar(mfrow = c(1, 1))\n\n\n\n\n\n\n\n\n\nThe figures illustrate three important results.\n\nThe centre remains approximately unchanged.\nFor every sample size, the sampling distribution is centred near the population mean of 20 minutes. Increasing the sample size does not systematically raise or lower the sample mean.\nThe sampling distribution becomes narrower.\nLarger samples produce more precise estimates. Because\n\\[\nSE(\\bar Y)\\approx\\frac{\\sigma}{\\sqrt n},\n\\]\nincreasing \\(n\\) reduces the variability of the sample mean.\nThe sampling distribution becomes more nearly normal.\nFor \\(n=5\\), some right-skewness inherited from the population may remain. For \\(n=30\\), the distribution is already reasonably bell-shaped. For \\(n=100\\) and \\(n=500\\), it is highly concentrated and approximately normal.",
+    "crumbs": [
+      "Home",
+      "Preliminaries",
+      "Statistics and probability I"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Topics in Time Series Econometrics",
+    "section": "",
+    "text": "These notes accompany the course Topics in Time Series Econometrics.\nThey combine:\n\nStatistical and probability foundations\nR programming examples\nTime-series concepts\nEmpirical applications\n\n\n\nStudents should:\n\nRead the conceptual discussion.\nExamine the R examples.\nDownload the corresponding notebook from Moodle.\nRun and modify the code in Jupyter.\nComplete the exercises provided in Moodle.\n\n\n\n\nMoodle remains the official platform for:\n\nAnnouncements\nDatasets\nAssessments\nSubmission links\nRestricted readings\nAnswer keys",
+    "crumbs": [
+      "Home",
+      "Course home"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use-the-notes",
+    "href": "index.html#how-to-use-the-notes",
+    "title": "Topics in Time Series Econometrics",
+    "section": "",
+    "text": "Students should:\n\nRead the conceptual discussion.\nExamine the R examples.\nDownload the corresponding notebook from Moodle.\nRun and modify the code in Jupyter.\nComplete the exercises provided in Moodle.",
+    "crumbs": [
+      "Home",
+      "Course home"
+    ]
+  },
+  {
+    "objectID": "index.html#moodle",
+    "href": "index.html#moodle",
+    "title": "Topics in Time Series Econometrics",
+    "section": "",
+    "text": "Moodle remains the official platform for:\n\nAnnouncements\nDatasets\nAssessments\nSubmission links\nRestricted readings\nAnswer keys",
+    "crumbs": [
+      "Home",
+      "Course home"
     ]
   },
   {
@@ -252,108 +813,51 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Topics in Time Series Econometrics",
-    "section": "",
-    "text": "These notes accompany the course Topics in Time Series Econometrics.\nThey combine:\n\nStatistical and probability foundations\nR programming examples\nTime-series concepts\nEmpirical applications\n\n\n\nStudents should:\n\nRead the conceptual discussion.\nExamine the R examples.\nDownload the corresponding notebook from Moodle.\nRun and modify the code in Jupyter.\nComplete the exercises provided in Moodle.\n\n\n\n\nMoodle remains the official platform for:\n\nAnnouncements\nDatasets\nAssessments\nSubmission links\nRestricted readings\nAnswer keys",
+    "objectID": "Slides/00-course-introduction.html#topics-in-time-series-econometrics",
+    "href": "Slides/00-course-introduction.html#topics-in-time-series-econometrics",
+    "title": "Course Introduction",
+    "section": "Topics in Time Series Econometrics",
+    "text": "Topics in Time Series Econometrics\nHS 821\n\nUnivariate time-series models\nNonstationarity and unit roots\nVolatility modelling\nVector autoregressions\nCointegration\nBayesian and frequentist inference",
     "crumbs": [
       "Home",
-      "Course home"
+      "Lecture slides",
+      "Course introduction"
     ]
   },
   {
-    "objectID": "index.html#how-to-use-the-notes",
-    "href": "index.html#how-to-use-the-notes",
-    "title": "Topics in Time Series Econometrics",
-    "section": "",
-    "text": "Students should:\n\nRead the conceptual discussion.\nExamine the R examples.\nDownload the corresponding notebook from Moodle.\nRun and modify the code in Jupyter.\nComplete the exercises provided in Moodle.",
+    "objectID": "Slides/00-course-introduction.html#course-organisation",
+    "href": "Slides/00-course-introduction.html#course-organisation",
+    "title": "Course Introduction",
+    "section": "Course organisation",
+    "text": "Course organisation\n\nTwo lectures each week\nR-based computational exercises\nLecture notes available on the course website\nDatasets distributed through Moodle",
     "crumbs": [
       "Home",
-      "Course home"
+      "Lecture slides",
+      "Course introduction"
     ]
   },
   {
-    "objectID": "index.html#moodle",
-    "href": "index.html#moodle",
-    "title": "Topics in Time Series Econometrics",
-    "section": "",
-    "text": "Moodle remains the official platform for:\n\nAnnouncements\nDatasets\nAssessments\nSubmission links\nRestricted readings\nAnswer keys",
+    "objectID": "Slides/00-course-introduction.html#software",
+    "href": "Slides/00-course-introduction.html#software",
+    "title": "Course Introduction",
+    "section": "Software",
+    "text": "Software\nStudents will use:\n\nR\nJupyter\nQuarto\nRelevant R packages",
     "crumbs": [
       "Home",
-      "Course home"
+      "Lecture slides",
+      "Course introduction"
     ]
   },
   {
-    "objectID": "Notebooks/02-Review-stats.html",
-    "href": "Notebooks/02-Review-stats.html",
-    "title": "HS 821: Topics in Timeseries Econometrics",
-    "section": "",
-    "text": "(Reference: Stock and Watson) *** ## Some definitions\nSample Space (\\(S\\))\nThe set of all possible outcomes of an experiment.\nOutcome (or Event)\nA subset of the sample space representing mutually exclusive potential results of a random process.\n- Example 1: Your grade on an exam.\n- Example 2: While attending an online class, the wireless connection might never fail, fail once, fail twice, and so on.\nProbability (\\(P\\))\nCaptures the idea of “chance”. The probability of an event \\(A\\) is denoted \\(P(A)\\).",
+    "objectID": "Slides/00-course-introduction.html#data-access",
+    "href": "Slides/00-course-introduction.html#data-access",
+    "title": "Course Introduction",
+    "section": "Data access",
+    "text": "Data access\nCourse datasets are distributed only through Moodle.\nDownload the datasets and place them inside the local data folder.",
     "crumbs": [
       "Home",
-      "Preliminaries",
-      "Statistics and probability"
-    ]
-  },
-  {
-    "objectID": "Notebooks/02-Review-stats.html#review-of-statistics-and-probability",
-    "href": "Notebooks/02-Review-stats.html#review-of-statistics-and-probability",
-    "title": "HS 821: Topics in Timeseries Econometrics",
-    "section": "",
-    "text": "(Reference: Stock and Watson) *** ## Some definitions\nSample Space (\\(S\\))\nThe set of all possible outcomes of an experiment.\nOutcome (or Event)\nA subset of the sample space representing mutually exclusive potential results of a random process.\n- Example 1: Your grade on an exam.\n- Example 2: While attending an online class, the wireless connection might never fail, fail once, fail twice, and so on.\nProbability (\\(P\\))\nCaptures the idea of “chance”. The probability of an event \\(A\\) is denoted \\(P(A)\\).",
-    "crumbs": [
-      "Home",
-      "Preliminaries",
-      "Statistics and probability"
-    ]
-  },
-  {
-    "objectID": "Notebooks/02-Review-stats.html#kolmogorovs-three-axioms-of-probability",
-    "href": "Notebooks/02-Review-stats.html#kolmogorovs-three-axioms-of-probability",
-    "title": "HS 821: Topics in Timeseries Econometrics",
-    "section": "Kolmogorov’s Three Axioms of Probability",
-    "text": "Kolmogorov’s Three Axioms of Probability\n\nNon-negativity:\n\\[\nP(A) \\geq 0 \\quad \\text{for any event } A \\subseteq S\n\\]\nNormalization:\n\\[\nP(S) = 1\n  \\]\nAdditivity (Disjoint Events):\nIf \\(A\\) and \\(B\\) are mutually exclusive events (\\(A \\cap B = \\varnothing\\)), then\n\\[\nP(A \\cup B) = P(A) + P(B)\n\\]\n\n\n\nAxiom III and Joint Probability\nAxiom III applies when events are disjoint—that is, they cannot happen together.\nFor non-disjoint events, the general addition rule uses joint probability:\n\\[\nP(A \\cup B) = P(A) + P(B) - P(A \\cap B)\n\\]\n\nHere, \\(P(A \\cap B)\\) is the joint probability: the probability that both \\(A\\) and \\(B\\) occur together.\n\nIf \\(A\\) and \\(B\\) are disjoint, \\(P(A \\cap B) = 0\\), and the formula reduces to Axiom III",
-    "crumbs": [
-      "Home",
-      "Preliminaries",
-      "Statistics and probability"
-    ]
-  },
-  {
-    "objectID": "Notebooks/02-Review-stats.html#conditional-probability",
-    "href": "Notebooks/02-Review-stats.html#conditional-probability",
-    "title": "HS 821: Topics in Timeseries Econometrics",
-    "section": "Conditional Probability",
-    "text": "Conditional Probability\nThe conditional probability of event \\(A\\) (forward looking probability)given that event \\(B\\) has occurred is denoted by: \\[\nP(A \\mid B) = \\frac{P(A \\cap B)}{P(B)}, \\quad \\text{provided } P(B) &gt; 0\n\\]\n\n\\(P(A \\cap B)\\) is the joint probability (both \\(A\\) and \\(B\\) happen).\n\n\\(P(B)\\) is the marginal probability of \\(B\\).\n\nThis formula adjusts the probability of \\(A\\) to reflect the knowledge that \\(B\\) has already occurred.\n\nExample:\nIf 30% of students play football (\\(P(F) = 0.3\\)),\nand 10% of students play both football and cricket (\\(P(F \\cap C) = 0.1\\)),\nthen the probability that a football player also plays cricket is: \\[\nP(C \\mid F) = \\frac{0.1}{0.3} \\approx 0.33\n\\]",
-    "crumbs": [
-      "Home",
-      "Preliminaries",
-      "Statistics and probability"
-    ]
-  },
-  {
-    "objectID": "Notebooks/02-Review-stats.html#bayes-theorem",
-    "href": "Notebooks/02-Review-stats.html#bayes-theorem",
-    "title": "HS 821: Topics in Timeseries Econometrics",
-    "section": "Bayes’ Theorem",
-    "text": "Bayes’ Theorem\nStatement:\nBayes’ theorem relates conditional and marginal probabilities, allowing us to update beliefs in light of new evidence.\n\\[\nP(B \\mid A) = \\frac{P(A \\cap B)}{P(A)}=\\frac{P(A \\mid B) \\cdot P(B)}{P(A)}\n\\]\nWhere: - \\(P(B)\\) = Prior probability of \\(B\\).\n- \\(P(A \\mid B)\\) = Likelihood: probability of observing \\(A\\) if \\(B\\) is true.\n- \\(P(A)\\) = Marginal probability of \\(A\\): \\[\nP(A) = \\sum_{i} P(A \\mid B_i) \\cdot P(B_i)\n\\] for all mutually exclusive and exhaustive events \\(B_i\\).\nNote: By the law of total probability\n\\[\nP(A) = P(A \\mid B) \\cdot P(B) + P(A \\mid B') \\cdot P(B')\n\\] where \\(B'\\) is the complement of \\(B\\) —\n\nExample (Medical Test):**\n\n\\(P(D)\\): Probability a patient has the disease = 0.01.\n\n\\(P(\\text{Positive} \\mid D)\\): Test is positive if disease is present = 0.99.\n\n\\(P(\\text{Positive} \\mid \\neg D)\\): Test is positive if disease is absent = 0.05.\n\nWe want \\(P(D \\mid \\text{Positive})\\).\nFirst, find \\(P(\\text{Positive})\\): \\[\nP(\\text{Positive}) = P(\\text{Positive} \\mid D)P(D) + P(\\text{Positive} \\mid \\neg D)P(\\neg D)\n\\] \\[\n= 0.99(0.01) + 0.05(0.99) = 0.0099 + 0.0495 = 0.0594\n\\]\nThen, apply Bayes’ theorem: \\[\nP(D \\mid \\text{Positive}) = \\frac{0.99 \\cdot 0.01}{0.0594} \\approx 0.1667\n\\]\nInterpretation:\nEven with a highly accurate test, the probability of having the disease given a positive result is only ~16.7%, due to the low base rate (\\(P(D)\\)).\n\n\nExample 2.4 — Contact Tracing and Self-Quarantine Study\nA scientist is studying methods to slow the spread of an RNA-based virus that causes fever. Using contact tracing, they collect data on patients to identify: 1. The patient, 2. The mode of transmission, 3. The infection duration, 4. The self-isolation or self-quarantine period, 5. The role of asymptomatic individuals, who can spread the virus but are harder to identify.\nFrom 59 patients surveyed: - 15 patients did not know how they became infected. - 44 patients knew the source of their infection.\nLet: - \\(A\\): “Known source of infection” - \\(A'\\): “Unknown source of infection”\nThus: \\[\nP(A) = \\frac{44}{59} \\approx 0.75,\\quad P(A') = \\frac{15}{59} \\approx 0.25\n\\]\nIt was also found that: - 43 of the 44 patients who knew the source \\((A)\\) self-quarantined for 14 days. - 6 of the 15 patients with unknown source (\\(A'\\)) did not self-quarantine.\nLet: - \\(Q\\): “Patient self-quarantined” - \\(Q'\\): “Patient did not self-quarantine”\nWe can calculate: - \\[\n  P(Q|A) = \\frac{43}{44} \\approx 0.98\n  \\] - \\[\n  P(Q|A') = 1 - \\frac{6}{15} = 0.6\n  \\]\nWe also find: \\[\nP(A' \\cap Q) = P(A') \\times P(Q|A') = 0.25 \\times 0.6 = 0.15\n\\]\nFinally, the scientist is interested in:\n\\(P(A'|Q)\\) = Probability that a patient did not know the source of infection given they self-quarantined\nThis requires Bayes’ theorem and the law of total probability.",
-    "crumbs": [
-      "Home",
-      "Preliminaries",
-      "Statistics and probability"
-    ]
-  },
-  {
-    "objectID": "Notebooks/02-Review-stats.html#excercises",
-    "href": "Notebooks/02-Review-stats.html#excercises",
-    "title": "HS 821: Topics in Timeseries Econometrics",
-    "section": "Excercises",
-    "text": "Excercises\n\n1) Credit Risk\nA bank lends to two borrower types: - Low-risk borrowers occur with probability \\(P(L)=0.70\\). Their default rate is \\(P(D\\mid L)=0.02\\). - High-risk borrowers occur with probability \\(P(H)=0.30\\). Their default rate is \\(P(D\\mid H)=0.10\\).\nTasks 1. Draw the full probability tree (first split by borrower type, then by default/no-default). 2. Compute the overall default probability \\(P(D)\\). 3. Using Bayes’ theorem, find the posterior probability that a defaulter is high-risk: \\(P(H\\mid D)\\).\n\n\n\n2) Market Research (Product Returns)\nA firm sells in two regions: - Urban market share \\(P(U)=0.60\\); return rate \\(P(R\\mid U)=0.05\\). - Rural market share \\(P(Ru)=0.40\\); return rate \\(P(R\\mid Ru)=0.12\\).\nTasks 1. Draw the full probability tree (first split by region, then by return/no-return). 2. Compute the overall return probability \\(P(R)\\). 3. Using Bayes’ theorem, find the probability a returned product came from the rural market: \\(P(Ru\\mid R)\\).\n\n\n\n3) Monetary Policy Forecast\nHistorically, the central bank raises rates with probability \\(P(H)=0.30\\) (no hike \\(H'\\) with \\(0.70\\).\nAnalyst A’s forecasting performance: - \\(P(\\text{Predict Hike}\\mid H)=0.80\\). - \\(P(\\text{Predict Hike}\\mid H')=0.20\\).\nTasks 1. Draw the full probability tree (first split by true outcome \\(H\\) vs. \\(H'\\), then by Analyst A’s prediction). 2. Compute the overall probability that Analyst A predicts a hike. 3. Using Bayes’ theorem, compute \\(P(H\\mid \\text{Predict Hike})\\).",
-    "crumbs": [
-      "Home",
-      "Preliminaries",
-      "Statistics and probability"
+      "Lecture slides",
+      "Course introduction"
     ]
   }
 ]

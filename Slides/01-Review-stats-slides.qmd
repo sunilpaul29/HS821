@@ -1,0 +1,753 @@
+---
+title: "Review of Statistics and Probability I"
+subtitle: "HS 821 · Lecture 2 · Topics in Time Series Econometrics"
+author: "Sunil Paul"
+date: "2026-08-05"
+format:
+  revealjs:
+    theme: default
+    slide-number: c/t
+    show-slide-number: all
+    incremental: false
+    smaller: false
+    scrollable: true
+    center-title-slide: true
+    transition: slide
+    background-transition: fade
+    chalkboard: true
+    code-line-numbers: false
+    code-overflow: wrap
+    html-math-method: mathjax
+    fig-align: center
+    footer: "HS 821 · Review of Statistics & Probability I"
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto
+knitr:
+  opts_chunk:
+    dev: "png"
+    dpi: 150
+    fig.width: 7
+    fig.height: 4.2
+---
+
+```{=html}
+<style>
+:root{
+  --hs-accent:#1b3a6b;
+  --hs-accent2:#c0392b;
+}
+.reveal h1,.reveal h2,.reveal h3{ color:var(--hs-accent); font-weight:650; }
+.reveal .slide-number{ background:transparent; color:#888; }
+.reveal section img{ border:none; box-shadow:none; }
+.reveal table{ font-size:0.80em; }
+.reveal table th{ background:#eef2f8; }
+.reveal pre code{ font-size:0.72em; line-height:1.25; }
+.reveal .small{ font-size:0.78em; }
+.reveal .muted{ color:#5a6472; }
+.reveal blockquote{
+  border-left:4px solid var(--hs-accent);
+  background:#f6f8fc; padding:0.4em 0.9em; font-style:normal;
+}
+.callout-ts{
+  border-left:5px solid var(--hs-accent2);
+  background:#fdf1ef; padding:0.5em 0.9em; border-radius:4px; margin-top:0.4em;
+}
+.keybox{
+  border:1px solid #d5dded; background:#f6f8fc;
+  border-radius:6px; padding:0.5em 0.9em;
+}
+.widget{
+  border:1px solid #d5dded; border-radius:8px; padding:0.7em 0.9em;
+  background:#fbfcfe;
+}
+.posterior{ font-size:1.9em; color:var(--hs-accent2); font-weight:700; }
+.reveal .columns{ align-items:center; }
+</style>
+```
+
+# Roadmap {.center}
+
+::: {.incremental}
+- Sample spaces, events, and Kolmogorov's axioms
+- Conditional probability and **Bayes' theorem** 
+- Random variables, distributions, and the shape of a distribution
+- Joint, marginal, and conditional distributions; the law of iterated expectations
+- Independence, covariance, correlation — and why they differ
+- Populations, samples, and sampling distributions
+- **LLN and CLT** * 
+- A full sampling-distribution simulation in R
+:::
+
+# Definitions {background-color="#1b3a6b"}
+
+## Sample space, outcomes, events
+
+- A **sample space** $S$ is the set of all possible outcomes of a random experiment.
+- An **outcome** is one element $s\in S$; an **event** is a subset $A\subseteq S$.
+
+## Sample space, outcomes, events
+
+::: {.keybox}
+**Example.** Let $M$ = number of times the internet fails during a lecture:
+$$S=\{0,1,2,3,4,\ldots\}.$$
+"The connection fails at most once" is the event $A=\{0,1\}$.
+:::
+
+The **probability** of an event $A$, written $P(A)$, captures the idea of *chance*.
+
+## Kolmogorov's three axioms
+
+::: {.keybox}
+1. **Non-negativity:** $P(A)\ge 0$ for any $A\subseteq S$.
+2. **Normalization:** $P(S)=1$.
+3. **Additivity:** if $A\cap B=\varnothing$, then $P(A\cup B)=P(A)+P(B)$.
+:::
+
+## Kolmogorov's three axioms
+
+
+**General addition rule** (events need not be disjoint):
+$$P(A\cup B)=P(A)+P(B)-P(A\cap B),$$
+
+where $P(A\cap B)$ is the **joint probability**. 
+- If $A,B$ are disjoint, $P(A\cap B)=0$ and this reduces to Axiom 3.
+
+# Conditional probability & Bayes {background-color="#1b3a6b"}
+
+## Conditional probability
+
+$$P(A\mid B)=\frac{P(A\cap B)}{P(B)},\qquad P(B)>0.$$
+
+::: {.keybox}
+**Example.** $30\%$ of students play football, $10\%$ play *both* football and cricket:
+$$P(F)=0.30,\quad P(F\cap C)=0.10.$$
+What is the probability that a football player also plays cricket?
+:::
+
+## Conditional probability
+::: {.keybox}
+Ans: $$P(C\mid F)=\frac{P(C\cap F)}{P(F)}=\frac{0.10}{0.30}=\tfrac{1}{3}.$$
+:::
+
+
+## Law of total probability
+
+If $B_1,\ldots,B_k$ are mutually exclusive and exhaustive, then
+$$P(A)=\sum_{i=1}^{k}P(A\mid B_i)\,P(B_i).$$
+
+This lets us assemble an overall probability from conditional pieces — exactly what we need to *normalize* Bayes' theorem.
+
+## Bayes' theorem {.smaller}
+
+$$P(B_j\mid A)=\frac{P(A\mid B_j)\,P(B_j)}{\sum_{i=1}^{k}P(A\mid B_i)\,P(B_i)}.$$
+
+::: {.columns}
+::: {.column width="55%"}
+- $P(B_j)$ — the **prior**
+- $P(A\mid B_j)$ — probability of the evidence under $B_j$
+- $P(B_j\mid A)$ — the **posterior** (updated belief)
+:::
+::: {.column width="45%"}
+::: {.callout-ts}
+**Idea.** Bayes' theorem is a rule for *updating* a prior belief in light of evidence. The word *likelihood* will be defined precisely when we reach estimation.
+:::
+:::
+:::
+
+## Example — a medical test {.smaller}
+
+::: {.columns}
+::: {.column width="52%"}
+- $P(D)=0.01$ — prevalence
+- $P(+\mid D)=0.99$ — sensitivity
+- $P(+\mid \neg D)=0.05$ — false-positive rate
+
+$$P(+)=0.99(0.01)+0.05(0.99)=0.0594$$
+$$P(D\mid +)=\frac{0.99\cdot 0.01}{0.0594}\approx 0.167$$
+:::
+::: {.column width="48%"}
+::: {.callout-ts}
+**The base-rate lesson.** Even a highly accurate test gives only a **~16.7%** chance of disease after a positive result — because the disease is rare. Most positives are false positives drawn from the large healthy group.
+:::
+:::
+:::
+
+
+## Try it: base rate matters {.base-rate-slide background-color="#fbfcfe"}
+
+<style>
+.reveal .base-rate-slide h2 {
+  font-size: 1.45em;
+}
+
+.reveal .base-rate-slide .columns {
+  gap: 1.2em;
+  align-items: flex-start;
+}
+
+.reveal .base-rate-slide .controls-box {
+  font-size: 0.52em;
+  line-height: 1.15;
+  padding: 0.7em;
+  border: 1px solid #d9e2ef;
+  border-radius: 12px;
+  background: white;
+}
+
+.reveal .base-rate-slide input[type="range"] {
+  width: 135px;
+}
+
+.reveal .base-rate-slide input[type="number"] {
+  width: 4.5em;
+  font-size: 0.85em;
+}
+
+.reveal .base-rate-slide .posterior {
+  font-size: 2.1em;
+  font-weight: 700;
+  color: #c0392b;
+}
+
+.reveal .base-rate-slide table {
+  font-size: 0.62em;
+  margin: 0;
+}
+
+.reveal .base-rate-slide td,
+.reveal .base-rate-slide th {
+  padding: 0.35em 0.65em;
+}
+
+.reveal .base-rate-slide .note {
+  font-size: 0.55em;
+  color: #555;
+  margin-top: 0.8em;
+}
+</style>
+
+:::: {.columns}
+
+::: {.column width="35%"}
+
+::: {.controls-box}
+
+```{ojs}
+//| echo: false
+viewof prev = Inputs.range([0.001, 0.5], {
+  value: 0.01, step: 0.001, label: "Prevalence"
+})
+
+viewof sens = Inputs.range([0.50, 1.00], {
+  value: 0.99, step: 0.005, label: "Sensitivity"
+})
+
+viewof fpr = Inputs.range([0.00, 0.50], {
+  value: 0.05, step: 0.005, label: "False positive"
+})
+```
+
+:::
+
+:::
+
+::: {.column width="65%"}
+
+```{ojs}
+//| echo: false
+N = 100000
+diseased = Math.round(prev * N)
+healthy  = N - diseased
+tp = Math.round(sens * diseased)
+fp = Math.round(fpr * healthy)
+posterior = tp / (tp + fp)
+
+html`
+<div>
+  <div class="muted">Posterior probability: P(D | +)</div>
+  <div class="posterior">${(posterior * 100).toFixed(1)}%</div>
+
+  <table>
+    <tr><th></th><th>Test +</th><th>Test −</th></tr>
+    <tr>
+      <td><b>Disease</b></td>
+      <td style="color:#1b3a6b"><b>${tp.toLocaleString()}</b></td>
+      <td>${(diseased - tp).toLocaleString()}</td>
+    </tr>
+    <tr>
+      <td><b>Healthy</b></td>
+      <td style="color:#c0392b"><b>${fp.toLocaleString()}</b></td>
+      <td>${(healthy - fp).toLocaleString()}</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    Out of ${N.toLocaleString()} people, ${diseased.toLocaleString()} have the disease.
+    Of ${Number(tp + fp).toLocaleString()} positive tests,
+    ${tp.toLocaleString()} are true positives.
+  </div>
+</div>`
+```
+
+:::
+
+::::
+
+::: {.note}
+Move only prevalence first. The test is unchanged, but the posterior changes sharply.
+:::
+
+## Example 2 — contact tracing {.smaller}
+
+Of 59 traced patients: 44 knew their infection source $(A)$, 15 did not $(A')$.
+$$P(A)=\tfrac{44}{59}\approx 0.75,\qquad P(A')=\tfrac{15}{59}\approx 0.25.$$
+
+Self-quarantine $(Q)$: 43 of the 44 with a known source quarantined; 6 of the 15 with unknown source did **not**.
+$$P(Q\mid A)=\tfrac{43}{44}\approx 0.98,\qquad P(Q\mid A')=1-\tfrac{6}{15}=0.6.$$
+
+Given a patient quarantined, what is the chance their source was **unknown**?
+
+## Example 2 — contact tracing {.smaller}
+
+**Ans:**
+
+$$P(Q)=\tfrac{43}{59}+\tfrac{9}{59}=\tfrac{52}{59}\approx 0.881,\qquad
+\boxed{P(A'\mid Q)=\frac{9/59}{52/59}=\frac{9}{52}\approx 0.173.}$$
+
+## Your turn — three Bayes exercises {.smaller}
+
+::: {.columns}
+::: {.column width="33%"}
+**1 · Credit risk**
+
+A bank lends to Low-risk(L) and High-risk(H) borrowers:
+ $P(L)=0.70,\ P(H)=0.30$. 
+
+Their default probs:
+ $P(D\mid L)=0.02,\ P(D\mid H)=0.10$.
+
+ Find $P(D)$ and the posterior $P(H\mid D)$.
+:::
+::: {.column width="33%"}
+**2 · Product returns**
+
+A firm sells in two regions : Urban(U) and Rural (R)
+ $P(U)=0.60,\ P(R\mid U)=0.05$;
+
+ $P(Ru)=0.40,\ P(R\mid Ru)=0.12$.
+
+Find $P(R)$ and $P(Ru\mid R)$.
+:::
+::: {.column width="33%"}
+**3 · Rate forecast**
+
+The central bank raises rates with probability
+ $P(H)=0.30$;
+
+Analyst A’s forecasting performance:
+ $P(\text{pred }H\mid H)=0.80$,
+ $P(\text{pred }H\mid H')=0.20$.
+
+Find $P(H\mid \text{pred }H)$.
+:::
+:::
+
+::: {.callout-ts}
+For each: draw the probability tree (split by type, then by outcome), get the overall probability by the law of total probability, then invert with Bayes' theorem.
+:::
+
+# Random variables & distributions {background-color="#1b3a6b"}
+
+## Random variables
+
+A **random variable** is a numerical summary of a random outcome.
+
+- **Discrete** RV — countably many values, each with a probability.
+- **Continuous** RV — a continuum of values (e.g. tomorrow's temperature).
+
+## Random variables
+
+The **pmf** lists values and probabilities; 
+
+the **CDF** gives $\Pr(Y\le y)$.
+
+<center>**Probability that your connection fails $M$ times**</center>
+
+| Outcome $m$ | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| **pmf** $\Pr(M=m)$ | 0.80 | 0.10 | 0.06 | 0.03 | 0.01 |
+| **CDF** $\Pr(M\le m)$ | 0.80 | 0.90 | 0.96 | 0.99 | 1.00 |
+
+For a continuous RV, probability is a **pdf**: $\Pr(a\le Y\le b)=\int_a^b f(y)\,dy$.
+
+# Shape of a distribution {background-color="#1b3a6b"}
+
+## Expected value & variance {.smaller}
+
+**Expected value (mean)** — the long-run average:
+$$E[Y]=\sum_i y_i p_i=\mu \quad(\text{discrete}),\qquad E[Y]=\int y\,f(y)\,dy=\mu \quad(\text{continuous}).$$
+*Linearity:* $E[X+Y]=E[X]+E[Y]$ and $E[aX+b]=aE[X]+b$.
+
+**Variance & covariance:**
+$$\mathrm{Var}(Y)=E[(Y-\mu)^2]=E[Y^2]-(E[Y])^2=\sigma^2.$$
+$$\mathrm{Var}(aX+b)=a^2\mathrm{Var}(X),$$
+$$\qquad \mathrm{Var}(X+Y)=\mathrm{Var}(X)+\mathrm{Var}(Y)+2\,\mathrm{Cov}(X,Y).$$
+$$\mathrm{Cov}(X,Y)=E[(X-EX)(Y-EY)]=E[XY]-E[X]E[Y].$$
+
+## Moments, skewness, kurtosis
+
+- Raw $r$-th moment: $\mu'_r=E[Y^r]$.
+- Central $r$-th moment: $\mu_r=E[(Y-\mu)^r]$.
+- Standardized $r$-th moment: $\gamma_r=\mu_r/\sigma^r$.
+
+## Moments, skewness, kurtosis
+
+$$\text{Skew}(Y)=\gamma_3=\frac{\mu_3}{\sigma^3},\qquad
+\beta_2=\frac{\mu_4}{\sigma^4},$$
+
+$$\text{Excess kurtosis}=\beta_2-3.$$
+
+::: {.keybox}
+**Skewness** measures asymmetry. 
+
+**Excess kurtosis** measures heavy tails relative to the normal (which has $\beta_2=3$). Financial returns are typically leptokurtic — heavy-tailed.
+:::
+
+# Joint, marginal & conditional distributions {background-color="#1b3a6b"}
+
+## One joint distribution throughout {.smaller}
+
+$X$ and $Y$ are binary variables representing two weather conditions: very cold and rain
+
+<center>**Joint distribution of $X$ and $Y$**</center>
+
+|  | Very cold $(X=1)$ | Not very cold $(X=0)$ | **Total** |
+|---|---|---|---|
+| **Rain $(Y=1)$** | 0.15 | 0.07 | **0.22** |
+| **No rain $(Y=0)$** | 0.15 | 0.63 | **0.78** |
+| **Total** | **0.30** | **0.70** | **1.00** |
+
+**Marginal** — sum over the other variable: $\ \Pr(Y=1)=0.15+0.07=0.22.$
+
+**Conditional** — $\ \Pr(Y=1\mid X=1)=\dfrac{0.15}{0.30}=0.5.$
+
+## Conditional expectation {.smaller}
+
+**Conditional expectation:**
+$$E(Y\mid X=x)=\sum_i y_i\,\Pr(Y=y_i\mid X=x),$$
+$$E(Y\mid X=1)=1(0.5)+0(0.5)=0.5.$$
+
+## Law of iterated expectations {.smaller}
+
+**Law of iterated expectations** — the unconditional mean is the average of conditional means:
+$$E[Y]=E\big[\,E(Y\mid X)\,\big]=\sum_x E(Y\mid X=x)\,\Pr(X=x).$$
+
+::: {.callout-ts}
+**Why this matters for time series.** $E(Y\mid X)$ is the **best predictor of $Y$ given $X$** in the mean-squared-error sense. Conditional expectations *are* forecasts — which is why they sit at the centre of the course.
+:::
+
+## Independence, covariance, correlation {.smaller}
+
+**Independence:** $\ \Pr(Y=y\mid X=x)=\Pr(Y=y) \qquad \Longrightarrow\ \Pr(X=x,Y=y)=\Pr(X=x)\Pr(Y=y).$
+
+
+**Mean independence:** $\ E(Y\mid X)=E(Y)$ for all $X$.
+
+
+**Covariance:** $\ \mathrm{Cov}(X,Y)=E[XY]-E[X]E[Y]$. 
+
+For the table above, $=0.15-0.30(0.22)=0.084.$
+
+## Independence, covariance, correlation {.smaller}
+
+**Correlation** (unit-free): $\ \mathrm{Corr}(X,Y)=\dfrac{\mathrm{Cov}(X,Y)}{\sqrt{\mathrm{Var}(X)\mathrm{Var}(Y)}}\in[-1,1].$
+
+::: {.keybox}
+- Independent $\Rightarrow$ mean independent $\Rightarrow$ uncorrelated.
+- **Uncorrelated does *not* imply independence** — correlation captures only *linear* co-movement.
+:::
+
+
+## R demo — zero correlation, clear dependence {.smaller}
+
+Generate $X\sim N(0,1)$ and $Y=X^2+u,\ u\sim N(0,0.2^2)$. 
+
+The link is nonlinear, so correlation misses it.
+
+## R demo — zero correlation, clear dependence {.smaller}
+
+```{r}
+#| fig-width: 6.5
+#| fig-height: 3.8
+set.seed(821)
+n <- 2000
+x <- rnorm(n)
+u <- rnorm(n, mean = 0, sd = 0.2)
+y <- x^2 + u
+
+cor(x, y)                       # near zero
+plot(x, y, pch = 16, cex = 0.5,
+     xlab = "X", ylab = "Y",
+     main = "Nonlinear dependence with near-zero correlation")
+```
+
+# Populations, samples & sampling distributions {background-color="#1b3a6b"}
+
+## The vocabulary of inference {.smaller}
+
+- A **population** is the collection of possible observations described by a probability model. A feature of it — $\mu,\ \sigma^2,\ \rho$ — is a **parameter**.
+- A **sample** is the observed data $Y_1,\ldots,Y_n$.
+- A **statistic** is a function of the sample with no unknown parameters.
+- An **estimator** is a statistic used to estimate a parameter; its realized value is an **estimate**.
+
+$$\bar Y=\frac{1}{n}\sum_{i=1}^n Y_i \quad\text{is an estimator of } \mu.$$
+
+## The vocabulary of inference {.smaller}
+
+**Random sampling — iid:** $\ Y_1,\ldots,Y_n\overset{iid}{\sim}f(y\mid\theta)$: same marginal distribution, mutually independent.
+
+::: {.callout-ts}
+Time-series observations generally **violate the independence part** of iid.
+:::
+
+## Sampling distribution & standard error
+
+Because an estimator is a function of random data, it has a distribution across repeated samples — its **sampling distribution**.
+
+::: {.keybox}
+The standard deviation of an estimator's sampling distribution is its **standard error**.
+:::
+
+
+## LLN and CLT {.smaller}
+
+For iid $Y_1,\dots,Y_n$ with mean $\mu$, variance $\sigma^2$, and $\bar Y_n=\frac1n\sum Y_i$:
+
+**Law of Large Numbers.** $\ \bar Y_n \xrightarrow{p} \mu$ as $n\to\infty$ — averages converge to the truth. This is why estimators can be **consistent**.
+
+**Central Limit Theorem.** Whatever the shape of the population,
+$$\sqrt{n}\,\frac{\bar Y_n-\mu}{\sigma}\ \xrightarrow{d}\ N(0,1).$$
+
+## See the CLT happen {background-color="#fbfcfe"}
+
+Population = right-skewed delivery times, Gamma(shape 4, scale 5): $\mu=20$, $\sigma=10$. Drag $n$ and redraw.
+
+::: {.widget}
+```{ojs}
+//| echo: false
+viewof nCLT = Inputs.range([2, 500], {value: 30, step: 1, label: "Sample size n"})
+viewof reroll = Inputs.button("Draw new samples")
+```
+
+```{ojs}
+//| echo: false
+expDraw = (theta) => -theta * Math.log(Math.random())
+gammaDraw = () => expDraw(5) + expDraw(5) + expDraw(5) + expDraw(5)   // Gamma(4, scale 5)
+sampleMean = (n) => { let s = 0; for (let i = 0; i < n; i++) s += gammaDraw(); return s / n; }
+
+B = 3000
+means = { reroll; return Array.from({length: B}, () => sampleMean(nCLT)); }
+se = 10 / Math.sqrt(nCLT)
+
+dnorm = (x, m, s) => Math.exp(-((x - m) ** 2) / (2 * s * s)) / (s * Math.sqrt(2 * Math.PI))
+binw = 0.4
+edges = d3.range(12, 28.0001, binw)
+grid = d3.range(12, 28, 0.1).map(x => ({x, y: B * binw * dnorm(x, 20, se)}))
+
+Plot.plot({
+  height: 300,
+  marginLeft: 50,
+  x: {label: "Sample mean delivery time (min)", domain: [12, 28]},
+  y: {label: "count", grid: true},
+  marks: [
+    Plot.rectY(means, Plot.binX({y: "count"}, {x: d => d, thresholds: edges,
+      fill: "#c9d6ea", stroke: "white"})),
+    Plot.line(grid, {x: "x", y: "y", stroke: "#1b3a6b", strokeWidth: 2.5, strokeDasharray: "5 3"}),
+    Plot.ruleX([20], {stroke: "#c0392b", strokeWidth: 2}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+html`<div class="muted" style="font-size:0.85em">
+  <b style="color:#c0392b">━</b> population mean = 20 &nbsp;·&nbsp;
+  <b style="color:#1b3a6b">╌</b> normal approximation &nbsp;·&nbsp;
+  standard error  σ/√n ≈ <b>${se.toFixed(2)}</b> min
+</div>`
+```
+:::
+
+::: {.small .muted}
+At $n=2$ the histogram inherits the population's right skew; by $n=30$ it is already bell-shaped; large $n$ makes it tight around 20.
+:::
+
+# Sampling distributions in R {background-color="#1b3a6b"}
+
+## An Example
+
+A food-delivery company wants the **average delivery time** $\mu$ in a city.
+
+- **Population:** all possible deliveries under similar conditions ($\mu$ is a parameter).
+- **Sample:** they record $n=30$ deliveries, $Y_1,\ldots,Y_{30}$.
+- $\bar Y=\frac{1}{30}\sum Y_i$ is an **estimator** of $\mu$; its value is an **estimate**.
+
+## An Example
+
+Delivery times are right-skewed (a few very long trips). Still, the **LLN** makes $\bar Y$ approach $\mu$, and the **CLT** makes $\bar Y$ approximately normal.
+
+::: {.callout-ts}
+If deliveries are recorded consecutively — same rush hour, same rainstorm — iid is questionable. That is precisely the time-series situation.
+:::
+
+## Step 1 — build a known population {.smaller}
+
+We construct a large artificial population so the parameters are *known* (in real world they never are).
+
+```{r}
+set.seed(821)
+N <- 100000                     # size of simulated population
+shape <- 4; scale <- 5          # gamma parameters
+
+population <- rgamma(N, shape = shape, scale = scale)
+
+mu    <- shape * scale                 # theoretical mean = 20
+sigma <- sqrt(shape * scale^2)         # theoretical sd   = 10
+
+round(c(theoretical_mean = mu,
+        simulated_mean   = mean(population),
+        theoretical_sd   = sigma,
+        simulated_sd     = sd(population)), 2)
+```
+
+The simulated values sit close to the theoretical mean (20 min) and sd (10 min) because the population is large.
+
+## The population is right-skewed {.smaller}
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.9
+hist(population, breaks = 60, probability = TRUE,
+     main = "Population distribution of delivery times",
+     xlab = "Delivery time (minutes)", col = "grey85", border = "white")
+abline(v = mean(population), col = "red", lwd = 2)
+```
+
+## Step 2 — one random sample {.smaller}
+
+Record only $n=30$ deliveries and estimate $\mu$ by the sample mean.
+
+```{r}
+set.seed(123)
+n <- 30
+sample_delivery_times <- sample(population, size = n, replace = FALSE)
+round(mean(sample_delivery_times), 2)
+```
+
+The sample mean is **not** exactly $\mu$: a different 30 deliveries would give a different mean. That variability is **sampling variation** — one sample gives one estimate.
+
+## Step 3 — repeat the study 5000 times {.smaller}
+
+Repeating the whole study and collecting the means traces out the **sampling distribution of $\bar Y$**.
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.6
+set.seed(456)
+B <- 5000; n <- 30
+sample_means_30 <- replicate(B, mean(sample(population, size = n, replace = FALSE)))
+
+hist(sample_means_30, breaks = 40, probability = TRUE,
+     main = "Sampling distribution of the sample mean", sub = "n = 30",
+     xlab = "Mean delivery time", col = "grey85", border = "white")
+abline(v = mean(population), col = "red", lwd = 2)
+curve(dnorm(x, mean = mean(population), sd = sd(population)/sqrt(n)),
+      add = TRUE, col = "blue", lwd = 2, lty = 2)
+legend("topright", legend = c("Population mean", "Normal approx."),
+       col = c("red","blue"), lty = c(1,2), lwd = 2, bty = "n")
+```
+
+## From skew to bell {.smaller}
+
+Although individual times are right-skewed, the distribution of $\bar Y$ is approximately bell-shaped and centred at $\mu$. Its spread is the **standard error**:
+
+$$SE(\bar Y)\approx\frac{\sigma}{\sqrt{n}},\qquad \frac{10}{\sqrt{30}}\approx 1.83\text{ minutes.}$$
+
+This is how much sample means typically differ across repeated samples.
+
+## Step 4 — vary the sample size {.smaller}
+
+Same population, same 5000 repetitions — only $n$ changes.
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5.1
+#| echo: true
+set.seed(789)
+B <- 5000; sample_sizes <- c(5, 30, 100, 500)
+
+sampling_distributions <- lapply(sample_sizes, function(n)
+  replicate(B, mean(sample(population, size = n, replace = FALSE))))
+
+common_xlim <- range(unlist(sampling_distributions))
+par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
+for (n in sample_sizes) {
+  means_n <- sampling_distributions[[which(sample_sizes == n)]]
+  se_n <- sd(population)/sqrt(n) * sqrt((N - n)/(N - 1))   # finite-pop. correction
+  hist(means_n, breaks = 40, probability = TRUE, xlim = common_xlim,
+       main = paste0("n = ", n, ";  SE = ", round(sd(means_n), 2)),
+       xlab = "Sample mean", col = "grey85", border = "white")
+  abline(v = mean(population), col = "red", lwd = 2)
+  curve(dnorm(x, mean = mean(population), sd = se_n),
+        add = TRUE, col = "blue", lwd = 2, lty = 2)
+}
+par(mfrow = c(1, 1))
+```
+
+## Three results to remember
+
+::: {.incremental}
+1. **The centre barely moves.** Every sampling distribution is centred near $\mu=20$. Larger $n$ does not systematically shift $\bar Y$ — the estimator is **unbiased**.
+2. **The spread shrinks.** Since $SE(\bar Y)\approx \sigma/\sqrt n$, larger samples give more **precise** estimates.
+3. **The shape becomes normal.** Skewed at $n=5$, bell-shaped by $n=30$, sharply normal at $n=100,500$ — the **CLT** at work.
+:::
+
+# Where this leads {background-color="#1b3a6b"}
+
+## The bridge to time series {.smaller}
+
+Every classical result today leaned on one assumption: **independence**.
+
+| Concept | iid world (today) | Time-series world (the course) |
+|---|---|---|
+| Dependence | none | serial dependence is the object of study |
+| Best forecast | $E(Y)$ | $E(Y_t \mid \text{past})$ |
+| LLN / CLT | classical | ergodic / weak-dependence versions |
+| "Uncorrelated" | often "independent enough" | can still be strongly dependent (GARCH) |
+
+::: {.callout-ts}
+Keep two tools close: **Bayes' theorem** (updating beliefs) and the **sampling distribution** (quantifying estimator uncertainty). Everything ahead builds on them.
+:::
+
+## Recap {.smaller}
+
+- Probability obeys **Kolmogorov's axioms**; **Bayes' theorem** updates a prior into a posterior — and base rates dominate.
+- A distribution is summarised by its **moments**: mean, variance, skewness, kurtosis.
+- **Conditional expectation** is the best predictor — the seed of forecasting.
+- **Uncorrelated $\neq$ independent**; correlation sees only linear structure.
+- An estimator has a **sampling distribution**; its spread is the **standard error**.
+- **LLN + CLT** justify inference — *if* observations are independent, which time series are not.
+
+::: {.small .muted}
+Notebook: `02-Review-stats.ipynb` · R 4.5 · base R only. Interactive widgets run in the browser (Observable JS); the R figures are produced at render time.
+:::
+
+## {.center background-color="#1b3a6b"}
+
+<h2 style="color:white">Questions?</h2>
+
+<p style="color:#cdd8ea">HS 821 · Lecture 2 · Sunil Paul</p>
