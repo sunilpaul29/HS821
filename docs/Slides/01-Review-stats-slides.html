@@ -1486,7 +1486,7 @@ HS 821 · Lecture 2 · Sunil Paul
         }
           var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
           var mailtoRegex = new RegExp(/^mailto:/);
-            var filterRegex = new RegExp("https:\/\/sunilpaul29\.github\.io\/hs821-TS\/");
+            var filterRegex = new RegExp("https:\/\/sunilpaul29\.github\.io\/HS821\/");
           var isInternal = (href) => {
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }

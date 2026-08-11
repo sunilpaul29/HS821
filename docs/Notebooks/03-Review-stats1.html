@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Topics in Time Series Econometrics – HS 821: Topics in Time Series Econometrics</title>
+<title>Review of Statistics and Probability II – HS 821: Topics in Time Series Econometrics</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,62 +26,28 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./Notebooks/01-Review-R.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-95dd27b9ff1381cec64500a485f2ff81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../Slides/00-course-introduction.html" rel="next">
+<link href="../Notebooks/02-Review-stats.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-95dd27b9ff1381cec64500a485f2ff81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -110,6 +76,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -120,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">HS 821: Topics in Time Series Econometrics</span>
     </a>
   </div>
@@ -131,7 +126,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
 </ul>
@@ -152,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Course home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/01-Review-R.html">Preliminaries</a></li><li class="breadcrumb-item"><a href="../Notebooks/03-Review-stats1.html">Statistics and probability 2</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -174,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course home</span></a>
   </div>
 </li>
@@ -189,19 +184,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Notebooks/01-Review-R.html" class="sidebar-item-text sidebar-link">
+  <a href="../Notebooks/01-Review-R.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Review of R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Notebooks/02-Review-stats.html" class="sidebar-item-text sidebar-link">
+  <a href="../Notebooks/02-Review-stats.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Statistics and probability 1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Notebooks/03-Review-stats1.html" class="sidebar-item-text sidebar-link">
+  <a href="../Notebooks/03-Review-stats1.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Statistics and probability 2</span></a>
   </div>
 </li>
@@ -218,19 +213,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Slides/00-course-introduction.html" class="sidebar-item-text sidebar-link">
+  <a href="../Slides/00-course-introduction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Slides/01-Review-stats-slides.html" class="sidebar-item-text sidebar-link">
+  <a href="../Slides/01-Review-stats-slides.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Review of Stats and Prob I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Slides/03-Review-stats1.html" class="sidebar-item-text sidebar-link">
+  <a href="../Slides/03-Review-stats1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Review of Stats and Prob II</span></a>
   </div>
 </li>
@@ -246,10 +241,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-these-notes" id="toc-about-these-notes" class="nav-link active" data-scroll-target="#about-these-notes">About these notes</a>
+  <li><a href="#recap-from-probability-to-statistical-inference-three-coin-tosses" id="toc-recap-from-probability-to-statistical-inference-three-coin-tosses" class="nav-link active" data-scroll-target="#recap-from-probability-to-statistical-inference-three-coin-tosses">Recap: From Probability to Statistical Inference — Three Coin Tosses</a>
   <ul class="collapse">
-  <li><a href="#how-to-use-the-notes" id="toc-how-to-use-the-notes" class="nav-link" data-scroll-target="#how-to-use-the-notes">How to use the notes</a></li>
-  <li><a href="#moodle" id="toc-moodle" class="nav-link" data-scroll-target="#moodle">Moodle</a></li>
+  <li><a href="#experiment-sample-space-and-event" id="toc-experiment-sample-space-and-event" class="nav-link" data-scroll-target="#experiment-sample-space-and-event">Experiment, sample space, and event</a></li>
+  <li><a href="#random-variable-and-probability-distribution" id="toc-random-variable-and-probability-distribution" class="nav-link" data-scroll-target="#random-variable-and-probability-distribution">Random variable and probability distribution</a></li>
+  <li><a href="#population-and-parameters" id="toc-population-and-parameters" class="nav-link" data-scroll-target="#population-and-parameters">Population and parameters</a></li>
+  <li><a href="#sample" id="toc-sample" class="nav-link" data-scroll-target="#sample">Sample</a></li>
+  <li><a href="#sample-statistics-and-estimates" id="toc-sample-statistics-and-estimates" class="nav-link" data-scroll-target="#sample-statistics-and-estimates">Sample statistics and estimates</a></li>
+  <li><a href="#putting-the-ideas-together" id="toc-putting-the-ideas-together" class="nav-link" data-scroll-target="#putting-the-ideas-together">Putting the ideas together</a></li>
+  </ul></li>
+  <li><a href="#estimators-and-their-properties" id="toc-estimators-and-their-properties" class="nav-link" data-scroll-target="#estimators-and-their-properties">Estimators and their properties</a></li>
+  <li><a href="#frequentist-inference-uncertainty-through-repeated-sampling" id="toc-frequentist-inference-uncertainty-through-repeated-sampling" class="nav-link" data-scroll-target="#frequentist-inference-uncertainty-through-repeated-sampling">Frequentist inference: uncertainty through repeated sampling</a>
+  <ul class="collapse">
+  <li><a href="#standard-error" id="toc-standard-error" class="nav-link" data-scroll-target="#standard-error">Standard error</a></li>
+  <li><a href="#confidence-interval" id="toc-confidence-interval" class="nav-link" data-scroll-target="#confidence-interval">Confidence interval</a></li>
+  <li><a href="#hypothesis-test-and-p-value" id="toc-hypothesis-test-and-p-value" class="nav-link" data-scroll-target="#hypothesis-test-and-p-value">Hypothesis test and p-value</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -257,9 +263,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/01-Review-R.html">Preliminaries</a></li><li class="breadcrumb-item"><a href="../Notebooks/03-Review-stats1.html">Statistics and probability 2</a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Topics in Time Series Econometrics</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<h1 class="title">Review of Statistics and Probability II</h1>
 </div>
 
 
@@ -276,41 +282,252 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="about-these-notes" class="level1">
-<h1>About these notes</h1>
-<p>These notes accompany the course <strong>Topics in Time Series Econometrics</strong>.</p>
-<p>They combine:</p>
-<ul>
-<li>Statistical and probability foundations</li>
-<li>R programming examples</li>
-<li>Time-series concepts</li>
-<li>Empirical applications</li>
-</ul>
-<section id="how-to-use-the-notes" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-use-the-notes">How to use the notes</h2>
-<p>Students should:</p>
-<ol type="1">
-<li>Read the conceptual discussion.</li>
-<li>Examine the R examples.</li>
-<li>Download the corresponding notebook from Moodle.</li>
-<li>Run and modify the code in Jupyter.</li>
-<li>Complete the exercises provided in Moodle.</li>
-</ol>
+<p><strong>HS 821 · Lecture 3 · Topics in Time Series Econometrics</strong></p>
+<p><strong>Sunil Paul</strong></p>
+<p>11 August 2026 · R 4.6</p>
+<p>These notes review the probability and statistical concepts used throughout time-series econometrics. The emphasis is on random variables, dependence, sampling, likelihood-based estimation, and the distinction between frequentist and Bayesian inference.</p>
+<section id="recap-from-probability-to-statistical-inference-three-coin-tosses" class="level2">
+<h2 class="anchored" data-anchor-id="recap-from-probability-to-statistical-inference-three-coin-tosses">Recap: From Probability to Statistical Inference — Three Coin Tosses</h2>
+<section id="experiment-sample-space-and-event" class="level3">
+<h3 class="anchored" data-anchor-id="experiment-sample-space-and-event">Experiment, sample space, and event</h3>
+<p><strong>Experiment:</strong> Toss three fair coins.</p>
+<p>The <strong>sample space</strong> is the set of all possible outcomes:</p>
+<p><span class="math display">\[
+S={HHH,HHT,HTH,HTT,THH,THT,TTH,TTT}.
+\]</span></p>
+<p>An <strong>event</strong> is a subset of the sample space. Let (A) be the event <strong>“exactly two Heads are obtained.”</strong></p>
+<p><span class="math display">\[
+A={HHT,HTH,THH},
+\qquad
+P(A)=\frac{3}{8}.
+\]</span></p>
 </section>
-<section id="moodle" class="level2">
-<h2 class="anchored" data-anchor-id="moodle">Moodle</h2>
-<p>Moodle remains the official platform for:</p>
+<section id="random-variable-and-probability-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="random-variable-and-probability-distribution">Random variable and probability distribution</h3>
+<p>A <strong>random variable</strong> assigns a numerical value to each outcome. Let</p>
+<p><span class="math display">\[
+X=\text{number of Heads obtained in three coin tosses},
+\]</span></p>
+<p>so that</p>
+<p><span class="math display">\[
+X\in{0,1,2,3}.
+\]</span></p>
+<p>Its probability distribution is</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">(x)</th>
+<th style="text-align: left;">Outcomes</th>
+<th style="text-align: center;">(P(X=x))</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">(TTT)</td>
+<td style="text-align: center;">(<span class="math inline">\(\frac{1}{8}\)</span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">(HTT,THT,TTH)</td>
+<td style="text-align: center;">(<span class="math inline">\(\frac{3}{8}\)</span>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">(HHT,HTH,THH)</td>
+<td style="text-align: center;">(<span class="math inline">\(\frac{3}{8}\)</span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">(HHH)</td>
+<td style="text-align: center;">(<span class="math inline">\(\frac{1}{8}\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<p>Thus,</p>
+<p><span class="math display">\[
+X\sim\text{Binomial}(3,0.5).
+\]</span></p>
+</section>
+<section id="population-and-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="population-and-parameters">Population and parameters</h3>
+<p>Imagine repeating this experiment a very large number of times. Each repetition produces a value (<span class="math inline">\(X=0,1,2 \text{or} 3\)</span>).</p>
+<p>The <strong>population</strong> is the collection of possible observations described by the probability model</p>
+<p>A <strong>parameter</strong> is a numerical characteristic of this population. For example,<span class="math inline">\(p=0.5\)</span> is the probability of a Head, and the population mean is $=E(X)=np=3(0.5)=1.5. $</p>
+</section>
+<section id="sample" class="level3">
+<h3 class="anchored" data-anchor-id="sample">Sample</h3>
+<p>Usually, we observe only a <strong>sample</strong> from the population. Suppose the experiment is repeated five times:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Experiment</th>
+<th style="text-align: center;">Outcome</th>
+<th style="text-align: right;">(X_i)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">(HHT)</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">(HTT)</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">(HHH)</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">(THH)</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">(TTT)</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>Hence,</p>
+<p><span class="math display">\[
+X_1,\ldots,X_5={2,1,3,2,0}.
+\]</span></p>
+</section>
+<section id="sample-statistics-and-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="sample-statistics-and-estimates">Sample statistics and estimates</h3>
+<p>A <strong>statistic</strong> is a numerical quantity calculated from a sample.</p>
+<p>The sample mean is$ X=_{i=1}^{n}X_i = =1.6. $</p>
+<p>Thus, (<span class="math inline">\(\bar X=1.6\)</span>) is an <strong>estimate</strong> of the population mean (<span class="math inline">\(\mu=1.5\)</span>).</p>
+</section>
+<section id="putting-the-ideas-together" class="level3">
+<h3 class="anchored" data-anchor-id="putting-the-ideas-together">Putting the ideas together</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Concept</th>
+<th style="text-align: left;">In this example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Experiment</strong></td>
+<td style="text-align: left;">Toss three coins</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Sample space</strong></td>
+<td style="text-align: left;">(<span class="math inline">\({HHH,HHT,HTH,HTT,THH,THT,TTH,TTT}\)</span>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Event</strong></td>
+<td style="text-align: left;">Exactly two Heads: (<span class="math inline">\({HHT,HTH,THH}\)</span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Random variable</strong></td>
+<td style="text-align: left;">(<span class="math inline">\(X=\)</span>) number of Heads</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Probability distribution</strong></td>
+<td style="text-align: left;">(<span class="math inline">\(X\sim\text{Binomial}(3,0.5)\)</span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Population</strong></td>
+<td style="text-align: left;">Possible observations generated by repeated experiments</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Parameter</strong></td>
+<td style="text-align: left;">(<span class="math inline">\(p=0.5,\quad \mu=E(X)=1.5\)</span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Sample</strong></td>
+<td style="text-align: left;">(<span class="math inline">\({2,1,3,2,0}\)</span>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Sample statistic</strong></td>
+<td style="text-align: left;">(<span class="math inline">\(\bar X=1.6,\quad \hat p=8/15\)</span>)</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="estimators-and-their-properties" class="level2">
+<h2 class="anchored" data-anchor-id="estimators-and-their-properties">Estimators and their properties</h2>
+<p>An <strong>estimator</strong> <span class="math inline">\(\hat\theta\)</span> is a rule (a function of the sample data) used to estimate an unknown population parameter <span class="math inline">\(\theta\)</span>. Because it depends on a random sample, <span class="math inline">\(\hat\theta\)</span> is itself a random variable and has a <strong>sampling distribution</strong>. Its quality is judged by the location and spread of that distribution.</p>
 <ul>
-<li>Announcements</li>
-<li>Datasets</li>
-<li>Assessments</li>
-<li>Submission links</li>
-<li>Restricted readings</li>
-<li>Answer keys</li>
+<li><p><strong>Bias:</strong> <span class="math display">\[
+\operatorname{Bias}(\hat\theta)=E(\hat\theta)-\theta.
+\]</span> The estimator is <strong>unbiased</strong> if <span class="math inline">\(E(\hat\theta)=\theta\)</span>, i.e.&nbsp;it does not systematically over- or under-estimate the parameter across repeated samples.</p></li>
+<li><p><strong>Efficiency:</strong> among unbiased estimators, the one with the smaller variance is more precise, and is preferred.</p></li>
+<li><p><strong>Consistency:</strong> as the sample size grows, the estimator concentrates on the truth, <span class="math inline">\(\hat\theta\xrightarrow{p}\theta\)</span>.</p></li>
+<li><p><strong>Asymptotic unbiasedness:</strong> any bias vanishes as <span class="math inline">\(n\to\infty\)</span>, <span class="math inline">\(\operatorname{Bias}(\hat\theta)\to 0\)</span>.</p></li>
+<li><p><strong>Asymptotic normality:</strong> for many estimators, <span class="math display">\[
+\sqrt{n}(\hat\theta-\theta)\xrightarrow{d}N(0,V),
+\]</span> which justifies approximate confidence intervals and hypothesis tests in large samples.</p></li>
+<li><p><strong>Standard error:</strong> the (estimated) standard deviation of <span class="math inline">\(\hat\theta\)</span>’s sampling distribution. It measures sampling uncertainty and is the basis of confidence intervals and tests.</p></li>
 </ul>
+<p>Popular methods for constructing estimators include <strong>least squares</strong>, <strong>method of moments</strong>, and <strong>maximum likelihood</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Main idea</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Least squares (LS)</strong></td>
+<td style="text-align: left;">Choose parameters that make fitted values close to observed values in squared-error terms</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Method of moments (MoM)</strong></td>
+<td style="text-align: left;">Choose parameters so model-implied moments match sample moments</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Maximum likelihood (ML)</strong></td>
+<td style="text-align: left;">Choose parameters under which the observed data are most compatible with the probability model</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="frequentist-inference-uncertainty-through-repeated-sampling" class="level2">
+<h2 class="anchored" data-anchor-id="frequentist-inference-uncertainty-through-repeated-sampling">Frequentist inference: uncertainty through repeated sampling</h2>
+<p>In the frequentist framework, the parameter <span class="math inline">\(\theta\)</span> is treated as <strong>fixed but unknown</strong>. The sample is random, so the estimator is random before the data are observed.</p>
+<p>The basic logic is</p>
+<p><span class="math display">\[
+\text{probability model}
+\longrightarrow
+\text{estimator }\hat\theta
+\longrightarrow
+\text{sampling distribution of }\hat\theta.
+\]</span></p>
+<p>From the sampling distribution we obtain the main tools of frequentist inference.</p>
+<section id="standard-error" class="level3">
+<h3 class="anchored" data-anchor-id="standard-error">Standard error</h3>
+<p>The <strong>standard error</strong> measures the typical sampling variation of an estimator. A small standard error means the estimator is relatively precise.</p>
+</section>
+<section id="confidence-interval" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-interval">Confidence interval</h3>
+<p>A 95% confidence-interval procedure is constructed so that, under repeated sampling, approximately 95% of intervals produced by that procedure contain the true parameter.</p>
+<p>Once an interval has been calculated from the observed sample, the standard frequentist interpretation does <strong>not</strong> assign a 95% probability to the fixed parameter being inside that particular interval.</p>
+</section>
+<section id="hypothesis-test-and-p-value" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-test-and-p-value">Hypothesis test and p-value</h3>
+<p>A hypothesis test asks whether the observed statistic would be unusual if a null hypothesis were true. The <strong>p-value</strong> is the probability, under the null model, of obtaining a test statistic at least as extreme as the observed one.</p>
+<p>It is <strong>not</strong> the probability that the null hypothesis is true.</p>
 
-
-<!-- -->
 
 </section>
 </section>
@@ -774,50 +991,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../Notebooks/02-Review-stats.html" class="pagination-link" aria-label="Statistics and probability 1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Statistics and probability 1</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Notebooks/01-Review-R.html" class="pagination-link" aria-label="Review of R">
-        <span class="nav-page-text">Review of R</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Slides/00-course-introduction.html" class="pagination-link" aria-label="Course introduction">
+        <span class="nav-page-text">Course introduction</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
-</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Topics in Time Series Econometrics"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu"># About these notes</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>These notes accompany the course **Topics in Time Series Econometrics**.</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>They combine:</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Statistical and probability foundations</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>R programming examples</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Time-series concepts</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Empirical applications</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to use the notes</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Students should:</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Read the conceptual discussion.</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Examine the R examples.</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Download the corresponding notebook from Moodle.</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Run and modify the code in Jupyter.</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Complete the exercises provided in Moodle.</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## Moodle</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>Moodle remains the official platform for:</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Announcements</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Datasets</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Assessments</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Submission links</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Restricted readings</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Answer keys</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
-</div></div></div></div></div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

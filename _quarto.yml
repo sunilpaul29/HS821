@@ -12,7 +12,7 @@ website:
   title: "HS 821: Topics in Time Series Econometrics"
 
   # This must match your GitHub username and repository name
-  site-url: "https://sunilpaul29.github.io/hs821-TS/"
+  site-url: "https://sunilpaul29.github.io/HS821/"
 
   description: "Lecture notes, R examples, and supporting resources"
 
@@ -44,7 +44,10 @@ website:
             text: Review of R
 
           - href: Notebooks/02-Review-stats.ipynb
-            text: Statistics and probability I
+            text: Statistics and probability 1
+
+          - href: Notebooks/03-Review-stats1.ipynb
+            text: Statistics and probability 2
 
       - section: "Lecture slides"
         contents:
@@ -53,6 +56,9 @@ website:
 
           - href: Slides/01-Review-stats-slides.qmd
             text: Review of Stats and Prob I
+
+          - href: Slides/03-Review-stats1.qmd
+            text: Review of Stats and Prob II
 
   page-footer:
     left: "HS 821: Topics in Time Series Econometrics"
