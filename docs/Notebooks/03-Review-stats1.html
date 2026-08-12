@@ -36,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Slides/00-course-introduction.html" rel="next">
+<link href="../Notebooks/04-Review-stats2.html" rel="next">
 <link href="../Notebooks/02-Review-stats.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/01-Review-R.html">Preliminaries</a></li><li class="breadcrumb-item"><a href="../Notebooks/03-Review-stats1.html">Statistics and probability 2</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/01-Review-R.html">Preliminaries</a></li><li class="breadcrumb-item"><a href="../Notebooks/03-Review-stats1.html">Statistics and probability II</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -191,13 +191,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Notebooks/02-Review-stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Statistics and probability 1</span></a>
+ <span class="menu-text">Statistics and probability I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Notebooks/03-Review-stats1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Statistics and probability 2</span></a>
+ <span class="menu-text">Statistics and probability II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/04-Review-stats2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics and probability III</span></a>
   </div>
 </li>
       </ul>
@@ -229,6 +235,12 @@ window.Quarto = {
  <span class="menu-text">Review of Stats and Prob II</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/04-Review-stats2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob III</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -251,19 +263,13 @@ window.Quarto = {
   <li><a href="#putting-the-ideas-together" id="toc-putting-the-ideas-together" class="nav-link" data-scroll-target="#putting-the-ideas-together">Putting the ideas together</a></li>
   </ul></li>
   <li><a href="#estimators-and-their-properties" id="toc-estimators-and-their-properties" class="nav-link" data-scroll-target="#estimators-and-their-properties">Estimators and their properties</a></li>
-  <li><a href="#frequentist-inference-uncertainty-through-repeated-sampling" id="toc-frequentist-inference-uncertainty-through-repeated-sampling" class="nav-link" data-scroll-target="#frequentist-inference-uncertainty-through-repeated-sampling">Frequentist inference: uncertainty through repeated sampling</a>
-  <ul class="collapse">
-  <li><a href="#standard-error" id="toc-standard-error" class="nav-link" data-scroll-target="#standard-error">Standard error</a></li>
-  <li><a href="#confidence-interval" id="toc-confidence-interval" class="nav-link" data-scroll-target="#confidence-interval">Confidence interval</a></li>
-  <li><a href="#hypothesis-test-and-p-value" id="toc-hypothesis-test-and-p-value" class="nav-link" data-scroll-target="#hypothesis-test-and-p-value">Hypothesis test and p-value</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/01-Review-R.html">Preliminaries</a></li><li class="breadcrumb-item"><a href="../Notebooks/03-Review-stats1.html">Statistics and probability 2</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/01-Review-R.html">Preliminaries</a></li><li class="breadcrumb-item"><a href="../Notebooks/03-Review-stats1.html">Statistics and probability II</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Review of Statistics and Probability II</h1>
 </div>
@@ -501,35 +507,8 @@ X_1,\ldots,X_5={2,1,3,2,0}.
 </tr>
 </tbody>
 </table>
-</section>
-<section id="frequentist-inference-uncertainty-through-repeated-sampling" class="level2">
-<h2 class="anchored" data-anchor-id="frequentist-inference-uncertainty-through-repeated-sampling">Frequentist inference: uncertainty through repeated sampling</h2>
-<p>In the frequentist framework, the parameter <span class="math inline">\(\theta\)</span> is treated as <strong>fixed but unknown</strong>. The sample is random, so the estimator is random before the data are observed.</p>
-<p>The basic logic is</p>
-<p><span class="math display">\[
-\text{probability model}
-\longrightarrow
-\text{estimator }\hat\theta
-\longrightarrow
-\text{sampling distribution of }\hat\theta.
-\]</span></p>
-<p>From the sampling distribution we obtain the main tools of frequentist inference.</p>
-<section id="standard-error" class="level3">
-<h3 class="anchored" data-anchor-id="standard-error">Standard error</h3>
-<p>The <strong>standard error</strong> measures the typical sampling variation of an estimator. A small standard error means the estimator is relatively precise.</p>
-</section>
-<section id="confidence-interval" class="level3">
-<h3 class="anchored" data-anchor-id="confidence-interval">Confidence interval</h3>
-<p>A 95% confidence-interval procedure is constructed so that, under repeated sampling, approximately 95% of intervals produced by that procedure contain the true parameter.</p>
-<p>Once an interval has been calculated from the observed sample, the standard frequentist interpretation does <strong>not</strong> assign a 95% probability to the fixed parameter being inside that particular interval.</p>
-</section>
-<section id="hypothesis-test-and-p-value" class="level3">
-<h3 class="anchored" data-anchor-id="hypothesis-test-and-p-value">Hypothesis test and p-value</h3>
-<p>A hypothesis test asks whether the observed statistic would be unusual if a null hypothesis were true. The <strong>p-value</strong> is the probability, under the null model, of obtaining a test statistic at least as extreme as the observed one.</p>
-<p>It is <strong>not</strong> the probability that the null hypothesis is true.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -991,13 +970,13 @@ X_1,\ldots,X_5={2,1,3,2,0}.
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../Notebooks/02-Review-stats.html" class="pagination-link" aria-label="Statistics and probability 1">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Statistics and probability 1</span>
+      <a href="../Notebooks/02-Review-stats.html" class="pagination-link" aria-label="Statistics and probability I">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Statistics and probability I</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Slides/00-course-introduction.html" class="pagination-link" aria-label="Course introduction">
-        <span class="nav-page-text">Course introduction</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Notebooks/04-Review-stats2.html" class="pagination-link" aria-label="Statistics and probability III">
+        <span class="nav-page-text">Statistics and probability III</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

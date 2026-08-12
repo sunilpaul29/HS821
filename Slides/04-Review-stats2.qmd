@@ -1,0 +1,712 @@
+---
+title: "Review of Statistics and Probability III"
+subtitle: "HS 821 · Lecture 3 · Topics in Time Series Econometrics"
+author: "Sunil Paul"
+date: "2026-08-12"
+format:
+  revealjs:
+    theme: default
+    slide-number: c/t
+    show-slide-number: all
+    incremental: false
+    smaller: false
+    scrollable: true
+    center-title-slide: true
+    transition: slide
+    background-transition: fade
+    chalkboard: true
+    code-line-numbers: false
+    code-overflow: wrap
+    html-math-method: mathjax
+    fig-align: center
+    footer: "HS 821 · Review of Statistics & Probability III"
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto
+knitr:
+  opts_chunk:
+    dev: "png"
+    dpi: 150
+    fig.width: 7
+    fig.height: 4.2
+---
+
+```{=html}
+<style>
+:root{
+  --hs-accent:#1b3a6b;
+  --hs-accent2:#c0392b;
+}
+.reveal h1,.reveal h2,.reveal h3{ color:var(--hs-accent); font-weight:650; }
+.reveal .slide-number{ background:transparent; color:#888; }
+.reveal section img{ border:none; box-shadow:none; }
+.reveal table{ font-size:0.80em; }
+.reveal table th{ background:#eef2f8; }
+.reveal pre code{ font-size:0.72em; line-height:1.25; }
+.reveal .small{ font-size:0.78em; }
+.reveal .muted{ color:#5a6472; }
+.reveal blockquote{
+  border-left:4px solid var(--hs-accent);
+  background:#f6f8fc; padding:0.4em 0.9em; font-style:normal;
+}
+.callout-ts{
+  border-left:5px solid var(--hs-accent2);
+  background:#fdf1ef; padding:0.5em 0.9em; border-radius:4px; margin-top:0.4em;
+}
+.keybox{
+  border:1px solid #d5dded; background:#f6f8fc;
+  border-radius:6px; padding:0.5em 0.9em;
+}
+.widget{
+  border:1px solid #d5dded; border-radius:8px; padding:0.7em 0.9em;
+  background:#fbfcfe;
+}
+.posterior{ font-size:1.9em; color:var(--hs-accent2); font-weight:700; }
+.reveal .columns{ align-items:center; }
+</style>
+```
+
+# Roadmap {.center}
+
+::: {.incremental}
+- What statistical inference is trying to do
+- From a probability model to a **likelihood** — the loan-default example
+- The **maximum-likelihood estimate** (MLE)
+- **Frequentist** inference: standard error, confidence interval, p-value
+- **Bayesian** inference: prior, posterior, credible interval
+- Frequentist vs Bayesian, side by side
+- From one parameter to **regression** — wages and education
+- Why OLS *is* maximum likelihood under normal errors
+- Frequentist and Bayesian regression inference
+- The bridge to time series
+:::
+
+## Where we are
+
+This is the **third and final part** of the review.
+
+Parts I–II introduced probability, random variables, sampling, and estimators. Here we turn to **statistical inference**: how we use a sample to learn about unknown population parameters.
+
+::: {.callout-ts}
+The emphasis is on the intuition behind **likelihood**, **frequentist inference**, and **Bayesian inference**. We study one unknown probability with a loan-default example, then apply the same logic to a linear regression.
+:::
+
+# What is inference? {background-color="#1b3a6b"}
+
+## Statistical inference: the goal
+
+Suppose a probability model contains an unknown parameter $\theta$. We observe a sample
+$$y=(y_1,\ldots,y_n)$$
+and want to learn about $\theta$.
+
+::: {.keybox}
+- **Estimation** gives us plausible values for the unknown parameter.
+- **Inference** tells us how uncertain we should be about those values.
+:::
+
+## Two frameworks {.smaller}
+
+| Framework | Main idea |
+|:---|:---|
+| **Frequentist** | Treat the parameter as fixed but unknown and study how an estimator behaves across repeated samples |
+| **Bayesian** | Represent uncertainty about the parameter with a probability distribution and update it using the observed data |
+
+::: {.callout-ts}
+For likelihood-based methods, both approaches begin with the **same ingredient**: a probability model for the data.
+:::
+
+# From a model to a likelihood {background-color="#1b3a6b"}
+
+## A running example — loan defaults {.smaller}
+
+A bank observes **50 comparable loans**, of which **8 default**. Let
+$$D_i=\begin{cases}1,& \text{loan }i\text{ defaults},\\ 0,&\text{otherwise.}\end{cases}$$
+
+Assume each loan has the same unknown default probability $p$:
+$$D_i\overset{iid}{\sim}\operatorname{Bernoulli}(p),\qquad p\in(0,1).$$
+
+If $k$ defaults occur among $n$ independent loans,
+$$K=\sum_{i=1}^{n}D_i\sim\operatorname{Binomial}(n,p),\qquad n=50,\ k=8.$$
+
+## Constructing the likelihood {.smaller}
+
+For any proposed $p$, the probability of exactly $k=8$ defaults is
+$$P(K=8\mid p)=\binom{50}{8}p^{8}(1-p)^{42}.$$
+
+Once the data are observed, $k=8$ is **fixed**. We now read this as a function of the unknown $p$:
+$$L(p;k)=\binom{50}{8}p^{8}(1-p)^{42}\ \propto\ p^{8}(1-p)^{42}.$$
+
+Terms not involving $p$ do not change *which* value maximises it.
+
+## What the likelihood is — and is not {.smaller}
+
+More generally,
+$$L(\theta;y)=f(y\mid\theta),$$
+with the observed data $y$ held fixed and the likelihood viewed as a function of $\theta$.
+
+::: {.callout-ts}
+**Important.** A likelihood is **not** a probability distribution for the parameter. It need not integrate to one over $\theta$. It measures the **relative support** the data give to different parameter values.
+:::
+
+## R — the likelihood for $p$ {.smaller}
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.8
+n <- 50
+k <- 8
+
+p_grid  <- seq(0.001, 0.40, length.out = 500)
+log_lik <- dbinom(k, size = n, prob = p_grid, log = TRUE)
+
+# Scale the likelihood so its maximum is 1
+rel_lik <- exp(log_lik - max(log_lik))
+p_hat   <- k / n
+
+plot(p_grid, rel_lik, type = "l", lwd = 2,
+     xlab = "Default probability p", ylab = "Relative likelihood",
+     main = "Likelihood for p: 8 defaults in 50 loans")
+abline(v = p_hat, lty = 2, lwd = 2)
+```
+
+## The maximum-likelihood estimate {.smaller}
+
+The likelihood peaks at
+$$\hat p=\frac{8}{50}=0.16.$$
+
+This is the **maximum-likelihood estimate (MLE)**.
+
+::: {.keybox}
+The data give greatest support to a default probability of about **16%**, though nearby values are also plausible. Inference asks *how much* uncertainty remains around this estimate.
+:::
+
+# Frequentist inference {background-color="#1b3a6b"}
+
+## Uncertainty through repeated sampling {.smaller}
+
+In the frequentist framework $p$ is a **fixed but unknown constant**. Before the sample is drawn the data are random, so the estimator $\hat p=K/n$ is random too.
+
+$$\text{model}\longrightarrow\text{estimator}\longrightarrow\text{sampling distribution}\longrightarrow\text{SE, CI, test}.$$
+
+## Three tools, three meanings {.smaller}
+
+::: {.keybox}
+- **Standard error** — the standard deviation of the estimator's sampling distribution; how much the estimate would vary from sample to sample.
+- **95% confidence interval** — a *procedure* such that, under repeated sampling, about 95% of the intervals it produces contain the true parameter. The 95% refers to the procedure, not to this one interval.
+- **p-value** — the probability, *under the null model*, of a test statistic at least as extreme as observed. It is **not** the probability that $H_0$ is true.
+:::
+
+For example, test $H_0:p=0.10$.
+
+## R — frequentist inference for $p$ {.smaller}
+
+```{r}
+p_hat <- k / n
+
+# Exact (Clopper-Pearson) test and interval
+default_test <- binom.test(x = k, n = n, p = 0.10, conf.level = 0.95)
+
+# Normal-approximation (Wald) SE and interval, for comparison
+wald_se <- sqrt(p_hat * (1 - p_hat) / n)
+wald_ci <- p_hat + c(-1, 1) * 1.96 * wald_se
+
+cat("p_hat      =", round(p_hat, 4), "\n")
+cat("Wald SE    =", round(wald_se, 4), "\n")
+cat("Wald 95% CI=", round(wald_ci, 4), "\n\n")
+
+default_test
+```
+
+## Reading the result {.smaller}
+
+::: {.keybox}
+- Point estimate $\hat p=0.16$.
+- The exact **Clopper–Pearson** interval $[0.072,\,0.291]$ is *not* symmetric around $\hat p$ and differs slightly from the Wald interval $\hat p\pm1.96\,\widehat{\mathrm{SE}}$; the two agree more closely as $n$ grows.
+- The p-value ($\approx 0.16$) asks how unusual 8 defaults in 50 would be if $p=0.10$. At the 5% level it does **not** reject $H_0:p=0.10$.
+:::
+
+> *How would our estimator behave if we repeatedly sampled loans from the same population?*
+
+# Bayesian inference {background-color="#1b3a6b"}
+
+## Posterior $\propto$ likelihood $\times$ prior {.smaller}
+
+Bayesian inference starts from the same likelihood but adds a **prior** for $p$:
+$$\pi(p\mid y)=\frac{L(p;y)\,\pi(p)}{\int L(p;y)\,\pi(p)\,dp},$$
+
+$$\boxed{\ \text{Posterior}\ \propto\ \text{Likelihood}\ \times\ \text{Prior}\ }$$
+
+- **Prior** $\pi(p)$ — belief about $p$ *before* the current data.
+- **Likelihood** $L(p;y)$ — what the data say about different $p$.
+- **Posterior** $\pi(p\mid y)$ — belief about $p$ *after* combining them.
+
+## A simple prior {.smaller}
+
+Suppose past experience suggests default rates around 10%. For illustration take
+$$p\sim\operatorname{Beta}(2,18),\qquad E(p)=\frac{2}{2+18}=0.10.$$
+
+::: {.callout-ts}
+The Beta distribution is convenient for probabilities because **all of its mass lies between 0 and 1**.
+:::
+
+## Conjugacy — Beta prior, Beta posterior {.smaller}
+
+For a Binomial likelihood and a $\operatorname{Beta}(a,b)$ prior, the posterior is again Beta:
+$$p\mid y\ \sim\ \operatorname{Beta}(a+k,\ b+n-k).$$
+
+With $a=2,\ b=18,\ k=8,\ n=50$:
+$$p\mid y\ \sim\ \operatorname{Beta}(10,60),\qquad E(p\mid y)=\frac{10}{70}\approx 0.143.$$
+
+::: {.keybox}
+The sample alone suggests **16%**; the prior was centred at **10%**; the posterior combines both and lands **between** them.
+:::
+
+## R — Bayesian inference for $p$ {.smaller}
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.4
+a_prior <- 2; b_prior <- 18
+a_post  <- a_prior + k
+b_post  <- b_prior + n - k
+
+posterior_mean    <- a_post / (a_post + b_post)
+credible_interval <- qbeta(c(0.025, 0.975), a_post, b_post)
+prob_above_10     <- 1 - pbeta(0.10, a_post, b_post)
+
+round(c(posterior_mean       = posterior_mean,
+        lower_95             = credible_interval[1],
+        upper_95             = credible_interval[2],
+        `P(p > 0.10 | data)` = prob_above_10), 4)
+
+library(ggplot2)
+p_grid <- seq(0.001, 0.40, length.out = 500)
+plot_data <- data.frame(
+  p = rep(p_grid, 2),
+  density = c(dbeta(p_grid, a_prior, b_prior),
+              dbeta(p_grid, a_post,  b_post)),
+  distribution = rep(c("Prior: Beta(2,18)", "Posterior: Beta(10,60)"),
+                     each = length(p_grid)))
+
+ggplot(plot_data, aes(x = p, y = density, linetype = distribution)) +
+  geom_line(linewidth = 1) +
+  labs(title = "Prior and posterior for the default probability",
+       x = "Default probability p", y = "Density", linetype = NULL) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "top", plot.title = element_text(face = "bold"))
+```
+
+## Try it: prior meets data {.updating-slide background-color="#fbfcfe"}
+
+<style>
+.reveal .updating-slide h2 { font-size: 1.45em; }
+.reveal .updating-slide .columns { gap: 1.2em; align-items: flex-start; }
+.reveal .updating-slide .controls-box{
+  font-size: 0.52em; line-height: 1.15; padding: 0.7em;
+  border: 1px solid #d9e2ef; border-radius: 12px; background: white;
+}
+.reveal .updating-slide input[type="range"]{ width: 150px; }
+.reveal .updating-slide .posterior{ font-size: 2.0em; font-weight: 700; color:#c0392b; }
+.reveal .updating-slide .note{ font-size: 0.55em; color:#555; margin-top: 0.8em; }
+</style>
+
+:::: {.columns}
+
+::: {.column width="36%"}
+
+::: {.controls-box}
+
+```{ojs}
+//| echo: false
+viewof priorMean = Inputs.range([0.02, 0.50], {
+  value: 0.10, step: 0.005, label: "Prior mean"
+})
+
+viewof priorStrength = Inputs.range([2, 200], {
+  value: 20, step: 1, label: "Prior strength a+b"
+})
+
+viewof kObs = Inputs.range([0, 50], {
+  value: 8, step: 1, label: "Defaults k (of n = 50)"
+})
+```
+
+:::
+
+:::
+
+::: {.column width="64%"}
+
+```{ojs}
+//| echo: false
+nObs = 50
+aPrior = priorMean * priorStrength
+bPrior = (1 - priorMean) * priorStrength
+aPost  = aPrior + kObs
+bPost  = bPrior + (nObs - kObs)
+postMean = aPost / (aPost + bPost)
+
+// Unnormalised Beta density; normalise numerically on the grid
+xs = d3.range(0.001, 0.6, 0.002)
+dx = 0.002
+betaU = (x, a, b) => Math.exp((a - 1) * Math.log(x) + (b - 1) * Math.log(1 - x))
+normalise = (a, b) => {
+  const raw = xs.map(x => betaU(x, a, b));
+  const area = d3.sum(raw) * dx;
+  return xs.map((x, i) => ({x, y: raw[i] / area}));
+}
+
+priorCurve = normalise(aPrior, bPrior)
+postCurve  = normalise(aPost, bPost)
+likeCurve  = normalise(kObs + 1, nObs - kObs + 1)   // likelihood shape in p
+
+// P(p > 0.10 | data) by numeric integration of the posterior
+probAbove = d3.sum(postCurve.filter(d => d.x > 0.10).map(d => d.y)) * dx
+
+Plot.plot({
+  height: 300, marginLeft: 45,
+  x: {label: "Default probability p", domain: [0, 0.55]},
+  y: {label: "density", grid: true},
+  marks: [
+    Plot.line(priorCurve, {x: "x", y: "y", stroke: "#8aa0c2", strokeWidth: 2, strokeDasharray: "4 3"}),
+    Plot.line(likeCurve,  {x: "x", y: "y", stroke: "#c0392b", strokeWidth: 1.5, strokeDasharray: "1 3"}),
+    Plot.line(postCurve,  {x: "x", y: "y", stroke: "#1b3a6b", strokeWidth: 3}),
+    Plot.ruleX([postMean], {stroke: "#1b3a6b", strokeWidth: 1}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+html`<div>
+  <div class="muted">Posterior mean E(p | data)</div>
+  <div class="posterior">${(postMean * 100).toFixed(1)}%</div>
+  <div class="note">
+    <b style="color:#8aa0c2">╌</b> prior &nbsp;·&nbsp;
+    <b style="color:#c0392b">┈</b> likelihood &nbsp;·&nbsp;
+    <b style="color:#1b3a6b">━</b> posterior &nbsp; Beta(${aPost.toFixed(1)}, ${bPost.toFixed(1)}) &nbsp;·&nbsp;
+    P(p &gt; 0.10 | data) ≈ <b>${(probAbove * 100).toFixed(0)}%</b>
+  </div>
+</div>`
+```
+
+:::
+
+::::
+
+::: {.note}
+A stronger prior pulls the posterior toward the prior mean; more data (or the same $k$ with the shape sharpened) lets the likelihood dominate.
+:::
+
+## Credible interval & direct probability {.smaller}
+
+A 95% **credible interval** contains 95% of the posterior probability for $p$, given model, prior, and data. Unlike a confidence interval, we can ask direct questions such as $P(p>0.10\mid y)$.
+
+::: {.callout-ts}
+Here $P(p>0.10\mid y)\approx 0.85$, while the exact test does **not** reject $H_0:p=0.10$ (p $\approx 0.16$). No conflict — they answer different questions. The test: how surprising 8/50 would be *if* $p=0.10$. The posterior: how probable $p>0.10$ is *given* the data and prior.
+:::
+
+## Frequentist vs Bayesian {.smaller}
+
+| Question | Frequentist | Bayesian |
+|:---|:---|:---|
+| Unknown parameter | fixed but unknown | uncertainty is a distribution |
+| Data model | Binomial likelihood | same Binomial likelihood |
+| Extra ingredient | repeated-sampling principle | prior distribution |
+| Point summary | MLE $\hat p$ | posterior mean/median/mode |
+| Uncertainty | sampling distribution | posterior distribution |
+| Interval | confidence interval | credible interval |
+| Probability statement | about repeated samples/procedures | about the parameter given model, prior, data |
+
+Same observed data and likelihood — **different treatment of uncertainty**.
+
+# From one parameter to regression {background-color="#1b3a6b"}
+
+## The wage–education question {.smaller}
+
+The loan example has one unknown, $p$. Econometric models usually have several. We ask:
+
+> **How is hourly wage associated with years of education?**
+
+Using the `wage1` dataset from the **wooldridge** package, let
+$$Y_i=\log(\text{hourly wage}_i),\qquad X_i=\text{years of education}_i,$$
+$$Y_i=\beta_0+\beta_1 X_i+\varepsilon_i.$$
+
+::: {.callout-ts}
+This is an **associational** regression. By itself it does not establish that education has a causal effect on wages.
+:::
+
+## R — the `wage1` data {.smaller}
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.6
+if (!requireNamespace("wooldridge", quietly = TRUE))
+  stop("Please install the 'wooldridge' package before rendering.")
+
+data("wage1", package = "wooldridge")
+head(wage1[c("wage", "lwage", "educ")])
+
+ggplot(wage1, aes(x = educ, y = lwage)) +
+  geom_point(alpha = 0.6, size = 2) +
+  labs(title = "Education and hourly wages",
+       x = "Years of education", y = "Log hourly wage") +
+  theme_minimal(base_size = 13)
+```
+
+## Building the regression likelihood {.smaller}
+
+The equation specifies only the **conditional mean**:
+$$E(Y_i\mid X_i=x_i)=\beta_0+\beta_1 x_i.$$
+
+For a likelihood we add a model for the disturbances. Assume $\varepsilon_i\overset{iid}{\sim}N(0,\sigma^2)$, so
+$$Y_i\mid X_i=x_i\ \sim\ N(\beta_0+\beta_1 x_i,\ \sigma^2),\qquad \theta=(\beta_0,\beta_1,\sigma).$$
+
+$$f(y_i\mid x_i,\theta)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\!\left[-\frac{(y_i-\beta_0-\beta_1 x_i)^2}{2\sigma^2}\right].$$
+
+## The log-likelihood {.smaller}
+
+Assuming conditional independence,
+$$L(\theta;y,X)=\prod_{i=1}^{n} f(y_i\mid x_i,\theta),$$
+
+$$\ell(\theta)=-\frac{n}{2}\log(2\pi)-n\log\sigma-\frac{1}{2\sigma^2}\sum_{i=1}^{n}(y_i-\beta_0-\beta_1 x_i)^2.$$
+
+## Why OLS appears {.smaller}
+
+For a fixed $\sigma$, maximising the Gaussian log-likelihood over $\beta_0,\beta_1$ is the same as **minimising**
+$$\sum_{i=1}^{n}(y_i-\beta_0-\beta_1 x_i)^2.$$
+
+::: {.keybox}
+Under normally distributed errors, the maximum-likelihood estimates of the regression coefficients are exactly the **ordinary least-squares** estimates.
+:::
+
+## R — maximise the likelihood directly {.smaller}
+
+```{r}
+y <- wage1$lwage
+x <- wage1$educ
+
+neg_loglik <- function(par, y, x) {
+  beta0 <- par[1]; beta1 <- par[2]
+  sigma <- exp(par[3])           # log(sigma) keeps sigma > 0
+  mu    <- beta0 + beta1 * x
+  -sum(dnorm(y, mean = mu, sd = sigma, log = TRUE))
+}
+
+mle_fit <- optim(par = c(0, 0, log(sd(y))), fn = neg_loglik,
+                 y = y, x = x, method = "BFGS", hessian = TRUE)
+
+mle_estimates <- c(beta0 = mle_fit$par[1],
+                   beta1 = mle_fit$par[2],
+                   sigma = exp(mle_fit$par[3]))
+round(mle_estimates, 4)
+```
+
+The optimiser searches over $(\beta_0,\beta_1,\sigma)$ for the values that make the observed wages most compatible with the Gaussian model.
+
+## R — MLE equals OLS {.smaller}
+
+```{r}
+fit <- lm(lwage ~ educ, data = wage1)
+coef(fit)
+
+# Coefficients agree
+rbind(MLE = mle_estimates[c("beta0", "beta1")],
+      OLS = coef(fit))
+
+# Standard errors also agree: MLE (inverted Hessian) vs OLS
+mle_se <- sqrt(diag(solve(mle_fit$hessian)))[1:2]
+se_tab <- rbind(`MLE SE` = unname(mle_se),
+                `OLS SE` = unname(summary(fit)$coefficients[, "Std. Error"]))
+colnames(se_tab) <- c("beta0", "beta1")
+round(se_tab, 4)
+```
+
+## R — the likelihood along the slope {.smaller}
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.4
+b0_hat  <- mle_estimates["beta0"]
+sig_hat <- mle_estimates["sigma"]
+
+b1_grid <- seq(mle_estimates["beta1"] - 0.03,
+               mle_estimates["beta1"] + 0.03, length.out = 200)
+
+profile_ll <- sapply(b1_grid, function(b1)
+  sum(dnorm(y, mean = b0_hat + b1 * x, sd = sig_hat, log = TRUE)))
+
+ll_data <- data.frame(beta1 = b1_grid, log_likelihood = profile_ll)
+
+ggplot(ll_data, aes(x = beta1, y = log_likelihood)) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = mle_estimates["beta1"], linetype = "dashed", linewidth = 1) +
+  annotate("text", x = mle_estimates["beta1"], y = max(profile_ll),
+           label = "MLE", vjust = -0.8) +
+  labs(title = "Regression log-likelihood peaks at the MLE",
+       x = expression(beta[1] ~ "(return to education)"), y = "Log-likelihood") +
+  theme_minimal(base_size = 13)
+```
+
+# Frequentist regression inference {background-color="#1b3a6b"}
+
+## Sampling distribution of the slope {.smaller}
+
+$\beta_1$ is a **fixed but unknown parameter**. The estimate $\hat\beta_1$ comes from this sample; across repeated samples it would vary — its **sampling distribution**. From it we obtain:
+
+- a **standard error** for $\hat\beta_1$;
+- a **confidence interval** for $\beta_1$;
+- a test of, say, $H_0:\beta_1=0$.
+
+::: {.callout-ts}
+In a log-wage regression the slope is approximately the **proportional** difference in wage associated with one more year of education.
+:::
+
+## R — summary and interval {.smaller}
+
+```{r}
+summary(fit)
+confint(fit, "educ", level = 0.95)
+```
+
+## Interpretation {.smaller}
+
+::: {.keybox}
+$\hat\beta_1\approx 0.083$, SE $\approx 0.008$ (so $t\approx 11$, p-value $\approx 0$), 95% CI $\approx[0.068,\,0.098]$. One extra year of education is associated with about an **8% higher hourly wage** on average ($R^2\approx 0.19$, $n=526$).
+:::
+
+The SE measures sampling uncertainty of the slope; the CI is read through repeated sampling; the p-value evaluates $H_0:\beta_1=0$ under the model. Again — an association, not automatically a causal effect.
+
+# Bayesian regression inference {background-color="#1b3a6b"}
+
+## Same likelihood, add priors {.smaller}
+
+The likelihood is unchanged:
+$$Y_i\mid X_i,\beta_0,\beta_1,\sigma^2\ \sim\ N(\beta_0+\beta_1 X_i,\ \sigma^2).$$
+
+Add weak priors, e.g.
+$$\beta_0\sim N(0,10^2),\qquad \beta_1\sim N(0,1^2),$$
+$$p(\beta_0,\beta_1,\sigma^2\mid y,X)\ \propto\ L(\beta_0,\beta_1,\sigma^2;y,X)\,p(\beta_0,\beta_1,\sigma^2).$$
+
+::: {.callout-ts}
+For realistic models the posterior is obtained **numerically**. We draw from it with `MCMCregress()`; the MCMC mechanics are not our focus — the draws let us summarise posterior uncertainty.
+:::
+
+## R — draw from the posterior {.smaller}
+
+```{r}
+if (!requireNamespace("MCMCpack", quietly = TRUE))
+  stop("Please install the 'MCMCpack' package before rendering.")
+
+bayes_fit <- MCMCpack::MCMCregress(
+  lwage ~ educ, data = wage1,
+  b0 = c(0, 0),                 # prior mean for (beta0, beta1)
+  B0 = diag(c(0.01, 1)),        # prior precision: beta0 ~ N(0,10^2), beta1 ~ N(0,1^2)
+  c0 = 0.001, d0 = 0.001,       # weak prior on the disturbance variance
+  burnin = 2000, mcmc = 10000, seed = 821)
+
+summary(bayes_fit)
+```
+
+## R — posterior for the slope {.smaller}
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+beta1_post <- bayes_fit[, "educ"]
+
+posterior_mean    <- mean(beta1_post)
+posterior_sd      <- sd(beta1_post)
+credible_interval <- quantile(beta1_post, c(0.025, 0.975))
+prob_positive     <- mean(beta1_post > 0)
+
+round(c(posterior_mean        = posterior_mean,
+        posterior_sd          = posterior_sd,
+        lower_95              = credible_interval[1],
+        upper_95              = credible_interval[2],
+        `P(beta1 > 0 | data)` = prob_positive), 4)
+
+ggplot(data.frame(beta1_post = beta1_post), aes(x = beta1_post)) +
+  geom_density(linewidth = 1) +
+  geom_vline(xintercept = credible_interval, linetype = "dashed", linewidth = 1) +
+  geom_vline(xintercept = coef(fit)["educ"], linewidth = 1) +
+  annotate("text", x = credible_interval[1], y = 0, label = "2.5%",  vjust = -1) +
+  annotate("text", x = credible_interval[2], y = 0, label = "97.5%", vjust = -1) +
+  annotate("text", x = coef(fit)["educ"],    y = 0, label = "OLS",   vjust = -1) +
+  labs(title = "Posterior distribution of the education coefficient",
+       x = expression(beta[1]), y = "Density") +
+  theme_minimal(base_size = 13)
+```
+
+## Interpreting the posterior {.smaller}
+
+::: {.keybox}
+- **Posterior mean** — a point summary of $\beta_1$.
+- **Posterior SD** — the size of posterior uncertainty.
+- **95% credible interval** — 95% of the posterior probability for $\beta_1$.
+- $P(\beta_1>0\mid y,X)$ — posterior probability the association is positive, given model and prior.
+:::
+
+With a sizeable sample and weak priors, Bayesian and frequentist **numbers** are often similar; their **interpretations** stay different.
+
+## R — frequentist vs Bayesian, one table {.smaller}
+
+```{r}
+ols_est <- coef(fit)["educ"]
+ols_se  <- summary(fit)$coefficients["educ", "Std. Error"]
+ols_ci  <- confint(fit, "educ", level = 0.95)
+
+comparison <- rbind(
+  Frequentist = c(estimate = unname(ols_est), se = unname(ols_se),
+                  lower_95 = unname(ols_ci[1]), upper_95 = unname(ols_ci[2])),
+  Bayesian    = c(estimate = unname(posterior_mean), se = unname(posterior_sd),
+                  lower_95 = unname(credible_interval[1]),
+                  upper_95 = unname(credible_interval[2])))
+round(comparison, 4)
+```
+
+## Side by side {.smaller}
+
+| Question | Frequentist | Bayesian |
+|:---|:---|:---|
+| Parameter $\beta_1$ | fixed but unknown | posterior distribution |
+| Probability model | Gaussian regression | same |
+| Likelihood | $L(\beta_0,\beta_1,\sigma;y,X)$ | same |
+| Extra ingredient | repeated-sampling principle | prior distribution |
+| Point summary | OLS / MLE $\hat\beta_1$ | posterior mean/median/mode |
+| Uncertainty | standard error | posterior SD |
+| 95% interval | confidence interval | credible interval |
+| $P(\beta_1>0\mid y)$ | not a parameter-probability | read from posterior draws |
+
+**Same data. Same model. Same likelihood. Different treatment of uncertainty.**
+
+# Where this leads {background-color="#1b3a6b"}
+
+## Likelihood dominates here {.smaller}
+
+On `wage1` both columns are almost identical — slope near **0.083**, 95% interval $\approx[0.068,\,0.098]$.
+
+::: {.callout-ts}
+With 526 observations and weak priors the **likelihood dominates**, so the posterior sits essentially on top of the OLS estimate. The two would diverge with a small sample or a strong prior — exactly where **Bayesian shrinkage** becomes valuable, as in the VARs later in the course.
+:::
+
+## Recap {.smaller}
+
+- A **likelihood** measures the relative support the data give to parameter values — it is not itself a distribution over $\theta$.
+- The **MLE** maximises it; under normal errors, MLE **is** OLS.
+- **Frequentist** inference reads uncertainty through the sampling distribution: SE, confidence interval, p-value.
+- **Bayesian** inference adds a prior and updates it: posterior mean, credible interval, direct probability statements.
+- Same data and likelihood — the frameworks **differ in how they represent and interpret uncertainty**.
+
+::: {.small .muted}
+Notebook: `04-Review-stats2.ipynb` · R 4.6 · packages: ggplot2, wooldridge, MCMCpack. Interactive widget runs in the browser (Observable JS); the R figures are produced at render time.
+:::
+
+## {.center background-color="#1b3a6b"}
+
+<h2 style="color:white">Questions?</h2>
+
+<p style="color:#cdd8ea">HS 821 · Lecture 3 · Sunil Paul</p>

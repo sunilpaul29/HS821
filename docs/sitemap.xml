@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sunilpaul29.github.io/HS821/Slides/03-Review-stats1.html</loc>
-    <lastmod>2026-08-11T09:27:08.789Z</lastmod>
+    <loc>https://sunilpaul29.github.io/HS821/Slides/04-Review-stats2.html</loc>
+    <lastmod>2026-08-12T10:03:18.413Z</lastmod>
   </url>
   <url>
-    <loc>https://sunilpaul29.github.io/HS821/Slides/00-course-introduction.html</loc>
-    <lastmod>2026-08-04T09:05:03.033Z</lastmod>
+    <loc>https://sunilpaul29.github.io/HS821/Slides/01-Review-stats-slides.html</loc>
+    <lastmod>2026-08-05T10:24:33.201Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sunilpaul29.github.io/HS821/Notebooks/04-Review-stats2.html</loc>
+    <lastmod>2026-08-12T09:46:23.589Z</lastmod>
   </url>
   <url>
     <loc>https://sunilpaul29.github.io/HS821/Notebooks/02-Review-stats.html</loc>
@@ -22,10 +26,14 @@
   </url>
   <url>
     <loc>https://sunilpaul29.github.io/HS821/Notebooks/03-Review-stats1.html</loc>
-    <lastmod>2026-08-11T09:05:17.944Z</lastmod>
+    <lastmod>2026-08-12T04:38:43.166Z</lastmod>
   </url>
   <url>
-    <loc>https://sunilpaul29.github.io/HS821/Slides/01-Review-stats-slides.html</loc>
-    <lastmod>2026-08-05T10:24:33.201Z</lastmod>
+    <loc>https://sunilpaul29.github.io/HS821/Slides/00-course-introduction.html</loc>
+    <lastmod>2026-08-04T09:05:03.033Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sunilpaul29.github.io/HS821/Slides/03-Review-stats1.html</loc>
+    <lastmod>2026-08-11T09:27:08.789Z</lastmod>
   </url>
 </urlset>

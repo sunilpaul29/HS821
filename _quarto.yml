@@ -44,10 +44,13 @@ website:
             text: Review of R
 
           - href: Notebooks/02-Review-stats.ipynb
-            text: Statistics and probability 1
+            text: Statistics and probability I
 
           - href: Notebooks/03-Review-stats1.ipynb
-            text: Statistics and probability 2
+            text: Statistics and probability II
+
+          - href: Notebooks/04-Review-stats2.ipynb
+            text: Statistics and probability III
 
       - section: "Lecture slides"
         contents:
@@ -59,6 +62,11 @@ website:
 
           - href: Slides/03-Review-stats1.qmd
             text: Review of Stats and Prob II
+
+          - href: Slides/04-Review-stats2.qmd
+            text: Review of Stats and Prob III
+
+
 
   page-footer:
     left: "HS 821: Topics in Time Series Econometrics"
