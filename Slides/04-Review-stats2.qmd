@@ -72,15 +72,9 @@ knitr:
 
 ::: {.incremental}
 - What statistical inference is trying to do
-- From a probability model to a **likelihood** — the loan-default example
 - The **maximum-likelihood estimate** (MLE)
 - **Frequentist** inference: standard error, confidence interval, p-value
 - **Bayesian** inference: prior, posterior, credible interval
-- Frequentist vs Bayesian, side by side
-- From one parameter to **regression** — wages and education
-- Why OLS *is* maximum likelihood under normal errors
-- Frequentist and Bayesian regression inference
-- The bridge to time series
 :::
 
 ## Where we are
