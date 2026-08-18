@@ -1,0 +1,2531 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Univariate Time Series Models I – HS 821: Topics in Time Series Econometrics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-95dd27b9ff1381cec64500a485f2ff81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">HS 821: Topics in Time Series Econometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://moodle.iitgoa.ac.in/course/view.php?id=1275"> <i class="bi bi-mortarboard" role="img">
+</i> 
+<span class="menu-text">Moodle</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Univariate Time Series Models I</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Preliminaries</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/01-Review-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/02-Review-stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics and probability I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/03-Review-stats1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics and probability II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/04-Review-stats2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics and probability III</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lecture slides</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/00-course-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/01-Review-stats-slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/03-Review-stats1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/04-Review-stats2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob III</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#from-random-samples-to-time-series" id="toc-from-random-samples-to-time-series" class="nav-link" data-scroll-target="#from-random-samples-to-time-series">From random samples to time series</a>
+  <ul class="collapse">
+  <li><a href="#think-before-proceeding" id="toc-think-before-proceeding" class="nav-link" data-scroll-target="#think-before-proceeding">Think before proceeding</a></li>
+  </ul></li>
+  <li><a href="#moments-of-a-stochastic-process" id="toc-moments-of-a-stochastic-process" class="nav-link" data-scroll-target="#moments-of-a-stochastic-process">Moments of a stochastic process</a>
+  <ul class="collapse">
+  <li><a href="#restrictions-on-an-autocovariance-function" id="toc-restrictions-on-an-autocovariance-function" class="nav-link" data-scroll-target="#restrictions-on-an-autocovariance-function">Restrictions on an autocovariance function</a></li>
+  </ul></li>
+  <li><a href="#stationarity" id="toc-stationarity" class="nav-link" data-scroll-target="#stationarity">Stationarity</a>
+  <ul class="collapse">
+  <li><a href="#strict-stationarity" id="toc-strict-stationarity" class="nav-link" data-scroll-target="#strict-stationarity">Strict stationarity</a></li>
+  <li><a href="#covariance-stationarity" id="toc-covariance-stationarity" class="nav-link" data-scroll-target="#covariance-stationarity">Covariance stationarity</a></li>
+  </ul></li>
+  <li><a href="#predict-before-you-simulate" id="toc-predict-before-you-simulate" class="nav-link" data-scroll-target="#predict-before-you-simulate">Predict before you simulate</a></li>
+  <li><a href="#stationarity-is-not-enough-ergodicity" id="toc-stationarity-is-not-enough-ergodicity" class="nav-link" data-scroll-target="#stationarity-is-not-enough-ergodicity">Stationarity is not enough: ergodicity</a>
+  <ul class="collapse">
+  <li><a href="#a-real-world-picture-permanent-versus-transitory" id="toc-a-real-world-picture-permanent-versus-transitory" class="nav-link" data-scroll-target="#a-real-world-picture-permanent-versus-transitory">A real-world picture: permanent versus transitory</a></li>
+  <li><a href="#simulation-1-iid-white-noise" id="toc-simulation-1-iid-white-noise" class="nav-link" data-scroll-target="#simulation-1-iid-white-noise">Simulation 1: iid white noise</a></li>
+  <li><a href="#simulation-2-dependence-does-not-rule-out-ergodicity" id="toc-simulation-2-dependence-does-not-rule-out-ergodicity" class="nav-link" data-scroll-target="#simulation-2-dependence-does-not-rule-out-ergodicity">Simulation 2: dependence does not rule out ergodicity</a></li>
+  <li><a href="#simulation-3-stationary-but-non-ergodic" id="toc-simulation-3-stationary-but-non-ergodic" class="nav-link" data-scroll-target="#simulation-3-stationary-but-non-ergodic">Simulation 3: stationary but non-ergodic</a></li>
+  <li><a href="#why-stationarity-does-not-imply-ergodicity-here" id="toc-why-stationarity-does-not-imply-ergodicity-here" class="nav-link" data-scroll-target="#why-stationarity-does-not-imply-ergodicity-here">Why stationarity does not imply ergodicity here</a></li>
+  <li><a href="#many-realizations-make-the-distinction-visible" id="toc-many-realizations-make-the-distinction-visible" class="nav-link" data-scroll-target="#many-realizations-make-the-distinction-visible">Many realizations make the distinction visible</a></li>
+  </ul></li>
+  <li><a href="#why-ergodicity-changes-decisions-a-betting-example" id="toc-why-ergodicity-changes-decisions-a-betting-example" class="nav-link" data-scroll-target="#why-ergodicity-changes-decisions-a-betting-example">Why ergodicity changes decisions: a betting example</a>
+  <ul class="collapse">
+  <li><a href="#summary-stationarity-and-ergodicity" id="toc-summary-stationarity-and-ergodicity" class="nav-link" data-scroll-target="#summary-stationarity-and-ergodicity">Summary: stationarity and ergodicity</a></li>
+  </ul></li>
+  <li><a href="#white-noise" id="toc-white-noise" class="nav-link" data-scroll-target="#white-noise">White noise</a>
+  <ul class="collapse">
+  <li><a href="#population-acf-versus-sample-acf" id="toc-population-acf-versus-sample-acf" class="nav-link" data-scroll-target="#population-acf-versus-sample-acf">Population ACF versus sample ACF</a></li>
+  </ul></li>
+  <li><a href="#a-stationary-process-and-a-random-walk-from-the-same-shocks" id="toc-a-stationary-process-and-a-random-walk-from-the-same-shocks" class="nav-link" data-scroll-target="#a-stationary-process-and-a-random-walk-from-the-same-shocks">A stationary process and a random walk from the same shocks</a>
+  <ul class="collapse">
+  <li><a href="#differencing-changes-the-process" id="toc-differencing-changes-the-process" class="nav-link" data-scroll-target="#differencing-changes-the-process">Differencing changes the process</a></li>
+  </ul></li>
+  <li><a href="#linear-representations-of-stationary-time-series" id="toc-linear-representations-of-stationary-time-series" class="nav-link" data-scroll-target="#linear-representations-of-stationary-time-series">Linear representations of stationary time series</a>
+  <ul class="collapse">
+  <li><a href="#wold-decomposition" id="toc-wold-decomposition" class="nav-link" data-scroll-target="#wold-decomposition">Wold decomposition</a>
+  <ul class="collapse">
+  <li><a href="#why-wold-matters" id="toc-why-wold-matters" class="nav-link" data-scroll-target="#why-wold-matters">Why Wold matters</a></li>
+  <li><a href="#moments-of-a-linear-process" id="toc-moments-of-a-linear-process" class="nav-link" data-scroll-target="#moments-of-a-linear-process">Moments of a linear process</a></li>
+  </ul></li>
+  <li><a href="#lag-operator" id="toc-lag-operator" class="nav-link" data-scroll-target="#lag-operator">Lag operator</a></li>
+  <li><a href="#familiar-linear-process-families" id="toc-familiar-linear-process-families" class="nav-link" data-scroll-target="#familiar-linear-process-families">Familiar linear-process families</a></li>
+  </ul></li>
+  <li><a href="#moving-average-processes" id="toc-moving-average-processes" class="nav-link" data-scroll-target="#moving-average-processes">Moving-average processes</a>
+  <ul class="collapse">
+  <li><a href="#ma1" id="toc-ma1" class="nav-link" data-scroll-target="#ma1">MA(1)</a>
+  <ul class="collapse">
+  <li><a href="#properties-of-an-ma1" id="toc-properties-of-an-ma1" class="nav-link" data-scroll-target="#properties-of-an-ma1">Properties of an MA(1)</a></li>
+  <li><a href="#predict-before-running-the-code" id="toc-predict-before-running-the-code" class="nav-link" data-scroll-target="#predict-before-running-the-code">Predict before running the code</a></li>
+  </ul></li>
+  <li><a href="#maq" id="toc-maq" class="nav-link" data-scroll-target="#maq">MA(<span class="math inline">\(q\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#ma2-work-from-the-common-shocks" id="toc-ma2-work-from-the-common-shocks" class="nav-link" data-scroll-target="#ma2-work-from-the-common-shocks">MA(2): work from the common shocks</a></li>
+  </ul></li>
+  <li><a href="#invertibility" id="toc-invertibility" class="nav-link" data-scroll-target="#invertibility">Invertibility</a>
+  <ul class="collapse">
+  <li><a href="#root-condition" id="toc-root-condition" class="nav-link" data-scroll-target="#root-condition">Root condition</a></li>
+  </ul></li>
+  <li><a href="#wold-coefficients-as-dynamic-responses" id="toc-wold-coefficients-as-dynamic-responses" class="nav-link" data-scroll-target="#wold-coefficients-as-dynamic-responses">Wold coefficients as dynamic responses</a>
+  <ul class="collapse">
+  <li><a href="#predict-first" id="toc-predict-first" class="nav-link" data-scroll-target="#predict-first">Predict first</a></li>
+  </ul></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key takeaways</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1-what-property-fails" id="toc-exercise-1-what-property-fails" class="nav-link" data-scroll-target="#exercise-1-what-property-fails">Exercise 1: What property fails?</a></li>
+  <li><a href="#exercise-2-stationarity-versus-ergodicity" id="toc-exercise-2-stationarity-versus-ergodicity" class="nav-link" data-scroll-target="#exercise-2-stationarity-versus-ergodicity">Exercise 2: Stationarity versus ergodicity</a></li>
+  <li><a href="#exercise-3-derive-an-ma1-acf" id="toc-exercise-3-derive-an-ma1-acf" class="nav-link" data-scroll-target="#exercise-3-derive-an-ma1-acf">Exercise 3: Derive an MA(1) ACF</a></li>
+  <li><a href="#exercise-4-ma2-from-common-innovations" id="toc-exercise-4-ma2-from-common-innovations" class="nav-link" data-scroll-target="#exercise-4-ma2-from-common-innovations">Exercise 4: MA(2) from common innovations</a></li>
+  <li><a href="#exercise-5-is-this-a-valid-acf" id="toc-exercise-5-is-this-a-valid-acf" class="nav-link" data-scroll-target="#exercise-5-is-this-a-valid-acf">Exercise 5: Is this a valid ACF?</a></li>
+  <li><a href="#exercise-6-invertibility" id="toc-exercise-6-invertibility" class="nav-link" data-scroll-target="#exercise-6-invertibility">Exercise 6: Invertibility</a></li>
+  </ul></li>
+  <li><a href="#suggested-reading" id="toc-suggested-reading" class="nav-link" data-scroll-target="#suggested-reading">Suggested reading</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Univariate Time Series Models I</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>HS 821 · Lecture 5 · Topics in Time Series Econometrics</strong></p>
+<p><strong>Sunil Paul</strong></p>
+<p>August 2026 · R 4.6</p>
+<p>The statistics reviewed in the preceding lectures treated observations largely as a random sample. Time-series data are different: <strong>ordering matters</strong>, observations may be dependent, and in most applications we observe only <strong>one realization</strong> of an underlying stochastic process.</p>
+<p>This lecture develops the probabilistic foundation needed for ARMA modelling and forecasting.</p>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ul>
+<li>distinguish a stochastic process from an observed realization;</li>
+<li>interpret the mean, autocovariance, and autocorrelation functions;</li>
+<li>distinguish stationarity from ergodicity (time average vs.&nbsp;ensemble average);</li>
+<li>explain white noise and the role of innovations;</li>
+<li>use the Wold representation and lag-operator notation;</li>
+<li>derive the ACF of MA processes and explain invertibility.</li>
+</ul>
+</section>
+<section id="from-random-samples-to-time-series" class="level2">
+<h2 class="anchored" data-anchor-id="from-random-samples-to-time-series">From random samples to time series</h2>
+<p>A <strong>stochastic process</strong> is a collection of random variables indexed by time,</p>
+<p><span class="math display">\[
+\{Y_t:t\in\mathbb Z\}.
+\]</span></p>
+<p>Before observation, each <span class="math inline">\(Y_t\)</span> is a random variable. Once the process is observed over <span class="math inline">\(t=1,\ldots,T\)</span>, we obtain one <strong>realization</strong>,</p>
+<p><span class="math display">\[
+y_1,y_2,\ldots,y_T.
+\]</span></p>
+<p>The distinction matters because a time series is not merely an unordered collection of observations. Its <strong>temporal ordering and dependence structure</strong> are part of the object being studied.</p>
+<section id="think-before-proceeding" class="level3">
+<h3 class="anchored" data-anchor-id="think-before-proceeding">Think before proceeding</h3>
+<p>Suppose you randomly shuffle the observations in a cross-sectional dataset. Much of the statistical information is unchanged.</p>
+<p>What would happen if you randomly shuffled a time series?</p>
+<p>The marginal distribution might remain unchanged, but its temporal dependence—and therefore its time-series structure—could be destroyed.</p>
+</section>
+</section>
+<section id="moments-of-a-stochastic-process" class="level2">
+<h2 class="anchored" data-anchor-id="moments-of-a-stochastic-process">Moments of a stochastic process</h2>
+<p>The <strong>mean function</strong> is</p>
+<p><span class="math display">\[
+\mu_t=E(Y_t).
+\]</span></p>
+<p>The covariance between observations <span class="math inline">\(h\)</span> periods apart is</p>
+<p><span class="math display">\[
+\gamma(t,t-h)
+=
+\operatorname{Cov}(Y_t,Y_{t-h})
+=
+E[(Y_t-\mu_t)(Y_{t-h}-\mu_{t-h})].
+\]</span></p>
+<p>The corresponding correlation is</p>
+<p><span class="math display">\[
+\rho(t,t-h)
+=
+\frac{\gamma(t,t-h)}
+{\sqrt{\operatorname{Var}(Y_t)\operatorname{Var}(Y_{t-h})}}.
+\]</span></p>
+<p>For a covariance-stationary process these depend only on the <strong>lag</strong> <span class="math inline">\(h\)</span>:</p>
+<p><span class="math display">\[
+\gamma_h=\operatorname{Cov}(Y_t,Y_{t-h}),
+\qquad
+\rho_h=\frac{\gamma_h}{\gamma_0}.
+\]</span></p>
+<p>The sequence <span class="math inline">\(\{\rho_h\}\)</span> is the <strong>autocorrelation function (ACF)</strong>, and its plot against <span class="math inline">\(h\)</span> is the <strong>correlogram</strong>.</p>
+<section id="restrictions-on-an-autocovariance-function" class="level3">
+<h3 class="anchored" data-anchor-id="restrictions-on-an-autocovariance-function">Restrictions on an autocovariance function</h3>
+<p>For a covariance-stationary process,</p>
+<p><span class="math display">\[
+\gamma_h=\gamma_{-h},
+\qquad
+\rho_h=\rho_{-h},
+\]</span></p>
+<p><span class="math display">\[
+\gamma_0=\operatorname{Var}(Y_t)\ge0,
+\qquad
+\rho_0=1,
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+|\rho_h|\le1.
+\]</span></p>
+<p>There is also a deeper restriction. For any constants <span class="math inline">\(a_1,\ldots,a_m\)</span> and time indices <span class="math inline">\(t_1,\ldots,t_m\)</span>,</p>
+<p><span class="math display">\[
+\sum_{i=1}^{m}\sum_{j=1}^{m}
+a_i a_j\gamma_{t_i-t_j}\ge0.
+\]</span></p>
+<p>Thus the autocovariance sequence must be <strong>positive semidefinite</strong>.</p>
+<blockquote class="blockquote">
+<p><strong>Question:</strong> Is any symmetric sequence satisfying <span class="math inline">\(\rho_0=1\)</span> and <span class="math inline">\(|\rho_h|\le1\)</span> a valid ACF?<br>
+<strong>No.</strong> The autocorrelations must jointly define a positive-semidefinite covariance structure.</p>
+</blockquote>
+</section>
+</section>
+<section id="stationarity" class="level2">
+<h2 class="anchored" data-anchor-id="stationarity">Stationarity</h2>
+<section id="strict-stationarity" class="level3">
+<h3 class="anchored" data-anchor-id="strict-stationarity">Strict stationarity</h3>
+<p>A process <span class="math inline">\(\{Y_t\}\)</span> is <strong>strictly stationary</strong> if shifting time does not change any finite-dimensional joint distribution. For any <span class="math inline">\(k\)</span>, time points <span class="math inline">\(t_1,\ldots,t_k\)</span>, and shift <span class="math inline">\(h\)</span>,</p>
+<p><span class="math display">\[
+(Y_{t_1},\ldots,Y_{t_k})
+\overset{d}{=}
+(Y_{t_1+h},\ldots,Y_{t_k+h}).
+\]</span></p>
+</section>
+<section id="covariance-stationarity" class="level3">
+<h3 class="anchored" data-anchor-id="covariance-stationarity">Covariance stationarity</h3>
+<p>A process is <strong>covariance stationary</strong> (weakly or second-order stationary) if</p>
+<ol type="1">
+<li><span class="math inline">\(E(Y_t)=\mu\)</span> for all <span class="math inline">\(t\)</span>;</li>
+<li><span class="math inline">\(\operatorname{Var}(Y_t)=\gamma_0&lt;\infty\)</span> for all <span class="math inline">\(t\)</span>;</li>
+<li><span class="math inline">\(\operatorname{Cov}(Y_t,Y_{t-h})=\gamma_h\)</span> depends only on the lag <span class="math inline">\(h\)</span>, not on calendar time <span class="math inline">\(t\)</span>.</li>
+</ol>
+<p>If second moments exist, strict stationarity implies covariance stationarity. The converse is not true in general.</p>
+<p>For a <strong>Gaussian process</strong>, however, the mean and covariance completely determine all finite-dimensional distributions. Hence covariance stationarity implies strict stationarity.</p>
+</section>
+</section>
+<section id="predict-before-you-simulate" class="level2">
+<h2 class="anchored" data-anchor-id="predict-before-you-simulate">Predict before you simulate</h2>
+<p>Consider four processes:</p>
+<ol type="1">
+<li><p><strong>White noise</strong> <span class="math display">\[
+Y_t=\varepsilon_t,\qquad \varepsilon_t\sim WN(0,\sigma^2).
+\]</span></p></li>
+<li><p><strong>Deterministic trend</strong> <span class="math display">\[
+Y_t=2+0.03t+\varepsilon_t.
+\]</span></p></li>
+<li><p><strong>Random walk</strong> <span class="math display">\[
+Y_t=Y_{t-1}+\varepsilon_t.
+\]</span></p></li>
+<li><p><strong>Time-varying variance</strong> <span class="math display">\[
+Y_t=t\varepsilon_t.
+\]</span></p></li>
+</ol>
+<p>For each process, check:</p>
+<ul>
+<li>Is the mean constant?</li>
+<li>Is the variance constant?</li>
+<li>If not stationary, <strong>which condition fails?</strong></li>
+</ul>
+<div id="a4809e59" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup: We will first create some functions to plot the graph later.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Install packages if not installed</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Time-series line plot; optional dashed reference line at the mean.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>ts_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">mu =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.numeric</span>(x) <span class="sc">||</span> <span class="fu">is.ts</span>(x))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  time_idx <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">is.ts</span>(x)) <span class="fu">as.numeric</span>(<span class="fu">time</span>(x)) <span class="cf">else</span> <span class="fu">seq_along</span>(x)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> time_idx, <span class="at">value =</span> <span class="fu">as.numeric</span>(x))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(time, value)) <span class="sc">+</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(mu)) p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> mu, <span class="at">linetype =</span> <span class="st">"dashed"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  p</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical ACF of an ARMA process, lags 1..L (lag 0 dropped).</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>acf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ar =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">ma =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">L =</span> <span class="dv">16</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  rho <span class="ot">&lt;-</span> <span class="fu">ARMAacf</span>(<span class="at">ar =</span> ar, <span class="at">ma =</span> ma, <span class="at">lag.max =</span> L)[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  df  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag =</span> <span class="fu">seq_len</span>(L), <span class="at">acf =</span> <span class="fu">as.numeric</span>(rho))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(lag, acf)) <span class="sc">+</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> lag, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> acf), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, L, <span class="at">by =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Lag"</span>, <span class="at">y =</span> <span class="st">"ACF"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Impulse response of an MA(q): psi = (1, theta_1, ..., theta_q, 0, ...).</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>irf_ma <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ma =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">h =</span> <span class="dv">8</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  psi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, ma, <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">max</span>(<span class="dv">0</span>, h <span class="sc">-</span> <span class="fu">length</span>(ma))))[<span class="fu">seq_len</span>(h <span class="sc">+</span> <span class="dv">1</span>)]</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  df  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">horizon =</span> <span class="dv">0</span><span class="sc">:</span>h, <span class="at">response =</span> psi)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(horizon, response)) <span class="sc">+</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> horizon, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> response)) <span class="sc">+</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span>h) <span class="sc">+</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Horizon after innovation"</span>, <span class="at">y =</span> <span class="st">"Response"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Running moment diagnostics used in the ergodicity simulations:</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co"># running mean, running second moment, and running lag-1 product.</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>running_moments <span class="ot">&lt;-</span> <span class="cf">function</span>(y) {</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  Tn      <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  lagprod <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> y[<span class="sc">-</span>Tn]</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">t             =</span> <span class="dv">1</span><span class="sc">:</span>Tn,</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean          =</span> <span class="fu">cumsum</span>(y)   <span class="sc">/</span> (<span class="dv">1</span><span class="sc">:</span>Tn),</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">second_moment =</span> <span class="fu">cumsum</span>(y<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">1</span><span class="sc">:</span>Tn),</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1_product  =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">cumsum</span>(lagprod) <span class="sc">/</span> (<span class="dv">1</span><span class="sc">:</span>(Tn <span class="sc">-</span> <span class="dv">1</span>)))</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="d76e908c" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate four processes</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">821</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>T</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>wn    <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(T)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>trend <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.03</span> <span class="sc">*</span> t <span class="sc">+</span> <span class="fu">rnorm</span>(T)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>rw    <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(<span class="fu">rnorm</span>(T))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>tvv   <span class="ot">&lt;-</span> t <span class="sc">*</span> <span class="fu">rnorm</span>(T)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(wn, <span class="at">mu =</span> <span class="dv">0</span>)  <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"White noise"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(trend)       <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Deterministic trend + noise"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(rw)          <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Random walk"</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(tvv, <span class="at">mu =</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Time-varying variance"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, p4, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-3-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Reading the graphs</strong></p>
+<ul>
+<li>White noise fluctuates around a constant mean with constant variance.</li>
+<li>A deterministic trend violates the <strong>constant-mean</strong> condition.</li>
+<li>A random walk has <span class="math display">\[
+\operatorname{Var}(Y_t)=t\sigma^2
+\]</span> when <span class="math inline">\(Y_0\)</span> is fixed, so its variance changes with time.</li>
+<li>If <span class="math inline">\(Y_t=t\varepsilon_t\)</span>, then <span class="math display">\[
+E(Y_t)=0,
+\qquad
+\operatorname{Var}(Y_t)=t^2\sigma^2,
+\]</span> so the process is nonstationary through its variance.</li>
+</ul>
+<p>The graphs illustrate realizations. <strong>Stationarity is a property of the stochastic process, not a visual property of one particular observed path.</strong></p>
+</section>
+<section id="stationarity-is-not-enough-ergodicity" class="level2">
+<h2 class="anchored" data-anchor-id="stationarity-is-not-enough-ergodicity">Stationarity is not enough: ergodicity</h2>
+<p>Stationarity is a statement about the <strong>rows</strong> of a stochastic process: at every date the probability law is the same. Ergodicity is a different, and equally important, statement — it connects two ways of averaging that need not agree.</p>
+<p>Picture the process as a grid. Each <strong>column</strong> is one complete history the world could have produced (one realisation <span class="math inline">\(\omega\)</span>); each <strong>row</strong> is a fixed date <span class="math inline">\(t\)</span> seen across all those parallel histories.</p>
+<ul>
+<li><strong>Ensemble average</strong> — average <em>down a row</em>, across parallel histories at a fixed <span class="math inline">\(t\)</span>. This is the expectation <span class="math inline">\(E(Y_t)\)</span>.</li>
+<li><strong>Time average</strong> — average <em>along one cloumn</em>, over time within the single history we actually observe: <span class="math inline">\(\dfrac{1}{T}\sum_{t=1}^{T}Y_t\)</span>.</li>
+</ul>
+<p><span class="math display">\[
+\underbrace{E(Y_t)}_{\text{along a row: across histories}}
+\qquad\text{vs.}\qquad
+\underbrace{\frac{1}{T}\sum_{t=1}^{T}Y_t}_{\text{down a column: one history}}
+\]</span></p>
+<p>A stationary process is <strong>mean ergodic</strong> when these two coincide as the sample grows:</p>
+<p><span class="math display">\[
+\frac{1}{T}\sum_{t=1}^{T}Y_t \xrightarrow{p} E(Y_t),
+\]</span></p>
+<p>where <span class="math inline">\(\xrightarrow{p}\)</span> is convergence in probability (stronger conditions give almost-sure convergence). The same idea extends to variances and autocovariances: <strong>ergodicity is exactly what lets a time average from one path stand in for an ensemble average.</strong></p>
+<p><strong>Why this is important in time-series econometrics.</strong> We almost never get the grid — we get <strong>one row</strong>. There is one realized path of US GDP, one path of the S&amp;P 500, one observed inflation series. Every time we estimate a mean, a variance, or an autocorrelation from that single path and treat it as a population quantity, we are assuming the process is ergodic. If it is not, collecting more of the <em>same</em> history does not help.</p>
+<p>Two warnings the simulations will make concrete:</p>
+<ul>
+<li><strong>stationarity does not imply ergodicity</strong> — a stable law can still hide a permanent, history-specific component;</li>
+<li><strong>serial dependence does not imply non-ergodicity</strong> — strongly autocorrelated data (a stationary AR(1)) can still be ergodic.</li>
+</ul>
+<section id="a-real-world-picture-permanent-versus-transitory" class="level3">
+<h3 class="anchored" data-anchor-id="a-real-world-picture-permanent-versus-transitory">A real-world picture: permanent versus transitory</h3>
+<p>The example simulated below,</p>
+<p><span class="math display">\[
+Y_t = A + \varepsilon_t,
+\qquad A \text{ drawn once},\quad \varepsilon_t \text{ transitory},
+\]</span></p>
+<p>is the <strong>permanent–transitory</strong> decomposition that runs through applied economics.</p>
+<ul>
+<li>Read <span class="math inline">\(Y_t\)</span> as a household’s <strong>log income</strong> in year <span class="math inline">\(t\)</span>. The permanent component <span class="math inline">\(A\)</span> — profession, human capital, region — is drawn once and carried for life; <span class="math inline">\(\varepsilon_t\)</span> is a good or bad year. This is the structure behind Friedman’s <em>permanent-income hypothesis</em> and the modern income-dynamics literature.</li>
+<li>Or read <span class="math inline">\(Y_t\)</span> as a <strong>country’s</strong> growth: a permanent “type” <span class="math inline">\(A\)</span> (institutions, geography) plus year-to-year shocks <span class="math inline">\(\varepsilon_t\)</span>.</li>
+</ul>
+<p>Now follow <strong>one</strong> household (or country) for a long time. Its time-average income converges to <strong>its own</strong> permanent draw <span class="math inline">\(A\)</span>, not to the average across all households. Watching Argentina for two centuries reveals Argentina’s <span class="math inline">\(A\)</span>, not the world-average growth rate.</p>
+<p>That is non-ergodicity: the permanent component never averages out <strong>within a single column</strong>, so one long history cannot recover the cross-sectional (ensemble) mean. Contrast this with a stationary AR(1), where a shock’s influence decays, <span class="math inline">\(\gamma_h=\phi^h\to0\)</span>, and a long enough path <em>does</em> recover the ensemble moments.</p>
+</section>
+<section id="simulation-1-iid-white-noise" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-1-iid-white-noise">Simulation 1: iid white noise</h3>
+<p>Let</p>
+<p><span class="math display">\[
+Y_t\overset{iid}{\sim}N(0,1),
+\qquad
+E(Y_t)=0,\qquad E(Y_t^2)=1,\qquad \gamma_1=0.
+\]</span></p>
+<p>We track three time averages at once: the running mean, the running second moment, and the running lag-1 product. These are the sample analogues of the three ensemble quantities above.</p>
+<p><strong>Predict before running:</strong> as the realization becomes longer, what should each of the three running quantities approach?</p>
+<div id="af57d78f" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ergodic white noise: running mean, second moment, and lag-1 product</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">821</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(T)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">running_moments</span>(y)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(t, mean)) <span class="sc">+</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Running mean"</span>, <span class="at">x =</span> <span class="st">"T"</span>, <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">frac</span>(<span class="dv">1</span>, T) <span class="sc">*</span> <span class="fu">sum</span>(Y[t])))</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(t, second_moment)) <span class="sc">+</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Running second moment"</span>, <span class="at">x =</span> <span class="st">"T"</span>, <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">frac</span>(<span class="dv">1</span>, T) <span class="sc">*</span> <span class="fu">sum</span>(Y[t]<span class="sc">^</span><span class="dv">2</span>)))</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(t, lag1_product)) <span class="sc">+</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Running lag-1 product"</span>, <span class="at">x =</span> <span class="st">"T"</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">frac</span>(<span class="dv">1</span>, T <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">sum</span>(Y[t] <span class="sc">*</span> Y[t <span class="sc">-</span> <span class="dv">1</span>])))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<div class="ansi-escaped-output">
+<pre>Warning message:
+
+"Removed 1 row containing missing values or values outside the scale range (`geom_line()`)."
+</pre>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-4-output-2.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>What should you see?</strong></p>
+<p>As <span class="math inline">\(T\)</span> increases,</p>
+<p><span class="math display">\[
+\frac{1}{T}\sum Y_t \xrightarrow{p} 0,
+\qquad
+\frac{1}{T}\sum Y_t^2 \xrightarrow{p} 1,
+\qquad
+\frac{1}{T-1}\sum_{t=2}^{T}Y_t Y_{t-1} \xrightarrow{p} 0.
+\]</span></p>
+<p>The path itself never becomes smooth. What stabilizes are the <strong>time averages of functions of the process</strong>.</p>
+</section>
+<section id="simulation-2-dependence-does-not-rule-out-ergodicity" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-2-dependence-does-not-rule-out-ergodicity">Simulation 2: dependence does not rule out ergodicity</h3>
+<p>Consider the stationary AR(1),</p>
+<p><span class="math display">\[
+Y_t=\phi Y_{t-1}+\varepsilon_t,
+\qquad |\phi|&lt;1.
+\]</span></p>
+<p>Set <span class="math inline">\(\phi=0.8\)</span> and choose <span class="math inline">\(\operatorname{Var}(\varepsilon_t)=1-\phi^2\)</span>, so that</p>
+<p><span class="math display">\[
+E(Y_t)=0,\qquad \operatorname{Var}(Y_t)=1,\qquad \gamma_1=0.8.
+\]</span></p>
+<p>The process is serially dependent but ergodic.</p>
+<p><strong>Predict:</strong> should the running mean converge to zero? What should the running lag-1 product approach?</p>
+<div id="a88f00ce" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stationary and dependent, yet ergodic: AR(1)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">822</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>T   <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>innovation_sd <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> phi<span class="sc">^</span><span class="dv">2</span>)          <span class="co"># normalises Var(Y_t) to 1</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>y_ar <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> phi), <span class="at">n =</span> T, <span class="at">sd =</span> innovation_sd))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>d    <span class="ot">&lt;-</span> <span class="fu">running_moments</span>(y_ar)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(t, mean)) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"AR(1): running mean"</span>, <span class="at">x =</span> <span class="st">"T"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(t, second_moment)) <span class="sc">+</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"AR(1): running second moment"</span>, <span class="at">x =</span> <span class="st">"T"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(t, lag1_product)) <span class="sc">+</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> phi, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"AR(1): running lag-1 product"</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="fu">expression</span>(gamma[<span class="dv">1</span>] <span class="sc">==</span> <span class="fl">0.8</span>), <span class="at">x =</span> <span class="st">"T"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<div class="ansi-escaped-output">
+<pre>Warning message:
+
+"Removed 1 row containing missing values or values outside the scale range (`geom_line()`)."
+</pre>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-5-output-2.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For this stationary AR(1),</p>
+<p><span class="math display">\[
+\frac{1}{T}\sum_{t=1}^{T}Y_t \xrightarrow{p} 0,
+\qquad
+\frac{1}{T}\sum_{t=1}^{T}Y_t^2 \xrightarrow{p} 1,
+\qquad
+\frac{1}{T-1}\sum_{t=2}^{T}Y_t Y_{t-1} \xrightarrow{p} \gamma_1 = 0.8.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Ergodicity does not require independence.</strong></p>
+</blockquote>
+<p>The observations can be strongly serially correlated and the process can still reveal its stationary moments through a sufficiently long realization.</p>
+</section>
+<section id="simulation-3-stationary-but-non-ergodic" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-3-stationary-but-non-ergodic">Simulation 3: stationary but non-ergodic</h3>
+<p>Now consider</p>
+<p><span class="math display">\[
+Y_t=A+\varepsilon_t,
+\qquad
+A\sim N(0,1),
+\qquad
+\varepsilon_t\overset{iid}{\sim}N(0,1),
+\]</span></p>
+<p>where <span class="math inline">\(A\)</span> is drawn <strong>once</strong> and then held fixed for the entire realization.</p>
+<p>Unconditionally the process is stationary:</p>
+<p><span class="math display">\[
+E(Y_t)=0,
+\qquad
+\operatorname{Var}(Y_t)=2,
+\qquad
+\gamma_h=\operatorname{Var}(A)=1 \quad (h&gt;0).
+\]</span></p>
+<p>But within a single realization the permanent component <span class="math inline">\(A\)</span> never averages out. As <span class="math inline">\(T\to\infty\)</span>,</p>
+<p><span class="math display">\[
+\frac{1}{T}\sum Y_t \to A,
+\qquad
+\frac{1}{T}\sum Y_t^2 \to A^2+1,
+\qquad
+\frac{1}{T-1}\sum_{t=2}^{T}Y_t Y_{t-1} \to A^2,
+\]</span></p>
+<p>rather than the ensemble values <span class="math inline">\(0\)</span>, <span class="math inline">\(2\)</span>, and <span class="math inline">\(1\)</span>. The three running diagnostics below therefore settle on <strong>realization-specific</strong> limits (dashed), not the ensemble values (dotted).</p>
+<div id="33fd08f9" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stationary but non-ergodic: a permanent random component</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">823</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(T)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>y_ne <span class="ot">&lt;-</span> A <span class="sc">+</span> epsilon</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">running_moments</span>(y_ne)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>p0 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(y_ne) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> A, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"One realization: Y_t = A + epsilon_t"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(t, mean)) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> A, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Running mean"</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Dotted: ensemble 0; dashed: realization-specific limit A"</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"T"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(t, second_moment)) <span class="sc">+</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">2</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> A<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Running second moment"</span>,</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Dotted: ensemble 2; dashed: realization-specific limit A^2 + 1"</span>,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"T"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(t, lag1_product)) <span class="sc">+</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> A<span class="sc">^</span><span class="dv">2</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Running lag-1 product"</span>,</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Dotted: ensemble gamma_1 = 1; dashed: realization-specific limit A^2"</span>,</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"T"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p0, p1, p2, p3, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Realization-specific A ="</span>, <span class="fu">round</span>(A, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<div class="ansi-escaped-output">
+<pre>Warning message:
+
+"Removed 1 row containing missing values or values outside the scale range (`geom_line()`)."
+</pre>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Realization-specific A = -0.9929 </code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-6-output-3.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="why-stationarity-does-not-imply-ergodicity-here" class="level3">
+<h3 class="anchored" data-anchor-id="why-stationarity-does-not-imply-ergodicity-here">Why stationarity does not imply ergodicity here</h3>
+<p>The process <span class="math inline">\(Y_t=A+\varepsilon_t\)</span> is stationary because shifting time does not change its joint distribution.</p>
+<p>But the common component <span class="math inline">\(A\)</span> creates dependence that never dies out:</p>
+<p><span class="math display">\[
+\gamma_h=1
+\qquad
+\text{for every }h&gt;0.
+\]</span></p>
+<p>By contrast, for a stationary AR(1),</p>
+<p><span class="math display">\[
+\gamma_h\propto\phi^h\rightarrow0
+\qquad (|\phi|&lt;1).
+\]</span></p>
+<p>The difference is not simply whether observations are dependent, but whether the dependence is sufficiently persistent to prevent time averages from revealing ensemble moments.</p>
+</section>
+<section id="many-realizations-make-the-distinction-visible" class="level3">
+<h3 class="anchored" data-anchor-id="many-realizations-make-the-distinction-visible">Many realizations make the distinction visible</h3>
+<p>Generate many realizations of increasing length and compare their time averages.</p>
+<ul>
+<li>For an ergodic process, time averages should become concentrated around the ensemble mean.</li>
+<li>For <span class="math inline">\(Y_t=A+\varepsilon_t\)</span>, transitory noise averages out, but the realization-specific component <span class="math inline">\(A\)</span> remains.</li>
+</ul>
+<p>Predict what should happen before running the simulation.</p>
+<div id="7d146d4f" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Many realizations: does increasing T make the time average concentrate?</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">824</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>T_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">2000</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="dv">300</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">do.call</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  rbind,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(T_values, <span class="cf">function</span>(Ti) {</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    wn_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      R,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mean</span>(<span class="fu">rnorm</span>(Ti))</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    nonergodic_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>      R,</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        A_i <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mean</span>(A_i <span class="sc">+</span> <span class="fu">rnorm</span>(Ti))</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbind</span>(</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">T =</span> <span class="fu">factor</span>(Ti, <span class="at">levels =</span> T_values),</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">process =</span> <span class="st">"Ergodic white noise"</span>,</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">time_mean =</span> wn_means</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">T =</span> <span class="fu">factor</span>(Ti, <span class="at">levels =</span> T_values),</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">process =</span> <span class="st">"Stationary but non-ergodic"</span>,</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">time_mean =</span> nonergodic_means</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results, <span class="fu">aes</span>(<span class="at">x =</span> T, <span class="at">y =</span> time_mean)) <span class="sc">+</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> process, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Time averages across many realizations"</span>,</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Length of realization T"</span>,</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Time average"</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-7-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>For white noise, the distribution of time averages collapses toward zero as <span class="math inline">\(T\)</span> increases.</p>
+<p>For <span class="math inline">\(Y_t=A+\varepsilon_t\)</span>, each realization instead converges toward its own draw of <span class="math inline">\(A\)</span>. The distribution of time averages therefore does <strong>not</strong> collapse to the ensemble mean.</p>
+<blockquote class="blockquote">
+<p>Ergodicity is what allows a long history to substitute, in an appropriate sense, for repeated draws from the ensemble.</p>
+</blockquote>
+</section>
+</section>
+<section id="why-ergodicity-changes-decisions-a-betting-example" class="level2">
+<h2 class="anchored" data-anchor-id="why-ergodicity-changes-decisions-a-betting-example">Why ergodicity changes decisions: a betting example</h2>
+<p>The cases above are additive and stationary. The most consequential real-world failures of ergodicity are often <strong>multiplicative</strong>, and they change what “a good bet” even means. This is the core of what is now called <strong>ergodicity economics</strong> (associated with Ole Peters).</p>
+<p>Consider a repeated gamble on your wealth <span class="math inline">\(W_t\)</span>. Each period, independently,</p>
+<p><span class="math display">\[
+W_t =
+\begin{cases}
+1.5\,W_{t-1} &amp; \text{prob } 0.5 \quad(\text{gain } 50\%),\\[4pt]
+0.6\,W_{t-1} &amp; \text{prob } 0.5 \quad(\text{lose } 40\%).
+\end{cases}
+\]</span></p>
+<p><strong>Ensemble view — average down the row (across many parallel gamblers).</strong></p>
+<p><span class="math display">\[
+E\!\left[\frac{W_t}{W_{t-1}}\right] = 0.5(1.5)+0.5(0.6) = 1.05,
+\qquad\Rightarrow\qquad
+E[W_t] = (1.05)^t W_0,
+\]</span></p>
+<p>so expected wealth grows about <strong>5% per period</strong>. Judged by its expectation, the bet looks excellent.</p>
+<p><strong>Time view — average along one column (one gambler’s path).</strong> By a law of large numbers on the log-multipliers,</p>
+<p><span class="math display">\[
+\frac{1}{t}\log\frac{W_t}{W_0}
+\xrightarrow{p}
+0.5\log 1.5 + 0.5\log 0.6 \approx -0.053,
+\]</span></p>
+<p>so a <strong>typical path shrinks about 5% per period</strong> and <span class="math inline">\(W_t \to 0\)</span> almost surely.</p>
+<p>The expectation (across parallel worlds) and the growth actually <em>experienced</em> along one path point in <strong>opposite directions</strong>. Because a real investor lives one path, the time average — not the expectation — is the decision-relevant number. This is exactly why compounded (geometric) returns, “volatility drag,” and the Kelly criterion matter, and why judging a repeated financial gamble by its expected value alone is misleading.</p>
+<p><strong>Predict before running:</strong> as <span class="math inline">\(t\)</span> grows, what happens to (i) the average wealth across many gamblers, and (ii) the wealth of the <em>typical</em> gambler?</p>
+<div id="c49a4865" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplicative bet: ensemble average rises while the typical path collapses</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">826</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>n_paths <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Tn      <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Each step multiplies wealth by 1.5 (gain 50%) or 0.6 (lose 40%), prob 1/2 each.</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>multipliers <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">0.6</span>), n_paths <span class="sc">*</span> Tn, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">nrow =</span> n_paths)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>wealth <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, <span class="fu">t</span>(<span class="fu">apply</span>(multipliers, <span class="dv">1</span>, cumprod)))   <span class="co"># W_0 = 1 in the first column</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>t_idx         <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>Tn</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>ensemble_mean <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(wealth)          <span class="co"># average across the 5000 gamblers</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>median_path   <span class="ot">&lt;-</span> <span class="fu">apply</span>(wealth, <span class="dv">2</span>, median)  <span class="co"># the typical gambler</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical references</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>ens_theory <span class="ot">&lt;-</span> <span class="fl">1.05</span><span class="sc">^</span>t_idx</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>geo_rate   <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">1.5</span>) <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.6</span>))   <span class="co"># ~ 0.9487 per period</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>geo_theory <span class="ot">&lt;-</span> geo_rate<span class="sc">^</span>t_idx</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">t =</span> t_idx, <span class="at">wealth =</span> ensemble_mean, <span class="at">series =</span> <span class="st">"Ensemble average E[W_t] (5000 gamblers)"</span>),</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">t =</span> t_idx, <span class="at">wealth =</span> median_path,   <span class="at">series =</span> <span class="st">"Typical (median) path"</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(t, wealth, <span class="at">colour =</span> series)) <span class="sc">+</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Multiplicative bet: the ensemble vs. the path you actually live"</span>,</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Expected wealth grows ~5%/period; the typical path decays toward 0"</span>,</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Period"</span>, <span class="at">y =</span> <span class="st">"Wealth (log scale)"</span>)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Ensemble growth per period : %.3f  (E[multiplier])</span><span class="sc">\n</span><span class="st">"</span>, <span class="fl">1.05</span>))</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Time-average growth/period : %.3f  (geometric mean)</span><span class="sc">\n</span><span class="st">"</span>, geo_rate))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Ensemble growth per period : 1.050  (E[multiplier])
+Time-average growth/period : 0.949  (geometric mean)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-8-output-2.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>What the picture shows</strong></p>
+<p>The two lines diverge on a log scale. The ensemble average climbs, matching <span class="math inline">\(E[W_t]=1.05^t\)</span> — but it is propped up by a handful of extraordinarily lucky paths in which <span class="math inline">\(1.5\)</span> came up far more often than <span class="math inline">\(0.6\)</span>. The typical (median) gambler tracks the geometric rate <span class="math inline">\(\approx 0.95\)</span> per period and heads toward zero.</p>
+<ul>
+<li><strong>Ensemble average</strong> answers: “mean wealth across many parallel gamblers.” <span class="math inline">\(\to 1.05^t\)</span>.</li>
+<li><strong>Time/path view</strong> answers: “what happens to <em>me</em> if I keep playing.” <span class="math inline">\(\to (0.95)^t\)</span>.</li>
+</ul>
+<p>Because these disagree, the process is <strong>non-ergodic</strong>: no single path’s time average converges to the ensemble mean. And since you only ever live one path, the ensemble expectation is the wrong basis for the decision.</p>
+<p>This is the same lesson as <span class="math inline">\(Y_t=A+\varepsilon_t\)</span> — one realization need not reveal the ensemble — now in a multiplicative, decision-relevant form.</p>
+<section id="summary-stationarity-and-ergodicity" class="level3">
+<h3 class="anchored" data-anchor-id="summary-stationarity-and-ergodicity">Summary: stationarity and ergodicity</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Process</th>
+<th style="text-align: center;">Stationary?</th>
+<th style="text-align: center;">Serial dependence?</th>
+<th style="text-align: center;">Mean ergodic?</th>
+<th>Long-run covariance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>iid white noise</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">Yes</td>
+<td><span class="math inline">\(\gamma_h=0\)</span> for <span class="math inline">\(h&gt;0\)</span></td>
+</tr>
+<tr class="even">
+<td>stationary AR(1), <span class="math inline">\(|\phi|&lt;1\)</span></td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Yes</td>
+<td><span class="math inline">\(\gamma_h\to0\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(Y_t=A+\varepsilon_t\)</span></td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">No</td>
+<td><span class="math inline">\(\gamma_h=1\)</span> for all <span class="math inline">\(h&gt;0\)</span></td>
+</tr>
+<tr class="even">
+<td>random walk</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">—</td>
+<td>variance grows with <span class="math inline">\(t\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Remember:</p>
+<p><span class="math display">\[
+\boxed{\text{stationary} \not\Rightarrow \text{ergodic}},
+\qquad
+\boxed{\text{dependence} \not\Rightarrow \text{non-ergodic}}.
+\]</span></p>
+</section>
+</section>
+<section id="white-noise" class="level2">
+<h2 class="anchored" data-anchor-id="white-noise">White noise</h2>
+<p>A <strong>white-noise process</strong> <span class="math inline">\(\{\varepsilon_t\}\)</span> satisfies</p>
+<p><span class="math display">\[
+E(\varepsilon_t)=0,
+\qquad
+\operatorname{Var}(\varepsilon_t)=\sigma^2,
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\operatorname{Cov}(\varepsilon_t,\varepsilon_{t-h})=0
+\qquad (h\neq0).
+\]</span></p>
+<p>Therefore its theoretical ACF is</p>
+<p><span class="math display">\[
+\rho_0=1,
+\qquad
+\rho_h=0\quad(h\neq0).
+\]</span></p>
+<p>White noise means <strong>serially uncorrelated</strong>. It does not, by itself, imply independence.</p>
+<p>Useful distinctions:</p>
+<ul>
+<li><strong>iid white noise:</strong> independent and identically distributed;</li>
+<li><strong>Gaussian white noise:</strong> a jointly Gaussian process that is white noise; in this case zero autocovariances imply independence across time;</li>
+<li><strong>martingale difference sequence:</strong> <span class="math inline">\(E(\varepsilon_t\mid\mathcal F_{t-1})=0\)</span>.</li>
+</ul>
+<p>These concepts overlap, but they are not equivalent.</p>
+<section id="population-acf-versus-sample-acf" class="level3">
+<h3 class="anchored" data-anchor-id="population-acf-versus-sample-acf">Population ACF versus sample ACF</h3>
+<p>The <strong>population ACF</strong> is a property of the stochastic process. The <strong>sample ACF</strong> is an estimate computed from one finite realization.</p>
+<p>For white noise,</p>
+<p><span class="math display">\[
+\rho_h=0
+\qquad (h&gt;0),
+\]</span></p>
+<p>but a finite sample will almost never produce sample autocorrelations that are exactly zero.</p>
+<p>The simulation below compares realizations of length <span class="math inline">\(T=100\)</span> and <span class="math inline">\(T=1000\)</span>.</p>
+<p><strong>Predict:</strong> which sample ACF should lie more tightly around zero?</p>
+<div id="1786e93e" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Population ACF versus sample ACF for white noise</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">825</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>sample_acf_df <span class="ot">&lt;-</span> <span class="cf">function</span>(n, <span class="at">max_lag =</span> <span class="dv">20</span>) {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">acf</span>(x, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">lag.max =</span> max_lag)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag =</span> <span class="fu">as.numeric</span>(a<span class="sc">$</span>lag[<span class="sc">-</span><span class="dv">1</span>]),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">acf =</span> <span class="fu">as.numeric</span>(a<span class="sc">$</span>acf[<span class="sc">-</span><span class="dv">1</span>]),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">paste0</span>(<span class="st">"T = "</span>, n),</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">bound =</span> <span class="fl">1.96</span> <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>acf_samples <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_acf_df</span>(<span class="dv">100</span>),</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_acf_df</span>(<span class="dv">1000</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>bounds <span class="ot">&lt;-</span> <span class="fu">unique</span>(acf_samples[<span class="fu">c</span>(<span class="st">"n"</span>, <span class="st">"bound"</span>)])</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(acf_samples, <span class="fu">aes</span>(lag, acf)) <span class="sc">+</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> lag, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> acf)) <span class="sc">+</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> bounds,</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">yintercept =</span> bound),</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> bounds,</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="sc">-</span>bound),</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> n, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="at">by =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Sample ACF of white noise"</span>,</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Dashed lines: approximate ±1.96/sqrt(T) bounds"</span>,</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Lag"</span>,</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Sample ACF"</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-9-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>The population ACF is zero at every positive lag, yet the sample ACF fluctuates around zero because it is computed from one realization.</p>
+<p>As the sample grows, these sampling fluctuations typically become smaller. This is where the distinction between a <strong>stochastic process</strong> and an <strong>observed realization</strong> becomes operational.</p>
+</section>
+</section>
+<section id="a-stationary-process-and-a-random-walk-from-the-same-shocks" class="level2">
+<h2 class="anchored" data-anchor-id="a-stationary-process-and-a-random-walk-from-the-same-shocks">A stationary process and a random walk from the same shocks</h2>
+<p>Let</p>
+<p><span class="math display">\[
+X_t=
+\begin{cases}
++1,&amp;P=0.5,\\
+-1,&amp;P=0.5.
+\end{cases}
+\]</span></p>
+<p>with independent draws over time. Then</p>
+<p><span class="math display">\[
+E(X_t)=0,
+\qquad
+\operatorname{Var}(X_t)=1,
+\qquad
+\gamma_h=0\quad(h\neq0),
+\]</span></p>
+<p>so <span class="math inline">\(\{X_t\}\)</span> is covariance stationary.</p>
+<p>Now accumulate exactly the same shocks:</p>
+<p><span class="math display">\[
+Y_t=Y_{t-1}+X_t,
+\qquad
+Y_0=0.
+\]</span></p>
+<p>Then</p>
+<p><span class="math display">\[
+Y_t=\sum_{i=1}^{t}X_i,
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\operatorname{Var}(Y_t)=t.
+\]</span></p>
+<p>The shocks are stationary; their accumulation is not.</p>
+<div id="0bf0f2a0" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same shocks, very different time-series properties</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(X)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(X, <span class="at">mu =</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Stationary shocks: X_t"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(Y)         <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Accumulated shocks: random walk Y_t"</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-10-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="differencing-changes-the-process" class="level3">
+<h3 class="anchored" data-anchor-id="differencing-changes-the-process">Differencing changes the process</h3>
+<p>For the random walk</p>
+<p><span class="math display">\[
+Y_t=Y_{t-1}+\varepsilon_t,
+\]</span></p>
+<p>the level is nonstationary because</p>
+<p><span class="math display">\[
+\operatorname{Var}(Y_t)=t\sigma^2.
+\]</span></p>
+<p>But</p>
+<p><span class="math display">\[
+\Delta Y_t
+=
+Y_t-Y_{t-1}
+=
+\varepsilon_t,
+\]</span></p>
+<p>which is stationary white noise.</p>
+<p>This distinction between the properties of a <strong>level</strong> and its <strong>difference</strong> will become central when we study unit roots and integrated processes.</p>
+</section>
+</section>
+<section id="linear-representations-of-stationary-time-series" class="level1">
+<h1>Linear representations of stationary time series</h1>
+<section id="wold-decomposition" class="level2">
+<h2 class="anchored" data-anchor-id="wold-decomposition">Wold decomposition</h2>
+<p>For a covariance-stationary, <strong>purely nondeterministic</strong> process,</p>
+<p><span class="math display">\[
+Y_t-\mu
+=
+\varepsilon_t
++\psi_1\varepsilon_{t-1}
++\psi_2\varepsilon_{t-2}
++\cdots
+=
+\sum_{j=0}^{\infty}\psi_j\varepsilon_{t-j},
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\psi_0=1,
+\qquad
+\sum_{j=0}^{\infty}\psi_j^2&lt;\infty.
+\]</span></p>
+<p>Here <span class="math inline">\(\varepsilon_t\)</span> is the <strong>innovation</strong>: the one-step-ahead <strong>linear projection error</strong> based on the past. Innovations are serially uncorrelated by construction; they need not be iid or Gaussian.</p>
+<p>A general covariance-stationary process can also contain a deterministic component. Wold’s moving-average representation describes its purely nondeterministic component.</p>
+<section id="why-wold-matters" class="level3">
+<h3 class="anchored" data-anchor-id="why-wold-matters">Why Wold matters</h3>
+<p>Wold provides a general dynamic representation:</p>
+<blockquote class="blockquote">
+<p>today’s value can be written as the accumulated effects of current and past innovations.</p>
+</blockquote>
+<p>Equivalently,</p>
+<p><span class="math display">\[
+Y_t=\widehat Y_{t|t-1}+\varepsilon_t,
+\]</span></p>
+<p>where <span class="math inline">\(\widehat Y_{t|t-1}\)</span> is the best linear forecast from the past.</p>
+<blockquote class="blockquote">
+<p><strong>Important:</strong> a Wold innovation is a statistical innovation. It should not automatically be interpreted as a <strong>causal structural shock</strong>. It is also defined relative to linear prediction; a nonlinear forecasting model may exploit information that a linear projection does not.</p>
+</blockquote>
+</section>
+<section id="moments-of-a-linear-process" class="level3">
+<h3 class="anchored" data-anchor-id="moments-of-a-linear-process">Moments of a linear process</h3>
+<p>Suppose</p>
+<p><span class="math display">\[
+Y_t
+=
+\mu+\sum_{j=0}^{\infty}\psi_j\varepsilon_{t-j},
+\qquad
+\varepsilon_t\sim WN(0,\sigma^2).
+\]</span></p>
+<p>Then</p>
+<p><span class="math display">\[
+E(Y_t)=\mu.
+\]</span></p>
+<p>If <span class="math inline">\(\sum_{j=0}^{\infty}\psi_j^2&lt;\infty\)</span>,</p>
+<p><span class="math display">\[
+\gamma_0
+=
+\sigma^2\sum_{j=0}^{\infty}\psi_j^2.
+\]</span></p>
+<p>For <span class="math inline">\(h\ge0\)</span>,</p>
+<p><span class="math display">\[
+\gamma_h
+=
+\sigma^2
+\sum_{j=0}^{\infty}
+\psi_j\psi_{j+h}.
+\]</span></p>
+<p>This formula links the <strong>dynamic response coefficients</strong> <span class="math inline">\(\{\psi_j\}\)</span> to the <strong>dependence structure</strong> <span class="math inline">\(\{\gamma_h\}\)</span>.</p>
+</section>
+</section>
+<section id="lag-operator" class="level2">
+<h2 class="anchored" data-anchor-id="lag-operator">Lag operator</h2>
+<p>The <strong>lag operator</strong> <span class="math inline">\(L\)</span> shifts a variable back one period:</p>
+<p><span class="math display">\[
+LY_t=Y_{t-1},
+\qquad
+L^jY_t=Y_{t-j}.
+\]</span></p>
+<p>For example,</p>
+<p><span class="math display">\[
+Y_t
+=
+\mu+\varepsilon_t
++\theta_1\varepsilon_{t-1}
++\theta_2\varepsilon_{t-2}
+\]</span></p>
+<p>can be written as</p>
+<p><span class="math display">\[
+Y_t-\mu
+=
+(1+\theta_1L+\theta_2L^2)\varepsilon_t
+=
+\theta(L)\varepsilon_t.
+\]</span></p>
+<p>Lag-polynomial notation makes the properties of AR, MA, and ARMA processes considerably easier to express.</p>
+</section>
+<section id="familiar-linear-process-families" class="level2">
+<h2 class="anchored" data-anchor-id="familiar-linear-process-families">Familiar linear-process families</h2>
+<p>With white-noise innovations <span class="math inline">\(\varepsilon_t\)</span>:</p>
+<p><strong>AR(<span class="math inline">\(p\)</span>):</strong> <span class="math display">\[
+Y_t
+=
+c+\phi_1Y_{t-1}+\cdots+\phi_pY_{t-p}+\varepsilon_t.
+\]</span></p>
+<p><strong>MA(<span class="math inline">\(q\)</span>):</strong> <span class="math display">\[
+Y_t
+=
+\mu+\varepsilon_t+\theta_1\varepsilon_{t-1}
++\cdots+\theta_q\varepsilon_{t-q}.
+\]</span></p>
+<p><strong>ARMA(<span class="math inline">\(p,q\)</span>):</strong> <span class="math display">\[
+Y_t
+=
+c+\phi_1Y_{t-1}+\cdots+\phi_pY_{t-p}
++\varepsilon_t+\theta_1\varepsilon_{t-1}
++\cdots+\theta_q\varepsilon_{t-q}.
+\]</span></p>
+<p>This lecture concentrates on <strong>MA processes</strong>. Their finite-order stationarity is automatic when the innovations are white noise with finite variance. AR and ARMA properties follow in subsequent lectures.</p>
+</section>
+</section>
+<section id="moving-average-processes" class="level1">
+<h1>Moving-average processes</h1>
+<section id="ma1" class="level2">
+<h2 class="anchored" data-anchor-id="ma1">MA(1)</h2>
+<p>Consider</p>
+<p><span class="math display">\[
+Y_t
+=
+\mu+\varepsilon_t+\theta\varepsilon_{t-1},
+\qquad
+\varepsilon_t\sim WN(0,\sigma^2).
+\]</span></p>
+<p>The mean is</p>
+<p><span class="math display">\[
+E(Y_t)=\mu.
+\]</span></p>
+<p>The autocovariances are</p>
+<p><span class="math display">\[
+\gamma_h=
+\begin{cases}
+(1+\theta^2)\sigma^2, &amp; h=0,\\[4pt]
+\theta\sigma^2, &amp; |h|=1,\\[4pt]
+0, &amp; |h|&gt;1.
+\end{cases}
+\]</span></p>
+<p>Hence</p>
+<p><span class="math display">\[
+\rho_1
+=
+\frac{\theta}{1+\theta^2},
+\qquad
+\rho_h=0\quad(|h|&gt;1).
+\]</span></p>
+<section id="properties-of-an-ma1" class="level3">
+<h3 class="anchored" data-anchor-id="properties-of-an-ma1">Properties of an MA(1)</h3>
+<ul>
+<li>The theoretical ACF <strong>cuts off after lag 1</strong>.</li>
+<li>The sign of <span class="math inline">\(\rho_1\)</span> is the sign of <span class="math inline">\(\theta\)</span>.</li>
+<li>Since <span class="math display">\[
+\left|\frac{\theta}{1+\theta^2}\right|\le\frac12,
+\]</span> an MA(1) can never have <span class="math inline">\(|\rho_1|&gt;0.5\)</span>.</li>
+</ul>
+</section>
+<section id="predict-before-running-the-code" class="level3">
+<h3 class="anchored" data-anchor-id="predict-before-running-the-code">Predict before running the code</h3>
+<p>Compare</p>
+<p><span class="math display">\[
+Y_t=2+\varepsilon_t+0.8\varepsilon_{t-1}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+Y_t=2+\varepsilon_t-0.8\varepsilon_{t-1}.
+\]</span></p>
+<p>Before looking at the graphs:</p>
+<ol type="1">
+<li>What sign should <span class="math inline">\(\rho_1\)</span> have in each process?</li>
+<li>What is the numerical value of <span class="math inline">\(\rho_1\)</span>?</li>
+<li>At which lag must the theoretical ACF become exactly zero?</li>
+<li>Will the two simulated paths necessarily look obviously different?</li>
+</ol>
+<div id="4db1277f" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulated realizations and theoretical ACFs of two MA(1) processes</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>ma_pos <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ma =</span>  <span class="fl">0.8</span>), <span class="at">n =</span> n)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ma_neg <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ma =</span> <span class="sc">-</span><span class="fl">0.8</span>), <span class="at">n =</span> n)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(ma_pos, <span class="at">mu =</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"MA(1): theta = 0.8"</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">acf_plot</span>(<span class="at">ma =</span> <span class="fl">0.8</span>,  <span class="at">L =</span> <span class="dv">12</span>, <span class="at">title =</span> <span class="st">"Theoretical ACF: theta = 0.8"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(ma_neg, <span class="at">mu =</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"MA(1): theta = -0.8"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">acf_plot</span>(<span class="at">ma =</span> <span class="sc">-</span><span class="fl">0.8</span>, <span class="at">L =</span> <span class="dv">12</span>, <span class="at">title =</span> <span class="st">"Theoretical ACF: theta = -0.8"</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, p4, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-11-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Reading the graphs</strong></p>
+<p>For <span class="math inline">\(\theta=0.8\)</span>,</p>
+<p><span class="math display">\[
+\rho_1
+=
+\frac{0.8}{1+0.8^2}
+\approx0.488.
+\]</span></p>
+<p>For <span class="math inline">\(\theta=-0.8\)</span>,</p>
+<p><span class="math display">\[
+\rho_1\approx-0.488.
+\]</span></p>
+<p>In both cases,</p>
+<p><span class="math display">\[
+\rho_h=0
+\qquad
+\text{for }|h|&gt;1.
+\]</span></p>
+<p>The left-hand plots are particular <strong>realizations</strong>. The right-hand plots show the <strong>theoretical ACFs</strong> of the underlying stochastic processes.</p>
+</section>
+</section>
+<section id="maq" class="level2">
+<h2 class="anchored" data-anchor-id="maq">MA(<span class="math inline">\(q\)</span>)</h2>
+<p>Write an MA(<span class="math inline">\(q\)</span>) process as</p>
+<p><span class="math display">\[
+Y_t
+=
+\mu+\sum_{j=0}^{q}\theta_j\varepsilon_{t-j},
+\qquad
+\theta_0=1,
+\qquad
+\varepsilon_t\sim WN(0,\sigma^2).
+\]</span></p>
+<p>For <span class="math inline">\(h=0,1,\ldots,q\)</span>,</p>
+<p><span class="math display">\[
+\gamma_h
+=
+\sigma^2
+\sum_{j=0}^{q-h}
+\theta_j\theta_{j+h},
+\]</span></p>
+<p>while</p>
+<p><span class="math display">\[
+\gamma_h=0
+\qquad
+\text{for }h&gt;q.
+\]</span></p>
+<p>Therefore</p>
+<p><span class="math display">\[
+\rho_h=\frac{\gamma_h}{\gamma_0},
+\]</span></p>
+<p>and the theoretical ACF of an MA(<span class="math inline">\(q\)</span>) <strong>cuts off after lag <span class="math inline">\(q\)</span></strong>.</p>
+<p>The reason is specific to linear dependence through the innovations: once <span class="math inline">\(h&gt;q\)</span>, <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_{t-h}\)</span> share no common innovations, so their autocovariance is zero.</p>
+<section id="ma2-work-from-the-common-shocks" class="level3">
+<h3 class="anchored" data-anchor-id="ma2-work-from-the-common-shocks">MA(2): work from the common shocks</h3>
+<p>Consider</p>
+<p><span class="math display">\[
+Y_{1t}
+=
+2+\varepsilon_t
++1.0\varepsilon_{t-1}
++0.7\varepsilon_{t-2},
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+Y_{2t}
+=
+2+\varepsilon_t
+-1.2\varepsilon_{t-1}
++0.25\varepsilon_{t-2}.
+\]</span></p>
+<p>Before running the code:</p>
+<ol type="1">
+<li>At which lag must each ACF become zero?</li>
+<li>For <span class="math inline">\(Y_{1t}\)</span>, what signs do you expect for <span class="math inline">\(\gamma_1\)</span> and <span class="math inline">\(\gamma_2\)</span>?</li>
+<li>For <span class="math inline">\(Y_{2t}\)</span>, can <span class="math inline">\(\gamma_1\)</span> and <span class="math inline">\(\gamma_2\)</span> have different signs?</li>
+</ol>
+<p>Use</p>
+<p><span class="math display">\[
+\gamma_h
+=
+\sigma^2\sum_{j=0}^{q-h}
+\theta_j\theta_{j+h}
+\]</span></p>
+<p>to answer before checking the graph.</p>
+<div id="3490e1f6" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Two MA(2) processes: realizations and theoretical ACFs</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ma21 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.0</span>, <span class="fl">0.7</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ma22 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.2</span>, <span class="fl">0.25</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>s21 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ma =</span> ma21), <span class="at">n =</span> n)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>s22 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ma =</span> ma22), <span class="at">n =</span> n)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(s21, <span class="at">mu =</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"MA(2): theta = (1.0, 0.7)"</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">acf_plot</span>(<span class="at">ma =</span> ma21, <span class="at">L =</span> <span class="dv">12</span>, <span class="at">title =</span> <span class="st">"Theoretical ACF"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(s22, <span class="at">mu =</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"MA(2): theta = (-1.2, 0.25)"</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">acf_plot</span>(<span class="at">ma =</span> ma22, <span class="at">L =</span> <span class="dv">12</span>, <span class="at">title =</span> <span class="st">"Theoretical ACF"</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, p4, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-12-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For the first MA(2), using <span class="math inline">\(\gamma_h=\sigma^2\sum_{j=0}^{q-h}\theta_j\theta_{j+h}\)</span> with <span class="math inline">\(\theta_0=1\)</span>,</p>
+<p><span class="math display">\[
+\gamma_1
+=
+\sigma^2(\theta_0\theta_1+\theta_1\theta_2)
+=
+\sigma^2(\theta_1+\theta_1\theta_2)
+=
+1.7\,\sigma^2,
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\gamma_2
+=
+\sigma^2\,\theta_0\theta_2
+=
+0.7\,\sigma^2.
+\]</span></p>
+<p>For the second,</p>
+<p><span class="math display">\[
+\gamma_1
+=
+\sigma^2\big[\theta_0\theta_1+\theta_1\theta_2\big]
+=
+\sigma^2\big[-1.2+(-1.2)(0.25)\big]
+=
+-1.5\,\sigma^2,
+\]</span></p>
+<p>while</p>
+<p><span class="math display">\[
+\gamma_2
+=
+\sigma^2\,\theta_0\theta_2
+=
+0.25\,\sigma^2.
+\]</span></p>
+<p>Thus an MA(2) can display autocorrelations of different signs at lags 1 and 2. In both processes the theoretical ACF is exactly zero for <span class="math inline">\(h&gt;2\)</span>.</p>
+</section>
+</section>
+<section id="invertibility" class="level2">
+<h2 class="anchored" data-anchor-id="invertibility">Invertibility</h2>
+<p>Every finite MA process is covariance stationary, but different MA parameterizations can generate the same autocovariance structure.</p>
+<p>For an MA(1),</p>
+<p><span class="math display">\[
+\rho_1=\frac{\theta}{1+\theta^2},
+\]</span></p>
+<p>so <span class="math inline">\(\theta\)</span> and <span class="math inline">\(1/\theta\)</span> produce the same <span class="math inline">\(\rho_1\)</span>. For example,</p>
+<p><span class="math display">\[
+\theta=0.5
+\qquad\text{and}\qquad
+\theta=2
+\]</span></p>
+<p>both imply <span class="math inline">\(\rho_1=0.4\)</span>.</p>
+<p>If the innovation variance is rescaled appropriately, the two representations generate the same entire autocovariance function.</p>
+<p><strong>Invertibility</strong> selects the representation in which the innovation can be recovered as a convergent function of current and past observations.</p>
+<p>For</p>
+<p><span class="math display">\[
+Y_t-\mu=(1+\theta L)\varepsilon_t,
+\]</span></p>
+<p>formally,</p>
+<p><span class="math display">\[
+\varepsilon_t
+=
+(1+\theta L)^{-1}(Y_t-\mu)
+=
+\left(1-\theta L+\theta^2L^2-\cdots\right)(Y_t-\mu).
+\]</span></p>
+<p>This expansion converges when <span class="math inline">\(|\theta|&lt;1\)</span>.</p>
+<p>Thus invertibility concerns the <strong>uniqueness and recoverability of the innovation representation</strong>; it is not a stationarity condition for an MA process.</p>
+<div id="60c3109c" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same MA(1) autocovariance structure, different parameterizations</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>equivalent_ma1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">2.0</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma2 =</span> <span class="fu">c</span>(<span class="fl">1.0</span>, <span class="fl">0.25</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>equivalent_ma1<span class="sc">$</span>gamma0 <span class="ot">&lt;-</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  equivalent_ma1<span class="sc">$</span>sigma2 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> equivalent_ma1<span class="sc">$</span>theta<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>equivalent_ma1<span class="sc">$</span>gamma1 <span class="ot">&lt;-</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  equivalent_ma1<span class="sc">$</span>sigma2 <span class="sc">*</span> equivalent_ma1<span class="sc">$</span>theta</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>equivalent_ma1<span class="sc">$</span>rho1 <span class="ot">&lt;-</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  equivalent_ma1<span class="sc">$</span>gamma1 <span class="sc">/</span> equivalent_ma1<span class="sc">$</span>gamma0</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>equivalent_ma1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small">
+<caption>A data.frame: 2 × 5</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" scope="col">theta</th>
+<th data-quarto-table-cell-role="th" scope="col">sigma2</th>
+<th data-quarto-table-cell-role="th" scope="col">gamma0</th>
+<th data-quarto-table-cell-role="th" scope="col">gamma1</th>
+<th data-quarto-table-cell-role="th" scope="col">rho1</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.5</td>
+<td>1.00</td>
+<td>1.25</td>
+<td>0.5</td>
+<td>0.4</td>
+</tr>
+<tr class="even">
+<td>2.0</td>
+<td>0.25</td>
+<td>1.25</td>
+<td>0.5</td>
+<td>0.4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="root-condition" class="level3">
+<h3 class="anchored" data-anchor-id="root-condition">Root condition</h3>
+<p>For</p>
+<p><span class="math display">\[
+Y_t-\mu
+=
+(1+\theta L)\varepsilon_t,
+\]</span></p>
+<p>invertibility requires the root of</p>
+<p><span class="math display">\[
+1+\theta z=0
+\]</span></p>
+<p>to lie <strong>outside the unit circle</strong>.</p>
+<p>The root is</p>
+<p><span class="math display">\[
+z=-\frac{1}{\theta},
+\]</span></p>
+<p>so for an MA(1),</p>
+<p><span class="math display">\[
+|\theta|&lt;1.
+\]</span></p>
+<p>More generally, an MA(<span class="math inline">\(q\)</span>) process is invertible when every root of</p>
+<p><span class="math display">\[
+1+\theta_1z+\cdots+\theta_qz^q=0
+\]</span></p>
+<p>lies outside the unit circle.</p>
+<blockquote class="blockquote">
+<p>A coefficient larger than one does not, by itself, determine invertibility for an MA(2) or higher-order process. The condition applies to the <strong>roots of the complete lag polynomial</strong>.</p>
+</blockquote>
+<div id="56dd14e9" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check invertibility of the two MA(2) examples</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ma_roots <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  roots <span class="ot">&lt;-</span> <span class="fu">polyroot</span>(<span class="fu">c</span>(<span class="dv">1</span>, theta))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">root =</span> roots,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">modulus =</span> <span class="fu">Mod</span>(roots),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">outside_unit_circle =</span> <span class="fu">Mod</span>(roots) <span class="sc">&gt;</span> <span class="dv">1</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ma_roots</span>(ma21)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ma_roots</span>(ma22)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small">
+<caption>A data.frame: 2 × 3</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" scope="col">root</th>
+<th data-quarto-table-cell-role="th" scope="col">modulus</th>
+<th data-quarto-table-cell-role="th" scope="col">outside_unit_circle</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th" scope="col">&lt;cpl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;lgl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-0.7142857+0.9583148i</td>
+<td>1.195229</td>
+<td>TRUE</td>
+</tr>
+<tr class="even">
+<td>-0.7142857-0.9583148i</td>
+<td>1.195229</td>
+<td>TRUE</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small">
+<caption>A data.frame: 2 × 3</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" scope="col">root</th>
+<th data-quarto-table-cell-role="th" scope="col">modulus</th>
+<th data-quarto-table-cell-role="th" scope="col">outside_unit_circle</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th" scope="col">&lt;cpl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;lgl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1.07335-5.04871e-29i</td>
+<td>1.07335</td>
+<td>TRUE</td>
+</tr>
+<tr class="even">
+<td>3.72665+5.04871e-29i</td>
+<td>3.72665</td>
+<td>TRUE</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="wold-coefficients-as-dynamic-responses" class="level2">
+<h2 class="anchored" data-anchor-id="wold-coefficients-as-dynamic-responses">Wold coefficients as dynamic responses</h2>
+<p>In the Wold representation,</p>
+<p><span class="math display">\[
+Y_t-\mu
+=
+\sum_{j=0}^{\infty}
+\psi_j\varepsilon_{t-j},
+\]</span></p>
+<p>the coefficient <span class="math inline">\(\psi_j\)</span> measures the linear response at horizon <span class="math inline">\(j\)</span> to a one-unit innovation today.</p>
+<p>For an MA(<span class="math inline">\(q\)</span>), the response becomes exactly zero after horizon <span class="math inline">\(q\)</span>. For an infinite-order MA representation, it may decay gradually.</p>
+<blockquote class="blockquote">
+<p>These are responses to <strong>statistical innovations</strong>. A causal interpretation requires additional identification assumptions.</p>
+</blockquote>
+<section id="predict-first" class="level3">
+<h3 class="anchored" data-anchor-id="predict-first">Predict first</h3>
+<p>For</p>
+<p><span class="math display">\[
+Y_t
+=
+\varepsilon_t
++0.8\varepsilon_{t-1},
+\]</span></p>
+<p>what is the response to a one-unit innovation:</p>
+<ul>
+<li>immediately?</li>
+<li>one period later?</li>
+<li>two periods later?</li>
+</ul>
+<div id="1d76492d" class="cell" data-execution_count="24">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dynamic responses of MA processes (uses irf_ma defined in the setup cell)</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">irf_ma</span>(<span class="fl">0.8</span>,        <span class="at">h =</span> <span class="dv">8</span>, <span class="at">title =</span> <span class="st">"Dynamic response: MA(1)"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">irf_ma</span>(<span class="fu">c</span>(<span class="fl">1.0</span>, <span class="fl">0.7</span>), <span class="at">h =</span> <span class="dv">8</span>, <span class="at">title =</span> <span class="st">"Dynamic response: MA(2)"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-15-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key takeaways</h2>
+<p>You should now be able to:</p>
+<ul>
+<li>distinguish a stochastic process from one observed realization;</li>
+<li>explain covariance stationarity, and ergodicity as the equality of time and ensemble averages;</li>
+<li>give an economic or financial example where ergodicity fails (permanent income; a multiplicative bet);</li>
+<li>interpret population autocovariances and autocorrelations;</li>
+<li>distinguish white noise from independence;</li>
+<li>explain Wold innovations and their role in linear forecasting;</li>
+<li>derive the ACF of MA(1) and MA(<span class="math inline">\(q\)</span>) processes;</li>
+<li>explain why an MA(<span class="math inline">\(q\)</span>) ACF cuts off after lag <span class="math inline">\(q\)</span>;</li>
+<li>distinguish stationarity from invertibility and check the MA root condition.</li>
+</ul>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<section id="exercise-1-what-property-fails" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1-what-property-fails">Exercise 1: What property fails?</h3>
+<p>For each process, determine whether it is covariance stationary and identify the condition that fails if it is not:</p>
+<p><span class="math display">\[
+Y_t=5+\varepsilon_t,
+\]</span></p>
+<p><span class="math display">\[
+Y_t=5+0.1t+\varepsilon_t,
+\]</span></p>
+<p><span class="math display">\[
+Y_t=t\varepsilon_t,
+\]</span></p>
+<p><span class="math display">\[
+Y_t=Y_{t-1}+\varepsilon_t.
+\]</span></p>
+<hr>
+</section>
+<section id="exercise-2-stationarity-versus-ergodicity" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2-stationarity-versus-ergodicity">Exercise 2: Stationarity versus ergodicity</h3>
+<p>Let</p>
+<p><span class="math display">\[
+Y_t=A,
+\qquad
+A\sim N(0,1).
+\]</span></p>
+<p>Why is this process stationary? Why does observing it for a very long time not reveal the ensemble mean?</p>
+<hr>
+</section>
+<section id="exercise-3-derive-an-ma1-acf" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3-derive-an-ma1-acf">Exercise 3: Derive an MA(1) ACF</h3>
+<p>For</p>
+<p><span class="math display">\[
+Y_t=3+\varepsilon_t+0.6\varepsilon_{t-1},
+\qquad
+\varepsilon_t\sim WN(0,4),
+\]</span></p>
+<p>calculate</p>
+<p><span class="math display">\[
+E(Y_t),\qquad
+\gamma_0,\qquad
+\gamma_1,\qquad
+\rho_1.
+\]</span></p>
+<p>At what lag does the theoretical ACF cut off?</p>
+<hr>
+</section>
+<section id="exercise-4-ma2-from-common-innovations" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4-ma2-from-common-innovations">Exercise 4: MA(2) from common innovations</h3>
+<p>For</p>
+<p><span class="math display">\[
+Y_t
+=
+\varepsilon_t
++0.7\varepsilon_{t-1}
+-0.3\varepsilon_{t-2},
+\]</span></p>
+<p>derive <span class="math inline">\(\gamma_0\)</span>, <span class="math inline">\(\gamma_1\)</span>, and <span class="math inline">\(\gamma_2\)</span>.</p>
+<p>Predict the signs before calculating them.</p>
+<hr>
+</section>
+<section id="exercise-5-is-this-a-valid-acf" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5-is-this-a-valid-acf">Exercise 5: Is this a valid ACF?</h3>
+<p>Suppose somebody proposes</p>
+<p><span class="math display">\[
+\rho_0=1,\qquad
+\rho_1=0.9,\qquad
+\rho_2=-0.9.
+\]</span></p>
+<p>Why is checking only <span class="math inline">\(|\rho_h|\le1\)</span> insufficient? What additional property must an autocorrelation sequence satisfy?</p>
+<hr>
+</section>
+<section id="exercise-6-invertibility" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-6-invertibility">Exercise 6: Invertibility</h3>
+<p>Show that <span class="math inline">\(\theta=0.5\)</span> and <span class="math inline">\(\theta=2\)</span>, with appropriate innovation variances, can produce the same MA(1) autocovariance function.</p>
+<p>Which representation is invertible, and what does invertibility mean economically/statistically for the innovation sequence?</p>
+</section>
+</section>
+<section id="suggested-reading" class="level2">
+<h2 class="anchored" data-anchor-id="suggested-reading">Suggested reading</h2>
+<p>For the concepts developed in this lecture:</p>
+<ul>
+<li>Hamilton, J. D. (1994), <em>Time Series Analysis</em>, Chapter 3.</li>
+<li>Brockwell, P. J. and Davis, R. A., <em>Introduction to Time Series and Forecasting</em>, chapters on stationary processes and ARMA models.</li>
+<li>Enders, W., <em>Applied Econometric Time Series</em>, sections introducing stationary stochastic processes and ARMA models.</li>
+<li>Hyndman, R. J. and Athanasopoulos, G., <em>Forecasting: Principles and Practice</em>, chapters on time-series structure and ARIMA models, for a more intuitive computational treatment.</li>
+</ul>
+<p>The next lecture builds naturally from this material to <strong>autoregressive processes, stationarity conditions, characteristic roots, persistence, and the contrasting ACF behaviour of AR and MA processes</strong>.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/sunilpaul29\.github\.io\/HS821\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>HS 821: Topics in Time Series Econometrics</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Moodle remains the official course platform.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
