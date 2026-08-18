@@ -190,10 +190,6 @@ $$\sum_{i=1}^{m}\sum_{j=1}^{m}a_i a_j\,\gamma_{t_i-t_j}\ge0.$$
 
 The autocovariance sequence must be **positive semidefinite**.
 
-::: {.callout-ts}
-**Question.** Is any symmetric sequence with $\rho_0=1$ and $|\rho_h|\le1$ a valid ACF? **No** — the autocorrelations must jointly define a positive-semidefinite covariance structure.
-:::
-
 # Stationarity {background-color="#1b3a6b"}
 
 ## Strict vs covariance stationarity {.smaller}

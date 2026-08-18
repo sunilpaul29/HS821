@@ -52,6 +52,11 @@ website:
           - href: Notebooks/04-Review-stats2.ipynb
             text: Statistics and probability III
 
+      - section: "Univariate timeseris models"
+        contents:
+          - href: Notebooks/05-Univariate-Time-Series-modelsI.ipynb
+            text: Univariate-Time-Series-models I
+
       - section: "Lecture slides"
         contents:
           - href: Slides/00-course-introduction.qmd
@@ -65,6 +70,9 @@ website:
 
           - href: Slides/04-Review-stats2.qmd
             text: Review of Stats and Prob III
+
+          - href: Slides/05-Univariate-Time-Series-modelsI.qmd
+            text: Univariate-Time-Series-models I
 
 
 

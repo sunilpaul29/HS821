@@ -4,385 +4,660 @@
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#where-we-are",
     "title": "Univariate Time Series Models I",
     "section": "Where we are",
-    "text": "Where we are\nEarlier lectures treated observations largely as a random sample. Time-series data are different: ordering matters, observations may be dependent, and we usually observe only one realization of an underlying stochastic process.\n\nThis lecture develops the probabilistic properties of univariate time series — the foundation for ARMA modelling and forecasting later in the course. Estimation, inference, and model selection come afterwards."
+    "text": "Where we are\nEarlier lectures treated observations largely as a random sample. Time-series data are different: ordering matters, observations may be dependent, and we usually observe only one realization of an underlying stochastic process.\n\nThis lecture develops the probabilistic properties of univariate time series — the foundation for ARMA modelling and forecasting later in the course. Estimation, inference, and model selection come afterwards.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#a-stochastic-process-vs-a-realization",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#a-stochastic-process-vs-a-realization",
     "title": "Univariate Time Series Models I",
     "section": "A stochastic process vs a realization",
-    "text": "A stochastic process vs a realization\nA stochastic process is a collection of random variables indexed by time, \\[\\{Y_t:t\\in\\mathbb Z\\}.\\]\nBefore observation each \\(Y_t\\) is random. Once observed over \\(t=1,\\ldots,T\\) we obtain one realization, \\[y_1,y_2,\\ldots,y_T.\\]\n\nA time series is not an unordered collection of observations. Its temporal ordering and dependence structure are part of the object being studied.\n\n\nShuffle a cross-section and little is lost. Shuffle a time series and its dependence — its time-series structure — is destroyed."
+    "text": "A stochastic process vs a realization\nA stochastic process is a collection of random variables indexed by time, \\[\\{Y_t:t\\in\\mathbb Z\\}.\\]\nBefore observation each \\(Y_t\\) is random. Once observed over \\(t=1,\\ldots,T\\) we obtain one realization, \\[y_1,y_2,\\ldots,y_T.\\]\n\nA time series is not an unordered collection of observations. Its temporal ordering and dependence structure are part of the object being studied.\n\n\nShuffle a cross-section and little is lost. Shuffle a time series and its dependence — its time-series structure — is destroyed.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#moments-of-a-stochastic-process",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#moments-of-a-stochastic-process",
     "title": "Univariate Time Series Models I",
     "section": "Moments of a stochastic process",
-    "text": "Moments of a stochastic process\nMean function: \\[\\mu_t=E(Y_t).\\]\nAutocovariance (\\(h\\) periods apart): \\[\\gamma(t,t-h)=\\operatorname{Cov}(Y_t,Y_{t-h})=E[(Y_t-\\mu_t)(Y_{t-h}-\\mu_{t-h})].\\]\nFor a covariance-stationary process these depend only on the lag \\(h\\): \\[\\gamma_h=\\operatorname{Cov}(Y_t,Y_{t-h}),\\qquad \\rho_h=\\frac{\\gamma_h}{\\gamma_0}.\\]\n\nThe sequence \\(\\{\\rho_h\\}\\) is the autocorrelation function (ACF); its plot against \\(h\\) is the correlogram."
+    "text": "Moments of a stochastic process\nMean function: \\[\\mu_t=E(Y_t).\\]\nAutocovariance (\\(h\\) periods apart): \\[\\gamma(t,t-h)=\\operatorname{Cov}(Y_t,Y_{t-h})=E[(Y_t-\\mu_t)(Y_{t-h}-\\mu_{t-h})].\\]\nFor a covariance-stationary process these depend only on the lag \\(h\\): \\[\\gamma_h=\\operatorname{Cov}(Y_t,Y_{t-h}),\\qquad \\rho_h=\\frac{\\gamma_h}{\\gamma_0}.\\]\n\nThe sequence \\(\\{\\rho_h\\}\\) is the autocorrelation function (ACF); its plot against \\(h\\) is the correlogram.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#restrictions-on-an-autocovariance-function",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#restrictions-on-an-autocovariance-function",
     "title": "Univariate Time Series Models I",
     "section": "Restrictions on an autocovariance function",
-    "text": "Restrictions on an autocovariance function\nFor a covariance-stationary process, \\[\\gamma_h=\\gamma_{-h},\\quad \\rho_h=\\rho_{-h},\\quad \\gamma_0=\\operatorname{Var}(Y_t)\\ge0,\\quad \\rho_0=1,\\quad |\\rho_h|\\le1.\\]\nA deeper restriction: for any constants \\(a_1,\\ldots,a_m\\) and indices \\(t_1,\\ldots,t_m\\), \\[\\sum_{i=1}^{m}\\sum_{j=1}^{m}a_i a_j\\,\\gamma_{t_i-t_j}\\ge0.\\]\nThe autocovariance sequence must be positive semidefinite.\n\nQuestion. Is any symmetric sequence with \\(\\rho_0=1\\) and \\(|\\rho_h|\\le1\\) a valid ACF? No — the autocorrelations must jointly define a positive-semidefinite covariance structure."
+    "text": "Restrictions on an autocovariance function\nFor a covariance-stationary process, \\[\\gamma_h=\\gamma_{-h},\\quad \\rho_h=\\rho_{-h},\\quad \\gamma_0=\\operatorname{Var}(Y_t)\\ge0,\\quad \\rho_0=1,\\quad |\\rho_h|\\le1.\\]\nA deeper restriction: for any constants \\(a_1,\\ldots,a_m\\) and indices \\(t_1,\\ldots,t_m\\), \\[\\sum_{i=1}^{m}\\sum_{j=1}^{m}a_i a_j\\,\\gamma_{t_i-t_j}\\ge0.\\]\nThe autocovariance sequence must be positive semidefinite.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#strict-vs-covariance-stationarity",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#strict-vs-covariance-stationarity",
     "title": "Univariate Time Series Models I",
     "section": "Strict vs covariance stationarity",
-    "text": "Strict vs covariance stationarity\nStrict stationarity — shifting time changes no finite-dimensional joint distribution: \\[(Y_{t_1},\\ldots,Y_{t_k})\\overset{d}{=}(Y_{t_1+h},\\ldots,Y_{t_k+h}).\\]\nCovariance (weak, second-order) stationarity:\n\n\\(E(Y_t)=\\mu\\) for all \\(t\\);\n\\(\\operatorname{Var}(Y_t)=\\gamma_0&lt;\\infty\\) for all \\(t\\);\n\\(\\operatorname{Cov}(Y_t,Y_{t-h})=\\gamma_h\\) depends only on the lag \\(h\\).\n\n\nIf second moments exist, strict \\(\\Rightarrow\\) covariance stationarity (not conversely). For a Gaussian process the mean and covariance pin down all distributions, so covariance stationarity \\(\\Rightarrow\\) strict."
+    "text": "Strict vs covariance stationarity\nStrict stationarity — shifting time changes no finite-dimensional joint distribution: \\[(Y_{t_1},\\ldots,Y_{t_k})\\overset{d}{=}(Y_{t_1+h},\\ldots,Y_{t_k+h}).\\]\nCovariance (weak, second-order) stationarity:\n\n\\(E(Y_t)=\\mu\\) for all \\(t\\);\n\\(\\operatorname{Var}(Y_t)=\\gamma_0&lt;\\infty\\) for all \\(t\\);\n\\(\\operatorname{Cov}(Y_t,Y_{t-h})=\\gamma_h\\) depends only on the lag \\(h\\).\n\n\nIf second moments exist, strict \\(\\Rightarrow\\) covariance stationarity (not conversely). For a Gaussian process the mean and covariance pin down all distributions, so covariance stationarity \\(\\Rightarrow\\) strict.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#predict-before-you-simulate",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#predict-before-you-simulate",
     "title": "Univariate Time Series Models I",
     "section": "Predict before you simulate",
-    "text": "Predict before you simulate\nConsider four processes:\n\\[Y_t=\\varepsilon_t \\quad(\\text{white noise}), \\qquad Y_t=2+0.03t+\\varepsilon_t \\quad(\\text{trend}),\\] \\[Y_t=Y_{t-1}+\\varepsilon_t \\quad(\\text{random walk}), \\qquad Y_t=t\\,\\varepsilon_t \\quad(\\text{time-varying variance}).\\]\nFor each, ask before running:\n\nIs the mean constant?\nIs the variance constant?\nIf not stationary, which condition fails?"
+    "text": "Predict before you simulate\nConsider four processes:\n\\[Y_t=\\varepsilon_t \\quad(\\text{white noise}), \\qquad Y_t=2+0.03t+\\varepsilon_t \\quad(\\text{trend}),\\] \\[Y_t=Y_{t-1}+\\varepsilon_t \\quad(\\text{random walk}), \\qquad Y_t=t\\,\\varepsilon_t \\quad(\\text{time-varying variance}).\\]\nFor each, ask before running:\n\nIs the mean constant?\nIs the variance constant?\nIf not stationary, which condition fails?",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-simulate-four-processes",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-simulate-four-processes",
     "title": "Univariate Time Series Models I",
     "section": "R — simulate four processes",
-    "text": "R — simulate four processes\n\nset.seed(821)\nT &lt;- 250; t &lt;- 1:T\n\nwn    &lt;- rnorm(T)\ntrend &lt;- 2 + 0.03 * t + rnorm(T)\nrw    &lt;- cumsum(rnorm(T))\ntvv   &lt;- t * rnorm(T)\n\np1 &lt;- ts_plot(wn,    mu = 0) + ggtitle(\"White noise\")\np2 &lt;- ts_plot(trend)         + ggtitle(\"Deterministic trend + noise\")\np3 &lt;- ts_plot(rw)            + ggtitle(\"Random walk\")\np4 &lt;- ts_plot(tvv,   mu = 0) + ggtitle(\"Time-varying variance\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)"
+    "text": "R — simulate four processes\n\nset.seed(821)\nT &lt;- 250; t &lt;- 1:T\n\nwn    &lt;- rnorm(T)\ntrend &lt;- 2 + 0.03 * t + rnorm(T)\nrw    &lt;- cumsum(rnorm(T))\ntvv   &lt;- t * rnorm(T)\n\np1 &lt;- ts_plot(wn,    mu = 0) + ggtitle(\"White noise\")\np2 &lt;- ts_plot(trend)         + ggtitle(\"Deterministic trend + noise\")\np3 &lt;- ts_plot(rw)            + ggtitle(\"Random walk\")\np4 &lt;- ts_plot(tvv,   mu = 0) + ggtitle(\"Time-varying variance\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#reading-the-graphs",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#reading-the-graphs",
     "title": "Univariate Time Series Models I",
     "section": "Reading the graphs",
-    "text": "Reading the graphs\n\n\nWhite noise — constant mean and variance.\nDeterministic trend — violates the constant-mean condition.\nRandom walk — \\(\\operatorname{Var}(Y_t)=t\\sigma^2\\) (with \\(Y_0\\) fixed): variance grows with time.\nTime-varying variance — \\(E(Y_t)=0\\) but \\(\\operatorname{Var}(Y_t)=t^2\\sigma^2\\): nonstationary through the variance.\n\n\n\nStationarity is a property of the process, not a visual property of one observed path."
+    "text": "Reading the graphs\n\n\nWhite noise — constant mean and variance.\nDeterministic trend — violates the constant-mean condition.\nRandom walk — \\(\\operatorname{Var}(Y_t)=t\\sigma^2\\) (with \\(Y_0\\) fixed): variance grows with time.\nTime-varying variance — \\(E(Y_t)=0\\) but \\(\\operatorname{Var}(Y_t)=t^2\\sigma^2\\): nonstationary through the variance.\n\n\n\nStationarity is a property of the process, not a visual property of one observed path.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#stationarity-is-not-enough",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#stationarity-is-not-enough",
     "title": "Univariate Time Series Models I",
     "section": "Stationarity is not enough",
-    "text": "Stationarity is not enough\nStationarity keeps the probability law stable over time. Ergodicity connects two very different ways of averaging.\n\n\nEnsemble average — average across many parallel realizations (histories) at a fixed date \\(t\\). This is the expectation \\(E(Y_t)\\).\nTime average — average along one realization over time: \\(\\dfrac{1}{T}\\sum_{t=1}^{T}Y_t\\).\n\n\nA stationary process is mean ergodic when the two coincide as the sample grows: \\[\\frac{1}{T}\\sum_{t=1}^{T}Y_t \\xrightarrow{p} E(Y_t).\\]\nThe same idea extends to variances and autocovariances."
+    "text": "Stationarity is not enough\nStationarity keeps the probability law stable over time. Ergodicity connects two very different ways of averaging.\n\n\nEnsemble average — average across many parallel realizations (histories) at a fixed date \\(t\\). This is the expectation \\(E(Y_t)\\).\nTime average — average along one realization over time: \\(\\dfrac{1}{T}\\sum_{t=1}^{T}Y_t\\).\n\n\nA stationary process is mean ergodic when the two coincide as the sample grows: \\[\\frac{1}{T}\\sum_{t=1}^{T}Y_t \\xrightarrow{p} E(Y_t).\\]\nThe same idea extends to variances and autocovariances.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#why-it-is-the-load-bearing-assumption",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#why-it-is-the-load-bearing-assumption",
     "title": "Univariate Time Series Models I",
     "section": "Why it is the load-bearing assumption",
-    "text": "Why it is the load-bearing assumption\nWe almost never get the ensemble — we get one history. One realized path of US GDP, one path of the S&P 500, one inflation series.\n\nEvery time we estimate a mean, variance, or autocorrelation from that single path and treat it as a population quantity, we are assuming ergodicity. If it fails, more of the same history does not help.\n\nTwo warnings the simulations make concrete:\n\nstationarity \\(\\not\\Rightarrow\\) ergodicity — a stable law can hide a permanent, history-specific component;\nserial dependence \\(\\not\\Rightarrow\\) non-ergodicity — a stationary AR(1) is dependent yet ergodic."
+    "text": "Why it is the load-bearing assumption\nWe almost never get the ensemble — we get one history. One realized path of US GDP, one path of the S&P 500, one inflation series.\n\nEvery time we estimate a mean, variance, or autocorrelation from that single path and treat it as a population quantity, we are assuming ergodicity. If it fails, more of the same history does not help.\n\nTwo warnings the simulations make concrete:\n\nstationarity \\(\\not\\Rightarrow\\) ergodicity — a stable law can hide a permanent, history-specific component;\nserial dependence \\(\\not\\Rightarrow\\) non-ergodicity — a stationary AR(1) is dependent yet ergodic.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#a-real-world-picture-permanent-vs-transitory",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#a-real-world-picture-permanent-vs-transitory",
     "title": "Univariate Time Series Models I",
     "section": "A real-world picture: permanent vs transitory",
-    "text": "A real-world picture: permanent vs transitory\nThe simulated example \\(Y_t = A + \\varepsilon_t\\) (with \\(A\\) drawn once, \\(\\varepsilon_t\\) transitory) is the permanent–transitory decomposition of applied economics.\n\n\\(Y_t\\) = a household’s log income: permanent component \\(A\\) (human capital, profession) plus a good/bad year \\(\\varepsilon_t\\) — the structure behind Friedman’s permanent-income hypothesis.\nOr \\(Y_t\\) = a country’s growth: a permanent “type” \\(A\\) (institutions, geography) plus year-to-year shocks.\n\n\nFollow one household for decades and its time-average income converges to its own \\(A\\), not the population mean. Watching Argentina for two centuries reveals Argentina’s \\(A\\), not the world-average growth rate.\n\nContrast a stationary AR(1): a shock’s influence decays, \\(\\gamma_h=\\phi^h\\to0\\), so a long path does recover the ensemble moments."
+    "text": "A real-world picture: permanent vs transitory\nThe simulated example \\(Y_t = A + \\varepsilon_t\\) (with \\(A\\) drawn once, \\(\\varepsilon_t\\) transitory) is the permanent–transitory decomposition of applied economics.\n\n\\(Y_t\\) = a household’s log income: permanent component \\(A\\) (human capital, profession) plus a good/bad year \\(\\varepsilon_t\\) — the structure behind Friedman’s permanent-income hypothesis.\nOr \\(Y_t\\) = a country’s growth: a permanent “type” \\(A\\) (institutions, geography) plus year-to-year shocks.\n\n\nFollow one household for decades and its time-average income converges to its own \\(A\\), not the population mean. Watching Argentina for two centuries reveals Argentina’s \\(A\\), not the world-average growth rate.\n\nContrast a stationary AR(1): a shock’s influence decays, \\(\\gamma_h=\\phi^h\\to0\\), so a long path does recover the ensemble moments.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#simulation-1-iid-white-noise",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#simulation-1-iid-white-noise",
     "title": "Univariate Time Series Models I",
     "section": "Simulation 1 — iid white noise",
-    "text": "Simulation 1 — iid white noise\n\\[Y_t\\overset{iid}{\\sim}N(0,1),\\qquad E(Y_t)=0,\\quad E(Y_t^2)=1,\\quad \\gamma_1=0.\\]\nWe track three running time averages at once — the mean, the second moment, and the lag-1 product.\n\nPredict: as the realization lengthens, what should each of the three approach?"
+    "text": "Simulation 1 — iid white noise\n\\[Y_t\\overset{iid}{\\sim}N(0,1),\\qquad E(Y_t)=0,\\quad E(Y_t^2)=1,\\quad \\gamma_1=0.\\]\nWe track three running time averages at once — the mean, the second moment, and the lag-1 product.\n\nPredict: as the realization lengthens, what should each of the three approach?",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-ergodic-white-noise",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-ergodic-white-noise",
     "title": "Univariate Time Series Models I",
     "section": "R — ergodic white noise",
-    "text": "R — ergodic white noise\n\nset.seed(821)\nT &lt;- 5000; y &lt;- rnorm(T)\nd &lt;- running_moments(y)\n\np1 &lt;- ggplot(d, aes(t, mean)) + geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running mean\", x = \"T\", y = expression(frac(1, T) * sum(Y[t])))\n\np2 &lt;- ggplot(d, aes(t, second_moment)) + geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running second moment\", x = \"T\", y = expression(frac(1, T) * sum(Y[t]^2)))\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) + geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running lag-1 product\", x = \"T\",\n       y = expression(frac(1, T - 1) * sum(Y[t] * Y[t - 1])))\n\ngrid.arrange(p1, p2, p3, ncol = 1)"
+    "text": "R — ergodic white noise\n\nset.seed(821)\nT &lt;- 5000; y &lt;- rnorm(T)\nd &lt;- running_moments(y)\n\np1 &lt;- ggplot(d, aes(t, mean)) + geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running mean\", x = \"T\", y = expression(frac(1, T) * sum(Y[t])))\n\np2 &lt;- ggplot(d, aes(t, second_moment)) + geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running second moment\", x = \"T\", y = expression(frac(1, T) * sum(Y[t]^2)))\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) + geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running lag-1 product\", x = \"T\",\n       y = expression(frac(1, T - 1) * sum(Y[t] * Y[t - 1])))\n\ngrid.arrange(p1, p2, p3, ncol = 1)",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#what-you-should-see",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#what-you-should-see",
     "title": "Univariate Time Series Models I",
     "section": "What you should see",
-    "text": "What you should see\nAs \\(T\\) increases, \\[\\frac{1}{T}\\sum Y_t \\xrightarrow{p} 0,\\qquad \\frac{1}{T}\\sum Y_t^2 \\xrightarrow{p} 1,\\qquad \\frac{1}{T-1}\\sum_{t=2}^{T}Y_t Y_{t-1} \\xrightarrow{p} 0.\\]\n\nThe path never becomes smooth. What stabilizes are the time averages of functions of the process."
+    "text": "What you should see\nAs \\(T\\) increases, \\[\\frac{1}{T}\\sum Y_t \\xrightarrow{p} 0,\\qquad \\frac{1}{T}\\sum Y_t^2 \\xrightarrow{p} 1,\\qquad \\frac{1}{T-1}\\sum_{t=2}^{T}Y_t Y_{t-1} \\xrightarrow{p} 0.\\]\n\nThe path never becomes smooth. What stabilizes are the time averages of functions of the process.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#simulation-2-dependence-ne-non-ergodicity",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#simulation-2-dependence-ne-non-ergodicity",
     "title": "Univariate Time Series Models I",
     "section": "Simulation 2 — dependence \\(\\ne\\) non-ergodicity",
-    "text": "Simulation 2 — dependence \\(\\ne\\) non-ergodicity\nStationary AR(1): \\(\\;Y_t=\\phi Y_{t-1}+\\varepsilon_t,\\ |\\phi|&lt;1.\\)\nSet \\(\\phi=0.8\\) and \\(\\operatorname{Var}(\\varepsilon_t)=1-\\phi^2\\), so \\[E(Y_t)=0,\\qquad \\operatorname{Var}(Y_t)=1,\\qquad \\gamma_1=0.8.\\]\nSerially dependent — yet ergodic.\n\nPredict: should the running mean converge to zero? What should the running lag-1 product approach?"
+    "text": "Simulation 2 — dependence \\(\\ne\\) non-ergodicity\nStationary AR(1): \\(\\;Y_t=\\phi Y_{t-1}+\\varepsilon_t,\\ |\\phi|&lt;1.\\)\nSet \\(\\phi=0.8\\) and \\(\\operatorname{Var}(\\varepsilon_t)=1-\\phi^2\\), so \\[E(Y_t)=0,\\qquad \\operatorname{Var}(Y_t)=1,\\qquad \\gamma_1=0.8.\\]\nSerially dependent — yet ergodic.\n\nPredict: should the running mean converge to zero? What should the running lag-1 product approach?",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-stationary-dependent-yet-ergodic",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-stationary-dependent-yet-ergodic",
     "title": "Univariate Time Series Models I",
     "section": "R — stationary, dependent, yet ergodic",
-    "text": "R — stationary, dependent, yet ergodic\n\nset.seed(822)\nT &lt;- 5000; phi &lt;- 0.8\ninnovation_sd &lt;- sqrt(1 - phi^2)          # normalises Var(Y_t) to 1\n\ny_ar &lt;- as.numeric(arima.sim(model = list(ar = phi), n = T, sd = innovation_sd))\nd    &lt;- running_moments(y_ar)\n\np1 &lt;- ggplot(d, aes(t, mean)) + geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"AR(1): running mean\", x = \"T\", y = NULL)\n\np2 &lt;- ggplot(d, aes(t, second_moment)) + geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"AR(1): running second moment\", x = \"T\", y = NULL)\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) + geom_line() +\n  geom_hline(yintercept = phi, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"AR(1): running lag-1 product\",\n       subtitle = expression(gamma[1] == 0.8), x = \"T\", y = NULL)\n\ngrid.arrange(p1, p2, p3, ncol = 1)"
+    "text": "R — stationary, dependent, yet ergodic\n\nset.seed(822)\nT &lt;- 5000; phi &lt;- 0.8\ninnovation_sd &lt;- sqrt(1 - phi^2)          # normalises Var(Y_t) to 1\n\ny_ar &lt;- as.numeric(arima.sim(model = list(ar = phi), n = T, sd = innovation_sd))\nd    &lt;- running_moments(y_ar)\n\np1 &lt;- ggplot(d, aes(t, mean)) + geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"AR(1): running mean\", x = \"T\", y = NULL)\n\np2 &lt;- ggplot(d, aes(t, second_moment)) + geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"AR(1): running second moment\", x = \"T\", y = NULL)\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) + geom_line() +\n  geom_hline(yintercept = phi, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"AR(1): running lag-1 product\",\n       subtitle = expression(gamma[1] == 0.8), x = \"T\", y = NULL)\n\ngrid.arrange(p1, p2, p3, ncol = 1)",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#ar1-the-limits",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#ar1-the-limits",
     "title": "Univariate Time Series Models I",
     "section": "AR(1): the limits",
-    "text": "AR(1): the limits\n\\[\\frac{1}{T}\\sum Y_t \\xrightarrow{p} 0,\\qquad \\frac{1}{T}\\sum Y_t^2 \\xrightarrow{p} 1,\\qquad \\frac{1}{T-1}\\sum_{t=2}^{T}Y_t Y_{t-1} \\xrightarrow{p} \\gamma_1 = 0.8.\\]\n\nErgodicity does not require independence. Strongly serially correlated data can still reveal the stationary moments through a long enough realization."
+    "text": "AR(1): the limits\n\\[\\frac{1}{T}\\sum Y_t \\xrightarrow{p} 0,\\qquad \\frac{1}{T}\\sum Y_t^2 \\xrightarrow{p} 1,\\qquad \\frac{1}{T-1}\\sum_{t=2}^{T}Y_t Y_{t-1} \\xrightarrow{p} \\gamma_1 = 0.8.\\]\n\nErgodicity does not require independence. Strongly serially correlated data can still reveal the stationary moments through a long enough realization.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#simulation-3-stationary-but-non-ergodic",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#simulation-3-stationary-but-non-ergodic",
     "title": "Univariate Time Series Models I",
     "section": "Simulation 3 — stationary but non-ergodic",
-    "text": "Simulation 3 — stationary but non-ergodic\n\\[Y_t=A+\\varepsilon_t,\\qquad A\\sim N(0,1),\\quad \\varepsilon_t\\overset{iid}{\\sim}N(0,1),\\]\nwith \\(A\\) drawn once and held fixed. Unconditionally it is stationary: \\[E(Y_t)=0,\\quad \\operatorname{Var}(Y_t)=2,\\quad \\gamma_h=\\operatorname{Var}(A)=1\\ (h&gt;0).\\]\nBut within one realization \\(A\\) never averages out. As \\(T\\to\\infty\\), \\[\\tfrac{1}{T}\\sum Y_t \\to A,\\qquad \\tfrac{1}{T}\\sum Y_t^2 \\to A^2+1,\\qquad \\tfrac{1}{T-1}\\sum Y_t Y_{t-1} \\to A^2,\\]\nnot the ensemble values \\(0,\\ 2,\\ 1\\)."
+    "text": "Simulation 3 — stationary but non-ergodic\n\\[Y_t=A+\\varepsilon_t,\\qquad A\\sim N(0,1),\\quad \\varepsilon_t\\overset{iid}{\\sim}N(0,1),\\]\nwith \\(A\\) drawn once and held fixed. Unconditionally it is stationary: \\[E(Y_t)=0,\\quad \\operatorname{Var}(Y_t)=2,\\quad \\gamma_h=\\operatorname{Var}(A)=1\\ (h&gt;0).\\]\nBut within one realization \\(A\\) never averages out. As \\(T\\to\\infty\\), \\[\\tfrac{1}{T}\\sum Y_t \\to A,\\qquad \\tfrac{1}{T}\\sum Y_t^2 \\to A^2+1,\\qquad \\tfrac{1}{T-1}\\sum Y_t Y_{t-1} \\to A^2,\\]\nnot the ensemble values \\(0,\\ 2,\\ 1\\).",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-a-permanent-random-component",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-a-permanent-random-component",
     "title": "Univariate Time Series Models I",
     "section": "R — a permanent random component",
-    "text": "R — a permanent random component\n\nset.seed(823)\nT &lt;- 5000\nA &lt;- rnorm(1); epsilon &lt;- rnorm(T)\ny_ne &lt;- A + epsilon\nd &lt;- running_moments(y_ne)\n\np0 &lt;- ts_plot(y_ne) + geom_hline(yintercept = A, linetype = \"dashed\") +\n  ggtitle(\"One realization: Y_t = A + epsilon_t\")\n\np1 &lt;- ggplot(d, aes(t, mean)) + geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dotted\") +\n  geom_hline(yintercept = A, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running mean\",\n       subtitle = \"Dotted: ensemble 0; dashed: limit A\", x = \"T\", y = NULL)\n\np2 &lt;- ggplot(d, aes(t, second_moment)) + geom_line() +\n  geom_hline(yintercept = 2, linetype = \"dotted\") +\n  geom_hline(yintercept = A^2 + 1, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running second moment\",\n       subtitle = \"Dotted: ensemble 2; dashed: limit A^2 + 1\", x = \"T\", y = NULL)\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) + geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dotted\") +\n  geom_hline(yintercept = A^2, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running lag-1 product\",\n       subtitle = \"Dotted: ensemble 1; dashed: limit A^2\", x = \"T\", y = NULL)\n\ngrid.arrange(p0, p1, p2, p3, ncol = 1)\ncat(\"Realization-specific A =\", round(A, 4), \"\\n\")"
+    "text": "R — a permanent random component\n\nset.seed(823)\nT &lt;- 5000\nA &lt;- rnorm(1); epsilon &lt;- rnorm(T)\ny_ne &lt;- A + epsilon\nd &lt;- running_moments(y_ne)\n\np0 &lt;- ts_plot(y_ne) + geom_hline(yintercept = A, linetype = \"dashed\") +\n  ggtitle(\"One realization: Y_t = A + epsilon_t\")\n\np1 &lt;- ggplot(d, aes(t, mean)) + geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dotted\") +\n  geom_hline(yintercept = A, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running mean\",\n       subtitle = \"Dotted: ensemble 0; dashed: limit A\", x = \"T\", y = NULL)\n\np2 &lt;- ggplot(d, aes(t, second_moment)) + geom_line() +\n  geom_hline(yintercept = 2, linetype = \"dotted\") +\n  geom_hline(yintercept = A^2 + 1, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running second moment\",\n       subtitle = \"Dotted: ensemble 2; dashed: limit A^2 + 1\", x = \"T\", y = NULL)\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) + geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dotted\") +\n  geom_hline(yintercept = A^2, linetype = \"dashed\") + theme_classic() +\n  labs(title = \"Running lag-1 product\",\n       subtitle = \"Dotted: ensemble 1; dashed: limit A^2\", x = \"T\", y = NULL)\n\ngrid.arrange(p0, p1, p2, p3, ncol = 1)\ncat(\"Realization-specific A =\", round(A, 4), \"\\n\")",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#why-stationarity-does-not-imply-ergodicity",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#why-stationarity-does-not-imply-ergodicity",
     "title": "Univariate Time Series Models I",
     "section": "Why stationarity does not imply ergodicity",
-    "text": "Why stationarity does not imply ergodicity\n\\(Y_t=A+\\varepsilon_t\\) is stationary, but the common component \\(A\\) creates dependence that never dies out: \\[\\gamma_h=1\\qquad\\text{for every }h&gt;0.\\]\nBy contrast, for a stationary AR(1), \\[\\gamma_h\\propto\\phi^h\\to0\\qquad(|\\phi|&lt;1).\\]\n\nThe issue is not whether observations are dependent, but whether the dependence is persistent enough to stop time averages from revealing ensemble moments."
+    "text": "Why stationarity does not imply ergodicity\n\\(Y_t=A+\\varepsilon_t\\) is stationary, but the common component \\(A\\) creates dependence that never dies out: \\[\\gamma_h=1\\qquad\\text{for every }h&gt;0.\\]\nBy contrast, for a stationary AR(1), \\[\\gamma_h\\propto\\phi^h\\to0\\qquad(|\\phi|&lt;1).\\]\n\nThe issue is not whether observations are dependent, but whether the dependence is persistent enough to stop time averages from revealing ensemble moments.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#many-realizations-make-it-visible",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#many-realizations-make-it-visible",
     "title": "Univariate Time Series Models I",
     "section": "Many realizations make it visible",
-    "text": "Many realizations make it visible\nGenerate many realizations of increasing length and compare their time averages.\n\nErgodic process → time averages concentrate around the ensemble mean.\n\\(Y_t=A+\\varepsilon_t\\) → transitory noise averages out, but \\(A\\) remains.\n\n\nPredict the two panels before running."
+    "text": "Many realizations make it visible\nGenerate many realizations of increasing length and compare their time averages.\n\nErgodic process → time averages concentrate around the ensemble mean.\n\\(Y_t=A+\\varepsilon_t\\) → transitory noise averages out, but \\(A\\) remains.\n\n\nPredict the two panels before running.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-time-averages-across-realizations",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-time-averages-across-realizations",
     "title": "Univariate Time Series Models I",
     "section": "R — time averages across realizations",
-    "text": "R — time averages across realizations\n\nset.seed(824)\nT_values &lt;- c(25, 100, 500, 2000); R &lt;- 300\n\nresults &lt;- do.call(rbind, lapply(T_values, function(Ti) {\n  wn_means         &lt;- replicate(R, mean(rnorm(Ti)))\n  nonergodic_means &lt;- replicate(R, { A_i &lt;- rnorm(1); mean(A_i + rnorm(Ti)) })\n  rbind(\n    data.frame(T = factor(Ti, levels = T_values),\n               process = \"Ergodic white noise\",         time_mean = wn_means),\n    data.frame(T = factor(Ti, levels = T_values),\n               process = \"Stationary but non-ergodic\",  time_mean = nonergodic_means))\n}))\n\nggplot(results, aes(x = T, y = time_mean)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  facet_wrap(~ process, ncol = 1) + theme_classic() +\n  labs(title = \"Time averages across many realizations\",\n       x = \"Length of realization T\", y = \"Time average\")"
+    "text": "R — time averages across realizations\n\nset.seed(824)\nT_values &lt;- c(25, 100, 500, 2000); R &lt;- 300\n\nresults &lt;- do.call(rbind, lapply(T_values, function(Ti) {\n  wn_means         &lt;- replicate(R, mean(rnorm(Ti)))\n  nonergodic_means &lt;- replicate(R, { A_i &lt;- rnorm(1); mean(A_i + rnorm(Ti)) })\n  rbind(\n    data.frame(T = factor(Ti, levels = T_values),\n               process = \"Ergodic white noise\",         time_mean = wn_means),\n    data.frame(T = factor(Ti, levels = T_values),\n               process = \"Stationary but non-ergodic\",  time_mean = nonergodic_means))\n}))\n\nggplot(results, aes(x = T, y = time_mean)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  facet_wrap(~ process, ncol = 1) + theme_classic() +\n  labs(title = \"Time averages across many realizations\",\n       x = \"Length of realization T\", y = \"Time average\")",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#interpretation",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#interpretation",
     "title": "Univariate Time Series Models I",
     "section": "Interpretation",
-    "text": "Interpretation\n\nFor white noise the distribution of time averages collapses toward zero as \\(T\\) grows. For \\(Y_t=A+\\varepsilon_t\\) each realization converges to its own \\(A\\), so the distribution does not collapse to the ensemble mean.\n\n\nErgodicity is what lets a long history substitute, in an appropriate sense, for repeated draws from the ensemble."
+    "text": "Interpretation\n\nFor white noise the distribution of time averages collapses toward zero as \\(T\\) grows. For \\(Y_t=A+\\varepsilon_t\\) each realization converges to its own \\(A\\), so the distribution does not collapse to the ensemble mean.\n\n\nErgodicity is what lets a long history substitute, in an appropriate sense, for repeated draws from the ensemble.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#why-ergodicity-changes-decisions",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#why-ergodicity-changes-decisions",
     "title": "Univariate Time Series Models I",
     "section": "Why ergodicity changes decisions",
-    "text": "Why ergodicity changes decisions\nA repeated gamble on wealth \\(W_t\\) — each period, independently, \\[W_t = 1.5\\,W_{t-1}\\ (\\text{prob }0.5),\\qquad W_t = 0.6\\,W_{t-1}\\ (\\text{prob }0.5).\\]\nEnsemble view (across many parallel gamblers): \\[E\\!\\left[\\tfrac{W_t}{W_{t-1}}\\right]=0.5(1.5)+0.5(0.6)=1.05 \\;\\Rightarrow\\; E[W_t]=(1.05)^t W_0.\\]\nTime view (one gambler’s path): \\[\\tfrac{1}{t}\\log\\tfrac{W_t}{W_0}\\xrightarrow{p} 0.5\\log 1.5+0.5\\log 0.6 \\approx -0.053.\\]\n\nExpected wealth grows ~5%/period, but the typical path shrinks ~5%/period toward zero. This is ergodicity economics (Ole Peters); it is why geometric returns, volatility drag, and the Kelly criterion matter."
+    "text": "Why ergodicity changes decisions\nA repeated gamble on wealth \\(W_t\\) — each period, independently, \\[W_t = 1.5\\,W_{t-1}\\ (\\text{prob }0.5),\\qquad W_t = 0.6\\,W_{t-1}\\ (\\text{prob }0.5).\\]\nEnsemble view (across many parallel gamblers): \\[E\\!\\left[\\tfrac{W_t}{W_{t-1}}\\right]=0.5(1.5)+0.5(0.6)=1.05 \\;\\Rightarrow\\; E[W_t]=(1.05)^t W_0.\\]\nTime view (one gambler’s path): \\[\\tfrac{1}{t}\\log\\tfrac{W_t}{W_0}\\xrightarrow{p} 0.5\\log 1.5+0.5\\log 0.6 \\approx -0.053.\\]\n\nExpected wealth grows ~5%/period, but the typical path shrinks ~5%/period toward zero. This is ergodicity economics (Ole Peters); it is why geometric returns, volatility drag, and the Kelly criterion matter.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-the-ensemble-vs-the-path-you-live",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-the-ensemble-vs-the-path-you-live",
     "title": "Univariate Time Series Models I",
     "section": "R — the ensemble vs the path you live",
-    "text": "R — the ensemble vs the path you live\n\nset.seed(826)\nn_paths &lt;- 5000; Tn &lt;- 100\n\nmultipliers &lt;- matrix(sample(c(1.5, 0.6), n_paths * Tn, replace = TRUE), nrow = n_paths)\nwealth &lt;- cbind(1, t(apply(multipliers, 1, cumprod)))   # W_0 = 1\n\nt_idx         &lt;- 0:Tn\nensemble_mean &lt;- colMeans(wealth)\nmedian_path   &lt;- apply(wealth, 2, median)\ngeo_rate      &lt;- exp(0.5 * log(1.5) + 0.5 * log(0.6))    # ~ 0.9487\n\nplot_df &lt;- rbind(\n  data.frame(t = t_idx, wealth = ensemble_mean, series = \"Ensemble average E[W_t]\"),\n  data.frame(t = t_idx, wealth = median_path,   series = \"Typical (median) path\"))\n\nggplot(plot_df, aes(t, wealth, colour = series)) +\n  geom_line(linewidth = 1) + scale_y_log10() + theme_classic() +\n  theme(legend.position = \"top\", legend.title = element_blank()) +\n  labs(title = \"Ensemble average rises; the typical path collapses\",\n       x = \"Period\", y = \"Wealth (log scale)\")\n\ncat(sprintf(\"Ensemble growth/period : %.3f\\n\", 1.05))\ncat(sprintf(\"Time-average growth    : %.3f  (geometric mean)\\n\", geo_rate))"
+    "text": "R — the ensemble vs the path you live\n\nset.seed(826)\nn_paths &lt;- 5000; Tn &lt;- 100\n\nmultipliers &lt;- matrix(sample(c(1.5, 0.6), n_paths * Tn, replace = TRUE), nrow = n_paths)\nwealth &lt;- cbind(1, t(apply(multipliers, 1, cumprod)))   # W_0 = 1\n\nt_idx         &lt;- 0:Tn\nensemble_mean &lt;- colMeans(wealth)\nmedian_path   &lt;- apply(wealth, 2, median)\ngeo_rate      &lt;- exp(0.5 * log(1.5) + 0.5 * log(0.6))    # ~ 0.9487\n\nplot_df &lt;- rbind(\n  data.frame(t = t_idx, wealth = ensemble_mean, series = \"Ensemble average E[W_t]\"),\n  data.frame(t = t_idx, wealth = median_path,   series = \"Typical (median) path\"))\n\nggplot(plot_df, aes(t, wealth, colour = series)) +\n  geom_line(linewidth = 1) + scale_y_log10() + theme_classic() +\n  theme(legend.position = \"top\", legend.title = element_blank()) +\n  labs(title = \"Ensemble average rises; the typical path collapses\",\n       x = \"Period\", y = \"Wealth (log scale)\")\n\ncat(sprintf(\"Ensemble growth/period : %.3f\\n\", 1.05))\ncat(sprintf(\"Time-average growth    : %.3f  (geometric mean)\\n\", geo_rate))",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#summary-stationarity-and-ergodicity",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#summary-stationarity-and-ergodicity",
     "title": "Univariate Time Series Models I",
     "section": "Summary: stationarity and ergodicity",
-    "text": "Summary: stationarity and ergodicity\n\n\n\n\n\n\n\n\n\n\nProcess\nStationary?\nDependence?\nMean ergodic?\nLong-run covariance\n\n\n\n\niid white noise\nYes\nNo\nYes\n\\(\\gamma_h=0\\) for \\(h&gt;0\\)\n\n\nstationary AR(1), \\(|\\phi|&lt;1\\)\nYes\nYes\nYes\n\\(\\gamma_h\\to0\\)\n\n\n\\(Y_t=A+\\varepsilon_t\\)\nYes\nYes\nNo\n\\(\\gamma_h=1\\) for all \\(h&gt;0\\)\n\n\nrandom walk\nNo\nYes\n—\nvariance grows with \\(t\\)\n\n\n\n\\[\\boxed{\\text{stationary}\\not\\Rightarrow\\text{ergodic}},\\qquad \\boxed{\\text{dependence}\\not\\Rightarrow\\text{non-ergodic}}.\\]"
+    "text": "Summary: stationarity and ergodicity\n\n\n\n\n\n\n\n\n\n\nProcess\nStationary?\nDependence?\nMean ergodic?\nLong-run covariance\n\n\n\n\niid white noise\nYes\nNo\nYes\n\\(\\gamma_h=0\\) for \\(h&gt;0\\)\n\n\nstationary AR(1), \\(|\\phi|&lt;1\\)\nYes\nYes\nYes\n\\(\\gamma_h\\to0\\)\n\n\n\\(Y_t=A+\\varepsilon_t\\)\nYes\nYes\nNo\n\\(\\gamma_h=1\\) for all \\(h&gt;0\\)\n\n\nrandom walk\nNo\nYes\n—\nvariance grows with \\(t\\)\n\n\n\n\\[\\boxed{\\text{stationary}\\not\\Rightarrow\\text{ergodic}},\\qquad \\boxed{\\text{dependence}\\not\\Rightarrow\\text{non-ergodic}}.\\]",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#white-noise-1",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#white-noise-1",
     "title": "Univariate Time Series Models I",
     "section": "White noise",
-    "text": "White noise\nA white-noise process \\(\\{\\varepsilon_t\\}\\) satisfies \\[E(\\varepsilon_t)=0,\\quad \\operatorname{Var}(\\varepsilon_t)=\\sigma^2,\\quad \\operatorname{Cov}(\\varepsilon_t,\\varepsilon_{t-h})=0\\ (h\\neq0),\\] so its theoretical ACF is \\(\\rho_0=1,\\ \\rho_h=0\\ (h\\neq0)\\).\n\nWhite noise means serially uncorrelated — not necessarily independent.\n\niid white noise: independent and identically distributed.\nGaussian white noise: a jointly Gaussian white noise; here zero autocovariance does imply independence.\nmartingale difference: \\(E(\\varepsilon_t\\mid\\mathcal F_{t-1})=0\\)."
+    "text": "White noise\nA white-noise process \\(\\{\\varepsilon_t\\}\\) satisfies \\[E(\\varepsilon_t)=0,\\quad \\operatorname{Var}(\\varepsilon_t)=\\sigma^2,\\quad \\operatorname{Cov}(\\varepsilon_t,\\varepsilon_{t-h})=0\\ (h\\neq0),\\] so its theoretical ACF is \\(\\rho_0=1,\\ \\rho_h=0\\ (h\\neq0)\\).\n\nWhite noise means serially uncorrelated — not necessarily independent.\n\niid white noise: independent and identically distributed.\nGaussian white noise: a jointly Gaussian white noise; here zero autocovariance does imply independence.\nmartingale difference: \\(E(\\varepsilon_t\\mid\\mathcal F_{t-1})=0\\).",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#population-acf-vs-sample-acf",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#population-acf-vs-sample-acf",
     "title": "Univariate Time Series Models I",
     "section": "Population ACF vs sample ACF",
-    "text": "Population ACF vs sample ACF\nThe population ACF is a property of the process; the sample ACF is an estimate from one finite realization.\nFor white noise, \\(\\rho_h=0\\ (h&gt;0)\\) — but a finite sample almost never gives sample autocorrelations that are exactly zero.\n\nPredict: with \\(T=100\\) vs \\(T=1000\\), which sample ACF lies more tightly around zero?"
+    "text": "Population ACF vs sample ACF\nThe population ACF is a property of the process; the sample ACF is an estimate from one finite realization.\nFor white noise, \\(\\rho_h=0\\ (h&gt;0)\\) — but a finite sample almost never gives sample autocorrelations that are exactly zero.\n\nPredict: with \\(T=100\\) vs \\(T=1000\\), which sample ACF lies more tightly around zero?",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-population-vs-sample-acf",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-population-vs-sample-acf",
     "title": "Univariate Time Series Models I",
     "section": "R — population vs sample ACF",
-    "text": "R — population vs sample ACF\n\nset.seed(825)\nsample_acf_df &lt;- function(n, max_lag = 20) {\n  a &lt;- acf(rnorm(n), plot = FALSE, lag.max = max_lag)\n  data.frame(lag = as.numeric(a$lag[-1]), acf = as.numeric(a$acf[-1]),\n             n = paste0(\"T = \", n), bound = 1.96 / sqrt(n))\n}\nacf_samples &lt;- rbind(sample_acf_df(100), sample_acf_df(1000))\nbounds &lt;- unique(acf_samples[c(\"n\", \"bound\")])\n\nggplot(acf_samples, aes(lag, acf)) +\n  geom_hline(yintercept = 0) +\n  geom_segment(aes(xend = lag, y = 0, yend = acf)) + geom_point() +\n  geom_hline(data = bounds, aes(yintercept =  bound), linetype = \"dashed\") +\n  geom_hline(data = bounds, aes(yintercept = -bound), linetype = \"dashed\") +\n  facet_wrap(~ n, ncol = 1) + theme_classic() +\n  scale_x_continuous(breaks = seq(0, 20, by = 2)) +\n  labs(title = \"Sample ACF of white noise\",\n       subtitle = \"Dashed: approximate ±1.96/sqrt(T) bounds\", x = \"Lag\", y = \"Sample ACF\")"
+    "text": "R — population vs sample ACF\n\nset.seed(825)\nsample_acf_df &lt;- function(n, max_lag = 20) {\n  a &lt;- acf(rnorm(n), plot = FALSE, lag.max = max_lag)\n  data.frame(lag = as.numeric(a$lag[-1]), acf = as.numeric(a$acf[-1]),\n             n = paste0(\"T = \", n), bound = 1.96 / sqrt(n))\n}\nacf_samples &lt;- rbind(sample_acf_df(100), sample_acf_df(1000))\nbounds &lt;- unique(acf_samples[c(\"n\", \"bound\")])\n\nggplot(acf_samples, aes(lag, acf)) +\n  geom_hline(yintercept = 0) +\n  geom_segment(aes(xend = lag, y = 0, yend = acf)) + geom_point() +\n  geom_hline(data = bounds, aes(yintercept =  bound), linetype = \"dashed\") +\n  geom_hline(data = bounds, aes(yintercept = -bound), linetype = \"dashed\") +\n  facet_wrap(~ n, ncol = 1) + theme_classic() +\n  scale_x_continuous(breaks = seq(0, 20, by = 2)) +\n  labs(title = \"Sample ACF of white noise\",\n       subtitle = \"Dashed: approximate ±1.96/sqrt(T) bounds\", x = \"Lag\", y = \"Sample ACF\")",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#interpretation-1",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#interpretation-1",
     "title": "Univariate Time Series Models I",
     "section": "Interpretation",
-    "text": "Interpretation\n\nThe population ACF is zero at every positive lag, yet the sample ACF fluctuates around zero because it comes from one realization. As \\(T\\) grows the fluctuations shrink — where the distinction between process and realization becomes operational."
+    "text": "Interpretation\n\nThe population ACF is zero at every positive lag, yet the sample ACF fluctuates around zero because it comes from one realization. As \\(T\\) grows the fluctuations shrink — where the distinction between process and realization becomes operational.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#same-shocks-different-processes",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#same-shocks-different-processes",
     "title": "Univariate Time Series Models I",
     "section": "Same shocks, different processes",
-    "text": "Same shocks, different processes\nLet \\(X_t=+1\\) or \\(-1\\) with probability \\(0.5\\) each (independent). Then \\[E(X_t)=0,\\quad \\operatorname{Var}(X_t)=1,\\quad \\gamma_h=0\\ (h\\neq0),\\] so \\(\\{X_t\\}\\) is covariance stationary.\nAccumulate the same shocks: \\[Y_t=Y_{t-1}+X_t,\\ Y_0=0 \\;\\Rightarrow\\; Y_t=\\sum_{i=1}^{t}X_i,\\quad \\operatorname{Var}(Y_t)=t.\\]\n\nThe shocks are stationary; their accumulation is not."
+    "text": "Same shocks, different processes\nLet \\(X_t=+1\\) or \\(-1\\) with probability \\(0.5\\) each (independent). Then \\[E(X_t)=0,\\quad \\operatorname{Var}(X_t)=1,\\quad \\gamma_h=0\\ (h\\neq0),\\] so \\(\\{X_t\\}\\) is covariance stationary.\nAccumulate the same shocks: \\[Y_t=Y_{t-1}+X_t,\\ Y_0=0 \\;\\Rightarrow\\; Y_t=\\sum_{i=1}^{t}X_i,\\quad \\operatorname{Var}(Y_t)=t.\\]\n\nThe shocks are stationary; their accumulation is not.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-same-shocks-different-properties",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-same-shocks-different-properties",
     "title": "Univariate Time Series Models I",
     "section": "R — same shocks, different properties",
-    "text": "R — same shocks, different properties\n\nset.seed(100)\nn &lt;- 250\nX &lt;- sample(c(-1, 1), n, replace = TRUE)\nY &lt;- cumsum(X)\n\np1 &lt;- ts_plot(X, mu = 0) + ggtitle(\"Stationary shocks: X_t\")\np2 &lt;- ts_plot(Y)         + ggtitle(\"Accumulated shocks: random walk Y_t\")\ngrid.arrange(p1, p2, ncol = 1)"
+    "text": "R — same shocks, different properties\n\nset.seed(100)\nn &lt;- 250\nX &lt;- sample(c(-1, 1), n, replace = TRUE)\nY &lt;- cumsum(X)\n\np1 &lt;- ts_plot(X, mu = 0) + ggtitle(\"Stationary shocks: X_t\")\np2 &lt;- ts_plot(Y)         + ggtitle(\"Accumulated shocks: random walk Y_t\")\ngrid.arrange(p1, p2, ncol = 1)",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#differencing-changes-the-process",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#differencing-changes-the-process",
     "title": "Univariate Time Series Models I",
     "section": "Differencing changes the process",
-    "text": "Differencing changes the process\nFor the random walk \\(Y_t=Y_{t-1}+\\varepsilon_t\\), the level is nonstationary because \\(\\operatorname{Var}(Y_t)=t\\sigma^2\\). But \\[\\Delta Y_t=Y_t-Y_{t-1}=\\varepsilon_t,\\] which is stationary white noise.\n\nThe distinction between the properties of a level and its difference becomes central when we study unit roots and integrated processes."
+    "text": "Differencing changes the process\nFor the random walk \\(Y_t=Y_{t-1}+\\varepsilon_t\\), the level is nonstationary because \\(\\operatorname{Var}(Y_t)=t\\sigma^2\\). But \\[\\Delta Y_t=Y_t-Y_{t-1}=\\varepsilon_t,\\] which is stationary white noise.\n\nThe distinction between the properties of a level and its difference becomes central when we study unit roots and integrated processes.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#wold-decomposition",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#wold-decomposition",
     "title": "Univariate Time Series Models I",
     "section": "Wold decomposition",
-    "text": "Wold decomposition\nFor a covariance-stationary, purely nondeterministic process, \\[Y_t-\\mu=\\varepsilon_t+\\psi_1\\varepsilon_{t-1}+\\psi_2\\varepsilon_{t-2}+\\cdots=\\sum_{j=0}^{\\infty}\\psi_j\\varepsilon_{t-j},\\] with \\(\\psi_0=1\\) and \\(\\sum_{j=0}^{\\infty}\\psi_j^2&lt;\\infty\\).\n\\(\\varepsilon_t\\) is the innovation — the one-step-ahead linear projection error. Innovations are serially uncorrelated by construction; they need not be iid or Gaussian.\n\nA Wold innovation is a statistical innovation. It is not automatically a causal structural shock, and it is defined relative to linear prediction — a nonlinear forecaster may use information a linear projection cannot."
+    "text": "Wold decomposition\nFor a covariance-stationary, purely nondeterministic process, \\[Y_t-\\mu=\\varepsilon_t+\\psi_1\\varepsilon_{t-1}+\\psi_2\\varepsilon_{t-2}+\\cdots=\\sum_{j=0}^{\\infty}\\psi_j\\varepsilon_{t-j},\\] with \\(\\psi_0=1\\) and \\(\\sum_{j=0}^{\\infty}\\psi_j^2&lt;\\infty\\).\n\\(\\varepsilon_t\\) is the innovation — the one-step-ahead linear projection error. Innovations are serially uncorrelated by construction; they need not be iid or Gaussian.\n\nA Wold innovation is a statistical innovation. It is not automatically a causal structural shock, and it is defined relative to linear prediction — a nonlinear forecaster may use information a linear projection cannot.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#moments-of-a-linear-process",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#moments-of-a-linear-process",
     "title": "Univariate Time Series Models I",
     "section": "Moments of a linear process",
-    "text": "Moments of a linear process\nFor \\(Y_t=\\mu+\\sum_{j=0}^{\\infty}\\psi_j\\varepsilon_{t-j},\\ \\varepsilon_t\\sim WN(0,\\sigma^2)\\): \\[E(Y_t)=\\mu,\\qquad \\gamma_0=\\sigma^2\\sum_{j=0}^{\\infty}\\psi_j^2,\\] \\[\\gamma_h=\\sigma^2\\sum_{j=0}^{\\infty}\\psi_j\\psi_{j+h}\\qquad(h\\ge0).\\]\n\nThis links the dynamic response coefficients \\(\\{\\psi_j\\}\\) to the dependence structure \\(\\{\\gamma_h\\}\\)."
+    "text": "Moments of a linear process\nFor \\(Y_t=\\mu+\\sum_{j=0}^{\\infty}\\psi_j\\varepsilon_{t-j},\\ \\varepsilon_t\\sim WN(0,\\sigma^2)\\): \\[E(Y_t)=\\mu,\\qquad \\gamma_0=\\sigma^2\\sum_{j=0}^{\\infty}\\psi_j^2,\\] \\[\\gamma_h=\\sigma^2\\sum_{j=0}^{\\infty}\\psi_j\\psi_{j+h}\\qquad(h\\ge0).\\]\n\nThis links the dynamic response coefficients \\(\\{\\psi_j\\}\\) to the dependence structure \\(\\{\\gamma_h\\}\\).",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#lag-operator",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#lag-operator",
     "title": "Univariate Time Series Models I",
     "section": "Lag operator",
-    "text": "Lag operator\nThe lag operator \\(L\\) shifts back one period: \\[LY_t=Y_{t-1},\\qquad L^jY_t=Y_{t-j}.\\]\nFor example, \\[Y_t=\\mu+\\varepsilon_t+\\theta_1\\varepsilon_{t-1}+\\theta_2\\varepsilon_{t-2}\\] becomes \\[Y_t-\\mu=(1+\\theta_1L+\\theta_2L^2)\\varepsilon_t=\\theta(L)\\varepsilon_t.\\]\nLag-polynomial notation makes AR, MA, and ARMA properties far easier to express."
+    "text": "Lag operator\nThe lag operator \\(L\\) shifts back one period: \\[LY_t=Y_{t-1},\\qquad L^jY_t=Y_{t-j}.\\]\nFor example, \\[Y_t=\\mu+\\varepsilon_t+\\theta_1\\varepsilon_{t-1}+\\theta_2\\varepsilon_{t-2}\\] becomes \\[Y_t-\\mu=(1+\\theta_1L+\\theta_2L^2)\\varepsilon_t=\\theta(L)\\varepsilon_t.\\]\nLag-polynomial notation makes AR, MA, and ARMA properties far easier to express.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#familiar-linear-process-families",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#familiar-linear-process-families",
     "title": "Univariate Time Series Models I",
     "section": "Familiar linear-process families",
-    "text": "Familiar linear-process families\nWith white-noise innovations \\(\\varepsilon_t\\):\n\\[\\textbf{AR}(p):\\quad Y_t=c+\\phi_1Y_{t-1}+\\cdots+\\phi_pY_{t-p}+\\varepsilon_t.\\] \\[\\textbf{MA}(q):\\quad Y_t=\\mu+\\varepsilon_t+\\theta_1\\varepsilon_{t-1}+\\cdots+\\theta_q\\varepsilon_{t-q}.\\] \\[\\textbf{ARMA}(p,q):\\quad Y_t=c+\\sum_{i=1}^{p}\\phi_iY_{t-i}+\\varepsilon_t+\\sum_{j=1}^{q}\\theta_j\\varepsilon_{t-j}.\\]\n\nThis lecture concentrates on MA processes: a finite MA is automatically stationary when the innovations are white noise with finite variance. AR and ARMA follow later."
+    "text": "Familiar linear-process families\nWith white-noise innovations \\(\\varepsilon_t\\):\n\\[\\textbf{AR}(p):\\quad Y_t=c+\\phi_1Y_{t-1}+\\cdots+\\phi_pY_{t-p}+\\varepsilon_t.\\] \\[\\textbf{MA}(q):\\quad Y_t=\\mu+\\varepsilon_t+\\theta_1\\varepsilon_{t-1}+\\cdots+\\theta_q\\varepsilon_{t-q}.\\] \\[\\textbf{ARMA}(p,q):\\quad Y_t=c+\\sum_{i=1}^{p}\\phi_iY_{t-i}+\\varepsilon_t+\\sum_{j=1}^{q}\\theta_j\\varepsilon_{t-j}.\\]\n\nThis lecture concentrates on MA processes: a finite MA is automatically stationary when the innovations are white noise with finite variance. AR and ARMA follow later.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#ma1-moments-and-acf",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#ma1-moments-and-acf",
     "title": "Univariate Time Series Models I",
     "section": "MA(1): moments and ACF",
-    "text": "MA(1): moments and ACF\n\\[Y_t=\\mu+\\varepsilon_t+\\theta\\varepsilon_{t-1},\\qquad \\varepsilon_t\\sim WN(0,\\sigma^2).\\]\n\\[E(Y_t)=\\mu,\\qquad \\gamma_h=\\begin{cases}(1+\\theta^2)\\sigma^2,&h=0,\\\\ \\theta\\sigma^2,&|h|=1,\\\\ 0,&|h|&gt;1.\\end{cases}\\]\n\\[\\rho_1=\\frac{\\theta}{1+\\theta^2},\\qquad \\rho_h=0\\ (|h|&gt;1).\\]\n\n\nACF cuts off after lag 1; the sign of \\(\\rho_1\\) is the sign of \\(\\theta\\).\nSince \\(\\left|\\frac{\\theta}{1+\\theta^2}\\right|\\le\\frac12\\), an MA(1) can never have \\(|\\rho_1|&gt;0.5\\)."
+    "text": "MA(1): moments and ACF\n\\[Y_t=\\mu+\\varepsilon_t+\\theta\\varepsilon_{t-1},\\qquad \\varepsilon_t\\sim WN(0,\\sigma^2).\\]\n\\[E(Y_t)=\\mu,\\qquad \\gamma_h=\\begin{cases}(1+\\theta^2)\\sigma^2,&h=0,\\\\ \\theta\\sigma^2,&|h|=1,\\\\ 0,&|h|&gt;1.\\end{cases}\\]\n\\[\\rho_1=\\frac{\\theta}{1+\\theta^2},\\qquad \\rho_h=0\\ (|h|&gt;1).\\]\n\n\nACF cuts off after lag 1; the sign of \\(\\rho_1\\) is the sign of \\(\\theta\\).\nSince \\(\\left|\\frac{\\theta}{1+\\theta^2}\\right|\\le\\frac12\\), an MA(1) can never have \\(|\\rho_1|&gt;0.5\\).",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#predict-before-running",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#predict-before-running",
     "title": "Univariate Time Series Models I",
     "section": "Predict before running",
-    "text": "Predict before running\nCompare \\[Y_t=2+\\varepsilon_t+0.8\\varepsilon_{t-1}\\qquad\\text{and}\\qquad Y_t=2+\\varepsilon_t-0.8\\varepsilon_{t-1}.\\]\nBefore looking at the graphs:\n\nWhat sign should \\(\\rho_1\\) have in each?\nWhat is the numerical value of \\(\\rho_1\\)?\nAt which lag must the theoretical ACF become exactly zero?\nMust the two simulated paths look obviously different?"
+    "text": "Predict before running\nCompare \\[Y_t=2+\\varepsilon_t+0.8\\varepsilon_{t-1}\\qquad\\text{and}\\qquad Y_t=2+\\varepsilon_t-0.8\\varepsilon_{t-1}.\\]\nBefore looking at the graphs:\n\nWhat sign should \\(\\rho_1\\) have in each?\nWhat is the numerical value of \\(\\rho_1\\)?\nAt which lag must the theoretical ACF become exactly zero?\nMust the two simulated paths look obviously different?",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-two-ma1-processes",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-two-ma1-processes",
     "title": "Univariate Time Series Models I",
     "section": "R — two MA(1) processes",
-    "text": "R — two MA(1) processes\n\nset.seed(123)\nn &lt;- 250\nma_pos &lt;- 2 + arima.sim(model = list(ma =  0.8), n = n)\nma_neg &lt;- 2 + arima.sim(model = list(ma = -0.8), n = n)\n\np1 &lt;- ts_plot(ma_pos, mu = 2) + ggtitle(\"MA(1): theta = 0.8\")\np2 &lt;- acf_plot(ma =  0.8, L = 12, title = \"Theoretical ACF: theta = 0.8\")\np3 &lt;- ts_plot(ma_neg, mu = 2) + ggtitle(\"MA(1): theta = -0.8\")\np4 &lt;- acf_plot(ma = -0.8, L = 12, title = \"Theoretical ACF: theta = -0.8\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)"
+    "text": "R — two MA(1) processes\n\nset.seed(123)\nn &lt;- 250\nma_pos &lt;- 2 + arima.sim(model = list(ma =  0.8), n = n)\nma_neg &lt;- 2 + arima.sim(model = list(ma = -0.8), n = n)\n\np1 &lt;- ts_plot(ma_pos, mu = 2) + ggtitle(\"MA(1): theta = 0.8\")\np2 &lt;- acf_plot(ma =  0.8, L = 12, title = \"Theoretical ACF: theta = 0.8\")\np3 &lt;- ts_plot(ma_neg, mu = 2) + ggtitle(\"MA(1): theta = -0.8\")\np4 &lt;- acf_plot(ma = -0.8, L = 12, title = \"Theoretical ACF: theta = -0.8\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#reading-the-graphs-1",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#reading-the-graphs-1",
     "title": "Univariate Time Series Models I",
     "section": "Reading the graphs",
-    "text": "Reading the graphs\nFor \\(\\theta=0.8\\), \\(\\ \\rho_1=\\dfrac{0.8}{1+0.8^2}\\approx0.488\\); for \\(\\theta=-0.8\\), \\(\\ \\rho_1\\approx-0.488\\). In both, \\(\\rho_h=0\\) for \\(|h|&gt;1\\).\n\nThe left plots are particular realizations; the right plots are the theoretical ACFs of the underlying processes. Same \\(|\\rho_1|\\), opposite sign."
+    "text": "Reading the graphs\nFor \\(\\theta=0.8\\), \\(\\ \\rho_1=\\dfrac{0.8}{1+0.8^2}\\approx0.488\\); for \\(\\theta=-0.8\\), \\(\\ \\rho_1\\approx-0.488\\). In both, \\(\\rho_h=0\\) for \\(|h|&gt;1\\).\n\nThe left plots are particular realizations; the right plots are the theoretical ACFs of the underlying processes. Same \\(|\\rho_1|\\), opposite sign.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#try-it-ma1-explorer",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#try-it-ma1-explorer",
     "title": "Univariate Time Series Models I",
     "section": "Try it: MA(1) explorer",
-    "text": "Try it: MA(1) explorer\n\n\n\n\n\nviewof theta = Inputs.range([-1.5, 1.5], {\n  value: 0.8, step: 0.05, label: \"MA(1) coefficient θ\"\n})\n\n\n\n\n\n\n\n\n\nrho1 = theta / (1 + theta * theta)\nHmax = 8\nacfData = d3.range(0, Hmax + 1).map(h =&gt; ({\n  lag: h, rho: h === 0 ? 1 : (h === 1 ? rho1 : 0)\n}))\n\nPlot.plot({\n  height: 300, marginLeft: 45,\n  x: {label: \"lag h\", domain: [-0.5, Hmax + 0.5]},\n  y: {label: \"ρ(h)\", domain: [-0.6, 1.05], grid: true},\n  marks: [\n    Plot.ruleY([0]),\n    Plot.ruleX(acfData, {x: \"lag\", y1: 0, y2: \"rho\", stroke: \"#1b3a6b\", strokeWidth: 3}),\n    Plot.dot(acfData, {x: \"lag\", y: \"rho\", fill: \"#1b3a6b\", r: 4})\n  ]\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nhtml`&lt;div&gt;\n  &lt;div class=\"muted\"&gt;Lag-1 autocorrelation &nbsp; ρ₁ = θ / (1 + θ²)&lt;/div&gt;\n  &lt;div class=\"posterior\"&gt;${rho1.toFixed(3)}&lt;/div&gt;\n  &lt;div class=\"note\"&gt;\n    |θ| = ${Math.abs(theta).toFixed(2)} ⇒\n    &lt;b&gt;${Math.abs(theta) &lt; 1 ? \"invertible\" : (Math.abs(theta) &gt; 1 ? \"not invertible\" : \"unit root\")}&lt;/b&gt;\n    &nbsp;·&nbsp; ACF cuts off after lag 1\n    &nbsp;·&nbsp; note |ρ₁| ≤ 0.5, reached at θ = ±1\n  &lt;/div&gt;\n&lt;/div&gt;`\n\n\n\n\n\n\n\n\nMove \\(\\theta\\): the sign of \\(\\rho_1\\) follows the sign of \\(\\theta\\), its magnitude never exceeds \\(0.5\\), and \\(\\theta\\) vs \\(1/\\theta\\) give the same \\(\\rho_1\\) — the invertibility ambiguity."
+    "text": "Try it: MA(1) explorer\n\n\n\n\n\nviewof theta = Inputs.range([-1.5, 1.5], {\n  value: 0.8, step: 0.05, label: \"MA(1) coefficient θ\"\n})\n\n\n\n\n\n\n\n\n\nrho1 = theta / (1 + theta * theta)\nHmax = 8\nacfData = d3.range(0, Hmax + 1).map(h =&gt; ({\n  lag: h, rho: h === 0 ? 1 : (h === 1 ? rho1 : 0)\n}))\n\nPlot.plot({\n  height: 300, marginLeft: 45,\n  x: {label: \"lag h\", domain: [-0.5, Hmax + 0.5]},\n  y: {label: \"ρ(h)\", domain: [-0.6, 1.05], grid: true},\n  marks: [\n    Plot.ruleY([0]),\n    Plot.ruleX(acfData, {x: \"lag\", y1: 0, y2: \"rho\", stroke: \"#1b3a6b\", strokeWidth: 3}),\n    Plot.dot(acfData, {x: \"lag\", y: \"rho\", fill: \"#1b3a6b\", r: 4})\n  ]\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nhtml`&lt;div&gt;\n  &lt;div class=\"muted\"&gt;Lag-1 autocorrelation &nbsp; ρ₁ = θ / (1 + θ²)&lt;/div&gt;\n  &lt;div class=\"posterior\"&gt;${rho1.toFixed(3)}&lt;/div&gt;\n  &lt;div class=\"note\"&gt;\n    |θ| = ${Math.abs(theta).toFixed(2)} ⇒\n    &lt;b&gt;${Math.abs(theta) &lt; 1 ? \"invertible\" : (Math.abs(theta) &gt; 1 ? \"not invertible\" : \"unit root\")}&lt;/b&gt;\n    &nbsp;·&nbsp; ACF cuts off after lag 1\n    &nbsp;·&nbsp; note |ρ₁| ≤ 0.5, reached at θ = ±1\n  &lt;/div&gt;\n&lt;/div&gt;`\n\n\n\n\n\n\n\n\nMove \\(\\theta\\): the sign of \\(\\rho_1\\) follows the sign of \\(\\theta\\), its magnitude never exceeds \\(0.5\\), and \\(\\theta\\) vs \\(1/\\theta\\) give the same \\(\\rho_1\\) — the invertibility ambiguity.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#maq",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#maq",
     "title": "Univariate Time Series Models I",
     "section": "MA(\\(q\\))",
-    "text": "MA(\\(q\\))\n\\[Y_t=\\mu+\\sum_{j=0}^{q}\\theta_j\\varepsilon_{t-j},\\qquad \\theta_0=1,\\quad \\varepsilon_t\\sim WN(0,\\sigma^2).\\]\nFor \\(h=0,1,\\ldots,q\\), \\[\\gamma_h=\\sigma^2\\sum_{j=0}^{q-h}\\theta_j\\theta_{j+h},\\qquad \\gamma_h=0\\ (h&gt;q),\\] so the theoretical ACF cuts off after lag \\(q\\).\n\nThe cutoff is specific to linear dependence through the innovations: once \\(h&gt;q\\), \\(Y_t\\) and \\(Y_{t-h}\\) share no common innovations."
+    "text": "MA(\\(q\\))\n\\[Y_t=\\mu+\\sum_{j=0}^{q}\\theta_j\\varepsilon_{t-j},\\qquad \\theta_0=1,\\quad \\varepsilon_t\\sim WN(0,\\sigma^2).\\]\nFor \\(h=0,1,\\ldots,q\\), \\[\\gamma_h=\\sigma^2\\sum_{j=0}^{q-h}\\theta_j\\theta_{j+h},\\qquad \\gamma_h=0\\ (h&gt;q),\\] so the theoretical ACF cuts off after lag \\(q\\).\n\nThe cutoff is specific to linear dependence through the innovations: once \\(h&gt;q\\), \\(Y_t\\) and \\(Y_{t-h}\\) share no common innovations.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#ma2-work-from-the-common-shocks",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#ma2-work-from-the-common-shocks",
     "title": "Univariate Time Series Models I",
     "section": "MA(2): work from the common shocks",
-    "text": "MA(2): work from the common shocks\n\\[Y_{1t}=2+\\varepsilon_t+1.0\\,\\varepsilon_{t-1}+0.7\\,\\varepsilon_{t-2},\\qquad Y_{2t}=2+\\varepsilon_t-1.2\\,\\varepsilon_{t-1}+0.25\\,\\varepsilon_{t-2}.\\]\nBefore running, use \\(\\gamma_h=\\sigma^2\\sum_{j=0}^{q-h}\\theta_j\\theta_{j+h}\\) to answer:\n\nAt which lag must each ACF become zero?\nFor \\(Y_{1t}\\), what signs do \\(\\gamma_1,\\gamma_2\\) take?\nFor \\(Y_{2t}\\), can \\(\\gamma_1\\) and \\(\\gamma_2\\) differ in sign?"
+    "text": "MA(2): work from the common shocks\n\\[Y_{1t}=2+\\varepsilon_t+1.0\\,\\varepsilon_{t-1}+0.7\\,\\varepsilon_{t-2},\\qquad Y_{2t}=2+\\varepsilon_t-1.2\\,\\varepsilon_{t-1}+0.25\\,\\varepsilon_{t-2}.\\]\nBefore running, use \\(\\gamma_h=\\sigma^2\\sum_{j=0}^{q-h}\\theta_j\\theta_{j+h}\\) to answer:\n\nAt which lag must each ACF become zero?\nFor \\(Y_{1t}\\), what signs do \\(\\gamma_1,\\gamma_2\\) take?\nFor \\(Y_{2t}\\), can \\(\\gamma_1\\) and \\(\\gamma_2\\) differ in sign?",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-two-ma2-processes",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-two-ma2-processes",
     "title": "Univariate Time Series Models I",
     "section": "R — two MA(2) processes",
-    "text": "R — two MA(2) processes\n\nset.seed(123)\nn &lt;- 250\nma21 &lt;- c(1.0, 0.7); ma22 &lt;- c(-1.2, 0.25)\n\ns21 &lt;- 2 + arima.sim(model = list(ma = ma21), n = n)\ns22 &lt;- 2 + arima.sim(model = list(ma = ma22), n = n)\n\np1 &lt;- ts_plot(s21, mu = 2) + ggtitle(\"MA(2): theta = (1.0, 0.7)\")\np2 &lt;- acf_plot(ma = ma21, L = 12, title = \"Theoretical ACF\")\np3 &lt;- ts_plot(s22, mu = 2) + ggtitle(\"MA(2): theta = (-1.2, 0.25)\")\np4 &lt;- acf_plot(ma = ma22, L = 12, title = \"Theoretical ACF\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)"
+    "text": "R — two MA(2) processes\n\nset.seed(123)\nn &lt;- 250\nma21 &lt;- c(1.0, 0.7); ma22 &lt;- c(-1.2, 0.25)\n\ns21 &lt;- 2 + arima.sim(model = list(ma = ma21), n = n)\ns22 &lt;- 2 + arima.sim(model = list(ma = ma22), n = n)\n\np1 &lt;- ts_plot(s21, mu = 2) + ggtitle(\"MA(2): theta = (1.0, 0.7)\")\np2 &lt;- acf_plot(ma = ma21, L = 12, title = \"Theoretical ACF\")\np3 &lt;- ts_plot(s22, mu = 2) + ggtitle(\"MA(2): theta = (-1.2, 0.25)\")\np4 &lt;- acf_plot(ma = ma22, L = 12, title = \"Theoretical ACF\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#ma2-the-autocovariances",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#ma2-the-autocovariances",
     "title": "Univariate Time Series Models I",
     "section": "MA(2): the autocovariances",
-    "text": "MA(2): the autocovariances\nUsing \\(\\gamma_h=\\sigma^2\\sum_{j=0}^{q-h}\\theta_j\\theta_{j+h}\\) with \\(\\theta_0=1\\):\nFor \\(Y_{1t}\\): \\[\\gamma_1=\\sigma^2(\\theta_0\\theta_1+\\theta_1\\theta_2)=1.7\\,\\sigma^2,\\qquad \\gamma_2=\\sigma^2\\theta_0\\theta_2=0.7\\,\\sigma^2.\\]\nFor \\(Y_{2t}\\): \\[\\gamma_1=\\sigma^2[-1.2+(-1.2)(0.25)]=-1.5\\,\\sigma^2,\\qquad \\gamma_2=0.25\\,\\sigma^2.\\]\n\nAn MA(2) can display autocorrelations of different signs at lags 1 and 2; both ACFs are exactly zero for \\(h&gt;2\\)."
+    "text": "MA(2): the autocovariances\nUsing \\(\\gamma_h=\\sigma^2\\sum_{j=0}^{q-h}\\theta_j\\theta_{j+h}\\) with \\(\\theta_0=1\\):\nFor \\(Y_{1t}\\): \\[\\gamma_1=\\sigma^2(\\theta_0\\theta_1+\\theta_1\\theta_2)=1.7\\,\\sigma^2,\\qquad \\gamma_2=\\sigma^2\\theta_0\\theta_2=0.7\\,\\sigma^2.\\]\nFor \\(Y_{2t}\\): \\[\\gamma_1=\\sigma^2[-1.2+(-1.2)(0.25)]=-1.5\\,\\sigma^2,\\qquad \\gamma_2=0.25\\,\\sigma^2.\\]\n\nAn MA(2) can display autocorrelations of different signs at lags 1 and 2; both ACFs are exactly zero for \\(h&gt;2\\).",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#invertibility-1",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#invertibility-1",
     "title": "Univariate Time Series Models I",
     "section": "Invertibility",
-    "text": "Invertibility\nEvery finite MA is covariance stationary, but different parameterizations can share the same autocovariance structure. For an MA(1), \\[\\rho_1=\\frac{\\theta}{1+\\theta^2},\\] so \\(\\theta\\) and \\(1/\\theta\\) give the same \\(\\rho_1\\) (e.g. \\(\\theta=0.5\\) and \\(\\theta=2\\) both give \\(\\rho_1=0.4\\)).\nInvertibility picks the representation in which the innovation is recoverable from current and past observations: \\[\\varepsilon_t=(1+\\theta L)^{-1}(Y_t-\\mu)=(1-\\theta L+\\theta^2L^2-\\cdots)(Y_t-\\mu),\\] which converges when \\(|\\theta|&lt;1\\).\n\nInvertibility is about the uniqueness and recoverability of the innovation representation — not a stationarity condition."
+    "text": "Invertibility\nEvery finite MA is covariance stationary, but different parameterizations can share the same autocovariance structure. For an MA(1), \\[\\rho_1=\\frac{\\theta}{1+\\theta^2},\\] so \\(\\theta\\) and \\(1/\\theta\\) give the same \\(\\rho_1\\) (e.g. \\(\\theta=0.5\\) and \\(\\theta=2\\) both give \\(\\rho_1=0.4\\)).\nInvertibility picks the representation in which the innovation is recoverable from current and past observations: \\[\\varepsilon_t=(1+\\theta L)^{-1}(Y_t-\\mu)=(1-\\theta L+\\theta^2L^2-\\cdots)(Y_t-\\mu),\\] which converges when \\(|\\theta|&lt;1\\).\n\nInvertibility is about the uniqueness and recoverability of the innovation representation — not a stationarity condition.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-equivalent-parameterizations",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-equivalent-parameterizations",
     "title": "Univariate Time Series Models I",
     "section": "R — equivalent parameterizations",
-    "text": "R — equivalent parameterizations\n\nequivalent_ma1 &lt;- data.frame(theta = c(0.5, 2.0), sigma2 = c(1.0, 0.25))\nequivalent_ma1$gamma0 &lt;- equivalent_ma1$sigma2 * (1 + equivalent_ma1$theta^2)\nequivalent_ma1$gamma1 &lt;- equivalent_ma1$sigma2 * equivalent_ma1$theta\nequivalent_ma1$rho1   &lt;- equivalent_ma1$gamma1 / equivalent_ma1$gamma0\nequivalent_ma1\n\nSame \\(\\gamma_0,\\gamma_1,\\rho_1\\) from two different \\((\\theta,\\sigma^2)\\) pairs — only \\(|\\theta|&lt;1\\) is invertible."
+    "text": "R — equivalent parameterizations\n\nequivalent_ma1 &lt;- data.frame(theta = c(0.5, 2.0), sigma2 = c(1.0, 0.25))\nequivalent_ma1$gamma0 &lt;- equivalent_ma1$sigma2 * (1 + equivalent_ma1$theta^2)\nequivalent_ma1$gamma1 &lt;- equivalent_ma1$sigma2 * equivalent_ma1$theta\nequivalent_ma1$rho1   &lt;- equivalent_ma1$gamma1 / equivalent_ma1$gamma0\nequivalent_ma1\n\nSame \\(\\gamma_0,\\gamma_1,\\rho_1\\) from two different \\((\\theta,\\sigma^2)\\) pairs — only \\(|\\theta|&lt;1\\) is invertible.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#root-condition",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#root-condition",
     "title": "Univariate Time Series Models I",
     "section": "Root condition",
-    "text": "Root condition\nFor \\(Y_t-\\mu=(1+\\theta L)\\varepsilon_t\\), invertibility requires the root of \\(1+\\theta z=0\\) to lie outside the unit circle. The root is \\(z=-1/\\theta\\), so for an MA(1), \\(|\\theta|&lt;1\\).\nMore generally, an MA(\\(q\\)) is invertible when every root of \\[1+\\theta_1z+\\cdots+\\theta_qz^q=0\\] lies outside the unit circle.\n\nA single coefficient larger than one does not by itself decide invertibility for MA(2)+ — the condition is on the roots of the whole lag polynomial."
+    "text": "Root condition\nFor \\(Y_t-\\mu=(1+\\theta L)\\varepsilon_t\\), invertibility requires the root of \\(1+\\theta z=0\\) to lie outside the unit circle. The root is \\(z=-1/\\theta\\), so for an MA(1), \\(|\\theta|&lt;1\\).\nMore generally, an MA(\\(q\\)) is invertible when every root of \\[1+\\theta_1z+\\cdots+\\theta_qz^q=0\\] lies outside the unit circle.\n\nA single coefficient larger than one does not by itself decide invertibility for MA(2)+ — the condition is on the roots of the whole lag polynomial.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-check-invertibility",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-check-invertibility",
     "title": "Univariate Time Series Models I",
     "section": "R — check invertibility",
-    "text": "R — check invertibility\n\nma_roots &lt;- function(theta) {\n  roots &lt;- polyroot(c(1, theta))\n  data.frame(root = roots, modulus = Mod(roots),\n             outside_unit_circle = Mod(roots) &gt; 1)\n}\nma_roots(ma21)\nma_roots(ma22)\n\nBoth MA(2) examples have all roots outside the unit circle — both invertible."
+    "text": "R — check invertibility\n\nma_roots &lt;- function(theta) {\n  roots &lt;- polyroot(c(1, theta))\n  data.frame(root = roots, modulus = Mod(roots),\n             outside_unit_circle = Mod(roots) &gt; 1)\n}\nma_roots(ma21)\nma_roots(ma22)\n\nBoth MA(2) examples have all roots outside the unit circle — both invertible.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#wold-coefficients-as-dynamic-responses",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#wold-coefficients-as-dynamic-responses",
     "title": "Univariate Time Series Models I",
     "section": "Wold coefficients as dynamic responses",
-    "text": "Wold coefficients as dynamic responses\nIn \\(Y_t-\\mu=\\sum_{j=0}^{\\infty}\\psi_j\\varepsilon_{t-j}\\), the coefficient \\(\\psi_j\\) is the linear response at horizon \\(j\\) to a one-unit innovation today.\nFor an MA(\\(q\\)) the response is exactly zero after horizon \\(q\\); for an infinite-order MA it may decay gradually.\n\nThese are responses to statistical innovations. A causal interpretation requires additional identification assumptions.\n\n\nPredict for \\(Y_t=\\varepsilon_t+0.8\\varepsilon_{t-1}\\): the response immediately, one period later, two periods later?"
+    "text": "Wold coefficients as dynamic responses\nIn \\(Y_t-\\mu=\\sum_{j=0}^{\\infty}\\psi_j\\varepsilon_{t-j}\\), the coefficient \\(\\psi_j\\) is the linear response at horizon \\(j\\) to a one-unit innovation today.\nFor an MA(\\(q\\)) the response is exactly zero after horizon \\(q\\); for an infinite-order MA it may decay gradually.\n\nThese are responses to statistical innovations. A causal interpretation requires additional identification assumptions.\n\n\nPredict for \\(Y_t=\\varepsilon_t+0.8\\varepsilon_{t-1}\\): the response immediately, one period later, two periods later?",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#r-dynamic-responses",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#r-dynamic-responses",
     "title": "Univariate Time Series Models I",
     "section": "R — dynamic responses",
-    "text": "R — dynamic responses\n\np1 &lt;- irf_ma(0.8,         h = 8, title = \"Dynamic response: MA(1)\")\np2 &lt;- irf_ma(c(1.0, 0.7), h = 8, title = \"Dynamic response: MA(2)\")\ngrid.arrange(p1, p2, ncol = 2)\n\nThe MA(1) response is \\(\\psi=(1,\\,0.8,\\,0,\\ldots)\\); the MA(2) is \\(\\psi=(1,\\,1.0,\\,0.7,\\,0,\\ldots)\\) — zero beyond the order \\(q\\)."
+    "text": "R — dynamic responses\n\np1 &lt;- irf_ma(0.8,         h = 8, title = \"Dynamic response: MA(1)\")\np2 &lt;- irf_ma(c(1.0, 0.7), h = 8, title = \"Dynamic response: MA(2)\")\ngrid.arrange(p1, p2, ncol = 2)\n\nThe MA(1) response is \\(\\psi=(1,\\,0.8,\\,0,\\ldots)\\); the MA(2) is \\(\\psi=(1,\\,1.0,\\,0.7,\\,0,\\ldots)\\) — zero beyond the order \\(q\\).",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#key-takeaways",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#key-takeaways",
     "title": "Univariate Time Series Models I",
     "section": "Key takeaways",
-    "text": "Key takeaways\n\n\nA stochastic process vs one observed realization — most properties are about the process.\nCovariance stationarity stabilizes the law; ergodicity equates time and ensemble averages. Stationary \\(\\not\\Rightarrow\\) ergodic; dependence \\(\\not\\Rightarrow\\) non-ergodic.\nWhite noise is uncorrelated, not necessarily independent; the sample ACF is only an estimate of the population ACF.\nThe Wold decomposition writes any covariance-stationary process as a linear filter of innovations; the lag operator streamlines the algebra.\nMA(\\(q\\)) ACFs cut off after lag \\(q\\); invertibility (roots outside the unit circle) selects the recoverable innovation representation.\nWold coefficients \\(\\psi_j\\) are impulse responses to statistical innovations."
+    "text": "Key takeaways\n\n\nA stochastic process vs one observed realization — most properties are about the process.\nCovariance stationarity stabilizes the law; ergodicity equates time and ensemble averages. Stationary \\(\\not\\Rightarrow\\) ergodic; dependence \\(\\not\\Rightarrow\\) non-ergodic.\nWhite noise is uncorrelated, not necessarily independent; the sample ACF is only an estimate of the population ACF.\nThe Wold decomposition writes any covariance-stationary process as a linear filter of innovations; the lag operator streamlines the algebra.\nMA(\\(q\\)) ACFs cut off after lag \\(q\\); invertibility (roots outside the unit circle) selects the recoverable innovation representation.\nWold coefficients \\(\\psi_j\\) are impulse responses to statistical innovations.",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#exercises",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#exercises",
     "title": "Univariate Time Series Models I",
     "section": "Exercises",
-    "text": "Exercises\n\nWhat property fails? For \\(Y_t=5+\\varepsilon_t\\), \\(\\ 5+0.1t+\\varepsilon_t\\), \\(\\ t\\varepsilon_t\\), \\(\\ Y_{t-1}+\\varepsilon_t\\): is each covariance stationary, and which condition fails?\nStationarity vs ergodicity. \\(Y_t=A,\\ A\\sim N(0,1)\\): why stationary, and why does a long record not reveal the ensemble mean?\nMA(1) ACF. For \\(Y_t=3+\\varepsilon_t+0.6\\varepsilon_{t-1},\\ \\varepsilon_t\\sim WN(0,4)\\): find \\(E(Y_t),\\gamma_0,\\gamma_1,\\rho_1\\) and the cutoff lag.\nMA(2) from common innovations. For \\(Y_t=\\varepsilon_t+0.7\\varepsilon_{t-1}-0.3\\varepsilon_{t-2}\\): derive \\(\\gamma_0,\\gamma_1,\\gamma_2\\) (predict signs first).\nValid ACF? Why is \\(|\\rho_h|\\le1\\) insufficient for \\(\\rho_0=1,\\rho_1=0.9,\\rho_2=-0.9\\)? What else is required?\nInvertibility. Show \\(\\theta=0.5\\) and \\(\\theta=2\\) (with suitable variances) give the same MA(1) autocovariance; which is invertible, and what does that mean for the innovations?"
+    "text": "Exercises\n\nWhat property fails? For \\(Y_t=5+\\varepsilon_t\\), \\(\\ 5+0.1t+\\varepsilon_t\\), \\(\\ t\\varepsilon_t\\), \\(\\ Y_{t-1}+\\varepsilon_t\\): is each covariance stationary, and which condition fails?\nStationarity vs ergodicity. \\(Y_t=A,\\ A\\sim N(0,1)\\): why stationary, and why does a long record not reveal the ensemble mean?\nMA(1) ACF. For \\(Y_t=3+\\varepsilon_t+0.6\\varepsilon_{t-1},\\ \\varepsilon_t\\sim WN(0,4)\\): find \\(E(Y_t),\\gamma_0,\\gamma_1,\\rho_1\\) and the cutoff lag.\nMA(2) from common innovations. For \\(Y_t=\\varepsilon_t+0.7\\varepsilon_{t-1}-0.3\\varepsilon_{t-2}\\): derive \\(\\gamma_0,\\gamma_1,\\gamma_2\\) (predict signs first).\nValid ACF? Why is \\(|\\rho_h|\\le1\\) insufficient for \\(\\rho_0=1,\\rho_1=0.9,\\rho_2=-0.9\\)? What else is required?\nInvertibility. Show \\(\\theta=0.5\\) and \\(\\theta=2\\) (with suitable variances) give the same MA(1) autocovariance; which is invertible, and what does that mean for the innovations?",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/05-Univariate-Time-Series-modelsI.html#suggested-reading",
     "href": "Slides/05-Univariate-Time-Series-modelsI.html#suggested-reading",
     "title": "Univariate Time Series Models I",
     "section": "Suggested reading",
-    "text": "Suggested reading\n\nHamilton, J. D. (1994), Time Series Analysis, Ch. 3.\nBrockwell, P. J. and Davis, R. A., Introduction to Time Series and Forecasting — stationary processes and ARMA.\nEnders, W., Applied Econometric Time Series — stationary stochastic processes and ARMA.\nHyndman, R. J. and Athanasopoulos, G., Forecasting: Principles and Practice — time-series structure and ARIMA, for an intuitive computational treatment.\n\n\nNext lecture: autoregressive processes — stationarity conditions, characteristic roots, persistence, and the contrasting ACF/PACF behaviour of AR and MA.\n\n\nSource notebook: 05-Univariate-Time-Series-modelsI.ipynb · R 4.6 · packages: ggplot2, gridExtra. R figures are produced at render time; the MA(1) explorer runs in the browser (Observable JS)."
+    "text": "Suggested reading\n\nHamilton, J. D. (1994), Time Series Analysis, Ch. 3.\nBrockwell, P. J. and Davis, R. A., Introduction to Time Series and Forecasting — stationary processes and ARMA.\nEnders, W., Applied Econometric Time Series — stationary stochastic processes and ARMA.\nHyndman, R. J. and Athanasopoulos, G., Forecasting: Principles and Practice — time-series structure and ARIMA, for an intuitive computational treatment.\n\n\nNext lecture: autoregressive processes — stationarity conditions, characteristic roots, persistence, and the contrasting ACF/PACF behaviour of AR and MA.\n\n\nSource notebook: 05-Univariate-Time-Series-modelsI.ipynb · R 4.6 · packages: ggplot2, gridExtra. R figures are produced at render time; the MA(1) explorer runs in the browser (Observable JS).",
+    "crumbs": [
+      "Home",
+      "Lecture slides",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/03-Review-stats1.html#recap-three-coin-tosses",
@@ -1106,133 +1381,228 @@
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html",
     "title": "Univariate Time Series Models I",
     "section": "",
-    "text": "HS 821 · Lecture 5 · Topics in Time Series Econometrics\nSunil Paul\nAugust 2026 · R 4.6\nThe statistics reviewed in the preceding lectures treated observations largely as a random sample. Time-series data are different: ordering matters, observations may be dependent, and in most applications we observe only one realization of an underlying stochastic process.\nThis lecture develops the probabilistic foundation needed for ARMA modelling and forecasting."
+    "text": "HS 821 · Lecture 5 · Topics in Time Series Econometrics\nSunil Paul\nAugust 2026 · R 4.6\nThe statistics reviewed in the preceding lectures treated observations largely as a random sample. Time-series data are different: ordering matters, observations may be dependent, and in most applications we observe only one realization of an underlying stochastic process.\nThis lecture develops the probabilistic foundation needed for ARMA modelling and forecasting.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#from-random-samples-to-time-series",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#from-random-samples-to-time-series",
     "title": "Univariate Time Series Models I",
     "section": "From random samples to time series",
-    "text": "From random samples to time series\nA stochastic process is a collection of random variables indexed by time,\n\\[\n\\{Y_t:t\\in\\mathbb Z\\}.\n\\]\nBefore observation, each \\(Y_t\\) is a random variable. Once the process is observed over \\(t=1,\\ldots,T\\), we obtain one realization,\n\\[\ny_1,y_2,\\ldots,y_T.\n\\]\nThe distinction matters because a time series is not merely an unordered collection of observations. Its temporal ordering and dependence structure are part of the object being studied.\n\nThink before proceeding\nSuppose you randomly shuffle the observations in a cross-sectional dataset. Much of the statistical information is unchanged.\nWhat would happen if you randomly shuffled a time series?\nThe marginal distribution might remain unchanged, but its temporal dependence—and therefore its time-series structure—could be destroyed."
+    "text": "From random samples to time series\nA stochastic process is a collection of random variables indexed by time,\n\\[\n\\{Y_t:t\\in\\mathbb Z\\}.\n\\]\nBefore observation, each \\(Y_t\\) is a random variable. Once the process is observed over \\(t=1,\\ldots,T\\), we obtain one realization,\n\\[\ny_1,y_2,\\ldots,y_T.\n\\]\nThe distinction matters because a time series is not merely an unordered collection of observations. Its temporal ordering and dependence structure are part of the object being studied.\n\nThink before proceeding\nSuppose you randomly shuffle the observations in a cross-sectional dataset. Much of the statistical information is unchanged.\nWhat would happen if you randomly shuffled a time series?\nThe marginal distribution might remain unchanged, but its temporal dependence—and therefore its time-series structure—could be destroyed.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#moments-of-a-stochastic-process",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#moments-of-a-stochastic-process",
     "title": "Univariate Time Series Models I",
     "section": "Moments of a stochastic process",
-    "text": "Moments of a stochastic process\nThe mean function is\n\\[\n\\mu_t=E(Y_t).\n\\]\nThe covariance between observations \\(h\\) periods apart is\n\\[\n\\gamma(t,t-h)\n=\n\\operatorname{Cov}(Y_t,Y_{t-h})\n=\nE[(Y_t-\\mu_t)(Y_{t-h}-\\mu_{t-h})].\n\\]\nThe corresponding correlation is\n\\[\n\\rho(t,t-h)\n=\n\\frac{\\gamma(t,t-h)}\n{\\sqrt{\\operatorname{Var}(Y_t)\\operatorname{Var}(Y_{t-h})}}.\n\\]\nFor a covariance-stationary process these depend only on the lag \\(h\\):\n\\[\n\\gamma_h=\\operatorname{Cov}(Y_t,Y_{t-h}),\n\\qquad\n\\rho_h=\\frac{\\gamma_h}{\\gamma_0}.\n\\]\nThe sequence \\(\\{\\rho_h\\}\\) is the autocorrelation function (ACF), and its plot against \\(h\\) is the correlogram.\n\nRestrictions on an autocovariance function\nFor a covariance-stationary process,\n\\[\n\\gamma_h=\\gamma_{-h},\n\\qquad\n\\rho_h=\\rho_{-h},\n\\]\n\\[\n\\gamma_0=\\operatorname{Var}(Y_t)\\ge0,\n\\qquad\n\\rho_0=1,\n\\]\nand\n\\[\n|\\rho_h|\\le1.\n\\]\nThere is also a deeper restriction. For any constants \\(a_1,\\ldots,a_m\\) and time indices \\(t_1,\\ldots,t_m\\),\n\\[\n\\sum_{i=1}^{m}\\sum_{j=1}^{m}\na_i a_j\\gamma_{t_i-t_j}\\ge0.\n\\]\nThus the autocovariance sequence must be positive semidefinite.\n\nQuestion: Is any symmetric sequence satisfying \\(\\rho_0=1\\) and \\(|\\rho_h|\\le1\\) a valid ACF?\nNo. The autocorrelations must jointly define a positive-semidefinite covariance structure."
+    "text": "Moments of a stochastic process\nThe mean function is\n\\[\n\\mu_t=E(Y_t).\n\\]\nThe covariance between observations \\(h\\) periods apart is\n\\[\n\\gamma(t,t-h)\n=\n\\operatorname{Cov}(Y_t,Y_{t-h})\n=\nE[(Y_t-\\mu_t)(Y_{t-h}-\\mu_{t-h})].\n\\]\nThe corresponding correlation is\n\\[\n\\rho(t,t-h)\n=\n\\frac{\\gamma(t,t-h)}\n{\\sqrt{\\operatorname{Var}(Y_t)\\operatorname{Var}(Y_{t-h})}}.\n\\]\nFor a covariance-stationary process these depend only on the lag \\(h\\):\n\\[\n\\gamma_h=\\operatorname{Cov}(Y_t,Y_{t-h}),\n\\qquad\n\\rho_h=\\frac{\\gamma_h}{\\gamma_0}.\n\\]\nThe sequence \\(\\{\\rho_h\\}\\) is the autocorrelation function (ACF), and its plot against \\(h\\) is the correlogram.\n\nRestrictions on an autocovariance function\nFor a covariance-stationary process,\n\\[\n\\gamma_h=\\gamma_{-h},\n\\qquad\n\\rho_h=\\rho_{-h},\n\\]\n\\[\n\\gamma_0=\\operatorname{Var}(Y_t)\\ge0,\n\\qquad\n\\rho_0=1,\n\\]\nand\n\\[\n|\\rho_h|\\le1.\n\\]\nThere is also a deeper restriction. For any constants \\(a_1,\\ldots,a_m\\) and time indices \\(t_1,\\ldots,t_m\\),\n\\[\n\\sum_{i=1}^{m}\\sum_{j=1}^{m}\na_i a_j\\gamma_{t_i-t_j}\\ge0.\n\\]\nThus the autocovariance sequence must be positive semidefinite.\n\nQuestion: Is any symmetric sequence satisfying \\(\\rho_0=1\\) and \\(|\\rho_h|\\le1\\) a valid ACF?\nNo. The autocorrelations must jointly define a positive-semidefinite covariance structure.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#stationarity",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#stationarity",
     "title": "Univariate Time Series Models I",
     "section": "Stationarity",
-    "text": "Stationarity\n\nStrict stationarity\nA process \\(\\{Y_t\\}\\) is strictly stationary if shifting time does not change any finite-dimensional joint distribution. For any \\(k\\), time points \\(t_1,\\ldots,t_k\\), and shift \\(h\\),\n\\[\n(Y_{t_1},\\ldots,Y_{t_k})\n\\overset{d}{=}\n(Y_{t_1+h},\\ldots,Y_{t_k+h}).\n\\]\n\n\nCovariance stationarity\nA process is covariance stationary (weakly or second-order stationary) if\n\n\\(E(Y_t)=\\mu\\) for all \\(t\\);\n\\(\\operatorname{Var}(Y_t)=\\gamma_0&lt;\\infty\\) for all \\(t\\);\n\\(\\operatorname{Cov}(Y_t,Y_{t-h})=\\gamma_h\\) depends only on the lag \\(h\\), not on calendar time \\(t\\).\n\nIf second moments exist, strict stationarity implies covariance stationarity. The converse is not true in general.\nFor a Gaussian process, however, the mean and covariance completely determine all finite-dimensional distributions. Hence covariance stationarity implies strict stationarity."
+    "text": "Stationarity\n\nStrict stationarity\nA process \\(\\{Y_t\\}\\) is strictly stationary if shifting time does not change any finite-dimensional joint distribution. For any \\(k\\), time points \\(t_1,\\ldots,t_k\\), and shift \\(h\\),\n\\[\n(Y_{t_1},\\ldots,Y_{t_k})\n\\overset{d}{=}\n(Y_{t_1+h},\\ldots,Y_{t_k+h}).\n\\]\n\n\nCovariance stationarity\nA process is covariance stationary (weakly or second-order stationary) if\n\n\\(E(Y_t)=\\mu\\) for all \\(t\\);\n\\(\\operatorname{Var}(Y_t)=\\gamma_0&lt;\\infty\\) for all \\(t\\);\n\\(\\operatorname{Cov}(Y_t,Y_{t-h})=\\gamma_h\\) depends only on the lag \\(h\\), not on calendar time \\(t\\).\n\nIf second moments exist, strict stationarity implies covariance stationarity. The converse is not true in general.\nFor a Gaussian process, however, the mean and covariance completely determine all finite-dimensional distributions. Hence covariance stationarity implies strict stationarity.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#predict-before-you-simulate",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#predict-before-you-simulate",
     "title": "Univariate Time Series Models I",
     "section": "Predict before you simulate",
-    "text": "Predict before you simulate\nConsider four processes:\n\nWhite noise \\[\nY_t=\\varepsilon_t,\\qquad \\varepsilon_t\\sim WN(0,\\sigma^2).\n\\]\nDeterministic trend \\[\nY_t=2+0.03t+\\varepsilon_t.\n\\]\nRandom walk \\[\nY_t=Y_{t-1}+\\varepsilon_t.\n\\]\nTime-varying variance \\[\nY_t=t\\varepsilon_t.\n\\]\n\nFor each process, check:\n\nIs the mean constant?\nIs the variance constant?\nIf not stationary, which condition fails?\n\n\n\nShow R code\n# ------------------------------------------------------------------\n# Setup: We will first create some functions to plot the graph later.\n# ------------------------------------------------------------------\n# Install packages if not installed\n# ------------------------------------------------------------------\n\nsuppressPackageStartupMessages({\n  library(ggplot2)\n  library(gridExtra)\n})\n\n# Time-series line plot; optional dashed reference line at the mean.\nts_plot &lt;- function(x, mu = NULL) {\n  stopifnot(is.numeric(x) || is.ts(x))\n  time_idx &lt;- if (is.ts(x)) as.numeric(time(x)) else seq_along(x)\n  df &lt;- data.frame(time = time_idx, value = as.numeric(x))\n  p &lt;- ggplot(df, aes(time, value)) +\n    theme_classic() +\n    geom_line() +\n    labs(x = \"Time\", y = NULL)\n  if (!is.null(mu)) p &lt;- p + geom_hline(yintercept = mu, linetype = \"dashed\")\n  p\n}\n\n# Theoretical ACF of an ARMA process, lags 1..L (lag 0 dropped).\nacf_plot &lt;- function(ar = numeric(0), ma = numeric(0), L = 16, title = NULL) {\n  rho &lt;- ARMAacf(ar = ar, ma = ma, lag.max = L)[-1]\n  df  &lt;- data.frame(lag = seq_len(L), acf = as.numeric(rho))\n  ggplot(df, aes(lag, acf)) +\n    theme_classic() +\n    geom_hline(yintercept = 0) +\n    geom_segment(aes(xend = lag, y = 0, yend = acf), linewidth = 1) +\n    geom_point(size = 2) +\n    scale_x_continuous(breaks = seq(0, L, by = 2)) +\n    labs(x = \"Lag\", y = \"ACF\", title = title)\n}\n\n# Impulse response of an MA(q): psi = (1, theta_1, ..., theta_q, 0, ...).\nirf_ma &lt;- function(ma = numeric(0), h = 8, title = NULL) {\n  psi &lt;- c(1, ma, rep(0, max(0, h - length(ma))))[seq_len(h + 1)]\n  df  &lt;- data.frame(horizon = 0:h, response = psi)\n  ggplot(df, aes(horizon, response)) +\n    theme_classic() +\n    geom_hline(yintercept = 0) +\n    geom_segment(aes(xend = horizon, y = 0, yend = response)) +\n    geom_point() +\n    scale_x_continuous(breaks = 0:h) +\n    labs(x = \"Horizon after innovation\", y = \"Response\", title = title)\n}\n\n# Running moment diagnostics used in the ergodicity simulations:\n# running mean, running second moment, and running lag-1 product.\nrunning_moments &lt;- function(y) {\n  Tn      &lt;- length(y)\n  lagprod &lt;- y[-1] * y[-Tn]\n  data.frame(\n    t             = 1:Tn,\n    mean          = cumsum(y)   / (1:Tn),\n    second_moment = cumsum(y^2) / (1:Tn),\n    lag1_product  = c(NA, cumsum(lagprod) / (1:(Tn - 1)))\n  )\n}\n\n\n\n\nShow R code\n# Simulate four processes\n\nset.seed(821)\n\nT &lt;- 250\nt &lt;- 1:T\n\nwn    &lt;- rnorm(T)\ntrend &lt;- 2 + 0.03 * t + rnorm(T)\nrw    &lt;- cumsum(rnorm(T))\ntvv   &lt;- t * rnorm(T)\n\np1 &lt;- ts_plot(wn, mu = 0)  + ggtitle(\"White noise\")\np2 &lt;- ts_plot(trend)       + ggtitle(\"Deterministic trend + noise\")\np3 &lt;- ts_plot(rw)          + ggtitle(\"Random walk\")\np4 &lt;- ts_plot(tvv, mu = 0) + ggtitle(\"Time-varying variance\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)\n\n\n\n\n\n\n\n\n\nReading the graphs\n\nWhite noise fluctuates around a constant mean with constant variance.\nA deterministic trend violates the constant-mean condition.\nA random walk has \\[\n\\operatorname{Var}(Y_t)=t\\sigma^2\n\\] when \\(Y_0\\) is fixed, so its variance changes with time.\nIf \\(Y_t=t\\varepsilon_t\\), then \\[\nE(Y_t)=0,\n\\qquad\n\\operatorname{Var}(Y_t)=t^2\\sigma^2,\n\\] so the process is nonstationary through its variance.\n\nThe graphs illustrate realizations. Stationarity is a property of the stochastic process, not a visual property of one particular observed path."
+    "text": "Predict before you simulate\nConsider four processes:\n\nWhite noise \\[\nY_t=\\varepsilon_t,\\qquad \\varepsilon_t\\sim WN(0,\\sigma^2).\n\\]\nDeterministic trend \\[\nY_t=2+0.03t+\\varepsilon_t.\n\\]\nRandom walk \\[\nY_t=Y_{t-1}+\\varepsilon_t.\n\\]\nTime-varying variance \\[\nY_t=t\\varepsilon_t.\n\\]\n\nFor each process, check:\n\nIs the mean constant?\nIs the variance constant?\nIf not stationary, which condition fails?\n\n\n\nShow R code\n# ------------------------------------------------------------------\n# Setup: We will first create some functions to plot the graph later.\n# ------------------------------------------------------------------\n# Install packages if not installed\n# ------------------------------------------------------------------\n\nsuppressPackageStartupMessages({\n  library(ggplot2)\n  library(gridExtra)\n})\n\n# Time-series line plot; optional dashed reference line at the mean.\nts_plot &lt;- function(x, mu = NULL) {\n  stopifnot(is.numeric(x) || is.ts(x))\n  time_idx &lt;- if (is.ts(x)) as.numeric(time(x)) else seq_along(x)\n  df &lt;- data.frame(time = time_idx, value = as.numeric(x))\n  p &lt;- ggplot(df, aes(time, value)) +\n    theme_classic() +\n    geom_line() +\n    labs(x = \"Time\", y = NULL)\n  if (!is.null(mu)) p &lt;- p + geom_hline(yintercept = mu, linetype = \"dashed\")\n  p\n}\n\n# Theoretical ACF of an ARMA process, lags 1..L (lag 0 dropped).\nacf_plot &lt;- function(ar = numeric(0), ma = numeric(0), L = 16, title = NULL) {\n  rho &lt;- ARMAacf(ar = ar, ma = ma, lag.max = L)[-1]\n  df  &lt;- data.frame(lag = seq_len(L), acf = as.numeric(rho))\n  ggplot(df, aes(lag, acf)) +\n    theme_classic() +\n    geom_hline(yintercept = 0) +\n    geom_segment(aes(xend = lag, y = 0, yend = acf), linewidth = 1) +\n    geom_point(size = 2) +\n    scale_x_continuous(breaks = seq(0, L, by = 2)) +\n    labs(x = \"Lag\", y = \"ACF\", title = title)\n}\n\n# Impulse response of an MA(q): psi = (1, theta_1, ..., theta_q, 0, ...).\nirf_ma &lt;- function(ma = numeric(0), h = 8, title = NULL) {\n  psi &lt;- c(1, ma, rep(0, max(0, h - length(ma))))[seq_len(h + 1)]\n  df  &lt;- data.frame(horizon = 0:h, response = psi)\n  ggplot(df, aes(horizon, response)) +\n    theme_classic() +\n    geom_hline(yintercept = 0) +\n    geom_segment(aes(xend = horizon, y = 0, yend = response)) +\n    geom_point() +\n    scale_x_continuous(breaks = 0:h) +\n    labs(x = \"Horizon after innovation\", y = \"Response\", title = title)\n}\n\n# Running moment diagnostics used in the ergodicity simulations:\n# running mean, running second moment, and running lag-1 product.\nrunning_moments &lt;- function(y) {\n  Tn      &lt;- length(y)\n  lagprod &lt;- y[-1] * y[-Tn]\n  data.frame(\n    t             = 1:Tn,\n    mean          = cumsum(y)   / (1:Tn),\n    second_moment = cumsum(y^2) / (1:Tn),\n    lag1_product  = c(NA, cumsum(lagprod) / (1:(Tn - 1)))\n  )\n}\n\n\n\n\nShow R code\n# Simulate four processes\n\nset.seed(821)\n\nT &lt;- 250\nt &lt;- 1:T\n\nwn    &lt;- rnorm(T)\ntrend &lt;- 2 + 0.03 * t + rnorm(T)\nrw    &lt;- cumsum(rnorm(T))\ntvv   &lt;- t * rnorm(T)\n\np1 &lt;- ts_plot(wn, mu = 0)  + ggtitle(\"White noise\")\np2 &lt;- ts_plot(trend)       + ggtitle(\"Deterministic trend + noise\")\np3 &lt;- ts_plot(rw)          + ggtitle(\"Random walk\")\np4 &lt;- ts_plot(tvv, mu = 0) + ggtitle(\"Time-varying variance\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)\n\n\n\n\n\n\n\n\n\nReading the graphs\n\nWhite noise fluctuates around a constant mean with constant variance.\nA deterministic trend violates the constant-mean condition.\nA random walk has \\[\n\\operatorname{Var}(Y_t)=t\\sigma^2\n\\] when \\(Y_0\\) is fixed, so its variance changes with time.\nIf \\(Y_t=t\\varepsilon_t\\), then \\[\nE(Y_t)=0,\n\\qquad\n\\operatorname{Var}(Y_t)=t^2\\sigma^2,\n\\] so the process is nonstationary through its variance.\n\nThe graphs illustrate realizations. Stationarity is a property of the stochastic process, not a visual property of one particular observed path.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#stationarity-is-not-enough-ergodicity",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#stationarity-is-not-enough-ergodicity",
     "title": "Univariate Time Series Models I",
     "section": "Stationarity is not enough: ergodicity",
-    "text": "Stationarity is not enough: ergodicity\nStationarity is a statement about the rows of a stochastic process: at every date the probability law is the same. Ergodicity is a different, and equally important, statement — it connects two ways of averaging that need not agree.\nPicture the process as a grid. Each column is one complete history the world could have produced (one realisation \\(\\omega\\)); each row is a fixed date \\(t\\) seen across all those parallel histories.\n\nEnsemble average — average down a row, across parallel histories at a fixed \\(t\\). This is the expectation \\(E(Y_t)\\).\nTime average — average along one cloumn, over time within the single history we actually observe: \\(\\dfrac{1}{T}\\sum_{t=1}^{T}Y_t\\).\n\n\\[\n\\underbrace{E(Y_t)}_{\\text{along a row: across histories}}\n\\qquad\\text{vs.}\\qquad\n\\underbrace{\\frac{1}{T}\\sum_{t=1}^{T}Y_t}_{\\text{down a column: one history}}\n\\]\nA stationary process is mean ergodic when these two coincide as the sample grows:\n\\[\n\\frac{1}{T}\\sum_{t=1}^{T}Y_t \\xrightarrow{p} E(Y_t),\n\\]\nwhere \\(\\xrightarrow{p}\\) is convergence in probability (stronger conditions give almost-sure convergence). The same idea extends to variances and autocovariances: ergodicity is exactly what lets a time average from one path stand in for an ensemble average.\nWhy this is important in time-series econometrics. We almost never get the grid — we get one row. There is one realized path of US GDP, one path of the S&P 500, one observed inflation series. Every time we estimate a mean, a variance, or an autocorrelation from that single path and treat it as a population quantity, we are assuming the process is ergodic. If it is not, collecting more of the same history does not help.\nTwo warnings the simulations will make concrete:\n\nstationarity does not imply ergodicity — a stable law can still hide a permanent, history-specific component;\nserial dependence does not imply non-ergodicity — strongly autocorrelated data (a stationary AR(1)) can still be ergodic.\n\n\nA real-world picture: permanent versus transitory\nThe example simulated below,\n\\[\nY_t = A + \\varepsilon_t,\n\\qquad A \\text{ drawn once},\\quad \\varepsilon_t \\text{ transitory},\n\\]\nis the permanent–transitory decomposition that runs through applied economics.\n\nRead \\(Y_t\\) as a household’s log income in year \\(t\\). The permanent component \\(A\\) — profession, human capital, region — is drawn once and carried for life; \\(\\varepsilon_t\\) is a good or bad year. This is the structure behind Friedman’s permanent-income hypothesis and the modern income-dynamics literature.\nOr read \\(Y_t\\) as a country’s growth: a permanent “type” \\(A\\) (institutions, geography) plus year-to-year shocks \\(\\varepsilon_t\\).\n\nNow follow one household (or country) for a long time. Its time-average income converges to its own permanent draw \\(A\\), not to the average across all households. Watching Argentina for two centuries reveals Argentina’s \\(A\\), not the world-average growth rate.\nThat is non-ergodicity: the permanent component never averages out within a single column, so one long history cannot recover the cross-sectional (ensemble) mean. Contrast this with a stationary AR(1), where a shock’s influence decays, \\(\\gamma_h=\\phi^h\\to0\\), and a long enough path does recover the ensemble moments.\n\n\nSimulation 1: iid white noise\nLet\n\\[\nY_t\\overset{iid}{\\sim}N(0,1),\n\\qquad\nE(Y_t)=0,\\qquad E(Y_t^2)=1,\\qquad \\gamma_1=0.\n\\]\nWe track three time averages at once: the running mean, the running second moment, and the running lag-1 product. These are the sample analogues of the three ensemble quantities above.\nPredict before running: as the realization becomes longer, what should each of the three running quantities approach?\n\n\nShow R code\n# Ergodic white noise: running mean, second moment, and lag-1 product\n\nset.seed(821)\n\nT &lt;- 5000\ny &lt;- rnorm(T)\nd &lt;- running_moments(y)\n\np1 &lt;- ggplot(d, aes(t, mean)) +\n  geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running mean\", x = \"T\", y = expression(frac(1, T) * sum(Y[t])))\n\np2 &lt;- ggplot(d, aes(t, second_moment)) +\n  geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running second moment\", x = \"T\", y = expression(frac(1, T) * sum(Y[t]^2)))\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) +\n  geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running lag-1 product\", x = \"T\",\n       y = expression(frac(1, T - 1) * sum(Y[t] * Y[t - 1])))\n\ngrid.arrange(p1, p2, p3, ncol = 1)\n\n\n\nWarning message:\n\n\"Removed 1 row containing missing values or values outside the scale range (`geom_line()`).\"\n\n\n\n\n\n\n\n\n\n\n\nWhat should you see?\nAs \\(T\\) increases,\n\\[\n\\frac{1}{T}\\sum Y_t \\xrightarrow{p} 0,\n\\qquad\n\\frac{1}{T}\\sum Y_t^2 \\xrightarrow{p} 1,\n\\qquad\n\\frac{1}{T-1}\\sum_{t=2}^{T}Y_t Y_{t-1} \\xrightarrow{p} 0.\n\\]\nThe path itself never becomes smooth. What stabilizes are the time averages of functions of the process.\n\n\nSimulation 2: dependence does not rule out ergodicity\nConsider the stationary AR(1),\n\\[\nY_t=\\phi Y_{t-1}+\\varepsilon_t,\n\\qquad |\\phi|&lt;1.\n\\]\nSet \\(\\phi=0.8\\) and choose \\(\\operatorname{Var}(\\varepsilon_t)=1-\\phi^2\\), so that\n\\[\nE(Y_t)=0,\\qquad \\operatorname{Var}(Y_t)=1,\\qquad \\gamma_1=0.8.\n\\]\nThe process is serially dependent but ergodic.\nPredict: should the running mean converge to zero? What should the running lag-1 product approach?\n\n\nShow R code\n# Stationary and dependent, yet ergodic: AR(1)\n\nset.seed(822)\n\nT   &lt;- 5000\nphi &lt;- 0.8\ninnovation_sd &lt;- sqrt(1 - phi^2)          # normalises Var(Y_t) to 1\n\ny_ar &lt;- as.numeric(arima.sim(model = list(ar = phi), n = T, sd = innovation_sd))\nd    &lt;- running_moments(y_ar)\n\np1 &lt;- ggplot(d, aes(t, mean)) +\n  geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"AR(1): running mean\", x = \"T\", y = NULL)\n\np2 &lt;- ggplot(d, aes(t, second_moment)) +\n  geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"AR(1): running second moment\", x = \"T\", y = NULL)\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) +\n  geom_line() +\n  geom_hline(yintercept = phi, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"AR(1): running lag-1 product\",\n       subtitle = expression(gamma[1] == 0.8), x = \"T\", y = NULL)\n\ngrid.arrange(p1, p2, p3, ncol = 1)\n\n\n\nWarning message:\n\n\"Removed 1 row containing missing values or values outside the scale range (`geom_line()`).\"\n\n\n\n\n\n\n\n\n\n\n\nFor this stationary AR(1),\n\\[\n\\frac{1}{T}\\sum_{t=1}^{T}Y_t \\xrightarrow{p} 0,\n\\qquad\n\\frac{1}{T}\\sum_{t=1}^{T}Y_t^2 \\xrightarrow{p} 1,\n\\qquad\n\\frac{1}{T-1}\\sum_{t=2}^{T}Y_t Y_{t-1} \\xrightarrow{p} \\gamma_1 = 0.8.\n\\]\n\nErgodicity does not require independence.\n\nThe observations can be strongly serially correlated and the process can still reveal its stationary moments through a sufficiently long realization.\n\n\nSimulation 3: stationary but non-ergodic\nNow consider\n\\[\nY_t=A+\\varepsilon_t,\n\\qquad\nA\\sim N(0,1),\n\\qquad\n\\varepsilon_t\\overset{iid}{\\sim}N(0,1),\n\\]\nwhere \\(A\\) is drawn once and then held fixed for the entire realization.\nUnconditionally the process is stationary:\n\\[\nE(Y_t)=0,\n\\qquad\n\\operatorname{Var}(Y_t)=2,\n\\qquad\n\\gamma_h=\\operatorname{Var}(A)=1 \\quad (h&gt;0).\n\\]\nBut within a single realization the permanent component \\(A\\) never averages out. As \\(T\\to\\infty\\),\n\\[\n\\frac{1}{T}\\sum Y_t \\to A,\n\\qquad\n\\frac{1}{T}\\sum Y_t^2 \\to A^2+1,\n\\qquad\n\\frac{1}{T-1}\\sum_{t=2}^{T}Y_t Y_{t-1} \\to A^2,\n\\]\nrather than the ensemble values \\(0\\), \\(2\\), and \\(1\\). The three running diagnostics below therefore settle on realization-specific limits (dashed), not the ensemble values (dotted).\n\n\nShow R code\n# Stationary but non-ergodic: a permanent random component\n\nset.seed(823)\n\nT &lt;- 5000\nA &lt;- rnorm(1)\nepsilon &lt;- rnorm(T)\ny_ne &lt;- A + epsilon\nd &lt;- running_moments(y_ne)\n\np0 &lt;- ts_plot(y_ne) +\n  geom_hline(yintercept = A, linetype = \"dashed\") +\n  ggtitle(\"One realization: Y_t = A + epsilon_t\")\n\np1 &lt;- ggplot(d, aes(t, mean)) +\n  geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dotted\") +\n  geom_hline(yintercept = A, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running mean\",\n       subtitle = \"Dotted: ensemble 0; dashed: realization-specific limit A\",\n       x = \"T\", y = NULL)\n\np2 &lt;- ggplot(d, aes(t, second_moment)) +\n  geom_line() +\n  geom_hline(yintercept = 2, linetype = \"dotted\") +\n  geom_hline(yintercept = A^2 + 1, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running second moment\",\n       subtitle = \"Dotted: ensemble 2; dashed: realization-specific limit A^2 + 1\",\n       x = \"T\", y = NULL)\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) +\n  geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dotted\") +\n  geom_hline(yintercept = A^2, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running lag-1 product\",\n       subtitle = \"Dotted: ensemble gamma_1 = 1; dashed: realization-specific limit A^2\",\n       x = \"T\", y = NULL)\n\ngrid.arrange(p0, p1, p2, p3, ncol = 1)\n\ncat(\"Realization-specific A =\", round(A, 4), \"\\n\")\n\n\n\nWarning message:\n\n\"Removed 1 row containing missing values or values outside the scale range (`geom_line()`).\"\n\n\n\n\nRealization-specific A = -0.9929 \n\n\n\n\n\n\n\n\n\n\n\nWhy stationarity does not imply ergodicity here\nThe process \\(Y_t=A+\\varepsilon_t\\) is stationary because shifting time does not change its joint distribution.\nBut the common component \\(A\\) creates dependence that never dies out:\n\\[\n\\gamma_h=1\n\\qquad\n\\text{for every }h&gt;0.\n\\]\nBy contrast, for a stationary AR(1),\n\\[\n\\gamma_h\\propto\\phi^h\\rightarrow0\n\\qquad (|\\phi|&lt;1).\n\\]\nThe difference is not simply whether observations are dependent, but whether the dependence is sufficiently persistent to prevent time averages from revealing ensemble moments.\n\n\nMany realizations make the distinction visible\nGenerate many realizations of increasing length and compare their time averages.\n\nFor an ergodic process, time averages should become concentrated around the ensemble mean.\nFor \\(Y_t=A+\\varepsilon_t\\), transitory noise averages out, but the realization-specific component \\(A\\) remains.\n\nPredict what should happen before running the simulation.\n\n\nShow R code\n# Many realizations: does increasing T make the time average concentrate?\n\nset.seed(824)\n\nT_values &lt;- c(25, 100, 500, 2000)\nR &lt;- 300\n\nresults &lt;- do.call(\n  rbind,\n  lapply(T_values, function(Ti) {\n\n    wn_means &lt;- replicate(\n      R,\n      mean(rnorm(Ti))\n    )\n\n    nonergodic_means &lt;- replicate(\n      R,\n      {\n        A_i &lt;- rnorm(1)\n        mean(A_i + rnorm(Ti))\n      }\n    )\n\n    rbind(\n      data.frame(\n        T = factor(Ti, levels = T_values),\n        process = \"Ergodic white noise\",\n        time_mean = wn_means\n      ),\n      data.frame(\n        T = factor(Ti, levels = T_values),\n        process = \"Stationary but non-ergodic\",\n        time_mean = nonergodic_means\n      )\n    )\n  })\n)\n\nggplot(results, aes(x = T, y = time_mean)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  facet_wrap(~ process, ncol = 1) +\n  theme_classic() +\n  labs(\n    title = \"Time averages across many realizations\",\n    x = \"Length of realization T\",\n    y = \"Time average\"\n  )\n\n\n\n\n\n\n\n\n\nInterpretation\nFor white noise, the distribution of time averages collapses toward zero as \\(T\\) increases.\nFor \\(Y_t=A+\\varepsilon_t\\), each realization instead converges toward its own draw of \\(A\\). The distribution of time averages therefore does not collapse to the ensemble mean.\n\nErgodicity is what allows a long history to substitute, in an appropriate sense, for repeated draws from the ensemble."
+    "text": "Stationarity is not enough: ergodicity\nStationarity is a statement about the rows of a stochastic process: at every date the probability law is the same. Ergodicity is a different, and equally important, statement — it connects two ways of averaging that need not agree.\nPicture the process as a grid. Each column is one complete history the world could have produced (one realisation \\(\\omega\\)); each row is a fixed date \\(t\\) seen across all those parallel histories.\n\nEnsemble average — average down a row, across parallel histories at a fixed \\(t\\). This is the expectation \\(E(Y_t)\\).\nTime average — average along one cloumn, over time within the single history we actually observe: \\(\\dfrac{1}{T}\\sum_{t=1}^{T}Y_t\\).\n\n\\[\n\\underbrace{E(Y_t)}_{\\text{along a row: across histories}}\n\\qquad\\text{vs.}\\qquad\n\\underbrace{\\frac{1}{T}\\sum_{t=1}^{T}Y_t}_{\\text{down a column: one history}}\n\\]\nA stationary process is mean ergodic when these two coincide as the sample grows:\n\\[\n\\frac{1}{T}\\sum_{t=1}^{T}Y_t \\xrightarrow{p} E(Y_t),\n\\]\nwhere \\(\\xrightarrow{p}\\) is convergence in probability (stronger conditions give almost-sure convergence). The same idea extends to variances and autocovariances: ergodicity is exactly what lets a time average from one path stand in for an ensemble average.\nWhy this is important in time-series econometrics. We almost never get the grid — we get one row. There is one realized path of US GDP, one path of the S&P 500, one observed inflation series. Every time we estimate a mean, a variance, or an autocorrelation from that single path and treat it as a population quantity, we are assuming the process is ergodic. If it is not, collecting more of the same history does not help.\nTwo warnings the simulations will make concrete:\n\nstationarity does not imply ergodicity — a stable law can still hide a permanent, history-specific component;\nserial dependence does not imply non-ergodicity — strongly autocorrelated data (a stationary AR(1)) can still be ergodic.\n\n\nA real-world picture: permanent versus transitory\nThe example simulated below,\n\\[\nY_t = A + \\varepsilon_t,\n\\qquad A \\text{ drawn once},\\quad \\varepsilon_t \\text{ transitory},\n\\]\nis the permanent–transitory decomposition that runs through applied economics.\n\nRead \\(Y_t\\) as a household’s log income in year \\(t\\). The permanent component \\(A\\) — profession, human capital, region — is drawn once and carried for life; \\(\\varepsilon_t\\) is a good or bad year. This is the structure behind Friedman’s permanent-income hypothesis and the modern income-dynamics literature.\nOr read \\(Y_t\\) as a country’s growth: a permanent “type” \\(A\\) (institutions, geography) plus year-to-year shocks \\(\\varepsilon_t\\).\n\nNow follow one household (or country) for a long time. Its time-average income converges to its own permanent draw \\(A\\), not to the average across all households. Watching Argentina for two centuries reveals Argentina’s \\(A\\), not the world-average growth rate.\nThat is non-ergodicity: the permanent component never averages out within a single column, so one long history cannot recover the cross-sectional (ensemble) mean. Contrast this with a stationary AR(1), where a shock’s influence decays, \\(\\gamma_h=\\phi^h\\to0\\), and a long enough path does recover the ensemble moments.\n\n\nSimulation 1: iid white noise\nLet\n\\[\nY_t\\overset{iid}{\\sim}N(0,1),\n\\qquad\nE(Y_t)=0,\\qquad E(Y_t^2)=1,\\qquad \\gamma_1=0.\n\\]\nWe track three time averages at once: the running mean, the running second moment, and the running lag-1 product. These are the sample analogues of the three ensemble quantities above.\nPredict before running: as the realization becomes longer, what should each of the three running quantities approach?\n\n\nShow R code\n# Ergodic white noise: running mean, second moment, and lag-1 product\n\nset.seed(821)\n\nT &lt;- 5000\ny &lt;- rnorm(T)\nd &lt;- running_moments(y)\n\np1 &lt;- ggplot(d, aes(t, mean)) +\n  geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running mean\", x = \"T\", y = expression(frac(1, T) * sum(Y[t])))\n\np2 &lt;- ggplot(d, aes(t, second_moment)) +\n  geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running second moment\", x = \"T\", y = expression(frac(1, T) * sum(Y[t]^2)))\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) +\n  geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running lag-1 product\", x = \"T\",\n       y = expression(frac(1, T - 1) * sum(Y[t] * Y[t - 1])))\n\ngrid.arrange(p1, p2, p3, ncol = 1)\n\n\n\nWarning message:\n\n\"Removed 1 row containing missing values or values outside the scale range (`geom_line()`).\"\n\n\n\n\n\n\n\n\n\n\n\nWhat should you see?\nAs \\(T\\) increases,\n\\[\n\\frac{1}{T}\\sum Y_t \\xrightarrow{p} 0,\n\\qquad\n\\frac{1}{T}\\sum Y_t^2 \\xrightarrow{p} 1,\n\\qquad\n\\frac{1}{T-1}\\sum_{t=2}^{T}Y_t Y_{t-1} \\xrightarrow{p} 0.\n\\]\nThe path itself never becomes smooth. What stabilizes are the time averages of functions of the process.\n\n\nSimulation 2: dependence does not rule out ergodicity\nConsider the stationary AR(1),\n\\[\nY_t=\\phi Y_{t-1}+\\varepsilon_t,\n\\qquad |\\phi|&lt;1.\n\\]\nSet \\(\\phi=0.8\\) and choose \\(\\operatorname{Var}(\\varepsilon_t)=1-\\phi^2\\), so that\n\\[\nE(Y_t)=0,\\qquad \\operatorname{Var}(Y_t)=1,\\qquad \\gamma_1=0.8.\n\\]\nThe process is serially dependent but ergodic.\nPredict: should the running mean converge to zero? What should the running lag-1 product approach?\n\n\nShow R code\n# Stationary and dependent, yet ergodic: AR(1)\n\nset.seed(822)\n\nT   &lt;- 5000\nphi &lt;- 0.8\ninnovation_sd &lt;- sqrt(1 - phi^2)          # normalises Var(Y_t) to 1\n\ny_ar &lt;- as.numeric(arima.sim(model = list(ar = phi), n = T, sd = innovation_sd))\nd    &lt;- running_moments(y_ar)\n\np1 &lt;- ggplot(d, aes(t, mean)) +\n  geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"AR(1): running mean\", x = \"T\", y = NULL)\n\np2 &lt;- ggplot(d, aes(t, second_moment)) +\n  geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"AR(1): running second moment\", x = \"T\", y = NULL)\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) +\n  geom_line() +\n  geom_hline(yintercept = phi, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"AR(1): running lag-1 product\",\n       subtitle = expression(gamma[1] == 0.8), x = \"T\", y = NULL)\n\ngrid.arrange(p1, p2, p3, ncol = 1)\n\n\n\nWarning message:\n\n\"Removed 1 row containing missing values or values outside the scale range (`geom_line()`).\"\n\n\n\n\n\n\n\n\n\n\n\nFor this stationary AR(1),\n\\[\n\\frac{1}{T}\\sum_{t=1}^{T}Y_t \\xrightarrow{p} 0,\n\\qquad\n\\frac{1}{T}\\sum_{t=1}^{T}Y_t^2 \\xrightarrow{p} 1,\n\\qquad\n\\frac{1}{T-1}\\sum_{t=2}^{T}Y_t Y_{t-1} \\xrightarrow{p} \\gamma_1 = 0.8.\n\\]\n\nErgodicity does not require independence.\n\nThe observations can be strongly serially correlated and the process can still reveal its stationary moments through a sufficiently long realization.\n\n\nSimulation 3: stationary but non-ergodic\nNow consider\n\\[\nY_t=A+\\varepsilon_t,\n\\qquad\nA\\sim N(0,1),\n\\qquad\n\\varepsilon_t\\overset{iid}{\\sim}N(0,1),\n\\]\nwhere \\(A\\) is drawn once and then held fixed for the entire realization.\nUnconditionally the process is stationary:\n\\[\nE(Y_t)=0,\n\\qquad\n\\operatorname{Var}(Y_t)=2,\n\\qquad\n\\gamma_h=\\operatorname{Var}(A)=1 \\quad (h&gt;0).\n\\]\nBut within a single realization the permanent component \\(A\\) never averages out. As \\(T\\to\\infty\\),\n\\[\n\\frac{1}{T}\\sum Y_t \\to A,\n\\qquad\n\\frac{1}{T}\\sum Y_t^2 \\to A^2+1,\n\\qquad\n\\frac{1}{T-1}\\sum_{t=2}^{T}Y_t Y_{t-1} \\to A^2,\n\\]\nrather than the ensemble values \\(0\\), \\(2\\), and \\(1\\). The three running diagnostics below therefore settle on realization-specific limits (dashed), not the ensemble values (dotted).\n\n\nShow R code\n# Stationary but non-ergodic: a permanent random component\n\nset.seed(823)\n\nT &lt;- 5000\nA &lt;- rnorm(1)\nepsilon &lt;- rnorm(T)\ny_ne &lt;- A + epsilon\nd &lt;- running_moments(y_ne)\n\np0 &lt;- ts_plot(y_ne) +\n  geom_hline(yintercept = A, linetype = \"dashed\") +\n  ggtitle(\"One realization: Y_t = A + epsilon_t\")\n\np1 &lt;- ggplot(d, aes(t, mean)) +\n  geom_line() +\n  geom_hline(yintercept = 0, linetype = \"dotted\") +\n  geom_hline(yintercept = A, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running mean\",\n       subtitle = \"Dotted: ensemble 0; dashed: realization-specific limit A\",\n       x = \"T\", y = NULL)\n\np2 &lt;- ggplot(d, aes(t, second_moment)) +\n  geom_line() +\n  geom_hline(yintercept = 2, linetype = \"dotted\") +\n  geom_hline(yintercept = A^2 + 1, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running second moment\",\n       subtitle = \"Dotted: ensemble 2; dashed: realization-specific limit A^2 + 1\",\n       x = \"T\", y = NULL)\n\np3 &lt;- ggplot(d, aes(t, lag1_product)) +\n  geom_line() +\n  geom_hline(yintercept = 1, linetype = \"dotted\") +\n  geom_hline(yintercept = A^2, linetype = \"dashed\") +\n  theme_classic() +\n  labs(title = \"Running lag-1 product\",\n       subtitle = \"Dotted: ensemble gamma_1 = 1; dashed: realization-specific limit A^2\",\n       x = \"T\", y = NULL)\n\ngrid.arrange(p0, p1, p2, p3, ncol = 1)\n\ncat(\"Realization-specific A =\", round(A, 4), \"\\n\")\n\n\n\nWarning message:\n\n\"Removed 1 row containing missing values or values outside the scale range (`geom_line()`).\"\n\n\n\n\nRealization-specific A = -0.9929 \n\n\n\n\n\n\n\n\n\n\n\nWhy stationarity does not imply ergodicity here\nThe process \\(Y_t=A+\\varepsilon_t\\) is stationary because shifting time does not change its joint distribution.\nBut the common component \\(A\\) creates dependence that never dies out:\n\\[\n\\gamma_h=1\n\\qquad\n\\text{for every }h&gt;0.\n\\]\nBy contrast, for a stationary AR(1),\n\\[\n\\gamma_h\\propto\\phi^h\\rightarrow0\n\\qquad (|\\phi|&lt;1).\n\\]\nThe difference is not simply whether observations are dependent, but whether the dependence is sufficiently persistent to prevent time averages from revealing ensemble moments.\n\n\nMany realizations make the distinction visible\nGenerate many realizations of increasing length and compare their time averages.\n\nFor an ergodic process, time averages should become concentrated around the ensemble mean.\nFor \\(Y_t=A+\\varepsilon_t\\), transitory noise averages out, but the realization-specific component \\(A\\) remains.\n\nPredict what should happen before running the simulation.\n\n\nShow R code\n# Many realizations: does increasing T make the time average concentrate?\n\nset.seed(824)\n\nT_values &lt;- c(25, 100, 500, 2000)\nR &lt;- 300\n\nresults &lt;- do.call(\n  rbind,\n  lapply(T_values, function(Ti) {\n\n    wn_means &lt;- replicate(\n      R,\n      mean(rnorm(Ti))\n    )\n\n    nonergodic_means &lt;- replicate(\n      R,\n      {\n        A_i &lt;- rnorm(1)\n        mean(A_i + rnorm(Ti))\n      }\n    )\n\n    rbind(\n      data.frame(\n        T = factor(Ti, levels = T_values),\n        process = \"Ergodic white noise\",\n        time_mean = wn_means\n      ),\n      data.frame(\n        T = factor(Ti, levels = T_values),\n        process = \"Stationary but non-ergodic\",\n        time_mean = nonergodic_means\n      )\n    )\n  })\n)\n\nggplot(results, aes(x = T, y = time_mean)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  facet_wrap(~ process, ncol = 1) +\n  theme_classic() +\n  labs(\n    title = \"Time averages across many realizations\",\n    x = \"Length of realization T\",\n    y = \"Time average\"\n  )\n\n\n\n\n\n\n\n\n\nInterpretation\nFor white noise, the distribution of time averages collapses toward zero as \\(T\\) increases.\nFor \\(Y_t=A+\\varepsilon_t\\), each realization instead converges toward its own draw of \\(A\\). The distribution of time averages therefore does not collapse to the ensemble mean.\n\nErgodicity is what allows a long history to substitute, in an appropriate sense, for repeated draws from the ensemble.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#why-ergodicity-changes-decisions-a-betting-example",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#why-ergodicity-changes-decisions-a-betting-example",
     "title": "Univariate Time Series Models I",
     "section": "Why ergodicity changes decisions: a betting example",
-    "text": "Why ergodicity changes decisions: a betting example\nThe cases above are additive and stationary. The most consequential real-world failures of ergodicity are often multiplicative, and they change what “a good bet” even means. This is the core of what is now called ergodicity economics (associated with Ole Peters).\nConsider a repeated gamble on your wealth \\(W_t\\). Each period, independently,\n\\[\nW_t =\n\\begin{cases}\n1.5\\,W_{t-1} & \\text{prob } 0.5 \\quad(\\text{gain } 50\\%),\\\\[4pt]\n0.6\\,W_{t-1} & \\text{prob } 0.5 \\quad(\\text{lose } 40\\%).\n\\end{cases}\n\\]\nEnsemble view — average down the row (across many parallel gamblers).\n\\[\nE\\!\\left[\\frac{W_t}{W_{t-1}}\\right] = 0.5(1.5)+0.5(0.6) = 1.05,\n\\qquad\\Rightarrow\\qquad\nE[W_t] = (1.05)^t W_0,\n\\]\nso expected wealth grows about 5% per period. Judged by its expectation, the bet looks excellent.\nTime view — average along one column (one gambler’s path). By a law of large numbers on the log-multipliers,\n\\[\n\\frac{1}{t}\\log\\frac{W_t}{W_0}\n\\xrightarrow{p}\n0.5\\log 1.5 + 0.5\\log 0.6 \\approx -0.053,\n\\]\nso a typical path shrinks about 5% per period and \\(W_t \\to 0\\) almost surely.\nThe expectation (across parallel worlds) and the growth actually experienced along one path point in opposite directions. Because a real investor lives one path, the time average — not the expectation — is the decision-relevant number. This is exactly why compounded (geometric) returns, “volatility drag,” and the Kelly criterion matter, and why judging a repeated financial gamble by its expected value alone is misleading.\nPredict before running: as \\(t\\) grows, what happens to (i) the average wealth across many gamblers, and (ii) the wealth of the typical gambler?\n\n\nShow R code\n# Multiplicative bet: ensemble average rises while the typical path collapses\nset.seed(826)\n\nn_paths &lt;- 5000\nTn      &lt;- 100\n\n# Each step multiplies wealth by 1.5 (gain 50%) or 0.6 (lose 40%), prob 1/2 each.\nmultipliers &lt;- matrix(sample(c(1.5, 0.6), n_paths * Tn, replace = TRUE),\n                      nrow = n_paths)\nwealth &lt;- cbind(1, t(apply(multipliers, 1, cumprod)))   # W_0 = 1 in the first column\n\nt_idx         &lt;- 0:Tn\nensemble_mean &lt;- colMeans(wealth)          # average across the 5000 gamblers\nmedian_path   &lt;- apply(wealth, 2, median)  # the typical gambler\n\n# Theoretical references\nens_theory &lt;- 1.05^t_idx\ngeo_rate   &lt;- exp(0.5 * log(1.5) + 0.5 * log(0.6))   # ~ 0.9487 per period\ngeo_theory &lt;- geo_rate^t_idx\n\nplot_df &lt;- rbind(\n  data.frame(t = t_idx, wealth = ensemble_mean, series = \"Ensemble average E[W_t] (5000 gamblers)\"),\n  data.frame(t = t_idx, wealth = median_path,   series = \"Typical (median) path\")\n)\n\nggplot(plot_df, aes(t, wealth, colour = series)) +\n  geom_line(linewidth = 1) +\n  scale_y_log10() +\n  theme_classic() +\n  theme(legend.position = \"top\", legend.title = element_blank()) +\n  labs(title = \"Multiplicative bet: the ensemble vs. the path you actually live\",\n       subtitle = \"Expected wealth grows ~5%/period; the typical path decays toward 0\",\n       x = \"Period\", y = \"Wealth (log scale)\")\n\ncat(sprintf(\"Ensemble growth per period : %.3f  (E[multiplier])\\n\", 1.05))\ncat(sprintf(\"Time-average growth/period : %.3f  (geometric mean)\\n\", geo_rate))\n\n\nEnsemble growth per period : 1.050  (E[multiplier])\nTime-average growth/period : 0.949  (geometric mean)\n\n\n\n\n\n\n\n\n\nWhat the picture shows\nThe two lines diverge on a log scale. The ensemble average climbs, matching \\(E[W_t]=1.05^t\\) — but it is propped up by a handful of extraordinarily lucky paths in which \\(1.5\\) came up far more often than \\(0.6\\). The typical (median) gambler tracks the geometric rate \\(\\approx 0.95\\) per period and heads toward zero.\n\nEnsemble average answers: “mean wealth across many parallel gamblers.” \\(\\to 1.05^t\\).\nTime/path view answers: “what happens to me if I keep playing.” \\(\\to (0.95)^t\\).\n\nBecause these disagree, the process is non-ergodic: no single path’s time average converges to the ensemble mean. And since you only ever live one path, the ensemble expectation is the wrong basis for the decision.\nThis is the same lesson as \\(Y_t=A+\\varepsilon_t\\) — one realization need not reveal the ensemble — now in a multiplicative, decision-relevant form.\n\nSummary: stationarity and ergodicity\n\n\n\n\n\n\n\n\n\n\nProcess\nStationary?\nSerial dependence?\nMean ergodic?\nLong-run covariance\n\n\n\n\niid white noise\nYes\nNo\nYes\n\\(\\gamma_h=0\\) for \\(h&gt;0\\)\n\n\nstationary AR(1), \\(|\\phi|&lt;1\\)\nYes\nYes\nYes\n\\(\\gamma_h\\to0\\)\n\n\n\\(Y_t=A+\\varepsilon_t\\)\nYes\nYes\nNo\n\\(\\gamma_h=1\\) for all \\(h&gt;0\\)\n\n\nrandom walk\nNo\nYes\n—\nvariance grows with \\(t\\)\n\n\n\nRemember:\n\\[\n\\boxed{\\text{stationary} \\not\\Rightarrow \\text{ergodic}},\n\\qquad\n\\boxed{\\text{dependence} \\not\\Rightarrow \\text{non-ergodic}}.\n\\]"
+    "text": "Why ergodicity changes decisions: a betting example\nThe cases above are additive and stationary. The most consequential real-world failures of ergodicity are often multiplicative, and they change what “a good bet” even means. This is the core of what is now called ergodicity economics (associated with Ole Peters).\nConsider a repeated gamble on your wealth \\(W_t\\). Each period, independently,\n\\[\nW_t =\n\\begin{cases}\n1.5\\,W_{t-1} & \\text{prob } 0.5 \\quad(\\text{gain } 50\\%),\\\\[4pt]\n0.6\\,W_{t-1} & \\text{prob } 0.5 \\quad(\\text{lose } 40\\%).\n\\end{cases}\n\\]\nEnsemble view — average down the row (across many parallel gamblers).\n\\[\nE\\!\\left[\\frac{W_t}{W_{t-1}}\\right] = 0.5(1.5)+0.5(0.6) = 1.05,\n\\qquad\\Rightarrow\\qquad\nE[W_t] = (1.05)^t W_0,\n\\]\nso expected wealth grows about 5% per period. Judged by its expectation, the bet looks excellent.\nTime view — average along one column (one gambler’s path). By a law of large numbers on the log-multipliers,\n\\[\n\\frac{1}{t}\\log\\frac{W_t}{W_0}\n\\xrightarrow{p}\n0.5\\log 1.5 + 0.5\\log 0.6 \\approx -0.053,\n\\]\nso a typical path shrinks about 5% per period and \\(W_t \\to 0\\) almost surely.\nThe expectation (across parallel worlds) and the growth actually experienced along one path point in opposite directions. Because a real investor lives one path, the time average — not the expectation — is the decision-relevant number. This is exactly why compounded (geometric) returns, “volatility drag,” and the Kelly criterion matter, and why judging a repeated financial gamble by its expected value alone is misleading.\nPredict before running: as \\(t\\) grows, what happens to (i) the average wealth across many gamblers, and (ii) the wealth of the typical gambler?\n\n\nShow R code\n# Multiplicative bet: ensemble average rises while the typical path collapses\nset.seed(826)\n\nn_paths &lt;- 5000\nTn      &lt;- 100\n\n# Each step multiplies wealth by 1.5 (gain 50%) or 0.6 (lose 40%), prob 1/2 each.\nmultipliers &lt;- matrix(sample(c(1.5, 0.6), n_paths * Tn, replace = TRUE),\n                      nrow = n_paths)\nwealth &lt;- cbind(1, t(apply(multipliers, 1, cumprod)))   # W_0 = 1 in the first column\n\nt_idx         &lt;- 0:Tn\nensemble_mean &lt;- colMeans(wealth)          # average across the 5000 gamblers\nmedian_path   &lt;- apply(wealth, 2, median)  # the typical gambler\n\n# Theoretical references\nens_theory &lt;- 1.05^t_idx\ngeo_rate   &lt;- exp(0.5 * log(1.5) + 0.5 * log(0.6))   # ~ 0.9487 per period\ngeo_theory &lt;- geo_rate^t_idx\n\nplot_df &lt;- rbind(\n  data.frame(t = t_idx, wealth = ensemble_mean, series = \"Ensemble average E[W_t] (5000 gamblers)\"),\n  data.frame(t = t_idx, wealth = median_path,   series = \"Typical (median) path\")\n)\n\nggplot(plot_df, aes(t, wealth, colour = series)) +\n  geom_line(linewidth = 1) +\n  scale_y_log10() +\n  theme_classic() +\n  theme(legend.position = \"top\", legend.title = element_blank()) +\n  labs(title = \"Multiplicative bet: the ensemble vs. the path you actually live\",\n       subtitle = \"Expected wealth grows ~5%/period; the typical path decays toward 0\",\n       x = \"Period\", y = \"Wealth (log scale)\")\n\ncat(sprintf(\"Ensemble growth per period : %.3f  (E[multiplier])\\n\", 1.05))\ncat(sprintf(\"Time-average growth/period : %.3f  (geometric mean)\\n\", geo_rate))\n\n\nEnsemble growth per period : 1.050  (E[multiplier])\nTime-average growth/period : 0.949  (geometric mean)\n\n\n\n\n\n\n\n\n\nWhat the picture shows\nThe two lines diverge on a log scale. The ensemble average climbs, matching \\(E[W_t]=1.05^t\\) — but it is propped up by a handful of extraordinarily lucky paths in which \\(1.5\\) came up far more often than \\(0.6\\). The typical (median) gambler tracks the geometric rate \\(\\approx 0.95\\) per period and heads toward zero.\n\nEnsemble average answers: “mean wealth across many parallel gamblers.” \\(\\to 1.05^t\\).\nTime/path view answers: “what happens to me if I keep playing.” \\(\\to (0.95)^t\\).\n\nBecause these disagree, the process is non-ergodic: no single path’s time average converges to the ensemble mean. And since you only ever live one path, the ensemble expectation is the wrong basis for the decision.\nThis is the same lesson as \\(Y_t=A+\\varepsilon_t\\) — one realization need not reveal the ensemble — now in a multiplicative, decision-relevant form.\n\nSummary: stationarity and ergodicity\n\n\n\n\n\n\n\n\n\n\nProcess\nStationary?\nSerial dependence?\nMean ergodic?\nLong-run covariance\n\n\n\n\niid white noise\nYes\nNo\nYes\n\\(\\gamma_h=0\\) for \\(h&gt;0\\)\n\n\nstationary AR(1), \\(|\\phi|&lt;1\\)\nYes\nYes\nYes\n\\(\\gamma_h\\to0\\)\n\n\n\\(Y_t=A+\\varepsilon_t\\)\nYes\nYes\nNo\n\\(\\gamma_h=1\\) for all \\(h&gt;0\\)\n\n\nrandom walk\nNo\nYes\n—\nvariance grows with \\(t\\)\n\n\n\nRemember:\n\\[\n\\boxed{\\text{stationary} \\not\\Rightarrow \\text{ergodic}},\n\\qquad\n\\boxed{\\text{dependence} \\not\\Rightarrow \\text{non-ergodic}}.\n\\]",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#white-noise",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#white-noise",
     "title": "Univariate Time Series Models I",
     "section": "White noise",
-    "text": "White noise\nA white-noise process \\(\\{\\varepsilon_t\\}\\) satisfies\n\\[\nE(\\varepsilon_t)=0,\n\\qquad\n\\operatorname{Var}(\\varepsilon_t)=\\sigma^2,\n\\]\nand\n\\[\n\\operatorname{Cov}(\\varepsilon_t,\\varepsilon_{t-h})=0\n\\qquad (h\\neq0).\n\\]\nTherefore its theoretical ACF is\n\\[\n\\rho_0=1,\n\\qquad\n\\rho_h=0\\quad(h\\neq0).\n\\]\nWhite noise means serially uncorrelated. It does not, by itself, imply independence.\nUseful distinctions:\n\niid white noise: independent and identically distributed;\nGaussian white noise: a jointly Gaussian process that is white noise; in this case zero autocovariances imply independence across time;\nmartingale difference sequence: \\(E(\\varepsilon_t\\mid\\mathcal F_{t-1})=0\\).\n\nThese concepts overlap, but they are not equivalent.\n\nPopulation ACF versus sample ACF\nThe population ACF is a property of the stochastic process. The sample ACF is an estimate computed from one finite realization.\nFor white noise,\n\\[\n\\rho_h=0\n\\qquad (h&gt;0),\n\\]\nbut a finite sample will almost never produce sample autocorrelations that are exactly zero.\nThe simulation below compares realizations of length \\(T=100\\) and \\(T=1000\\).\nPredict: which sample ACF should lie more tightly around zero?\n\n\nShow R code\n# Population ACF versus sample ACF for white noise\n\nset.seed(825)\n\nsample_acf_df &lt;- function(n, max_lag = 20) {\n  x &lt;- rnorm(n)\n  a &lt;- acf(x, plot = FALSE, lag.max = max_lag)\n\n  data.frame(\n    lag = as.numeric(a$lag[-1]),\n    acf = as.numeric(a$acf[-1]),\n    n = paste0(\"T = \", n),\n    bound = 1.96 / sqrt(n)\n  )\n}\n\nacf_samples &lt;- rbind(\n  sample_acf_df(100),\n  sample_acf_df(1000)\n)\n\nbounds &lt;- unique(acf_samples[c(\"n\", \"bound\")])\n\nggplot(acf_samples, aes(lag, acf)) +\n  geom_hline(yintercept = 0) +\n  geom_segment(aes(xend = lag, y = 0, yend = acf)) +\n  geom_point() +\n  geom_hline(\n    data = bounds,\n    aes(yintercept = bound),\n    linetype = \"dashed\"\n  ) +\n  geom_hline(\n    data = bounds,\n    aes(yintercept = -bound),\n    linetype = \"dashed\"\n  ) +\n  facet_wrap(~ n, ncol = 1) +\n  theme_classic() +\n  scale_x_continuous(breaks = seq(0, 20, by = 2)) +\n  labs(\n    title = \"Sample ACF of white noise\",\n    subtitle = \"Dashed lines: approximate ±1.96/sqrt(T) bounds\",\n    x = \"Lag\",\n    y = \"Sample ACF\"\n  )\n\n\n\n\n\n\n\n\n\nInterpretation\nThe population ACF is zero at every positive lag, yet the sample ACF fluctuates around zero because it is computed from one realization.\nAs the sample grows, these sampling fluctuations typically become smaller. This is where the distinction between a stochastic process and an observed realization becomes operational."
+    "text": "White noise\nA white-noise process \\(\\{\\varepsilon_t\\}\\) satisfies\n\\[\nE(\\varepsilon_t)=0,\n\\qquad\n\\operatorname{Var}(\\varepsilon_t)=\\sigma^2,\n\\]\nand\n\\[\n\\operatorname{Cov}(\\varepsilon_t,\\varepsilon_{t-h})=0\n\\qquad (h\\neq0).\n\\]\nTherefore its theoretical ACF is\n\\[\n\\rho_0=1,\n\\qquad\n\\rho_h=0\\quad(h\\neq0).\n\\]\nWhite noise means serially uncorrelated. It does not, by itself, imply independence.\nUseful distinctions:\n\niid white noise: independent and identically distributed;\nGaussian white noise: a jointly Gaussian process that is white noise; in this case zero autocovariances imply independence across time;\nmartingale difference sequence: \\(E(\\varepsilon_t\\mid\\mathcal F_{t-1})=0\\).\n\nThese concepts overlap, but they are not equivalent.\n\nPopulation ACF versus sample ACF\nThe population ACF is a property of the stochastic process. The sample ACF is an estimate computed from one finite realization.\nFor white noise,\n\\[\n\\rho_h=0\n\\qquad (h&gt;0),\n\\]\nbut a finite sample will almost never produce sample autocorrelations that are exactly zero.\nThe simulation below compares realizations of length \\(T=100\\) and \\(T=1000\\).\nPredict: which sample ACF should lie more tightly around zero?\n\n\nShow R code\n# Population ACF versus sample ACF for white noise\n\nset.seed(825)\n\nsample_acf_df &lt;- function(n, max_lag = 20) {\n  x &lt;- rnorm(n)\n  a &lt;- acf(x, plot = FALSE, lag.max = max_lag)\n\n  data.frame(\n    lag = as.numeric(a$lag[-1]),\n    acf = as.numeric(a$acf[-1]),\n    n = paste0(\"T = \", n),\n    bound = 1.96 / sqrt(n)\n  )\n}\n\nacf_samples &lt;- rbind(\n  sample_acf_df(100),\n  sample_acf_df(1000)\n)\n\nbounds &lt;- unique(acf_samples[c(\"n\", \"bound\")])\n\nggplot(acf_samples, aes(lag, acf)) +\n  geom_hline(yintercept = 0) +\n  geom_segment(aes(xend = lag, y = 0, yend = acf)) +\n  geom_point() +\n  geom_hline(\n    data = bounds,\n    aes(yintercept = bound),\n    linetype = \"dashed\"\n  ) +\n  geom_hline(\n    data = bounds,\n    aes(yintercept = -bound),\n    linetype = \"dashed\"\n  ) +\n  facet_wrap(~ n, ncol = 1) +\n  theme_classic() +\n  scale_x_continuous(breaks = seq(0, 20, by = 2)) +\n  labs(\n    title = \"Sample ACF of white noise\",\n    subtitle = \"Dashed lines: approximate ±1.96/sqrt(T) bounds\",\n    x = \"Lag\",\n    y = \"Sample ACF\"\n  )\n\n\n\n\n\n\n\n\n\nInterpretation\nThe population ACF is zero at every positive lag, yet the sample ACF fluctuates around zero because it is computed from one realization.\nAs the sample grows, these sampling fluctuations typically become smaller. This is where the distinction between a stochastic process and an observed realization becomes operational.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#a-stationary-process-and-a-random-walk-from-the-same-shocks",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#a-stationary-process-and-a-random-walk-from-the-same-shocks",
     "title": "Univariate Time Series Models I",
     "section": "A stationary process and a random walk from the same shocks",
-    "text": "A stationary process and a random walk from the same shocks\nLet\n\\[\nX_t=\n\\begin{cases}\n+1,&P=0.5,\\\\\n-1,&P=0.5.\n\\end{cases}\n\\]\nwith independent draws over time. Then\n\\[\nE(X_t)=0,\n\\qquad\n\\operatorname{Var}(X_t)=1,\n\\qquad\n\\gamma_h=0\\quad(h\\neq0),\n\\]\nso \\(\\{X_t\\}\\) is covariance stationary.\nNow accumulate exactly the same shocks:\n\\[\nY_t=Y_{t-1}+X_t,\n\\qquad\nY_0=0.\n\\]\nThen\n\\[\nY_t=\\sum_{i=1}^{t}X_i,\n\\]\nand\n\\[\n\\operatorname{Var}(Y_t)=t.\n\\]\nThe shocks are stationary; their accumulation is not.\n\n\nShow R code\n# Same shocks, very different time-series properties\n\nset.seed(100)\n\nn &lt;- 250\nX &lt;- sample(c(-1, 1), n, replace = TRUE)\nY &lt;- cumsum(X)\n\np1 &lt;- ts_plot(X, mu = 0) + ggtitle(\"Stationary shocks: X_t\")\np2 &lt;- ts_plot(Y)         + ggtitle(\"Accumulated shocks: random walk Y_t\")\n\ngrid.arrange(p1, p2, ncol = 1)\n\n\n\n\n\n\n\n\n\n\nDifferencing changes the process\nFor the random walk\n\\[\nY_t=Y_{t-1}+\\varepsilon_t,\n\\]\nthe level is nonstationary because\n\\[\n\\operatorname{Var}(Y_t)=t\\sigma^2.\n\\]\nBut\n\\[\n\\Delta Y_t\n=\nY_t-Y_{t-1}\n=\n\\varepsilon_t,\n\\]\nwhich is stationary white noise.\nThis distinction between the properties of a level and its difference will become central when we study unit roots and integrated processes."
+    "text": "A stationary process and a random walk from the same shocks\nLet\n\\[\nX_t=\n\\begin{cases}\n+1,&P=0.5,\\\\\n-1,&P=0.5.\n\\end{cases}\n\\]\nwith independent draws over time. Then\n\\[\nE(X_t)=0,\n\\qquad\n\\operatorname{Var}(X_t)=1,\n\\qquad\n\\gamma_h=0\\quad(h\\neq0),\n\\]\nso \\(\\{X_t\\}\\) is covariance stationary.\nNow accumulate exactly the same shocks:\n\\[\nY_t=Y_{t-1}+X_t,\n\\qquad\nY_0=0.\n\\]\nThen\n\\[\nY_t=\\sum_{i=1}^{t}X_i,\n\\]\nand\n\\[\n\\operatorname{Var}(Y_t)=t.\n\\]\nThe shocks are stationary; their accumulation is not.\n\n\nShow R code\n# Same shocks, very different time-series properties\n\nset.seed(100)\n\nn &lt;- 250\nX &lt;- sample(c(-1, 1), n, replace = TRUE)\nY &lt;- cumsum(X)\n\np1 &lt;- ts_plot(X, mu = 0) + ggtitle(\"Stationary shocks: X_t\")\np2 &lt;- ts_plot(Y)         + ggtitle(\"Accumulated shocks: random walk Y_t\")\n\ngrid.arrange(p1, p2, ncol = 1)\n\n\n\n\n\n\n\n\n\n\nDifferencing changes the process\nFor the random walk\n\\[\nY_t=Y_{t-1}+\\varepsilon_t,\n\\]\nthe level is nonstationary because\n\\[\n\\operatorname{Var}(Y_t)=t\\sigma^2.\n\\]\nBut\n\\[\n\\Delta Y_t\n=\nY_t-Y_{t-1}\n=\n\\varepsilon_t,\n\\]\nwhich is stationary white noise.\nThis distinction between the properties of a level and its difference will become central when we study unit roots and integrated processes.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#wold-decomposition",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#wold-decomposition",
     "title": "Univariate Time Series Models I",
     "section": "Wold decomposition",
-    "text": "Wold decomposition\nFor a covariance-stationary, purely nondeterministic process,\n\\[\nY_t-\\mu\n=\n\\varepsilon_t\n+\\psi_1\\varepsilon_{t-1}\n+\\psi_2\\varepsilon_{t-2}\n+\\cdots\n=\n\\sum_{j=0}^{\\infty}\\psi_j\\varepsilon_{t-j},\n\\]\nwhere\n\\[\n\\psi_0=1,\n\\qquad\n\\sum_{j=0}^{\\infty}\\psi_j^2&lt;\\infty.\n\\]\nHere \\(\\varepsilon_t\\) is the innovation: the one-step-ahead linear projection error based on the past. Innovations are serially uncorrelated by construction; they need not be iid or Gaussian.\nA general covariance-stationary process can also contain a deterministic component. Wold’s moving-average representation describes its purely nondeterministic component.\n\nWhy Wold matters\nWold provides a general dynamic representation:\n\ntoday’s value can be written as the accumulated effects of current and past innovations.\n\nEquivalently,\n\\[\nY_t=\\widehat Y_{t|t-1}+\\varepsilon_t,\n\\]\nwhere \\(\\widehat Y_{t|t-1}\\) is the best linear forecast from the past.\n\nImportant: a Wold innovation is a statistical innovation. It should not automatically be interpreted as a causal structural shock. It is also defined relative to linear prediction; a nonlinear forecasting model may exploit information that a linear projection does not.\n\n\n\nMoments of a linear process\nSuppose\n\\[\nY_t\n=\n\\mu+\\sum_{j=0}^{\\infty}\\psi_j\\varepsilon_{t-j},\n\\qquad\n\\varepsilon_t\\sim WN(0,\\sigma^2).\n\\]\nThen\n\\[\nE(Y_t)=\\mu.\n\\]\nIf \\(\\sum_{j=0}^{\\infty}\\psi_j^2&lt;\\infty\\),\n\\[\n\\gamma_0\n=\n\\sigma^2\\sum_{j=0}^{\\infty}\\psi_j^2.\n\\]\nFor \\(h\\ge0\\),\n\\[\n\\gamma_h\n=\n\\sigma^2\n\\sum_{j=0}^{\\infty}\n\\psi_j\\psi_{j+h}.\n\\]\nThis formula links the dynamic response coefficients \\(\\{\\psi_j\\}\\) to the dependence structure \\(\\{\\gamma_h\\}\\)."
+    "text": "Wold decomposition\nFor a covariance-stationary, purely nondeterministic process,\n\\[\nY_t-\\mu\n=\n\\varepsilon_t\n+\\psi_1\\varepsilon_{t-1}\n+\\psi_2\\varepsilon_{t-2}\n+\\cdots\n=\n\\sum_{j=0}^{\\infty}\\psi_j\\varepsilon_{t-j},\n\\]\nwhere\n\\[\n\\psi_0=1,\n\\qquad\n\\sum_{j=0}^{\\infty}\\psi_j^2&lt;\\infty.\n\\]\nHere \\(\\varepsilon_t\\) is the innovation: the one-step-ahead linear projection error based on the past. Innovations are serially uncorrelated by construction; they need not be iid or Gaussian.\nA general covariance-stationary process can also contain a deterministic component. Wold’s moving-average representation describes its purely nondeterministic component.\n\nWhy Wold matters\nWold provides a general dynamic representation:\n\ntoday’s value can be written as the accumulated effects of current and past innovations.\n\nEquivalently,\n\\[\nY_t=\\widehat Y_{t|t-1}+\\varepsilon_t,\n\\]\nwhere \\(\\widehat Y_{t|t-1}\\) is the best linear forecast from the past.\n\nImportant: a Wold innovation is a statistical innovation. It should not automatically be interpreted as a causal structural shock. It is also defined relative to linear prediction; a nonlinear forecasting model may exploit information that a linear projection does not.\n\n\n\nMoments of a linear process\nSuppose\n\\[\nY_t\n=\n\\mu+\\sum_{j=0}^{\\infty}\\psi_j\\varepsilon_{t-j},\n\\qquad\n\\varepsilon_t\\sim WN(0,\\sigma^2).\n\\]\nThen\n\\[\nE(Y_t)=\\mu.\n\\]\nIf \\(\\sum_{j=0}^{\\infty}\\psi_j^2&lt;\\infty\\),\n\\[\n\\gamma_0\n=\n\\sigma^2\\sum_{j=0}^{\\infty}\\psi_j^2.\n\\]\nFor \\(h\\ge0\\),\n\\[\n\\gamma_h\n=\n\\sigma^2\n\\sum_{j=0}^{\\infty}\n\\psi_j\\psi_{j+h}.\n\\]\nThis formula links the dynamic response coefficients \\(\\{\\psi_j\\}\\) to the dependence structure \\(\\{\\gamma_h\\}\\).",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#lag-operator",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#lag-operator",
     "title": "Univariate Time Series Models I",
     "section": "Lag operator",
-    "text": "Lag operator\nThe lag operator \\(L\\) shifts a variable back one period:\n\\[\nLY_t=Y_{t-1},\n\\qquad\nL^jY_t=Y_{t-j}.\n\\]\nFor example,\n\\[\nY_t\n=\n\\mu+\\varepsilon_t\n+\\theta_1\\varepsilon_{t-1}\n+\\theta_2\\varepsilon_{t-2}\n\\]\ncan be written as\n\\[\nY_t-\\mu\n=\n(1+\\theta_1L+\\theta_2L^2)\\varepsilon_t\n=\n\\theta(L)\\varepsilon_t.\n\\]\nLag-polynomial notation makes the properties of AR, MA, and ARMA processes considerably easier to express."
+    "text": "Lag operator\nThe lag operator \\(L\\) shifts a variable back one period:\n\\[\nLY_t=Y_{t-1},\n\\qquad\nL^jY_t=Y_{t-j}.\n\\]\nFor example,\n\\[\nY_t\n=\n\\mu+\\varepsilon_t\n+\\theta_1\\varepsilon_{t-1}\n+\\theta_2\\varepsilon_{t-2}\n\\]\ncan be written as\n\\[\nY_t-\\mu\n=\n(1+\\theta_1L+\\theta_2L^2)\\varepsilon_t\n=\n\\theta(L)\\varepsilon_t.\n\\]\nLag-polynomial notation makes the properties of AR, MA, and ARMA processes considerably easier to express.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#familiar-linear-process-families",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#familiar-linear-process-families",
     "title": "Univariate Time Series Models I",
     "section": "Familiar linear-process families",
-    "text": "Familiar linear-process families\nWith white-noise innovations \\(\\varepsilon_t\\):\nAR(\\(p\\)): \\[\nY_t\n=\nc+\\phi_1Y_{t-1}+\\cdots+\\phi_pY_{t-p}+\\varepsilon_t.\n\\]\nMA(\\(q\\)): \\[\nY_t\n=\n\\mu+\\varepsilon_t+\\theta_1\\varepsilon_{t-1}\n+\\cdots+\\theta_q\\varepsilon_{t-q}.\n\\]\nARMA(\\(p,q\\)): \\[\nY_t\n=\nc+\\phi_1Y_{t-1}+\\cdots+\\phi_pY_{t-p}\n+\\varepsilon_t+\\theta_1\\varepsilon_{t-1}\n+\\cdots+\\theta_q\\varepsilon_{t-q}.\n\\]\nThis lecture concentrates on MA processes. Their finite-order stationarity is automatic when the innovations are white noise with finite variance. AR and ARMA properties follow in subsequent lectures."
+    "text": "Familiar linear-process families\nWith white-noise innovations \\(\\varepsilon_t\\):\nAR(\\(p\\)): \\[\nY_t\n=\nc+\\phi_1Y_{t-1}+\\cdots+\\phi_pY_{t-p}+\\varepsilon_t.\n\\]\nMA(\\(q\\)): \\[\nY_t\n=\n\\mu+\\varepsilon_t+\\theta_1\\varepsilon_{t-1}\n+\\cdots+\\theta_q\\varepsilon_{t-q}.\n\\]\nARMA(\\(p,q\\)): \\[\nY_t\n=\nc+\\phi_1Y_{t-1}+\\cdots+\\phi_pY_{t-p}\n+\\varepsilon_t+\\theta_1\\varepsilon_{t-1}\n+\\cdots+\\theta_q\\varepsilon_{t-q}.\n\\]\nThis lecture concentrates on MA processes. Their finite-order stationarity is automatic when the innovations are white noise with finite variance. AR and ARMA properties follow in subsequent lectures.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#ma1",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#ma1",
     "title": "Univariate Time Series Models I",
     "section": "MA(1)",
-    "text": "MA(1)\nConsider\n\\[\nY_t\n=\n\\mu+\\varepsilon_t+\\theta\\varepsilon_{t-1},\n\\qquad\n\\varepsilon_t\\sim WN(0,\\sigma^2).\n\\]\nThe mean is\n\\[\nE(Y_t)=\\mu.\n\\]\nThe autocovariances are\n\\[\n\\gamma_h=\n\\begin{cases}\n(1+\\theta^2)\\sigma^2, & h=0,\\\\[4pt]\n\\theta\\sigma^2, & |h|=1,\\\\[4pt]\n0, & |h|&gt;1.\n\\end{cases}\n\\]\nHence\n\\[\n\\rho_1\n=\n\\frac{\\theta}{1+\\theta^2},\n\\qquad\n\\rho_h=0\\quad(|h|&gt;1).\n\\]\n\nProperties of an MA(1)\n\nThe theoretical ACF cuts off after lag 1.\nThe sign of \\(\\rho_1\\) is the sign of \\(\\theta\\).\nSince \\[\n\\left|\\frac{\\theta}{1+\\theta^2}\\right|\\le\\frac12,\n\\] an MA(1) can never have \\(|\\rho_1|&gt;0.5\\).\n\n\n\nPredict before running the code\nCompare\n\\[\nY_t=2+\\varepsilon_t+0.8\\varepsilon_{t-1}\n\\]\nand\n\\[\nY_t=2+\\varepsilon_t-0.8\\varepsilon_{t-1}.\n\\]\nBefore looking at the graphs:\n\nWhat sign should \\(\\rho_1\\) have in each process?\nWhat is the numerical value of \\(\\rho_1\\)?\nAt which lag must the theoretical ACF become exactly zero?\nWill the two simulated paths necessarily look obviously different?\n\n\n\nShow R code\n# Simulated realizations and theoretical ACFs of two MA(1) processes\n\nset.seed(123)\n\nn &lt;- 250\n\nma_pos &lt;- 2 + arima.sim(model = list(ma =  0.8), n = n)\nma_neg &lt;- 2 + arima.sim(model = list(ma = -0.8), n = n)\n\np1 &lt;- ts_plot(ma_pos, mu = 2) + ggtitle(\"MA(1): theta = 0.8\")\np2 &lt;- acf_plot(ma = 0.8,  L = 12, title = \"Theoretical ACF: theta = 0.8\")\np3 &lt;- ts_plot(ma_neg, mu = 2) + ggtitle(\"MA(1): theta = -0.8\")\np4 &lt;- acf_plot(ma = -0.8, L = 12, title = \"Theoretical ACF: theta = -0.8\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)\n\n\n\n\n\n\n\n\n\nReading the graphs\nFor \\(\\theta=0.8\\),\n\\[\n\\rho_1\n=\n\\frac{0.8}{1+0.8^2}\n\\approx0.488.\n\\]\nFor \\(\\theta=-0.8\\),\n\\[\n\\rho_1\\approx-0.488.\n\\]\nIn both cases,\n\\[\n\\rho_h=0\n\\qquad\n\\text{for }|h|&gt;1.\n\\]\nThe left-hand plots are particular realizations. The right-hand plots show the theoretical ACFs of the underlying stochastic processes."
+    "text": "MA(1)\nConsider\n\\[\nY_t\n=\n\\mu+\\varepsilon_t+\\theta\\varepsilon_{t-1},\n\\qquad\n\\varepsilon_t\\sim WN(0,\\sigma^2).\n\\]\nThe mean is\n\\[\nE(Y_t)=\\mu.\n\\]\nThe autocovariances are\n\\[\n\\gamma_h=\n\\begin{cases}\n(1+\\theta^2)\\sigma^2, & h=0,\\\\[4pt]\n\\theta\\sigma^2, & |h|=1,\\\\[4pt]\n0, & |h|&gt;1.\n\\end{cases}\n\\]\nHence\n\\[\n\\rho_1\n=\n\\frac{\\theta}{1+\\theta^2},\n\\qquad\n\\rho_h=0\\quad(|h|&gt;1).\n\\]\n\nProperties of an MA(1)\n\nThe theoretical ACF cuts off after lag 1.\nThe sign of \\(\\rho_1\\) is the sign of \\(\\theta\\).\nSince \\[\n\\left|\\frac{\\theta}{1+\\theta^2}\\right|\\le\\frac12,\n\\] an MA(1) can never have \\(|\\rho_1|&gt;0.5\\).\n\n\n\nPredict before running the code\nCompare\n\\[\nY_t=2+\\varepsilon_t+0.8\\varepsilon_{t-1}\n\\]\nand\n\\[\nY_t=2+\\varepsilon_t-0.8\\varepsilon_{t-1}.\n\\]\nBefore looking at the graphs:\n\nWhat sign should \\(\\rho_1\\) have in each process?\nWhat is the numerical value of \\(\\rho_1\\)?\nAt which lag must the theoretical ACF become exactly zero?\nWill the two simulated paths necessarily look obviously different?\n\n\n\nShow R code\n# Simulated realizations and theoretical ACFs of two MA(1) processes\n\nset.seed(123)\n\nn &lt;- 250\n\nma_pos &lt;- 2 + arima.sim(model = list(ma =  0.8), n = n)\nma_neg &lt;- 2 + arima.sim(model = list(ma = -0.8), n = n)\n\np1 &lt;- ts_plot(ma_pos, mu = 2) + ggtitle(\"MA(1): theta = 0.8\")\np2 &lt;- acf_plot(ma = 0.8,  L = 12, title = \"Theoretical ACF: theta = 0.8\")\np3 &lt;- ts_plot(ma_neg, mu = 2) + ggtitle(\"MA(1): theta = -0.8\")\np4 &lt;- acf_plot(ma = -0.8, L = 12, title = \"Theoretical ACF: theta = -0.8\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)\n\n\n\n\n\n\n\n\n\nReading the graphs\nFor \\(\\theta=0.8\\),\n\\[\n\\rho_1\n=\n\\frac{0.8}{1+0.8^2}\n\\approx0.488.\n\\]\nFor \\(\\theta=-0.8\\),\n\\[\n\\rho_1\\approx-0.488.\n\\]\nIn both cases,\n\\[\n\\rho_h=0\n\\qquad\n\\text{for }|h|&gt;1.\n\\]\nThe left-hand plots are particular realizations. The right-hand plots show the theoretical ACFs of the underlying stochastic processes.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#maq",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#maq",
     "title": "Univariate Time Series Models I",
     "section": "MA(\\(q\\))",
-    "text": "MA(\\(q\\))\nWrite an MA(\\(q\\)) process as\n\\[\nY_t\n=\n\\mu+\\sum_{j=0}^{q}\\theta_j\\varepsilon_{t-j},\n\\qquad\n\\theta_0=1,\n\\qquad\n\\varepsilon_t\\sim WN(0,\\sigma^2).\n\\]\nFor \\(h=0,1,\\ldots,q\\),\n\\[\n\\gamma_h\n=\n\\sigma^2\n\\sum_{j=0}^{q-h}\n\\theta_j\\theta_{j+h},\n\\]\nwhile\n\\[\n\\gamma_h=0\n\\qquad\n\\text{for }h&gt;q.\n\\]\nTherefore\n\\[\n\\rho_h=\\frac{\\gamma_h}{\\gamma_0},\n\\]\nand the theoretical ACF of an MA(\\(q\\)) cuts off after lag \\(q\\).\nThe reason is specific to linear dependence through the innovations: once \\(h&gt;q\\), \\(Y_t\\) and \\(Y_{t-h}\\) share no common innovations, so their autocovariance is zero.\n\nMA(2): work from the common shocks\nConsider\n\\[\nY_{1t}\n=\n2+\\varepsilon_t\n+1.0\\varepsilon_{t-1}\n+0.7\\varepsilon_{t-2},\n\\]\nand\n\\[\nY_{2t}\n=\n2+\\varepsilon_t\n-1.2\\varepsilon_{t-1}\n+0.25\\varepsilon_{t-2}.\n\\]\nBefore running the code:\n\nAt which lag must each ACF become zero?\nFor \\(Y_{1t}\\), what signs do you expect for \\(\\gamma_1\\) and \\(\\gamma_2\\)?\nFor \\(Y_{2t}\\), can \\(\\gamma_1\\) and \\(\\gamma_2\\) have different signs?\n\nUse\n\\[\n\\gamma_h\n=\n\\sigma^2\\sum_{j=0}^{q-h}\n\\theta_j\\theta_{j+h}\n\\]\nto answer before checking the graph.\n\n\nShow R code\n# Two MA(2) processes: realizations and theoretical ACFs\n\nset.seed(123)\n\nn &lt;- 250\nma21 &lt;- c(1.0, 0.7)\nma22 &lt;- c(-1.2, 0.25)\n\ns21 &lt;- 2 + arima.sim(model = list(ma = ma21), n = n)\ns22 &lt;- 2 + arima.sim(model = list(ma = ma22), n = n)\n\np1 &lt;- ts_plot(s21, mu = 2) + ggtitle(\"MA(2): theta = (1.0, 0.7)\")\np2 &lt;- acf_plot(ma = ma21, L = 12, title = \"Theoretical ACF\")\np3 &lt;- ts_plot(s22, mu = 2) + ggtitle(\"MA(2): theta = (-1.2, 0.25)\")\np4 &lt;- acf_plot(ma = ma22, L = 12, title = \"Theoretical ACF\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)\n\n\n\n\n\n\n\n\n\nFor the first MA(2), using \\(\\gamma_h=\\sigma^2\\sum_{j=0}^{q-h}\\theta_j\\theta_{j+h}\\) with \\(\\theta_0=1\\),\n\\[\n\\gamma_1\n=\n\\sigma^2(\\theta_0\\theta_1+\\theta_1\\theta_2)\n=\n\\sigma^2(\\theta_1+\\theta_1\\theta_2)\n=\n1.7\\,\\sigma^2,\n\\]\nand\n\\[\n\\gamma_2\n=\n\\sigma^2\\,\\theta_0\\theta_2\n=\n0.7\\,\\sigma^2.\n\\]\nFor the second,\n\\[\n\\gamma_1\n=\n\\sigma^2\\big[\\theta_0\\theta_1+\\theta_1\\theta_2\\big]\n=\n\\sigma^2\\big[-1.2+(-1.2)(0.25)\\big]\n=\n-1.5\\,\\sigma^2,\n\\]\nwhile\n\\[\n\\gamma_2\n=\n\\sigma^2\\,\\theta_0\\theta_2\n=\n0.25\\,\\sigma^2.\n\\]\nThus an MA(2) can display autocorrelations of different signs at lags 1 and 2. In both processes the theoretical ACF is exactly zero for \\(h&gt;2\\)."
+    "text": "MA(\\(q\\))\nWrite an MA(\\(q\\)) process as\n\\[\nY_t\n=\n\\mu+\\sum_{j=0}^{q}\\theta_j\\varepsilon_{t-j},\n\\qquad\n\\theta_0=1,\n\\qquad\n\\varepsilon_t\\sim WN(0,\\sigma^2).\n\\]\nFor \\(h=0,1,\\ldots,q\\),\n\\[\n\\gamma_h\n=\n\\sigma^2\n\\sum_{j=0}^{q-h}\n\\theta_j\\theta_{j+h},\n\\]\nwhile\n\\[\n\\gamma_h=0\n\\qquad\n\\text{for }h&gt;q.\n\\]\nTherefore\n\\[\n\\rho_h=\\frac{\\gamma_h}{\\gamma_0},\n\\]\nand the theoretical ACF of an MA(\\(q\\)) cuts off after lag \\(q\\).\nThe reason is specific to linear dependence through the innovations: once \\(h&gt;q\\), \\(Y_t\\) and \\(Y_{t-h}\\) share no common innovations, so their autocovariance is zero.\n\nMA(2): work from the common shocks\nConsider\n\\[\nY_{1t}\n=\n2+\\varepsilon_t\n+1.0\\varepsilon_{t-1}\n+0.7\\varepsilon_{t-2},\n\\]\nand\n\\[\nY_{2t}\n=\n2+\\varepsilon_t\n-1.2\\varepsilon_{t-1}\n+0.25\\varepsilon_{t-2}.\n\\]\nBefore running the code:\n\nAt which lag must each ACF become zero?\nFor \\(Y_{1t}\\), what signs do you expect for \\(\\gamma_1\\) and \\(\\gamma_2\\)?\nFor \\(Y_{2t}\\), can \\(\\gamma_1\\) and \\(\\gamma_2\\) have different signs?\n\nUse\n\\[\n\\gamma_h\n=\n\\sigma^2\\sum_{j=0}^{q-h}\n\\theta_j\\theta_{j+h}\n\\]\nto answer before checking the graph.\n\n\nShow R code\n# Two MA(2) processes: realizations and theoretical ACFs\n\nset.seed(123)\n\nn &lt;- 250\nma21 &lt;- c(1.0, 0.7)\nma22 &lt;- c(-1.2, 0.25)\n\ns21 &lt;- 2 + arima.sim(model = list(ma = ma21), n = n)\ns22 &lt;- 2 + arima.sim(model = list(ma = ma22), n = n)\n\np1 &lt;- ts_plot(s21, mu = 2) + ggtitle(\"MA(2): theta = (1.0, 0.7)\")\np2 &lt;- acf_plot(ma = ma21, L = 12, title = \"Theoretical ACF\")\np3 &lt;- ts_plot(s22, mu = 2) + ggtitle(\"MA(2): theta = (-1.2, 0.25)\")\np4 &lt;- acf_plot(ma = ma22, L = 12, title = \"Theoretical ACF\")\n\ngrid.arrange(p1, p2, p3, p4, ncol = 2)\n\n\n\n\n\n\n\n\n\nFor the first MA(2), using \\(\\gamma_h=\\sigma^2\\sum_{j=0}^{q-h}\\theta_j\\theta_{j+h}\\) with \\(\\theta_0=1\\),\n\\[\n\\gamma_1\n=\n\\sigma^2(\\theta_0\\theta_1+\\theta_1\\theta_2)\n=\n\\sigma^2(\\theta_1+\\theta_1\\theta_2)\n=\n1.7\\,\\sigma^2,\n\\]\nand\n\\[\n\\gamma_2\n=\n\\sigma^2\\,\\theta_0\\theta_2\n=\n0.7\\,\\sigma^2.\n\\]\nFor the second,\n\\[\n\\gamma_1\n=\n\\sigma^2\\big[\\theta_0\\theta_1+\\theta_1\\theta_2\\big]\n=\n\\sigma^2\\big[-1.2+(-1.2)(0.25)\\big]\n=\n-1.5\\,\\sigma^2,\n\\]\nwhile\n\\[\n\\gamma_2\n=\n\\sigma^2\\,\\theta_0\\theta_2\n=\n0.25\\,\\sigma^2.\n\\]\nThus an MA(2) can display autocorrelations of different signs at lags 1 and 2. In both processes the theoretical ACF is exactly zero for \\(h&gt;2\\).",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#invertibility",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#invertibility",
     "title": "Univariate Time Series Models I",
     "section": "Invertibility",
-    "text": "Invertibility\nEvery finite MA process is covariance stationary, but different MA parameterizations can generate the same autocovariance structure.\nFor an MA(1),\n\\[\n\\rho_1=\\frac{\\theta}{1+\\theta^2},\n\\]\nso \\(\\theta\\) and \\(1/\\theta\\) produce the same \\(\\rho_1\\). For example,\n\\[\n\\theta=0.5\n\\qquad\\text{and}\\qquad\n\\theta=2\n\\]\nboth imply \\(\\rho_1=0.4\\).\nIf the innovation variance is rescaled appropriately, the two representations generate the same entire autocovariance function.\nInvertibility selects the representation in which the innovation can be recovered as a convergent function of current and past observations.\nFor\n\\[\nY_t-\\mu=(1+\\theta L)\\varepsilon_t,\n\\]\nformally,\n\\[\n\\varepsilon_t\n=\n(1+\\theta L)^{-1}(Y_t-\\mu)\n=\n\\left(1-\\theta L+\\theta^2L^2-\\cdots\\right)(Y_t-\\mu).\n\\]\nThis expansion converges when \\(|\\theta|&lt;1\\).\nThus invertibility concerns the uniqueness and recoverability of the innovation representation; it is not a stationarity condition for an MA process.\n\n\nShow R code\n# Same MA(1) autocovariance structure, different parameterizations\n\nequivalent_ma1 &lt;- data.frame(\n  theta = c(0.5, 2.0),\n  sigma2 = c(1.0, 0.25)\n)\n\nequivalent_ma1$gamma0 &lt;-\n  equivalent_ma1$sigma2 * (1 + equivalent_ma1$theta^2)\n\nequivalent_ma1$gamma1 &lt;-\n  equivalent_ma1$sigma2 * equivalent_ma1$theta\n\nequivalent_ma1$rho1 &lt;-\n  equivalent_ma1$gamma1 / equivalent_ma1$gamma0\n\nequivalent_ma1\n\n\n\nA data.frame: 2 × 5\n\n\ntheta\nsigma2\ngamma0\ngamma1\nrho1\n\n\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n\n\n\n\n0.5\n1.00\n1.25\n0.5\n0.4\n\n\n2.0\n0.25\n1.25\n0.5\n0.4\n\n\n\n\n\n\nRoot condition\nFor\n\\[\nY_t-\\mu\n=\n(1+\\theta L)\\varepsilon_t,\n\\]\ninvertibility requires the root of\n\\[\n1+\\theta z=0\n\\]\nto lie outside the unit circle.\nThe root is\n\\[\nz=-\\frac{1}{\\theta},\n\\]\nso for an MA(1),\n\\[\n|\\theta|&lt;1.\n\\]\nMore generally, an MA(\\(q\\)) process is invertible when every root of\n\\[\n1+\\theta_1z+\\cdots+\\theta_qz^q=0\n\\]\nlies outside the unit circle.\n\nA coefficient larger than one does not, by itself, determine invertibility for an MA(2) or higher-order process. The condition applies to the roots of the complete lag polynomial.\n\n\n\nShow R code\n# Check invertibility of the two MA(2) examples\n\nma_roots &lt;- function(theta) {\n  roots &lt;- polyroot(c(1, theta))\n  data.frame(\n    root = roots,\n    modulus = Mod(roots),\n    outside_unit_circle = Mod(roots) &gt; 1\n  )\n}\n\nma_roots(ma21)\nma_roots(ma22)\n\n\n\nA data.frame: 2 × 3\n\n\nroot\nmodulus\noutside_unit_circle\n\n\n&lt;cpl&gt;\n&lt;dbl&gt;\n&lt;lgl&gt;\n\n\n\n\n-0.7142857+0.9583148i\n1.195229\nTRUE\n\n\n-0.7142857-0.9583148i\n1.195229\nTRUE\n\n\n\n\n\n\nA data.frame: 2 × 3\n\n\nroot\nmodulus\noutside_unit_circle\n\n\n&lt;cpl&gt;\n&lt;dbl&gt;\n&lt;lgl&gt;\n\n\n\n\n1.07335-5.04871e-29i\n1.07335\nTRUE\n\n\n3.72665+5.04871e-29i\n3.72665\nTRUE"
+    "text": "Invertibility\nEvery finite MA process is covariance stationary, but different MA parameterizations can generate the same autocovariance structure.\nFor an MA(1),\n\\[\n\\rho_1=\\frac{\\theta}{1+\\theta^2},\n\\]\nso \\(\\theta\\) and \\(1/\\theta\\) produce the same \\(\\rho_1\\). For example,\n\\[\n\\theta=0.5\n\\qquad\\text{and}\\qquad\n\\theta=2\n\\]\nboth imply \\(\\rho_1=0.4\\).\nIf the innovation variance is rescaled appropriately, the two representations generate the same entire autocovariance function.\nInvertibility selects the representation in which the innovation can be recovered as a convergent function of current and past observations.\nFor\n\\[\nY_t-\\mu=(1+\\theta L)\\varepsilon_t,\n\\]\nformally,\n\\[\n\\varepsilon_t\n=\n(1+\\theta L)^{-1}(Y_t-\\mu)\n=\n\\left(1-\\theta L+\\theta^2L^2-\\cdots\\right)(Y_t-\\mu).\n\\]\nThis expansion converges when \\(|\\theta|&lt;1\\).\nThus invertibility concerns the uniqueness and recoverability of the innovation representation; it is not a stationarity condition for an MA process.\n\n\nShow R code\n# Same MA(1) autocovariance structure, different parameterizations\n\nequivalent_ma1 &lt;- data.frame(\n  theta = c(0.5, 2.0),\n  sigma2 = c(1.0, 0.25)\n)\n\nequivalent_ma1$gamma0 &lt;-\n  equivalent_ma1$sigma2 * (1 + equivalent_ma1$theta^2)\n\nequivalent_ma1$gamma1 &lt;-\n  equivalent_ma1$sigma2 * equivalent_ma1$theta\n\nequivalent_ma1$rho1 &lt;-\n  equivalent_ma1$gamma1 / equivalent_ma1$gamma0\n\nequivalent_ma1\n\n\n\nA data.frame: 2 × 5\n\n\ntheta\nsigma2\ngamma0\ngamma1\nrho1\n\n\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n&lt;dbl&gt;\n\n\n\n\n0.5\n1.00\n1.25\n0.5\n0.4\n\n\n2.0\n0.25\n1.25\n0.5\n0.4\n\n\n\n\n\n\nRoot condition\nFor\n\\[\nY_t-\\mu\n=\n(1+\\theta L)\\varepsilon_t,\n\\]\ninvertibility requires the root of\n\\[\n1+\\theta z=0\n\\]\nto lie outside the unit circle.\nThe root is\n\\[\nz=-\\frac{1}{\\theta},\n\\]\nso for an MA(1),\n\\[\n|\\theta|&lt;1.\n\\]\nMore generally, an MA(\\(q\\)) process is invertible when every root of\n\\[\n1+\\theta_1z+\\cdots+\\theta_qz^q=0\n\\]\nlies outside the unit circle.\n\nA coefficient larger than one does not, by itself, determine invertibility for an MA(2) or higher-order process. The condition applies to the roots of the complete lag polynomial.\n\n\n\nShow R code\n# Check invertibility of the two MA(2) examples\n\nma_roots &lt;- function(theta) {\n  roots &lt;- polyroot(c(1, theta))\n  data.frame(\n    root = roots,\n    modulus = Mod(roots),\n    outside_unit_circle = Mod(roots) &gt; 1\n  )\n}\n\nma_roots(ma21)\nma_roots(ma22)\n\n\n\nA data.frame: 2 × 3\n\n\nroot\nmodulus\noutside_unit_circle\n\n\n&lt;cpl&gt;\n&lt;dbl&gt;\n&lt;lgl&gt;\n\n\n\n\n-0.7142857+0.9583148i\n1.195229\nTRUE\n\n\n-0.7142857-0.9583148i\n1.195229\nTRUE\n\n\n\n\n\n\nA data.frame: 2 × 3\n\n\nroot\nmodulus\noutside_unit_circle\n\n\n&lt;cpl&gt;\n&lt;dbl&gt;\n&lt;lgl&gt;\n\n\n\n\n1.07335-5.04871e-29i\n1.07335\nTRUE\n\n\n3.72665+5.04871e-29i\n3.72665\nTRUE",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#wold-coefficients-as-dynamic-responses",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#wold-coefficients-as-dynamic-responses",
     "title": "Univariate Time Series Models I",
     "section": "Wold coefficients as dynamic responses",
-    "text": "Wold coefficients as dynamic responses\nIn the Wold representation,\n\\[\nY_t-\\mu\n=\n\\sum_{j=0}^{\\infty}\n\\psi_j\\varepsilon_{t-j},\n\\]\nthe coefficient \\(\\psi_j\\) measures the linear response at horizon \\(j\\) to a one-unit innovation today.\nFor an MA(\\(q\\)), the response becomes exactly zero after horizon \\(q\\). For an infinite-order MA representation, it may decay gradually.\n\nThese are responses to statistical innovations. A causal interpretation requires additional identification assumptions.\n\n\nPredict first\nFor\n\\[\nY_t\n=\n\\varepsilon_t\n+0.8\\varepsilon_{t-1},\n\\]\nwhat is the response to a one-unit innovation:\n\nimmediately?\none period later?\ntwo periods later?\n\n\n\nShow R code\n# Dynamic responses of MA processes (uses irf_ma defined in the setup cell)\n\np1 &lt;- irf_ma(0.8,        h = 8, title = \"Dynamic response: MA(1)\")\np2 &lt;- irf_ma(c(1.0, 0.7), h = 8, title = \"Dynamic response: MA(2)\")\n\ngrid.arrange(p1, p2, ncol = 2)"
+    "text": "Wold coefficients as dynamic responses\nIn the Wold representation,\n\\[\nY_t-\\mu\n=\n\\sum_{j=0}^{\\infty}\n\\psi_j\\varepsilon_{t-j},\n\\]\nthe coefficient \\(\\psi_j\\) measures the linear response at horizon \\(j\\) to a one-unit innovation today.\nFor an MA(\\(q\\)), the response becomes exactly zero after horizon \\(q\\). For an infinite-order MA representation, it may decay gradually.\n\nThese are responses to statistical innovations. A causal interpretation requires additional identification assumptions.\n\n\nPredict first\nFor\n\\[\nY_t\n=\n\\varepsilon_t\n+0.8\\varepsilon_{t-1},\n\\]\nwhat is the response to a one-unit innovation:\n\nimmediately?\none period later?\ntwo periods later?\n\n\n\nShow R code\n# Dynamic responses of MA processes (uses irf_ma defined in the setup cell)\n\np1 &lt;- irf_ma(0.8,        h = 8, title = \"Dynamic response: MA(1)\")\np2 &lt;- irf_ma(c(1.0, 0.7), h = 8, title = \"Dynamic response: MA(2)\")\n\ngrid.arrange(p1, p2, ncol = 2)",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#key-takeaways",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#key-takeaways",
     "title": "Univariate Time Series Models I",
     "section": "Key takeaways",
-    "text": "Key takeaways\nYou should now be able to:\n\ndistinguish a stochastic process from one observed realization;\nexplain covariance stationarity, and ergodicity as the equality of time and ensemble averages;\ngive an economic or financial example where ergodicity fails (permanent income; a multiplicative bet);\ninterpret population autocovariances and autocorrelations;\ndistinguish white noise from independence;\nexplain Wold innovations and their role in linear forecasting;\nderive the ACF of MA(1) and MA(\\(q\\)) processes;\nexplain why an MA(\\(q\\)) ACF cuts off after lag \\(q\\);\ndistinguish stationarity from invertibility and check the MA root condition."
+    "text": "Key takeaways\nYou should now be able to:\n\ndistinguish a stochastic process from one observed realization;\nexplain covariance stationarity, and ergodicity as the equality of time and ensemble averages;\ngive an economic or financial example where ergodicity fails (permanent income; a multiplicative bet);\ninterpret population autocovariances and autocorrelations;\ndistinguish white noise from independence;\nexplain Wold innovations and their role in linear forecasting;\nderive the ACF of MA(1) and MA(\\(q\\)) processes;\nexplain why an MA(\\(q\\)) ACF cuts off after lag \\(q\\);\ndistinguish stationarity from invertibility and check the MA root condition.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#exercises",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#exercises",
     "title": "Univariate Time Series Models I",
     "section": "Exercises",
-    "text": "Exercises\n\nExercise 1: What property fails?\nFor each process, determine whether it is covariance stationary and identify the condition that fails if it is not:\n\\[\nY_t=5+\\varepsilon_t,\n\\]\n\\[\nY_t=5+0.1t+\\varepsilon_t,\n\\]\n\\[\nY_t=t\\varepsilon_t,\n\\]\n\\[\nY_t=Y_{t-1}+\\varepsilon_t.\n\\]\n\n\n\nExercise 2: Stationarity versus ergodicity\nLet\n\\[\nY_t=A,\n\\qquad\nA\\sim N(0,1).\n\\]\nWhy is this process stationary? Why does observing it for a very long time not reveal the ensemble mean?\n\n\n\nExercise 3: Derive an MA(1) ACF\nFor\n\\[\nY_t=3+\\varepsilon_t+0.6\\varepsilon_{t-1},\n\\qquad\n\\varepsilon_t\\sim WN(0,4),\n\\]\ncalculate\n\\[\nE(Y_t),\\qquad\n\\gamma_0,\\qquad\n\\gamma_1,\\qquad\n\\rho_1.\n\\]\nAt what lag does the theoretical ACF cut off?\n\n\n\nExercise 4: MA(2) from common innovations\nFor\n\\[\nY_t\n=\n\\varepsilon_t\n+0.7\\varepsilon_{t-1}\n-0.3\\varepsilon_{t-2},\n\\]\nderive \\(\\gamma_0\\), \\(\\gamma_1\\), and \\(\\gamma_2\\).\nPredict the signs before calculating them.\n\n\n\nExercise 5: Is this a valid ACF?\nSuppose somebody proposes\n\\[\n\\rho_0=1,\\qquad\n\\rho_1=0.9,\\qquad\n\\rho_2=-0.9.\n\\]\nWhy is checking only \\(|\\rho_h|\\le1\\) insufficient? What additional property must an autocorrelation sequence satisfy?\n\n\n\nExercise 6: Invertibility\nShow that \\(\\theta=0.5\\) and \\(\\theta=2\\), with appropriate innovation variances, can produce the same MA(1) autocovariance function.\nWhich representation is invertible, and what does invertibility mean economically/statistically for the innovation sequence?"
+    "text": "Exercises\n\nExercise 1: What property fails?\nFor each process, determine whether it is covariance stationary and identify the condition that fails if it is not:\n\\[\nY_t=5+\\varepsilon_t,\n\\]\n\\[\nY_t=5+0.1t+\\varepsilon_t,\n\\]\n\\[\nY_t=t\\varepsilon_t,\n\\]\n\\[\nY_t=Y_{t-1}+\\varepsilon_t.\n\\]\n\n\n\nExercise 2: Stationarity versus ergodicity\nLet\n\\[\nY_t=A,\n\\qquad\nA\\sim N(0,1).\n\\]\nWhy is this process stationary? Why does observing it for a very long time not reveal the ensemble mean?\n\n\n\nExercise 3: Derive an MA(1) ACF\nFor\n\\[\nY_t=3+\\varepsilon_t+0.6\\varepsilon_{t-1},\n\\qquad\n\\varepsilon_t\\sim WN(0,4),\n\\]\ncalculate\n\\[\nE(Y_t),\\qquad\n\\gamma_0,\\qquad\n\\gamma_1,\\qquad\n\\rho_1.\n\\]\nAt what lag does the theoretical ACF cut off?\n\n\n\nExercise 4: MA(2) from common innovations\nFor\n\\[\nY_t\n=\n\\varepsilon_t\n+0.7\\varepsilon_{t-1}\n-0.3\\varepsilon_{t-2},\n\\]\nderive \\(\\gamma_0\\), \\(\\gamma_1\\), and \\(\\gamma_2\\).\nPredict the signs before calculating them.\n\n\n\nExercise 5: Is this a valid ACF?\nSuppose somebody proposes\n\\[\n\\rho_0=1,\\qquad\n\\rho_1=0.9,\\qquad\n\\rho_2=-0.9.\n\\]\nWhy is checking only \\(|\\rho_h|\\le1\\) insufficient? What additional property must an autocorrelation sequence satisfy?\n\n\n\nExercise 6: Invertibility\nShow that \\(\\theta=0.5\\) and \\(\\theta=2\\), with appropriate innovation variances, can produce the same MA(1) autocovariance function.\nWhich representation is invertible, and what does invertibility mean economically/statistically for the innovation sequence?",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Notebooks/05-Univariate-Time-Series-modelsI.html#suggested-reading",
     "href": "Notebooks/05-Univariate-Time-Series-modelsI.html#suggested-reading",
     "title": "Univariate Time Series Models I",
     "section": "Suggested reading",
-    "text": "Suggested reading\nFor the concepts developed in this lecture:\n\nHamilton, J. D. (1994), Time Series Analysis, Chapter 3.\nBrockwell, P. J. and Davis, R. A., Introduction to Time Series and Forecasting, chapters on stationary processes and ARMA models.\nEnders, W., Applied Econometric Time Series, sections introducing stationary stochastic processes and ARMA models.\nHyndman, R. J. and Athanasopoulos, G., Forecasting: Principles and Practice, chapters on time-series structure and ARIMA models, for a more intuitive computational treatment.\n\nThe next lecture builds naturally from this material to autoregressive processes, stationarity conditions, characteristic roots, persistence, and the contrasting ACF behaviour of AR and MA processes."
+    "text": "Suggested reading\nFor the concepts developed in this lecture:\n\nHamilton, J. D. (1994), Time Series Analysis, Chapter 3.\nBrockwell, P. J. and Davis, R. A., Introduction to Time Series and Forecasting, chapters on stationary processes and ARMA models.\nEnders, W., Applied Econometric Time Series, sections introducing stationary stochastic processes and ARMA models.\nHyndman, R. J. and Athanasopoulos, G., Forecasting: Principles and Practice, chapters on time-series structure and ARIMA models, for a more intuitive computational treatment.\n\nThe next lecture builds naturally from this material to autoregressive processes, stationarity conditions, characteristic roots, persistence, and the contrasting ACF behaviour of AR and MA processes.",
+    "crumbs": [
+      "Home",
+      "Univariate timeseris models",
+      "Univariate-Time-Series-models I"
+    ]
   },
   {
     "objectID": "Slides/01-Review-stats-slides.html#sample-space-outcomes-events",
