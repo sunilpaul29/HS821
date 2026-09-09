@@ -54,8 +54,11 @@ website:
 
       - section: "Univariate timeseris models"
         contents:
-          - href: Notebooks/05-Univariate-Time-Series-modelsI.ipynb
+          - href: Notebooks/05-06-Univariate-Time-Series-modelsI.ipynb
             text: Univariate-Time-Series-models I
+
+          - href: Notebooks/07-08-Univariate-Time-Series-modelsII.ipynb
+            text: Univariate-Time-Series-models II
 
       - section: "Lecture slides"
         contents:
@@ -71,8 +74,11 @@ website:
           - href: Slides/04-Review-stats2.qmd
             text: Review of Stats and Prob III
 
-          - href: Slides/05-Univariate-Time-Series-modelsI.qmd
+          - href: Slides/05-06-Univariate-Time-Series-modelsI.qmd
             text: Univariate-Time-Series-models I
+
+          - href: Slides/07-08-Univariate-Time-Series-modelsII.qmd
+            text: Univariate-Time-Series-models II
 
 
 

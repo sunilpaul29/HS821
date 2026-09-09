@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Univariate Time Series Models II – HS 821: Topics in Time Series Econometrics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../Slides/00-course-introduction.html" rel="next">
+<link href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-95dd27b9ff1381cec64500a485f2ff81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">HS 821: Topics in Time Series Econometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://moodle.iitgoa.ac.in/course/view.php?id=1275"> <i class="bi bi-mortarboard" role="img">
+</i> 
+<span class="menu-text">Moodle</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html">Univariate timeseris models</a></li><li class="breadcrumb-item"><a href="../Notebooks/07-08-Univariate-Time-Series-modelsII.html">Univariate-Time-Series-models II</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Preliminaries</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/01-Review-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/02-Review-stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics and probability I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/03-Review-stats1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics and probability II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/04-Review-stats2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics and probability III</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Univariate timeseris models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/07-08-Univariate-Time-Series-modelsII.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Univariate-Time-Series-models II</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lecture slides</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/00-course-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/01-Review-stats-slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/03-Review-stats1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/04-Review-stats2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/05-06-Univariate-Time-Series-modelsI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/07-08-Univariate-Time-Series-modelsII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models II</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#the-autoregressive-process-ar1" id="toc-the-autoregressive-process-ar1" class="nav-link" data-scroll-target="#the-autoregressive-process-ar1">1&nbsp;&nbsp;The autoregressive process AR(1)</a>
+  <ul class="collapse">
+  <li><a href="#definition-and-two-solutions" id="toc-definition-and-two-solutions" class="nav-link" data-scroll-target="#definition-and-two-solutions">Definition and two solutions</a></li>
+  <li><a href="#reading-an-ar1-dynamic-multipliers-and-the-impulse-response" id="toc-reading-an-ar1-dynamic-multipliers-and-the-impulse-response" class="nav-link" data-scroll-target="#reading-an-ar1-dynamic-multipliers-and-the-impulse-response">Reading an AR(1): dynamic multipliers and the impulse response</a></li>
+  <li><a href="#stability-stationarity-and-the-wold-form" id="toc-stability-stationarity-and-the-wold-form" class="nav-link" data-scroll-target="#stability-stationarity-and-the-wold-form">Stability, stationarity, and the Wold form</a>
+  <ul class="collapse">
+  <li><a href="#ar1-with-drift" id="toc-ar1-with-drift" class="nav-link" data-scroll-target="#ar1-with-drift">AR(1) with drift</a></li>
+  <li><a href="#moments-of-the-stationary-ar1" id="toc-moments-of-the-stationary-ar1" class="nav-link" data-scroll-target="#moments-of-the-stationary-ar1">Moments of the stationary AR(1)</a></li>
+  </ul></li>
+  <li><a href="#the-lag-operator-and-the-characteristic-root" id="toc-the-lag-operator-and-the-characteristic-root" class="nav-link" data-scroll-target="#the-lag-operator-and-the-characteristic-root">The lag operator and the characteristic root</a>
+  <ul class="collapse">
+  <li><a href="#predict-before-you-simulate" id="toc-predict-before-you-simulate" class="nav-link" data-scroll-target="#predict-before-you-simulate">Predict before you simulate</a></li>
+  <li><a href="#the-impulse-response-as-persistence" id="toc-the-impulse-response-as-persistence" class="nav-link" data-scroll-target="#the-impulse-response-as-persistence">The impulse response as persistence</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#the-ar2-process" id="toc-the-ar2-process" class="nav-link" data-scroll-target="#the-ar2-process">2&nbsp;&nbsp;The AR(2) process</a>
+  <ul class="collapse">
+  <li><a href="#moments-the-yulewalker-equations" id="toc-moments-the-yulewalker-equations" class="nav-link" data-scroll-target="#moments-the-yulewalker-equations">Moments: the Yule–Walker equations</a></li>
+  <li><a href="#stationarity-roots-the-triangle-and-complex-roots" id="toc-stationarity-roots-the-triangle-and-complex-roots" class="nav-link" data-scroll-target="#stationarity-roots-the-triangle-and-complex-roots">Stationarity: roots, the triangle, and complex roots</a>
+  <ul class="collapse">
+  <li><a href="#simulation-four-ar2-processes" id="toc-simulation-four-ar2-processes" class="nav-link" data-scroll-target="#simulation-four-ar2-processes">Simulation: four AR(2) processes</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#the-general-arp-process" id="toc-the-general-arp-process" class="nav-link" data-scroll-target="#the-general-arp-process">3&nbsp;&nbsp;The general AR(<span class="math inline">\(p\)</span>) process</a>
+  <ul class="collapse">
+  <li><a href="#moments-yulewalker" id="toc-moments-yulewalker" class="nav-link" data-scroll-target="#moments-yulewalker">Moments (Yule–Walker)</a></li>
+  <li><a href="#wold-representation" id="toc-wold-representation" class="nav-link" data-scroll-target="#wold-representation">Wold representation</a></li>
+  <li><a href="#companion-form-and-the-eigenvalue-condition" id="toc-companion-form-and-the-eigenvalue-condition" class="nav-link" data-scroll-target="#companion-form-and-the-eigenvalue-condition">Companion form and the eigenvalue condition</a></li>
+  </ul></li>
+  <li><a href="#the-partial-autocorrelation-function-pacf" id="toc-the-partial-autocorrelation-function-pacf" class="nav-link" data-scroll-target="#the-partial-autocorrelation-function-pacf">4&nbsp;&nbsp;The partial autocorrelation function (PACF)</a>
+  <ul class="collapse">
+  <li><a href="#population-versus-sample-correlogram" id="toc-population-versus-sample-correlogram" class="nav-link" data-scroll-target="#population-versus-sample-correlogram">Population versus sample correlogram</a></li>
+  </ul></li>
+  <li><a href="#invertibility-the-dual-of-stationarity" id="toc-invertibility-the-dual-of-stationarity" class="nav-link" data-scroll-target="#invertibility-the-dual-of-stationarity">5&nbsp;&nbsp;Invertibility: the dual of stationarity</a>
+  <ul class="collapse">
+  <li><a href="#two-invertible-ma2-processes-acf-cuts-off-pacf-decays" id="toc-two-invertible-ma2-processes-acf-cuts-off-pacf-decays" class="nav-link" data-scroll-target="#two-invertible-ma2-processes-acf-cuts-off-pacf-decays">Two invertible MA(2) processes: ACF cuts off, PACF decays</a></li>
+  </ul></li>
+  <li><a href="#the-armapq-process" id="toc-the-armapq-process" class="nav-link" data-scroll-target="#the-armapq-process">6&nbsp;&nbsp;The ARMA(<span class="math inline">\(p,q\)</span>) process</a>
+  <ul class="collapse">
+  <li><a href="#moments-and-the-arma11-example" id="toc-moments-and-the-arma11-example" class="nav-link" data-scroll-target="#moments-and-the-arma11-example">Moments and the ARMA(1,1) example</a>
+  <ul class="collapse">
+  <li><a href="#parameter-redundancy-common-factors" id="toc-parameter-redundancy-common-factors" class="nav-link" data-scroll-target="#parameter-redundancy-common-factors">Parameter redundancy (common factors)</a></li>
+  <li><a href="#simulation-an-arma22" id="toc-simulation-an-arma22" class="nav-link" data-scroll-target="#simulation-an-arma22">Simulation: an ARMA(2,2)</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#identifying-a-model-from-the-acf-and-pacf" id="toc-identifying-a-model-from-the-acf-and-pacf" class="nav-link" data-scroll-target="#identifying-a-model-from-the-acf-and-pacf">7&nbsp;&nbsp;Identifying a model from the ACF and PACF</a>
+  <ul class="collapse">
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key takeaways</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1-ar1-moments-and-persistence" id="toc-exercise-1-ar1-moments-and-persistence" class="nav-link" data-scroll-target="#exercise-1-ar1-moments-and-persistence">Exercise 1 — AR(1) moments and persistence</a></li>
+  <li><a href="#exercise-2-stationarity-from-roots" id="toc-exercise-2-stationarity-from-roots" class="nav-link" data-scroll-target="#exercise-2-stationarity-from-roots">Exercise 2 — Stationarity from roots</a></li>
+  <li><a href="#exercise-3-the-stationarity-triangle" id="toc-exercise-3-the-stationarity-triangle" class="nav-link" data-scroll-target="#exercise-3-the-stationarity-triangle">Exercise 3 — The stationarity triangle</a></li>
+  <li><a href="#exercise-4-cycles-from-complex-roots" id="toc-exercise-4-cycles-from-complex-roots" class="nav-link" data-scroll-target="#exercise-4-cycles-from-complex-roots">Exercise 4 — Cycles from complex roots</a></li>
+  <li><a href="#exercise-5-acf-and-pacf-signatures" id="toc-exercise-5-acf-and-pacf-signatures" class="nav-link" data-scroll-target="#exercise-5-acf-and-pacf-signatures">Exercise 5 — ACF and PACF signatures</a></li>
+  <li><a href="#exercise-6-invertibility" id="toc-exercise-6-invertibility" class="nav-link" data-scroll-target="#exercise-6-invertibility">Exercise 6 — Invertibility</a></li>
+  <li><a href="#exercise-7-parameter-redundancy" id="toc-exercise-7-parameter-redundancy" class="nav-link" data-scroll-target="#exercise-7-parameter-redundancy">Exercise 7 — Parameter redundancy</a></li>
+  <li><a href="#exercise-8-companion-form" id="toc-exercise-8-companion-form" class="nav-link" data-scroll-target="#exercise-8-companion-form">Exercise 8 — Companion form</a></li>
+  </ul></li>
+  <li><a href="#suggested-reading" id="toc-suggested-reading" class="nav-link" data-scroll-target="#suggested-reading">Suggested reading</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html">Univariate timeseris models</a></li><li class="breadcrumb-item"><a href="../Notebooks/07-08-Univariate-Time-Series-modelsII.html">Univariate-Time-Series-models II</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Univariate Time Series Models II</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>HS 821 · Lectures 6–8 · Topics in Time Series Econometrics</strong></p>
+<p><strong>Sunil Paul</strong></p>
+<p>August 2026 · R 4.6</p>
+<p>Lecture 5 built the probabilistic vocabulary of stationary processes — the mean, autocovariance and autocorrelation functions, white noise, the Wold decomposition, and the moving-average (MA) family whose ACF <em>cuts off</em> after the order of the process.</p>
+<p>This lecture develops the two workhorse families that dominate applied univariate modelling: the <strong>autoregressive (AR)</strong> process, whose ACF <em>decays</em> rather than cuts off, and the mixed <strong>autoregressive–moving-average (ARMA)</strong> process. The unifying tool is the <strong>lag polynomial and its roots</strong>: stationarity, persistence, cycles, and invertibility can all be read off from where those roots sit relative to the unit circle.</p>
+<p><em>Estimation and statistical inference (fitting <span class="math inline">\(\phi,\theta,\sigma^2\)</span>; standard errors; information criteria; diagnostic tests) are deferred to the next lecture. Here the parameters are known and every ACF, PACF, and impulse response is a <strong>population</strong> quantity, except where a figure is explicitly labelled as a <strong>sample</strong> correlogram.</em></p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>As in Lecture 5 we first define a small set of plotting helpers so the later cells stay short. All theoretical quantities use base-R <code>stats</code> routines:</p>
+<ul>
+<li><code>ARMAacf()</code> — population ACF and PACF of an ARMA process;</li>
+<li><code>ARMAtoMA()</code> — the Wold / MA(<span class="math inline">\(\infty\)</span>) coefficients <span class="math inline">\(\psi_j\)</span> (the impulse response);</li>
+<li><code>arima.sim()</code> — one simulated realization;</li>
+<li><code>polyroot()</code> / <code>eigen()</code> — roots of the lag polynomial and eigenvalues of the companion matrix.</li>
+</ul>
+<div id="c1597e62" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup: plotting helpers (self-contained; theme_classic throughout)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Time-series line plot; optional dashed reference line at the mean.</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ts_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">mu =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  time_idx <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">is.ts</span>(x)) <span class="fu">as.numeric</span>(<span class="fu">time</span>(x)) <span class="cf">else</span> <span class="fu">seq_along</span>(x)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> time_idx, <span class="at">value =</span> <span class="fu">as.numeric</span>(x))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(time, value)) <span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(mu)) p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> mu, <span class="at">linetype =</span> <span class="st">"dashed"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  p</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical ACF of an ARMA process, lags 1..L (lag 0 dropped).</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>acf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ar =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">ma =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">L =</span> <span class="dv">15</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  rho <span class="ot">&lt;-</span> <span class="fu">ARMAacf</span>(<span class="at">ar =</span> ar, <span class="at">ma =</span> ma, <span class="at">lag.max =</span> L)[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  df  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag =</span> <span class="fu">seq_len</span>(L), <span class="at">acf =</span> <span class="fu">as.numeric</span>(rho))</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(lag, acf)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> lag, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> acf), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, L, <span class="at">by =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Lag"</span>, <span class="at">y =</span> <span class="st">"ACF"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical PACF of an ARMA process, lags 1..L.</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>pacf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ar =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">ma =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">L =</span> <span class="dv">15</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  pac <span class="ot">&lt;-</span> <span class="fu">ARMAacf</span>(<span class="at">ar =</span> ar, <span class="at">ma =</span> ma, <span class="at">lag.max =</span> L, <span class="at">pacf =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  df  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag =</span> <span class="fu">seq_len</span>(L), <span class="at">pacf =</span> <span class="fu">as.numeric</span>(pac))</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(lag, pacf)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> lag, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> pacf), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, L, <span class="at">by =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Lag"</span>, <span class="at">y =</span> <span class="st">"PACF"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical impulse response = Wold coefficients psi_0=1, psi_1, psi_2, ...</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>irf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ar =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">ma =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">h =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  psi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">ARMAtoMA</span>(<span class="at">ar =</span> ar, <span class="at">ma =</span> ma, <span class="at">lag.max =</span> h))</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  df  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">horizon =</span> <span class="dv">0</span><span class="sc">:</span>h, <span class="at">response =</span> psi)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(horizon, response)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> horizon, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> response)) <span class="sc">+</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, h, <span class="at">by =</span> <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Horizon after a unit innovation"</span>, <span class="at">y =</span> <span class="st">"Response"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample ACF / PACF with approximate +/- 2/sqrt(T) bands.</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>sample_acf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">L =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>  a  <span class="ot">&lt;-</span> <span class="fu">acf</span>(x, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">lag.max =</span> L)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag =</span> <span class="fu">as.numeric</span>(a<span class="sc">$</span>lag)[<span class="sc">-</span><span class="dv">1</span>], <span class="at">acf =</span> <span class="fu">as.numeric</span>(a<span class="sc">$</span>acf)[<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>  b  <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(lag, acf)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> lag, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> acf), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(b, <span class="sc">-</span>b), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, L, <span class="at">by =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Lag"</span>, <span class="at">y =</span> <span class="st">"Sample ACF"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>sample_pacf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">L =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>  a  <span class="ot">&lt;-</span> <span class="fu">pacf</span>(x, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">lag.max =</span> L)</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag =</span> <span class="fu">as.numeric</span>(a<span class="sc">$</span>lag), <span class="at">acf =</span> <span class="fu">as.numeric</span>(a<span class="sc">$</span>acf))</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  b  <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(lag, acf)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> lag, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> acf), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(b, <span class="sc">-</span>b), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, L, <span class="at">by =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Lag"</span>, <span class="at">y =</span> <span class="st">"Sample PACF"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Roots of a lag polynomial on the complex plane, with the unit circle.</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>roots_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(roots, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">2</span> <span class="sc">*</span> pi, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>  circ  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">cos</span>(theta), <span class="at">y =</span> <span class="fu">sin</span>(theta))</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>  df    <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Real =</span> <span class="fu">Re</span>(roots), <span class="at">Imaginary =</span> <span class="fu">Im</span>(roots),</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>                      <span class="at">outside =</span> <span class="fu">ifelse</span>(<span class="fu">Mod</span>(roots) <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="st">"outside"</span>, <span class="st">"inside"</span>))</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_path</span>(<span class="at">data =</span> circ, <span class="fu">aes</span>(x, y), <span class="at">colour =</span> <span class="st">"grey55"</span>) <span class="sc">+</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(Real, Imaginary, <span class="at">colour =</span> outside), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">outside =</span> <span class="st">"black"</span>, <span class="at">inside =</span> <span class="st">"red"</span>),</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>                        <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Real part"</span>, <span class="at">y =</span> <span class="st">"Imaginary part"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="the-autoregressive-process-ar1" class="level1">
+<h1>1&nbsp;&nbsp;The autoregressive process AR(1)</h1>
+<section id="definition-and-two-solutions" class="level2">
+<h2 class="anchored" data-anchor-id="definition-and-two-solutions">Definition and two solutions</h2>
+<p>A <strong>first-order autoregressive</strong> process is</p>
+<p><span class="math display">\[
+Y_t=\phi Y_{t-1}+\varepsilon_t,
+\qquad
+\varepsilon_t\sim WN(0,\sigma^2).
+\]</span></p>
+<p>Unlike an MA process, where today’s value is a finite combination of recent shocks, an AR process feeds its own past back into itself. Substituting repeatedly gives the <strong>recursive (backward) solution</strong></p>
+<p><span class="math display">\[
+Y_t=\phi^t Y_0+\sum_{i=0}^{t-1}\phi^{\,i}\varepsilon_{t-i},
+\]</span></p>
+<p>and projecting the recursion forward <span class="math inline">\(j\)</span> periods gives the <strong>forward solution</strong></p>
+<p><span class="math display">\[
+Y_{t+j}=\phi^{\,j+1}Y_{t-1}+\sum_{i=0}^{j}\phi^{\,i}\varepsilon_{t+j-i},
+\qquad j&gt;0.
+\]</span></p>
+<p>The second form is the natural starting point for forecasting; the first shows how the influence of the initial condition <span class="math inline">\(Y_0\)</span> fades (or grows) as <span class="math inline">\(\phi^t\)</span>.</p>
+</section>
+<section id="reading-an-ar1-dynamic-multipliers-and-the-impulse-response" class="level2">
+<h2 class="anchored" data-anchor-id="reading-an-ar1-dynamic-multipliers-and-the-impulse-response">Reading an AR(1): dynamic multipliers and the impulse response</h2>
+<p>Because <span class="math inline">\(Y_t\)</span> is a weighted sum of past shocks, we can ask exactly how much a single innovation matters, and for how long. The <strong>dynamic multiplier</strong> is the partial effect of a shock <span class="math inline">\(j\)</span> periods ago:</p>
+<p><span class="math display">\[
+\frac{\partial Y_t}{\partial \varepsilon_{t-j}}=\phi^{\,j}
+\qquad\Longleftrightarrow\qquad
+\frac{\partial Y_{t+j}}{\partial \varepsilon_t}=\phi^{\,j}.
+\]</span></p>
+<p>Plotted against the horizon <span class="math inline">\(j\)</span>, the sequence <span class="math inline">\(\{\phi^{\,j}\}\)</span> is the <strong>impulse response function (IRF)</strong> — these are exactly the Wold coefficients <span class="math inline">\(\psi_j=\phi^{\,j}\)</span> from Lecture 5. The <strong>cumulative</strong> effect up to horizon <span class="math inline">\(j\)</span> is</p>
+<p><span class="math display">\[
+\sum_{i=0}^{j}\phi^{\,i}=1+\phi+\cdots+\phi^{\,j},
+\]</span></p>
+<p>and, when <span class="math inline">\(|\phi|&lt;1\)</span>, the <strong>long-run (total) effect</strong> of a one-unit shock is</p>
+<p><span class="math display">\[
+\lim_{j\to\infty}\sum_{i=0}^{j}\phi^{\,i}=\frac{1}{1-\phi}.
+\]</span></p>
+<p>The closer <span class="math inline">\(\phi\)</span> is to one, the more slowly the response decays and the larger the accumulated effect — this is what we mean by <strong>persistence</strong>.</p>
+</section>
+<section id="stability-stationarity-and-the-wold-form" class="level2">
+<h2 class="anchored" data-anchor-id="stability-stationarity-and-the-wold-form">Stability, stationarity, and the Wold form</h2>
+<p>Three cases exhaust the AR(1):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>condition</th>
+<th>behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\lvert\phi\rvert&lt;1\)</span></td>
+<td><strong>stationary</strong>; shocks decay geometrically</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\phi=1\)</span></td>
+<td><strong>random walk</strong>; a unit root, non-stationary</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\phi=-1\)</span></td>
+<td>Alternating unit-root, non-stationary</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\lvert\phi\rvert&gt;1\)</span></td>
+<td><strong>explosive</strong></td>
+</tr>
+</tbody>
+</table>
+<p>When <span class="math inline">\(|\phi|&lt;1\)</span> the backward solution converges (the <span class="math inline">\(\phi^tY_0\)</span> term vanishes) and we obtain the <strong>Wold / MA(<span class="math inline">\(\infty\)</span>) representation</strong></p>
+<p><span class="math display">\[
+Y_t=\sum_{j=0}^{\infty}\phi^{\,j}\varepsilon_{t-j}.
+\]</span></p>
+<section id="ar1-with-drift" class="level3">
+<h3 class="anchored" data-anchor-id="ar1-with-drift">AR(1) with drift</h3>
+<p>Adding a constant,</p>
+<p><span class="math display">\[
+Y_t=c+\phi Y_{t-1}+\varepsilon_t
+\quad\Longrightarrow\quad
+Y_t=\phi^t Y_0+c\sum_{i=0}^{t-1}\phi^{\,i}+\sum_{i=0}^{t-1}\phi^{\,i}\varepsilon_{t-i},
+\]</span></p>
+<p>and for <span class="math inline">\(|\phi|&lt;1\)</span>,</p>
+<p><span class="math display">\[
+Y_t=\frac{c}{1-\phi}+\sum_{i=0}^{\infty}\phi^{\,i}\varepsilon_{t-i}.
+\]</span></p>
+</section>
+<section id="moments-of-the-stationary-ar1" class="level3">
+<h3 class="anchored" data-anchor-id="moments-of-the-stationary-ar1">Moments of the stationary AR(1)</h3>
+<p><span class="math display">\[
+\mu=\frac{c}{1-\phi},
+\qquad
+\gamma_0=\frac{\sigma^2}{1-\phi^2},
+\qquad
+\gamma_j=\phi^{\,j}\gamma_0,
+\qquad
+\rho_j=\phi^{\,j}.
+\]</span></p>
+<p>The ACF <strong>decays geometrically</strong> rather than cutting off — the defining contrast with an MA process. A convenient summary of persistence is the <strong>half-life</strong>, the horizon at which a shock’s effect has halved:</p>
+<p><span class="math display">\[
+\phi^{\,h}=\tfrac12
+\quad\Longrightarrow\quad
+h=\frac{\ln 0.5}{\ln\phi}
+\qquad(0&lt;\phi&lt;1).
+\]</span></p>
+<p>(For <span class="math inline">\(\phi&lt;0\)</span> the response alternates in sign, so “half-life” is read from <span class="math inline">\(|\phi|\)</span>.)</p>
+</section>
+</section>
+<section id="the-lag-operator-and-the-characteristic-root" class="level2">
+<h2 class="anchored" data-anchor-id="the-lag-operator-and-the-characteristic-root">The lag operator and the characteristic root</h2>
+<p>The lag operator <span class="math inline">\(L\)</span> (Lecture 5) writes the AR(1) compactly:</p>
+<p><span class="math display">\[
+Y_t=\phi Y_{t-1}+\varepsilon_t
+\quad\Longleftrightarrow\quad
+(1-\phi L)\,Y_t=\varepsilon_t.
+\]</span></p>
+<p>Replacing <span class="math inline">\(L\)</span> by a complex variable <span class="math inline">\(z\)</span> gives the <strong>characteristic polynomial</strong> <span class="math inline">\(1-\phi z\)</span>, whose root is</p>
+<p><span class="math display">\[
+z^\star=\frac{1}{\phi}.
+\]</span></p>
+<p>Stationarity requires the root to lie <strong>outside the unit circle</strong>, <span class="math inline">\(|z^\star|&gt;1\)</span>, which is exactly <span class="math inline">\(|\phi|&lt;1\)</span>. Inverting the operator as a geometric series reproduces the Wold form:</p>
+<p><span class="math display">\[
+(1-\phi L)^{-1}=\sum_{j=0}^{\infty}\phi^{\,j}L^{\,j}
+\quad\Longrightarrow\quad
+Y_t=\sum_{j=0}^{\infty}\phi^{\,j}\varepsilon_{t-j}=\Psi(L)\varepsilon_t.
+\]</span></p>
+<blockquote class="blockquote">
+<p>The “root outside the unit circle” statement and the “<span class="math inline">\(|\phi|&lt;1\)</span>” statement are the same condition. The root language is what generalises cleanly to AR(2) and AR(<span class="math inline">\(p\)</span>).</p>
+</blockquote>
+<section id="predict-before-you-simulate" class="level3">
+<h3 class="anchored" data-anchor-id="predict-before-you-simulate">Predict before you simulate</h3>
+<p>We simulate three stationary AR(1) processes with a common mean <span class="math inline">\(\mu=2\)</span> (so the intercept is <span class="math inline">\(c=\mu(1-\phi)\)</span>):</p>
+<p><span class="math display">\[
+\phi=0.8\;(c=0.4),
+\qquad
+\phi=0.4\;(c=1.2),
+\qquad
+\phi=-0.7\;(c=3.4).
+\]</span></p>
+<p>Before running, predict:</p>
+<ol type="1">
+<li>Which series looks the <strong>most persistent</strong> (longest, smoothest excursions from the mean)?</li>
+<li>For which <span class="math inline">\(\phi\)</span> does the ACF <strong>decay most slowly</strong>?</li>
+<li>What is the qualitative difference in the ACF when <span class="math inline">\(\phi&lt;0\)</span>?</li>
+<li>For an AR(1), at which lag should the <strong>PACF cut off</strong>?</li>
+</ol>
+<div id="4b9ede38" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Three AR(1) processes: realizations, theoretical ACF, theoretical PACF</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>n  <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>phi_a <span class="ot">&lt;-</span> <span class="fl">0.8</span>; phi_b <span class="ot">&lt;-</span> <span class="fl">0.4</span>; phi_c <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.7</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>y_a <span class="ot">&lt;-</span> mu <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> phi_a), <span class="at">n =</span> n)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>y_b <span class="ot">&lt;-</span> mu <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> phi_b), <span class="at">n =</span> n)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>y_c <span class="ot">&lt;-</span> mu <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> phi_c), <span class="at">n =</span> n)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>g_a <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(y_a, <span class="at">mu =</span> mu, <span class="at">title =</span> <span class="st">"AR(1): phi = 0.8  (c = 0.4)"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>g_b <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(y_b, <span class="at">mu =</span> mu, <span class="at">title =</span> <span class="st">"AR(1): phi = 0.4  (c = 1.2)"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(y_c, <span class="at">mu =</span> mu, <span class="at">title =</span> <span class="st">"AR(1): phi = -0.7 (c = 3.4)"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  g_a, g_b, g_c,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf_plot</span>(<span class="at">ar =</span> phi_a), <span class="fu">acf_plot</span>(<span class="at">ar =</span> phi_b), <span class="fu">acf_plot</span>(<span class="at">ar =</span> phi_c),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pacf_plot</span>(<span class="at">ar =</span> phi_a), <span class="fu">pacf_plot</span>(<span class="at">ar =</span> phi_b), <span class="fu">pacf_plot</span>(<span class="at">ar =</span> phi_c),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">3</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-08-Univariate-Time-Series-modelsII_files/figure-html/cell-3-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Reading the graphs</strong></p>
+<ul>
+<li>All three series share the same unconditional mean <span class="math inline">\(\mu=2\)</span>.</li>
+<li><span class="math inline">\(\phi=0.8\)</span> is the most persistent: the series wanders for long stretches and its ACF <span class="math inline">\(\rho_j=0.8^{\,j}\)</span> decays slowly.</li>
+<li><span class="math inline">\(\phi=0.4\)</span> decays quickly (<span class="math inline">\(\rho_j=0.4^{\,j}\)</span>).</li>
+<li><span class="math inline">\(\phi=-0.7\)</span> produces an <strong>oscillating</strong> ACF, <span class="math inline">\(\rho_j=(-0.7)^{\,j}\)</span>, alternating in sign as the series flips above and below the mean from period to period.</li>
+<li>For every AR(1) the theoretical <strong>PACF cuts off after lag 1</strong>: <span class="math inline">\(\phi_{11}=\phi\)</span> and <span class="math inline">\(\phi_{jj}=0\)</span> for <span class="math inline">\(j&gt;1\)</span>. This mirror-image of the MA case (ACF cuts off, PACF decays) is what makes the PACF the natural tool for identifying AR order.</li>
+</ul>
+</section>
+<section id="the-impulse-response-as-persistence" class="level3">
+<h3 class="anchored" data-anchor-id="the-impulse-response-as-persistence">The impulse response as persistence</h3>
+<p>The IRF <span class="math inline">\(\psi_j=\phi^{\,j}\)</span> makes persistence visual: a bigger <span class="math inline">\(\phi\)</span> means a slower-decaying response and a larger accumulated long-run effect <span class="math inline">\(1/(1-\phi)\)</span>.</p>
+<div id="860de425" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Impulse responses: persistence rises with phi; phi&lt;0 oscillates</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">irf_plot</span>(<span class="at">ar =</span> <span class="fl">0.8</span>,  <span class="at">h =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="st">"IRF: phi = 0.8  (long-run effect 5.0)"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">irf_plot</span>(<span class="at">ar =</span> <span class="fl">0.4</span>,  <span class="at">h =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="st">"IRF: phi = 0.4  (long-run effect 1.67)"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">irf_plot</span>(<span class="at">ar =</span> <span class="sc">-</span><span class="fl">0.7</span>, <span class="at">h =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="st">"IRF: phi = -0.7 (oscillating)"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Long-run effect 1/(1-phi):  phi=0.8 -&gt; %.2f | phi=0.4 -&gt; %.2f</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="fl">-0.8</span>), <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="fl">-0.4</span>)))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Half-life ln(0.5)/ln(phi):  phi=0.8 -&gt; %.2f | phi=0.4 -&gt; %.2f periods</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">log</span>(<span class="fl">0.5</span>)<span class="sc">/</span><span class="fu">log</span>(<span class="fl">0.8</span>), <span class="fu">log</span>(<span class="fl">0.5</span>)<span class="sc">/</span><span class="fu">log</span>(<span class="fl">0.4</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Long-run effect 1/(1-phi):  phi=0.8 -&gt; 5.00 | phi=0.4 -&gt; 1.67
+Half-life ln(0.5)/ln(phi):  phi=0.8 -&gt; 3.11 | phi=0.4 -&gt; 0.76 periods</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-08-Univariate-Time-Series-modelsII_files/figure-html/cell-4-output-2.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="the-ar2-process" class="level1">
+<h1>2&nbsp;&nbsp;The AR(2) process</h1>
+<p><span class="math display">\[
+Y_t=c+\phi_1 Y_{t-1}+\phi_2 Y_{t-2}+\varepsilon_t.
+\]</span></p>
+<section id="moments-the-yulewalker-equations" class="level2">
+<h2 class="anchored" data-anchor-id="moments-the-yulewalker-equations">Moments: the Yule–Walker equations</h2>
+<p>Multiplying the (mean-corrected) equation by <span class="math inline">\(Y_{t-j}\)</span> and taking expectations gives the <strong>Yule–Walker</strong> recursion. The mean is</p>
+<p><span class="math display">\[
+\mu=\frac{c}{1-\phi_1-\phi_2},
+\]</span></p>
+<p>the variance and autocovariances satisfy</p>
+<p><span class="math display">\[
+\gamma_0=\phi_1\gamma_1+\phi_2\gamma_2+\sigma^2,
+\qquad
+\gamma_j=\phi_1\gamma_{j-1}+\phi_2\gamma_{j-2}\quad(j\ge1),
+\]</span></p>
+<p>and dividing by <span class="math inline">\(\gamma_0\)</span>,</p>
+<p><span class="math display">\[
+\rho_j=\phi_1\rho_{j-1}+\phi_2\rho_{j-2}\qquad(j\ge1).
+\]</span></p>
+<p>Solving the first two equations explicitly is worth memorising:</p>
+<p><span class="math display">\[
+\boxed{\;\rho_1=\frac{\phi_1}{1-\phi_2},
+\qquad
+\rho_2=\phi_2+\frac{\phi_1^2}{1-\phi_2}=\phi_2+\phi_1\rho_1,\;}
+\]</span></p>
+<p>with the variance</p>
+<p><span class="math display">\[
+\gamma_0=\frac{(1-\phi_2)\,\sigma^2}{(1+\phi_2)\big[(1-\phi_2)^2-\phi_1^2\big]}.
+\]</span></p>
+<p>From <span class="math inline">\(\rho_1,\rho_2\)</span> onwards the ACF is generated by the same second-order recursion, so it <strong>decays</strong> (possibly with oscillations) rather than cutting off.</p>
+</section>
+<section id="stationarity-roots-the-triangle-and-complex-roots" class="level2">
+<h2 class="anchored" data-anchor-id="stationarity-roots-the-triangle-and-complex-roots">Stationarity: roots, the triangle, and complex roots</h2>
+<p>In lag-operator form,</p>
+<p><span class="math display">\[
+(1-\phi_1 L-\phi_2 L^2)\,Y_t=c+\varepsilon_t,
+\]</span></p>
+<p>with characteristic equation (replace <span class="math inline">\(L\)</span> by <span class="math inline">\(z\)</span>)</p>
+<p><span class="math display">\[
+1-\phi_1 z-\phi_2 z^2=0,
+\qquad
+z_{1,2}=\frac{-\phi_1\pm\sqrt{\phi_1^2+4\phi_2}}{2\phi_2}.
+\]</span></p>
+<p>The process is stationary when <strong>both roots lie outside the unit circle</strong>. In terms of the coefficients this is the <strong>stationarity triangle</strong></p>
+<p><span class="math display">\[
+\phi_1+\phi_2&lt;1,
+\qquad
+\phi_2-\phi_1&lt;1,
+\qquad
+-1&lt;\phi_2&lt;1.
+\]</span></p>
+<p>The nature of the dynamics depends on the discriminant <span class="math inline">\(\phi_1^2+4\phi_2\)</span>:</p>
+<ul>
+<li><strong>real distinct roots</strong> (<span class="math inline">\(\phi_1^2+4\phi_2&gt;0\)</span>): the ACF/IRF is a sum of two decaying geometric terms — monotone (or sign-alternating) decay;</li>
+<li><strong>complex-conjugate roots</strong> (<span class="math inline">\(\phi_1^2+4\phi_2&lt;0\)</span>): the ACF/IRF is a <strong>damped sinusoid</strong> — the process exhibits <em>pseudo-cycles</em>. The stochastic cycle has modulus <span class="math inline">\(r=\sqrt{-\phi_2}\)</span> and period</li>
+</ul>
+<p><span class="math display">\[
+\text{Period}=\frac{2\pi}{\arccos\!\big(\phi_1/(2\sqrt{-\phi_2})\big)}.
+\]</span></p>
+<p>This is the reason AR(2) models are the simplest device for capturing business-cycle-like behaviour.</p>
+<div id="8c5dbe3a" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The AR(2) stationarity triangle, the complex-root parabola, and four models</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>vertices <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">phi1 =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>), <span class="at">phi2 =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>grid1    <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>parab    <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">phi1 =</span> grid1, <span class="at">phi2 =</span> <span class="sc">-</span>grid1<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">4</span>)   <span class="co"># phi1^2 + 4 phi2 = 0</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">phi1  =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.0</span>,  <span class="fl">1.5</span>, <span class="sc">-</span><span class="fl">0.6</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">phi2  =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="sc">-</span><span class="fl">0.25</span>, <span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.2</span>),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> vertices, <span class="fu">aes</span>(phi1, phi2), <span class="at">fill =</span> <span class="st">"grey92"</span>, <span class="at">colour =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> parab, <span class="fu">aes</span>(phi1, phi2), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> models, <span class="fu">aes</span>(phi1, phi2), <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> models, <span class="fu">aes</span>(phi1, phi2, <span class="at">label =</span> label), <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.2</span>, <span class="fl">2.2</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.1</span>, <span class="fl">1.1</span>)) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(phi[<span class="dv">1</span>]), <span class="at">y =</span> <span class="fu">expression</span>(phi[<span class="dv">2</span>]),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"AR(2) stationarity triangle"</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Shaded: stationary region. Below the dashed parabola: complex roots (damped cycles)."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-08-Univariate-Time-Series-modelsII_files/figure-html/cell-5-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="simulation-four-ar2-processes" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-four-ar2-processes">Simulation: four AR(2) processes</h3>
+<p><span class="math display">\[
+\text{A: } Y_t=0.5Y_{t-1}+0.25Y_{t-2}+\varepsilon_t,
+\qquad
+\text{B: } Y_t=1.0Y_{t-1}-0.25Y_{t-2}+\varepsilon_t,
+\]</span></p>
+<p><span class="math display">\[
+\text{C: } Y_t=1.5Y_{t-1}-0.75Y_{t-2}+\varepsilon_t,
+\qquad
+\text{D: } Y_t=-0.6Y_{t-1}+0.2Y_{t-2}+\varepsilon_t.
+\]</span></p>
+<p>All four sit inside the triangle, so all are stationary. <strong>Predict:</strong> which one shows regular cycles? (Check the discriminant <span class="math inline">\(\phi_1^2+4\phi_2\)</span>; model <strong>C</strong> has <span class="math inline">\(1.5^2+4(-0.75)=-0.75&lt;0\)</span>.)</p>
+<div id="77d6ccad" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Four AR(2) realizations</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ar_A <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>,  <span class="fl">0.25</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ar_B <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.0</span>, <span class="sc">-</span><span class="fl">0.25</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ar_C <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="sc">-</span><span class="fl">0.75</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>ar_D <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.6</span>, <span class="fl">0.2</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>y_A <span class="ot">&lt;-</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> ar_A), <span class="at">n =</span> n)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>y_B <span class="ot">&lt;-</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> ar_B), <span class="at">n =</span> n)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>y_C <span class="ot">&lt;-</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> ar_C), <span class="at">n =</span> n)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>y_D <span class="ot">&lt;-</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> ar_D), <span class="at">n =</span> n)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ts_plot</span>(y_A, <span class="at">title =</span> <span class="st">"A: (0.5, 0.25) real roots"</span>),</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ts_plot</span>(y_B, <span class="at">title =</span> <span class="st">"B: (1.0, -0.25) repeated root"</span>),</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ts_plot</span>(y_C, <span class="at">title =</span> <span class="st">"C: (1.5, -0.75) complex -&gt; cycles"</span>),</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ts_plot</span>(y_D, <span class="at">title =</span> <span class="st">"D: (-0.6, 0.2) real roots"</span>),</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-08-Univariate-Time-Series-modelsII_files/figure-html/cell-6-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="67270348" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical ACF and PACF of the four AR(2) processes</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf_plot</span>(<span class="at">ar =</span> ar_A, <span class="at">title =</span> <span class="st">"ACF A"</span>), <span class="fu">acf_plot</span>(<span class="at">ar =</span> ar_B, <span class="at">title =</span> <span class="st">"ACF B"</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf_plot</span>(<span class="at">ar =</span> ar_C, <span class="at">title =</span> <span class="st">"ACF C"</span>), <span class="fu">acf_plot</span>(<span class="at">ar =</span> ar_D, <span class="at">title =</span> <span class="st">"ACF D"</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pacf_plot</span>(<span class="at">ar =</span> ar_A, <span class="at">title =</span> <span class="st">"PACF A"</span>), <span class="fu">pacf_plot</span>(<span class="at">ar =</span> ar_B, <span class="at">title =</span> <span class="st">"PACF B"</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pacf_plot</span>(<span class="at">ar =</span> ar_C, <span class="at">title =</span> <span class="st">"PACF C"</span>), <span class="fu">pacf_plot</span>(<span class="at">ar =</span> ar_D, <span class="at">title =</span> <span class="st">"PACF D"</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-08-Univariate-Time-Series-modelsII_files/figure-html/cell-7-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Reading the graphs</strong></p>
+<ul>
+<li>Every ACF <strong>decays</strong> toward zero; the decay pattern (monotone vs oscillatory vs cyclical) is governed by the characteristic roots.</li>
+<li>Model <strong>C</strong> has complex roots and its ACF/series show clear <strong>damped cycles</strong>. Its inverse-root modulus is <span class="math inline">\(\sqrt{0.75}\approx0.87\)</span> and <span class="math inline">\(\cos\theta=1.5/(2\sqrt{0.75})=0.866\)</span>, i.e.&nbsp;<span class="math inline">\(\theta=\pi/6\)</span> and a period of <span class="math inline">\(2\pi/\theta=12\)</span> — a cycle roughly every twelve periods.</li>
+<li>In every case the <strong>PACF cuts off after lag 2</strong>: two nonzero partial autocorrelations, then zero. This is the AR(2) signature.</li>
+</ul>
+<div id="8ad26e20" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm the cyclical period of model C from its characteristic roots</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>r_C <span class="ot">&lt;-</span> <span class="fu">polyroot</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span>ar_C[<span class="dv">1</span>], <span class="sc">-</span>ar_C[<span class="dv">2</span>]))   <span class="co"># 1 - phi1 z - phi2 z^2</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Model C characteristic roots (should be complex, outside unit circle):</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(r_C); <span class="fu">cat</span>(<span class="st">"moduli:"</span>, <span class="fu">round</span>(<span class="fu">Mod</span>(r_C), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Cycle from the *inverse* roots (eigenvalues of the companion matrix)</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>lam   <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> r_C</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>period <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">/</span> <span class="fu">Mod</span>(<span class="fu">Arg</span>(lam[<span class="dv">1</span>]))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Inverse-root modulus r = %.3f, implied cycle period = %.1f periods</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Mod</span>(lam[<span class="dv">1</span>]), period))</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Real vs complex roots also show up in the impulse response</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">irf_plot</span>(<span class="at">ar =</span> ar_A, <span class="at">h =</span> <span class="dv">24</span>, <span class="at">title =</span> <span class="st">"IRF A: real roots -&gt; monotone decay"</span>),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">irf_plot</span>(<span class="at">ar =</span> ar_C, <span class="at">h =</span> <span class="dv">24</span>, <span class="at">title =</span> <span class="st">"IRF C: complex roots -&gt; damped cycle (~12)"</span>),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">1</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model C characteristic roots (should be complex, outside unit circle):
+[1] 1+0.5773503i 1-0.5773503i
+moduli: 1.155 1.155 
+
+Inverse-root modulus r = 0.866, implied cycle period = 12.0 periods</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-08-Univariate-Time-Series-modelsII_files/figure-html/cell-8-output-2.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="the-general-arp-process" class="level1">
+<h1>3&nbsp;&nbsp;The general AR(<span class="math inline">\(p\)</span>) process</h1>
+<p><span class="math display">\[
+Y_t=c+\phi_1 Y_{t-1}+\cdots+\phi_p Y_{t-p}+\varepsilon_t
+\quad\Longleftrightarrow\quad
+\phi(L)\,Y_t=c+\varepsilon_t,
+\]</span></p>
+<p>with AR lag polynomial</p>
+<p><span class="math display">\[
+\phi(z)=1-\phi_1 z-\phi_2 z^2-\cdots-\phi_p z^p.
+\]</span></p>
+<p>An AR(<span class="math inline">\(p\)</span>) is <strong>stable and covariance-stationary</strong> iff all <span class="math inline">\(p\)</span> roots of <span class="math inline">\(\phi(z)=0\)</span> have modulus greater than one (lie outside the unit circle).</p>
+<section id="moments-yulewalker" class="level3">
+<h3 class="anchored" data-anchor-id="moments-yulewalker">Moments (Yule–Walker)</h3>
+<p><span class="math display">\[
+\mu=\frac{c}{1-\phi_1-\cdots-\phi_p},
+\]</span></p>
+<p><span class="math display">\[
+\gamma_j=
+\begin{cases}
+\phi_1\gamma_1+\cdots+\phi_p\gamma_p+\sigma^2, &amp; j=0,\\[4pt]
+\phi_1\gamma_{j-1}+\cdots+\phi_p\gamma_{j-p}, &amp; j&gt;0,
+\end{cases}
+\qquad
+\rho_j=\phi_1\rho_{j-1}+\cdots+\phi_p\rho_{j-p}\quad(j&gt;0).
+\]</span></p>
+</section>
+<section id="wold-representation" class="level3">
+<h3 class="anchored" data-anchor-id="wold-representation">Wold representation</h3>
+<p>Factorising <span class="math inline">\(\phi(L)=\prod_{i=1}^{p}(1-\lambda_i L)\)</span> and inverting each factor (valid when every <span class="math inline">\(|\lambda_i|&lt;1\)</span>, i.e.&nbsp;every characteristic root is outside the unit circle),</p>
+<p><span class="math display">\[
+X_t=\psi(L)\varepsilon_t,
+\qquad
+\psi(L)=\prod_{i=1}^{p}\Big(\sum_{j=0}^{\infty}\lambda_i^{\,j}L^{\,j}\Big),\qquad X_t- Y_t-\mu
+\]</span></p>
+<p>an MA(<span class="math inline">\(\infty\)</span>) whose coefficients <span class="math inline">\(\psi_j\)</span> are the impulse response.</p>
+</section>
+<section id="companion-form-and-the-eigenvalue-condition" class="level2">
+<h2 class="anchored" data-anchor-id="companion-form-and-the-eigenvalue-condition">Companion form and the eigenvalue condition</h2>
+<p>Checking <span class="math inline">\(p\)</span> polynomial roots by hand is awkward; the <strong>companion form</strong> turns the AR(<span class="math inline">\(p\)</span>) into a first-order vector recursion whose stability is an eigenvalue problem. Stack the last <span class="math inline">\(p\)</span> values,</p>
+<p><span class="math display">\[
+\mathbf Z_t=F\,\mathbf Z_{t-1}+v_t,
+\qquad
+\mathbf Z_t=\begin{bmatrix}X_t\\ X_{t-1}\\ \vdots\\ X_{t-p+1}\end{bmatrix},
+\quad
+F=\begin{bmatrix}
+\phi_1 &amp; \phi_2 &amp; \cdots &amp; \phi_{p-1} &amp; \phi_p\\
+1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; \cdots &amp; 0 &amp; 0\\
+\vdots &amp; &amp; \ddots &amp; &amp; \vdots\\
+0 &amp; 0 &amp; \cdots &amp; 1 &amp; 0
+\end{bmatrix},
+\quad
+v_t=\begin{bmatrix}\varepsilon_t\\0\\\vdots\\0\end{bmatrix}.
+\]</span></p>
+<p>The process is stationary iff <strong>all eigenvalues of <span class="math inline">\(F\)</span> lie inside the unit circle</strong>, <span class="math inline">\(|\lambda_i|&lt;1\)</span>. The eigenvalues of <span class="math inline">\(F\)</span> are exactly the <strong>reciprocals of the characteristic roots</strong>, so “eigenvalues inside” and “roots outside” are the same statement. This companion/eigenvalue formulation is what carries over directly to VARs and state-space models later in the course.</p>
+<div id="c536e757" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Two equivalent stationarity checks for AR(2) model A: (0.5, 0.25)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ar_A <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># (i) roots of 1 - phi1 z - phi2 z^2 : want modulus &gt; 1</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>roots_A <span class="ot">&lt;-</span> <span class="fu">polyroot</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span>ar_A[<span class="dv">1</span>], <span class="sc">-</span>ar_A[<span class="dv">2</span>]))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Characteristic roots:"</span>, <span class="fu">round</span>(roots_A, <span class="dv">3</span>), <span class="st">" | moduli:"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">Mod</span>(roots_A), <span class="dv">3</span>), <span class="st">"(outside unit circle)</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># (ii) eigenvalues of the companion matrix F : want modulus &lt; 1</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>F_A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(ar_A, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>eig_A <span class="ot">&lt;-</span> <span class="fu">eigen</span>(F_A)<span class="sc">$</span>values</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Companion eigenvalues:"</span>, <span class="fu">round</span>(eig_A, <span class="dv">3</span>), <span class="st">" | moduli:"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">Mod</span>(eig_A), <span class="dv">3</span>), <span class="st">"(inside unit circle)</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Reciprocal check 1/roots:"</span>, <span class="fu">round</span>(<span class="dv">1</span><span class="sc">/</span>roots_A, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">roots_plot</span>(roots_A, <span class="at">title =</span> <span class="st">"AR(2) model A: characteristic roots vs unit circle"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Characteristic roots: 1.236+0i -3.236+0i  | moduli: 1.236 3.236 (outside unit circle)
+Companion eigenvalues: 0.809 -0.309  | moduli: 0.809 0.309 (inside unit circle)
+Reciprocal check 1/roots: 0.809+0i -0.309+0i </code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>ERROR: Error in roots_plot(roots_A, title = "AR(2) model A: characteristic roots vs unit circle"): could not find function "roots_plot"
+
+Error in roots_plot(roots_A, title = "AR(2) model A: characteristic roots vs unit circle"): could not find function "roots_plot"
+Traceback:</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="the-partial-autocorrelation-function-pacf" class="level1">
+<h1>4&nbsp;&nbsp;The partial autocorrelation function (PACF)</h1>
+<p>For an AR(<span class="math inline">\(p\)</span>) the ACF decays and never cleanly signals the order <span class="math inline">\(p\)</span>. The <strong>partial autocorrelation function</strong> solves this. The <span class="math inline">\(j\)</span>-th partial autocorrelation is the correlation between <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_{t-j}\)</span> <strong>after removing</strong> the linear influence of the intervening lags:</p>
+<p><span class="math display">\[
+\phi_{jj}=\operatorname{Corr}\big(Y_t,\,Y_{t-j}\mid Y_{t-1},\ldots,Y_{t-j+1}\big).
+\]</span></p>
+<p>Operationally, run the sequence of regressions on mean-corrected data <span class="math inline">\(X_t=Y_t-\mu\)</span>,</p>
+<p><span class="math display">\[
+X_t=\phi_{11}X_{t-1}+e_t,
+\]</span> <span class="math display">\[
+X_t=\phi_{12}X_{t-1}+\phi_{22}X_{t-2}+e_t,
+\]</span> <span class="math display">\[
+X_t=\phi_{13}X_{t-1}+\phi_{23}X_{t-2}+\phi_{33}X_{t-3}+e_t,\ \ldots
+\]</span></p>
+<p>The last coefficient in each regression, <span class="math inline">\(\phi_{jj}\)</span>, is the <span class="math inline">\(j\)</span>-th PACF value: the <em>extra</em> explanatory power of <span class="math inline">\(Y_{t-j}\)</span> once all shorter lags are included.</p>
+<blockquote class="blockquote">
+<p><strong>The identification duality.</strong> For an <strong>AR(<span class="math inline">\(p\)</span>)</strong> the PACF <strong>cuts off after lag <span class="math inline">\(p\)</span></strong> while the ACF decays. For an <strong>MA(<span class="math inline">\(q\)</span>)</strong> it is the mirror image: the ACF cuts off after lag <span class="math inline">\(q\)</span> while the PACF decays. Reading the two together is the heart of Box–Jenkins identification.</p>
+</blockquote>
+<div id="5e01aba9" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ACF decays but PACF cuts off at the AR order: AR(1), AR(2), AR(4)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ar1 <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ar2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ar4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf_plot</span>(<span class="at">ar =</span> ar1, <span class="at">title =</span> <span class="st">"ACF: AR(1)"</span>),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf_plot</span>(<span class="at">ar =</span> ar2, <span class="at">title =</span> <span class="st">"ACF: AR(2)"</span>),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf_plot</span>(<span class="at">ar =</span> ar4, <span class="at">title =</span> <span class="st">"ACF: AR(4)"</span>),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pacf_plot</span>(<span class="at">ar =</span> ar1, <span class="at">title =</span> <span class="st">"PACF: AR(1) cuts off at 1"</span>),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pacf_plot</span>(<span class="at">ar =</span> ar2, <span class="at">title =</span> <span class="st">"PACF: AR(2) cuts off at 2"</span>),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pacf_plot</span>(<span class="at">ar =</span> ar4, <span class="at">title =</span> <span class="st">"PACF: AR(4) cuts off at 4"</span>),</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">3</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-08-Univariate-Time-Series-modelsII_files/figure-html/cell-10-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="population-versus-sample-correlogram" class="level3">
+<h3 class="anchored" data-anchor-id="population-versus-sample-correlogram">Population versus sample correlogram</h3>
+<p>Every ACF/PACF above is a <strong>population</strong> quantity computed from known coefficients. In practice we see only one realization and estimate a <strong>sample</strong> ACF/PACF, which fluctuates around the truth inside approximate <span class="math inline">\(\pm 2/\sqrt{T}\)</span> bands (dashed). The identification logic — “PACF cuts off at <span class="math inline">\(p\)</span>” — must be read through that sampling noise. (The formal sampling distributions and tests belong to the estimation lecture.)</p>
+<p><strong>Predict:</strong> for a simulated AR(2), roughly how many sample PACF spikes should clearly exceed the bands?</p>
+<div id="21be51ae" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical vs sample correlogram for one AR(2) realization</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>y_ar2 <span class="ot">&lt;-</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>)), <span class="at">n =</span> <span class="dv">250</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf_plot</span>(<span class="at">ar =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>), <span class="at">title =</span> <span class="st">"Population ACF: AR(2)"</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_acf_plot</span>(y_ar2,       <span class="at">title =</span> <span class="st">"Sample ACF (T = 250)"</span>),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pacf_plot</span>(<span class="at">ar =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>), <span class="at">title =</span> <span class="st">"Population PACF: AR(2)"</span>),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_pacf_plot</span>(y_ar2,      <span class="at">title =</span> <span class="st">"Sample PACF (T = 250)"</span>),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-08-Univariate-Time-Series-modelsII_files/figure-html/cell-11-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="invertibility-the-dual-of-stationarity" class="level1">
+<h1>5&nbsp;&nbsp;Invertibility: the dual of stationarity</h1>
+<p>Just as a stationary AR can be written as an MA(<span class="math inline">\(\infty\)</span>), an <strong>invertible MA</strong> can be written as an AR(<span class="math inline">\(\infty\)</span>). Invertibility is the condition that makes the innovation recoverable from current and past <em>observations</em> — indispensable for forecasting and for a unique parameterisation (recall the MA(1) <span class="math inline">\(\theta\)</span> vs <span class="math inline">\(1/\theta\)</span> ambiguity from Lecture 5).</p>
+<p>For an MA(1),</p>
+<p><span class="math display">\[
+Y_t-\mu=(1+\beta L)\varepsilon_t
+\quad\Longrightarrow\quad
+\varepsilon_t=(1+\beta L)^{-1}(Y_t-\mu)=\sum_{j=0}^{\infty}(-\beta)^{\,j}(Y_{t-j}-\mu),
+\]</span></p>
+<p>which converges iff <span class="math inline">\(|\beta|&lt;1\)</span>, i.e.&nbsp;the root of <span class="math inline">\(1+\beta z=0\)</span> lies outside the unit circle. More generally an MA(<span class="math inline">\(q\)</span>) is invertible iff every root of</p>
+<p><span class="math display">\[
+1+\beta_1 z+\cdots+\beta_q z^q=0
+\]</span></p>
+<p>lies outside the unit circle.</p>
+<p>This is the exact mirror of the AR stationarity condition: <strong>stationarity constrains the AR roots, invertibility constrains the MA roots.</strong></p>
+<div id="f5c88d94" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Invertibility of an MA(2): Y_t = eps_t + 1.0 eps_{t-1} + 0.7 eps_{t-2}</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ma_roots <span class="ot">&lt;-</span> <span class="fu">polyroot</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.0</span>, <span class="fl">0.7</span>))     <span class="co"># 1 + 1.0 z + 0.7 z^2</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"MA(2) roots:"</span>, <span class="fu">round</span>(ma_roots, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"moduli     :"</span>, <span class="fu">round</span>(<span class="fu">Mod</span>(ma_roots), <span class="dv">3</span>), <span class="st">" -&gt; all &gt; 1, so invertible</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>MA(2) roots: -0.714+0.958i -0.714-0.958i 
+moduli     : 1.195 1.195  -&gt; all &gt; 1, so invertible</code></pre>
+</div>
+</div>
+<section id="two-invertible-ma2-processes-acf-cuts-off-pacf-decays" class="level3">
+<h3 class="anchored" data-anchor-id="two-invertible-ma2-processes-acf-cuts-off-pacf-decays">Two invertible MA(2) processes: ACF cuts off, PACF decays</h3>
+<p><span class="math display">\[
+Y_{1t}=2+\varepsilon_t+1.0\,\varepsilon_{t-1}+0.7\,\varepsilon_{t-2},
+\qquad
+Y_{2t}=2+\varepsilon_t-1.2\,\varepsilon_{t-1}+0.25\,\varepsilon_{t-2}.
+\]</span></p>
+<p><strong>Predict:</strong> the ACF should cut off after lag 2 for both. The PACF should <em>decay</em> (monotone or oscillatory depending on the MA roots) rather than cut off — the reverse of the AR pattern.</p>
+<div id="9712dea1" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Two MA(2) processes: realizations, ACF (cuts off at 2), PACF (decays)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>ma_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.0</span>, <span class="fl">0.7</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>ma_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.2</span>, <span class="fl">0.25</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>s1 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ma =</span> ma_1), <span class="at">n =</span> n)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ma =</span> ma_2), <span class="at">n =</span> n)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ts_plot</span>(s1, <span class="at">mu =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">"MA(2): theta = (1.0, 0.7)"</span>),</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ts_plot</span>(s2, <span class="at">mu =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">"MA(2): theta = (-1.2, 0.25)"</span>),</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf_plot</span>(<span class="at">ma =</span> ma_1, <span class="at">title =</span> <span class="st">"ACF: cuts off after lag 2"</span>),</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf_plot</span>(<span class="at">ma =</span> ma_2, <span class="at">title =</span> <span class="st">"ACF: cuts off after lag 2"</span>),</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pacf_plot</span>(<span class="at">ma =</span> ma_1, <span class="at">title =</span> <span class="st">"PACF: decays"</span>),</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pacf_plot</span>(<span class="at">ma =</span> ma_2, <span class="at">title =</span> <span class="st">"PACF: decays"</span>),</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-08-Univariate-Time-Series-modelsII_files/figure-html/cell-13-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="the-armapq-process" class="level1">
+<h1>6&nbsp;&nbsp;The ARMA(<span class="math inline">\(p,q\)</span>) process</h1>
+<p>Combining the two components,</p>
+<p><span class="math display">\[
+Y_t=c+\phi_1 Y_{t-1}+\cdots+\phi_p Y_{t-p}
++\varepsilon_t+\beta_1\varepsilon_{t-1}+\cdots+\beta_q\varepsilon_{t-q},
+\]</span></p>
+<p>or in lag-operator form</p>
+<p><span class="math display">\[
+\phi(L)\,Y_t=c+\beta(L)\,\varepsilon_t,
+\qquad
+\phi(L)=1-\phi_1 L-\cdots-\phi_p L^p,
+\quad
+\beta(L)=1+\beta_1 L+\cdots+\beta_q L^q.
+\]</span></p>
+<p>Two separate conditions govern its behaviour:</p>
+<ul>
+<li><strong>stationarity</strong> depends only on the <strong>AR</strong> polynomial <span class="math inline">\(\phi(L)\)</span> (roots outside the unit circle);</li>
+<li><strong>invertibility</strong> depends only on the <strong>MA</strong> polynomial <span class="math inline">\(\beta(L)\)</span> (roots outside the unit circle).</li>
+</ul>
+<p>When stationary, the Wold representation is <span class="math inline">\(Y_t=\phi(L)^{-1}c+\dfrac{\beta(L)}{\phi(L)}\varepsilon_t\)</span>.</p>
+<section id="moments-and-the-arma11-example" class="level2">
+<h2 class="anchored" data-anchor-id="moments-and-the-arma11-example">Moments and the ARMA(1,1) example</h2>
+<p><span class="math display">\[
+\mu=\frac{c}{1-\phi_1-\cdots-\phi_p},
+\qquad
+\gamma_j=\phi_1\gamma_{j-1}+\cdots+\phi_p\gamma_{j-p}\ \ \text{for }j\ge q+1,
+\]</span></p>
+<p>so the ACF obeys the pure-AR recursion once past lag <span class="math inline">\(q\)</span>. For lags <span class="math inline">\(j\le q\)</span> the MA terms contribute extra covariance. For the ARMA(1,1),</p>
+<p><span class="math display">\[
+Y_t=c+\phi Y_{t-1}+\varepsilon_t+\beta\varepsilon_{t-1},
+\]</span></p>
+<p><span class="math display">\[
+\mu=\frac{c}{1-\phi},
+\qquad
+\gamma_0=\frac{1+2\phi\beta+\beta^2}{1-\phi^2}\,\sigma^2,
+\qquad
+\gamma_1=\frac{(1+\phi\beta)(\phi+\beta)}{1-\phi^2}\,\sigma^2,
+\]</span></p>
+<p><span class="math display">\[
+\rho_1=\frac{(1+\phi\beta)(\phi+\beta)}{1+2\phi\beta+\beta^2},
+\qquad
+\rho_j=\phi\,\rho_{j-1}\ \ (j\ge2).
+\]</span></p>
+<p>The ACF decays geometrically at rate <span class="math inline">\(\phi\)</span> after lag 1, but the first-lag value blends both the AR and MA parameters.</p>
+<section id="parameter-redundancy-common-factors" class="level3">
+<h3 class="anchored" data-anchor-id="parameter-redundancy-common-factors">Parameter redundancy (common factors)</h3>
+<p>ARMA models are only identified if <span class="math inline">\(\phi(L)\)</span> and <span class="math inline">\(\beta(L)\)</span> share <strong>no common root</strong>. If they do, the common factor cancels and the model is over-parameterised. For example,</p>
+<p><span class="math display">\[
+(1-0.5L)\,Y_t=(1-0.5L)\,\varepsilon_t
+\quad\Longrightarrow\quad
+Y_t=\varepsilon_t,
+\]</span></p>
+<p>an “ARMA(1,1)” that is really white noise. This is why parsimony matters: before trusting an estimated ARMA(<span class="math inline">\(p,q\)</span>), check that the AR and MA roots are not (nearly) cancelling. Near-common factors show up in practice as unstable estimates and are a standard reason to prefer a smaller model.</p>
+</section>
+<section id="simulation-an-arma22" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-an-arma22">Simulation: an ARMA(2,2)</h3>
+<p><span class="math display">\[
+Y_t=-0.6Y_{t-1}+0.2Y_{t-2}
++\varepsilon_t-1.2\varepsilon_{t-1}+0.25\varepsilon_{t-2}.
+\]</span></p>
+<p>The AR coefficients reuse model <strong>D</strong> (stationary) and the MA coefficients reuse the second MA(2) above (invertible), so the process is both stationary and invertible. <strong>Predict:</strong> with <span class="math inline">\(p&gt;0\)</span> and <span class="math inline">\(q&gt;0\)</span>, <em>neither</em> the ACF nor the PACF should cut off cleanly — both decay.</p>
+<div id="27d106e0" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ARMA(2,2): stationary AR part (D) + invertible MA part</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>ar_arma <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.6</span>, <span class="fl">0.2</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>ma_arma <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.2</span>, <span class="fl">0.25</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>y_arma <span class="ot">&lt;-</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> ar_arma, <span class="at">ma =</span> ma_arma), <span class="at">n =</span> <span class="dv">250</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ts_plot</span>(y_arma, <span class="at">title =</span> <span class="st">"ARMA(2,2) realization"</span>),</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf_plot</span>(<span class="at">ar =</span> ar_arma, <span class="at">ma =</span> ma_arma, <span class="at">title =</span> <span class="st">"ACF: decays (no clean cut-off)"</span>),</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pacf_plot</span>(<span class="at">ar =</span> ar_arma, <span class="at">ma =</span> ma_arma, <span class="at">title =</span> <span class="st">"PACF: decays (no clean cut-off)"</span>),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">1</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-08-Univariate-Time-Series-modelsII_files/figure-html/cell-14-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="identifying-a-model-from-the-acf-and-pacf" class="level1">
+<h1>7&nbsp;&nbsp;Identifying a model from the ACF and PACF</h1>
+<p>The ACF and PACF together fingerprint the model class. This table is the practical payoff of the whole lecture.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Process</th>
+<th>ACF</th>
+<th>PACF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>White noise</strong></td>
+<td>zero at all lags <span class="math inline">\(&gt;0\)</span></td>
+<td>zero at all lags <span class="math inline">\(&gt;0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>AR(<span class="math inline">\(p\)</span>)</strong></td>
+<td>decays (monotone or oscillatory)</td>
+<td><strong>cuts off after lag <span class="math inline">\(p\)</span></strong></td>
+</tr>
+<tr class="odd">
+<td><strong>MA(<span class="math inline">\(q\)</span>)</strong></td>
+<td><strong>cuts off after lag <span class="math inline">\(q\)</span></strong></td>
+<td>decays (monotone or oscillatory)</td>
+</tr>
+<tr class="even">
+<td><strong>ARMA(<span class="math inline">\(p,q\)</span>)</strong></td>
+<td>decays after lag <span class="math inline">\(q\)</span></td>
+<td>decays after lag <span class="math inline">\(p\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sign patterns worth remembering</strong></p>
+<ul>
+<li>AR(1), <span class="math inline">\(\phi&gt;0\)</span>: ACF is positive geometric decay; <span class="math inline">\(\phi&lt;0\)</span>: ACF alternates sign. PACF is a single spike <span class="math inline">\(\phi_{11}=\phi\)</span>.</li>
+<li>MA(1), <span class="math inline">\(\beta&gt;0\)</span>: single positive ACF spike at lag 1; <span class="math inline">\(\beta&lt;0\)</span>: single negative spike. PACF decays.</li>
+<li>ARMA(1,1): geometric ACF decay after lag 1 with <span class="math inline">\(\operatorname{sign}(\rho_1)=\operatorname{sign}(\phi+\beta)\)</span>; PACF decays after lag 1.</li>
+</ul>
+<p>Read together with the caveat from Section 4: with real data these patterns are seen through sampling noise, so identification narrows the field to a few candidate <span class="math inline">\((p,q)\)</span> rather than pinning down one — the remaining choice is settled by estimation and diagnostics in the next lecture.</p>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key takeaways</h2>
+<p>You should now be able to:</p>
+<ul>
+<li>solve an AR(1) and read persistence off the impulse response <span class="math inline">\(\psi_j=\phi^{\,j}\)</span>, the half-life, and the long-run effect <span class="math inline">\(1/(1-\phi)\)</span>;</li>
+<li>state stationarity through the characteristic roots (outside the unit circle) and recover the Wold / MA(<span class="math inline">\(\infty\)</span>) form;</li>
+<li>compute AR(2) moments via Yule–Walker, place a model in the stationarity triangle, and explain how complex roots produce damped cycles of period <span class="math inline">\(2\pi/\arccos\!\big(\phi_1/2\sqrt{-\phi_2}\big)\)</span>;</li>
+<li>write an AR(<span class="math inline">\(p\)</span>) in companion form and check stationarity through the eigenvalues of <span class="math inline">\(F\)</span>;</li>
+<li>define the PACF and use the ACF/PACF duality (AR: PACF cuts off; MA: ACF cuts off) to identify order;</li>
+<li>explain invertibility as the MA-side mirror of stationarity;</li>
+<li>describe ARMA(<span class="math inline">\(p,q\)</span>) moments and ACF/PACF behaviour, and recognise parameter redundancy from common AR/MA roots.</li>
+</ul>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<section id="exercise-1-ar1-moments-and-persistence" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1-ar1-moments-and-persistence">Exercise 1 — AR(1) moments and persistence</h3>
+<p>For <span class="math inline">\(Y_t=1+0.6Y_{t-1}+\varepsilon_t\)</span> with <span class="math inline">\(\varepsilon_t\sim WN(0,\,4)\)</span>, find <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\gamma_0\)</span>, <span class="math inline">\(\rho_1\)</span>, <span class="math inline">\(\rho_2\)</span>, the long-run effect of a unit shock, and the half-life. Sketch the ACF.</p>
+</section>
+<section id="exercise-2-stationarity-from-roots" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2-stationarity-from-roots">Exercise 2 — Stationarity from roots</h3>
+<p>For each process, write the characteristic polynomial, find its roots, and decide whether it is stationary: <span class="math display">\[
+Y_t=1.2Y_{t-1}-0.32Y_{t-2}+\varepsilon_t,
+\qquad
+Y_t=0.6Y_{t-1}+0.5Y_{t-2}+\varepsilon_t.
+\]</span></p>
+</section>
+<section id="exercise-3-the-stationarity-triangle" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3-the-stationarity-triangle">Exercise 3 — The stationarity triangle</h3>
+<p>Using the conditions <span class="math inline">\(\phi_1+\phi_2&lt;1\)</span>, <span class="math inline">\(\phi_2-\phi_1&lt;1\)</span>, <span class="math inline">\(-1&lt;\phi_2&lt;1\)</span>, decide which of <span class="math inline">\((\phi_1,\phi_2)=(0.8,0.1)\)</span>, <span class="math inline">\((1.4,-0.5)\)</span>, <span class="math inline">\((0.3,0.8)\)</span> are stationary. For the stationary ones, which have complex roots?</p>
+</section>
+<section id="exercise-4-cycles-from-complex-roots" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4-cycles-from-complex-roots">Exercise 4 — Cycles from complex roots</h3>
+<p>For <span class="math inline">\(Y_t=1.5Y_{t-1}-0.75Y_{t-2}+\varepsilon_t\)</span>, verify the roots are complex and show the implied cycle period is 12. What happens to the cycle’s amplitude over time, and why?</p>
+</section>
+<section id="exercise-5-acf-and-pacf-signatures" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5-acf-and-pacf-signatures">Exercise 5 — ACF and PACF signatures</h3>
+<p>Without computing anything, state whether the ACF and the PACF cut off or decay for: (a) MA(2); (b) AR(3); (c) ARMA(1,2); (d) white noise. Which pair of tools identifies each order?</p>
+</section>
+<section id="exercise-6-invertibility" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-6-invertibility">Exercise 6 — Invertibility</h3>
+<p>Show that <span class="math inline">\(\beta=0.5\)</span> and <span class="math inline">\(\beta=2\)</span> (with suitable innovation variances) give the same MA(1) ACF. Which is invertible? Write the invertible one as an AR(<span class="math inline">\(\infty\)</span>).</p>
+</section>
+<section id="exercise-7-parameter-redundancy" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-7-parameter-redundancy">Exercise 7 — Parameter redundancy</h3>
+<p>Show that <span class="math inline">\((1-0.7L)Y_t=(1-0.7L)\varepsilon_t\)</span> collapses to white noise. Why does this make the ARMA(1,1) parameters unidentified, and how would you spot the problem from estimated AR and MA roots?</p>
+</section>
+<section id="exercise-8-companion-form" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8-companion-form">Exercise 8 — Companion form</h3>
+<p>Write the companion matrix <span class="math inline">\(F\)</span> for <span class="math inline">\(Y_t=0.9Y_{t-1}-0.2Y_{t-2}+\varepsilon_t\)</span>, find its eigenvalues, and confirm they are the reciprocals of the characteristic roots and lie inside the unit circle.</p>
+</section>
+</section>
+<section id="suggested-reading" class="level2">
+<h2 class="anchored" data-anchor-id="suggested-reading">Suggested reading</h2>
+<ul>
+<li>Hamilton, J. D. (1994), <em>Time Series Analysis</em>, Chapters 1–3 (difference equations, lag operators, stationary ARMA processes and their moments; companion form).</li>
+<li>Brockwell, P. J. and Davis, R. A., <em>Introduction to Time Series and Forecasting</em>, chapters on ARMA models, ACF/PACF, and invertibility.</li>
+<li>Enders, W., <em>Applied Econometric Time Series</em>, chapter on stationary ARMA models and Box–Jenkins identification.</li>
+<li>Hyndman, R. J. and Athanasopoulos, G., <em>Forecasting: Principles and Practice</em>, chapters on autoregressive, moving-average, and ARIMA models for a computational treatment.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/sunilpaul29\.github\.io\/HS821\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html" class="pagination-link" aria-label="Univariate-Time-Series-models I">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Univariate-Time-Series-models I</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../Slides/00-course-introduction.html" class="pagination-link" aria-label="Course introduction">
+        <span class="nav-page-text">Course introduction</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>HS 821: Topics in Time Series Econometrics</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Moodle remains the official course platform.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

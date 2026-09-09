@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Slides/00-course-introduction.html" rel="next">
+<link href="../Notebooks/07-08-Univariate-Time-Series-modelsII.html" rel="next">
 <link href="../Notebooks/04-Review-stats2.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -185,7 +185,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/05-Univariate-Time-Series-modelsI.html">Univariate timeseris models</a></li><li class="breadcrumb-item"><a href="../Notebooks/05-Univariate-Time-Series-modelsI.html">Univariate-Time-Series-models I</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html">Univariate timeseris models</a></li><li class="breadcrumb-item"><a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html">Univariate-Time-Series-models I</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -257,8 +257,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Notebooks/05-Univariate-Time-Series-modelsI.html" class="sidebar-item-text sidebar-link active">
+  <a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Univariate-Time-Series-models I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/07-08-Univariate-Time-Series-modelsII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models II</span></a>
   </div>
 </li>
       </ul>
@@ -298,8 +304,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Slides/05-Univariate-Time-Series-modelsI.html" class="sidebar-item-text sidebar-link">
+  <a href="../Slides/05-06-Univariate-Time-Series-modelsI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Univariate-Time-Series-models I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/07-08-Univariate-Time-Series-modelsII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models II</span></a>
   </div>
 </li>
       </ul>
@@ -397,7 +409,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/05-Univariate-Time-Series-modelsI.html">Univariate timeseris models</a></li><li class="breadcrumb-item"><a href="../Notebooks/05-Univariate-Time-Series-modelsI.html">Univariate-Time-Series-models I</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html">Univariate timeseris models</a></li><li class="breadcrumb-item"><a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html">Univariate-Time-Series-models I</a></li></ol></nav>
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Univariate Time Series Models I</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
 </div>
@@ -553,7 +565,7 @@ Y_t=t\varepsilon_t.
 <li>Is the variance constant?</li>
 <li>If not stationary, <strong>which condition fails?</strong></li>
 </ul>
-<div id="a4809e59" class="cell" data-execution_count="10">
+<div id="a4809e59" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------</span></span>
@@ -620,7 +632,7 @@ Y_t=t\varepsilon_t.
 <span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="d76e908c" class="cell" data-execution_count="11">
+<div id="d76e908c" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate four processes</span></span>
@@ -645,7 +657,7 @@ Y_t=t\varepsilon_t.
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-3-output-1.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-3-output-1.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -714,7 +726,7 @@ E(Y_t)=0,\qquad E(Y_t^2)=1,\qquad \gamma_1=0.
 \]</span></p>
 <p>We track three time averages at once: the running mean, the running second moment, and the running lag-1 product. These are the sample analogues of the three ensemble quantities above.</p>
 <p><strong>Predict before running:</strong> as the realization becomes longer, what should each of the three running quantities approach?</p>
-<div id="af57d78f" class="cell" data-execution_count="12">
+<div id="af57d78f" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ergodic white noise: running mean, second moment, and lag-1 product</span></span>
@@ -757,7 +769,7 @@ E(Y_t)=0,\qquad E(Y_t^2)=1,\qquad \gamma_1=0.
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-4-output-2.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-4-output-2.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -786,7 +798,7 @@ E(Y_t)=0,\qquad \operatorname{Var}(Y_t)=1,\qquad \gamma_1=0.8.
 \]</span></p>
 <p>The process is serially dependent but ergodic.</p>
 <p><strong>Predict:</strong> should the running mean converge to zero? What should the running lag-1 product approach?</p>
-<div id="a88f00ce" class="cell" data-execution_count="13">
+<div id="a88f00ce" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stationary and dependent, yet ergodic: AR(1)</span></span>
@@ -832,7 +844,7 @@ E(Y_t)=0,\qquad \operatorname{Var}(Y_t)=1,\qquad \gamma_1=0.8.
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-5-output-2.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-5-output-2.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -878,7 +890,7 @@ E(Y_t)=0,
 \frac{1}{T-1}\sum_{t=2}^{T}Y_t Y_{t-1} \to A^2,
 \]</span></p>
 <p>rather than the ensemble values <span class="math inline">\(0\)</span>, <span class="math inline">\(2\)</span>, and <span class="math inline">\(1\)</span>. The three running diagnostics below therefore settle on <strong>realization-specific</strong> limits (dashed), not the ensemble values (dotted).</p>
-<div id="33fd08f9" class="cell" data-execution_count="14">
+<div id="33fd08f9" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stationary but non-ergodic: a permanent random component</span></span>
@@ -940,7 +952,7 @@ E(Y_t)=0,
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-6-output-3.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-6-output-3.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -970,7 +982,7 @@ E(Y_t)=0,
 <li>For <span class="math inline">\(Y_t=A+\varepsilon_t\)</span>, transitory noise averages out, but the realization-specific component <span class="math inline">\(A\)</span> remains.</li>
 </ul>
 <p>Predict what should happen before running the simulation.</p>
-<div id="7d146d4f" class="cell" data-execution_count="15">
+<div id="7d146d4f" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Many realizations: does increasing T make the time average concentrate?</span></span>
@@ -1026,7 +1038,7 @@ E(Y_t)=0,
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-7-output-1.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-7-output-1.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1066,7 +1078,7 @@ E[W_t] = (1.05)^t W_0,
 <p>so a <strong>typical path shrinks about 5% per period</strong> and <span class="math inline">\(W_t \to 0\)</span> almost surely.</p>
 <p>The expectation (across parallel worlds) and the growth actually <em>experienced</em> along one path point in <strong>opposite directions</strong>. Because a real investor lives one path, the time average — not the expectation — is the decision-relevant number. This is exactly why compounded (geometric) returns, “volatility drag,” and the Kelly criterion matter, and why judging a repeated financial gamble by its expected value alone is misleading.</p>
 <p><strong>Predict before running:</strong> as <span class="math inline">\(t\)</span> grows, what happens to (i) the average wealth across many gamblers, and (ii) the wealth of the <em>typical</em> gambler?</p>
-<div id="c49a4865" class="cell" data-execution_count="16">
+<div id="c49a4865" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplicative bet: ensemble average rises while the typical path collapses</span></span>
@@ -1113,7 +1125,7 @@ Time-average growth/period : 0.949  (geometric mean)</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-8-output-2.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-8-output-2.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1222,7 +1234,7 @@ E(\varepsilon_t)=0,
 <p>but a finite sample will almost never produce sample autocorrelations that are exactly zero.</p>
 <p>The simulation below compares realizations of length <span class="math inline">\(T=100\)</span> and <span class="math inline">\(T=1000\)</span>.</p>
 <p><strong>Predict:</strong> which sample ACF should lie more tightly around zero?</p>
-<div id="1786e93e" class="cell" data-execution_count="18">
+<div id="1786e93e" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Population ACF versus sample ACF for white noise</span></span>
@@ -1275,7 +1287,7 @@ E(\varepsilon_t)=0,
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-9-output-1.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-9-output-1.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1319,7 +1331,7 @@ Y_t=\sum_{i=1}^{t}X_i,
 \operatorname{Var}(Y_t)=t.
 \]</span></p>
 <p>The shocks are stationary; their accumulation is not.</p>
-<div id="0bf0f2a0" class="cell" data-execution_count="19">
+<div id="0bf0f2a0" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same shocks, very different time-series properties</span></span>
@@ -1338,7 +1350,7 @@ Y_t=\sum_{i=1}^{t}X_i,
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-10-output-1.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-10-output-1.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1471,15 +1483,15 @@ c+\phi_1Y_{t-1}+\cdots+\phi_pY_{t-p}+\varepsilon_t.
 <p><strong>MA(<span class="math inline">\(q\)</span>):</strong> <span class="math display">\[
 Y_t
 =
-\mu+\varepsilon_t+\theta_1\varepsilon_{t-1}
-+\cdots+\theta_q\varepsilon_{t-q}.
+\mu+\varepsilon_t+\beta_1\varepsilon_{t-1}
++\cdots+\beta_q\varepsilon_{t-q}.
 \]</span></p>
 <p><strong>ARMA(<span class="math inline">\(p,q\)</span>):</strong> <span class="math display">\[
 Y_t
 =
 c+\phi_1Y_{t-1}+\cdots+\phi_pY_{t-p}
-+\varepsilon_t+\theta_1\varepsilon_{t-1}
-+\cdots+\theta_q\varepsilon_{t-q}.
++\varepsilon_t+\beta_1\varepsilon_{t-1}
++\cdots+\beta_q\varepsilon_{t-q}.
 \]</span></p>
 <p>This lecture concentrates on <strong>MA processes</strong>. Their finite-order stationarity is automatic when the innovations are white noise with finite variance. AR and ARMA properties follow in subsequent lectures.</p>
 </section>
@@ -1492,7 +1504,7 @@ c+\phi_1Y_{t-1}+\cdots+\phi_pY_{t-p}
 <p><span class="math display">\[
 Y_t
 =
-\mu+\varepsilon_t+\theta\varepsilon_{t-1},
+\mu+\varepsilon_t+\beta\varepsilon_{t-1},
 \qquad
 \varepsilon_t\sim WN(0,\sigma^2).
 \]</span></p>
@@ -1504,8 +1516,8 @@ E(Y_t)=\mu.
 <p><span class="math display">\[
 \gamma_h=
 \begin{cases}
-(1+\theta^2)\sigma^2, &amp; h=0,\\[4pt]
-\theta\sigma^2, &amp; |h|=1,\\[4pt]
+(1+\beta^2)\sigma^2, &amp; h=0,\\[4pt]
+\beta\sigma^2, &amp; |h|=1,\\[4pt]
 0, &amp; |h|&gt;1.
 \end{cases}
 \]</span></p>
@@ -1521,9 +1533,9 @@ E(Y_t)=\mu.
 <h3 class="anchored" data-anchor-id="properties-of-an-ma1">Properties of an MA(1)</h3>
 <ul>
 <li>The theoretical ACF <strong>cuts off after lag 1</strong>.</li>
-<li>The sign of <span class="math inline">\(\rho_1\)</span> is the sign of <span class="math inline">\(\theta\)</span>.</li>
+<li>The sign of <span class="math inline">\(\rho_1\)</span> is the sign of <span class="math inline">\(\beta\)</span>.</li>
 <li>Since <span class="math display">\[
-\left|\frac{\theta}{1+\theta^2}\right|\le\frac12,
+\left|\frac{\beta}{1+\theta^2}\right|\le\frac12,
 \]</span> an MA(1) can never have <span class="math inline">\(|\rho_1|&gt;0.5\)</span>.</li>
 </ul>
 </section>
@@ -1544,7 +1556,7 @@ Y_t=2+\varepsilon_t-0.8\varepsilon_{t-1}.
 <li>At which lag must the theoretical ACF become exactly zero?</li>
 <li>Will the two simulated paths necessarily look obviously different?</li>
 </ol>
-<div id="4db1277f" class="cell" data-execution_count="20">
+<div id="4db1277f" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulated realizations and theoretical ACFs of two MA(1) processes</span></span>
@@ -1566,7 +1578,7 @@ Y_t=2+\varepsilon_t-0.8\varepsilon_{t-1}.
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-11-output-1.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-11-output-1.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1598,7 +1610,7 @@ Y_t=2+\varepsilon_t-0.8\varepsilon_{t-1}.
 <p><span class="math display">\[
 Y_t
 =
-\mu+\sum_{j=0}^{q}\theta_j\varepsilon_{t-j},
+\mu+\sum_{j=0}^{q}\beta_j\varepsilon_{t-j},
 \qquad
 \theta_0=1,
 \qquad
@@ -1610,7 +1622,7 @@ Y_t
 =
 \sigma^2
 \sum_{j=0}^{q-h}
-\theta_j\theta_{j+h},
+\beta_j\beta_{j+h},
 \]</span></p>
 <p>while</p>
 <p><span class="math display">\[
@@ -1653,10 +1665,10 @@ Y_{2t}
 \gamma_h
 =
 \sigma^2\sum_{j=0}^{q-h}
-\theta_j\theta_{j+h}
+\beta_j\beta_{j+h}
 \]</span></p>
 <p>to answer before checking the graph.</p>
-<div id="3490e1f6" class="cell" data-execution_count="21">
+<div id="3490e1f6" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Two MA(2) processes: realizations and theoretical ACFs</span></span>
@@ -1680,18 +1692,18 @@ Y_{2t}
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-12-output-1.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-12-output-1.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>For the first MA(2), using <span class="math inline">\(\gamma_h=\sigma^2\sum_{j=0}^{q-h}\theta_j\theta_{j+h}\)</span> with <span class="math inline">\(\theta_0=1\)</span>,</p>
+<p>For the first MA(2), using <span class="math inline">\(\gamma_h=\sigma^2\sum_{j=0}^{q-h}\beta_j\beta_{j+h}\)</span> with <span class="math inline">\(\beta_0=1\)</span>,</p>
 <p><span class="math display">\[
 \gamma_1
 =
-\sigma^2(\theta_0\theta_1+\theta_1\theta_2)
+\sigma^2(\beta_0\beta_1+\beta_1\beta_2)
 =
-\sigma^2(\theta_1+\theta_1\theta_2)
+\sigma^2(\beta_1+\beta_1\beta_2)
 =
 1.7\,\sigma^2,
 \]</span></p>
@@ -1699,7 +1711,7 @@ Y_{2t}
 <p><span class="math display">\[
 \gamma_2
 =
-\sigma^2\,\theta_0\theta_2
+\sigma^2\,\beta_0\beta_2
 =
 0.7\,\sigma^2.
 \]</span></p>
@@ -1707,7 +1719,7 @@ Y_{2t}
 <p><span class="math display">\[
 \gamma_1
 =
-\sigma^2\big[\theta_0\theta_1+\theta_1\theta_2\big]
+\sigma^2\big[\beta_0\beta_1+\beta_1\beta_2\big]
 =
 \sigma^2\big[-1.2+(-1.2)(0.25)\big]
 =
@@ -1717,11 +1729,11 @@ Y_{2t}
 <p><span class="math display">\[
 \gamma_2
 =
-\sigma^2\,\theta_0\theta_2
+\sigma^2\,\beta_0\beta_2
 =
 0.25\,\sigma^2.
 \]</span></p>
-<p>Thus an MA(2) can display autocorrelations of different signs at lags 1 and 2. In both processes the theoretical ACF is exactly zero for <span class="math inline">\(h&gt;2\)</span>.</p>
+<p>Thus an MA(2) can display autocorrelations of different signs at lags 1 and 2. In both processes, the theoretical ACF is exactly zero for <span class="math inline">\(h&gt;2\)</span>.</p>
 </section>
 </section>
 <section id="invertibility" class="level2">
@@ -1729,11 +1741,11 @@ Y_{2t}
 <p>Every finite MA process is covariance stationary, but different MA parameterizations can generate the same autocovariance structure.</p>
 <p>For an MA(1),</p>
 <p><span class="math display">\[
-\rho_1=\frac{\theta}{1+\theta^2},
+\rho_1=\frac{\beta}{1+\beta^2},
 \]</span></p>
-<p>so <span class="math inline">\(\theta\)</span> and <span class="math inline">\(1/\theta\)</span> produce the same <span class="math inline">\(\rho_1\)</span>. For example,</p>
+<p>so <span class="math inline">\(\beta\)</span> and <span class="math inline">\(1/\beta\)</span> produce the same <span class="math inline">\(\rho_1\)</span>. For example,</p>
 <p><span class="math display">\[
-\theta=0.5
+\beta=0.5
 \qquad\text{and}\qquad
 \theta=2
 \]</span></p>
@@ -1742,19 +1754,17 @@ Y_{2t}
 <p><strong>Invertibility</strong> selects the representation in which the innovation can be recovered as a convergent function of current and past observations.</p>
 <p>For</p>
 <p><span class="math display">\[
-Y_t-\mu=(1+\theta L)\varepsilon_t,
+Y_t-\mu=(1+\beta L)\varepsilon_t,
 \]</span></p>
 <p>formally,</p>
 <p><span class="math display">\[
 \varepsilon_t
-=
-(1+\theta L)^{-1}(Y_t-\mu)
-=
-\left(1-\theta L+\theta^2L^2-\cdots\right)(Y_t-\mu).
+= (1+\beta L)^{-1}(Y_t-\mu)
+= \left(1-\beta L+\beta^2L^2-\cdots\right)(Y_t-\mu).
 \]</span></p>
-<p>This expansion converges when <span class="math inline">\(|\theta|&lt;1\)</span>.</p>
+<p>This expansion converges when <span class="math inline">\(|\beta|&lt;1\)</span>.</p>
 <p>Thus invertibility concerns the <strong>uniqueness and recoverability of the innovation representation</strong>; it is not a stationarity condition for an MA process.</p>
-<div id="60c3109c" class="cell" data-execution_count="22">
+<div id="60c3109c" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same MA(1) autocovariance structure, different parameterizations</span></span>
@@ -1818,31 +1828,30 @@ Y_t-\mu=(1+\theta L)\varepsilon_t,
 <p>For</p>
 <p><span class="math display">\[
 Y_t-\mu
-=
-(1+\theta L)\varepsilon_t,
+= (1+\beta L)\varepsilon_t,
 \]</span></p>
 <p>invertibility requires the root of</p>
 <p><span class="math display">\[
-1+\theta z=0
+1+\beta z=0
 \]</span></p>
 <p>to lie <strong>outside the unit circle</strong>.</p>
 <p>The root is</p>
 <p><span class="math display">\[
-z=-\frac{1}{\theta},
+z=-\frac{1}{\beta},
 \]</span></p>
 <p>so for an MA(1),</p>
 <p><span class="math display">\[
-|\theta|&lt;1.
+|\beta|&lt;1.
 \]</span></p>
 <p>More generally, an MA(<span class="math inline">\(q\)</span>) process is invertible when every root of</p>
 <p><span class="math display">\[
-1+\theta_1z+\cdots+\theta_qz^q=0
+1+\beta_1z+\cdots+\beta_qz^q=0
 \]</span></p>
 <p>lies outside the unit circle.</p>
 <blockquote class="blockquote">
 <p>A coefficient larger than one does not, by itself, determine invertibility for an MA(2) or higher-order process. The condition applies to the <strong>roots of the complete lag polynomial</strong>.</p>
 </blockquote>
-<div id="56dd14e9" class="cell" data-execution_count="23">
+<div id="56dd14e9" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show R code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check invertibility of the two MA(2) examples</span></span>
@@ -1859,63 +1868,21 @@ z=-\frac{1}{\theta},
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ma_roots</span>(ma21)</span>
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ma_roots</span>(ma22)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display">
-<table class="dataframe caption-top table table-sm table-striped small">
-<caption>A data.frame: 2 × 3</caption>
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" scope="col">root</th>
-<th data-quarto-table-cell-role="th" scope="col">modulus</th>
-<th data-quarto-table-cell-role="th" scope="col">outside_unit_circle</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th" scope="col">&lt;cpl&gt;</th>
-<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
-<th data-quarto-table-cell-role="th" scope="col">&lt;lgl&gt;</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>-0.7142857+0.9583148i</td>
-<td>1.195229</td>
-<td>TRUE</td>
-</tr>
-<tr class="even">
-<td>-0.7142857-0.9583148i</td>
-<td>1.195229</td>
-<td>TRUE</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="cell-output cell-output-display">
-<table class="dataframe caption-top table table-sm table-striped small">
-<caption>A data.frame: 2 × 3</caption>
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" scope="col">root</th>
-<th data-quarto-table-cell-role="th" scope="col">modulus</th>
-<th data-quarto-table-cell-role="th" scope="col">outside_unit_circle</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th" scope="col">&lt;cpl&gt;</th>
-<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
-<th data-quarto-table-cell-role="th" scope="col">&lt;lgl&gt;</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1.07335-5.04871e-29i</td>
-<td>1.07335</td>
-<td>TRUE</td>
-</tr>
-<tr class="even">
-<td>3.72665+5.04871e-29i</td>
-<td>3.72665</td>
-<td>TRUE</td>
-</tr>
-</tbody>
-</table>
+<div class="cell-output cell-output-error">
+<pre><code>ERROR: Error: object 'ma21' not found
+
+Error: object 'ma21' not found
+Traceback:
+
+1. polyroot(c(1, theta))
+2. .handleSimpleError(function (cnd) 
+ . {
+ .     watcher$capture_plot_and_output()
+ .     cnd &lt;- sanitize_call(cnd)
+ .     watcher$push(cnd)
+ .     switch(on_error, continue = invokeRestart("eval_continue"), 
+ .         stop = invokeRestart("eval_stop"), error = NULL)
+ . }, "object 'ma21' not found", base::quote(eval(expr, envir)))</code></pre>
 </div>
 </div>
 </section>
@@ -1952,17 +1919,17 @@ Y_t
 <div id="1d76492d" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>Show R code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dynamic responses of MA processes (uses irf_ma defined in the setup cell)</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">irf_ma</span>(<span class="fl">0.8</span>,        <span class="at">h =</span> <span class="dv">8</span>, <span class="at">title =</span> <span class="st">"Dynamic response: MA(1)"</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">irf_ma</span>(<span class="fu">c</span>(<span class="fl">1.0</span>, <span class="fl">0.7</span>), <span class="at">h =</span> <span class="dv">8</span>, <span class="at">title =</span> <span class="st">"Dynamic response: MA(2)"</span>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dynamic responses of MA processes (uses irf_ma defined in the setup cell)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">irf_ma</span>(<span class="fl">0.8</span>,        <span class="at">h =</span> <span class="dv">8</span>, <span class="at">title =</span> <span class="st">"Dynamic response: MA(1)"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">irf_ma</span>(<span class="fu">c</span>(<span class="fl">1.0</span>, <span class="fl">0.7</span>), <span class="at">h =</span> <span class="dv">8</span>, <span class="at">title =</span> <span class="st">"Dynamic response: MA(2)"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-Univariate-Time-Series-modelsI_files/figure-html/cell-15-output-1.png" width="420" height="420" class="figure-img"></p>
+<p><img src="05-06-Univariate-Time-Series-modelsI_files/figure-html/cell-15-output-1.png" width="420" height="420" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2542,8 +2509,8 @@ Y_t
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Slides/00-course-introduction.html" class="pagination-link" aria-label="Course introduction">
-        <span class="nav-page-text">Course introduction</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Notebooks/07-08-Univariate-Time-Series-modelsII.html" class="pagination-link" aria-label="Univariate-Time-Series-models II">
+        <span class="nav-page-text">Univariate-Time-Series-models II</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

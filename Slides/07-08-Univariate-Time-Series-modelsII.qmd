@@ -1,0 +1,1112 @@
+---
+title: "Univariate Time Series Models II"
+subtitle: "HS 821 · Lectures 7–8 · Topics in Time Series Econometrics"
+author: "Sunil Paul"
+date: "2026-08-01"
+format:
+  revealjs:
+    theme: default
+    slide-number: c/t
+    show-slide-number: all
+    incremental: false
+    smaller: false
+    scrollable: true
+    center-title-slide: true
+    transition: slide
+    background-transition: fade
+    chalkboard: true
+    code-line-numbers: false
+    code-overflow: wrap
+    html-math-method: mathjax
+    fig-align: center
+    footer: "HS 821 · Univariate Time Series II"
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto
+knitr:
+  opts_chunk:
+    dev: "png"
+    dpi: 150
+    fig.width: 7
+    fig.height: 4.2
+---
+
+```{=html}
+<style>
+:root{
+  --hs-accent:#1b3a6b;
+  --hs-accent2:#c0392b;
+}
+.reveal h1,.reveal h2,.reveal h3{ color:var(--hs-accent); font-weight:650; }
+.reveal .slide-number{ background:transparent; color:#888; }
+.reveal section img{ border:none; box-shadow:none; }
+.reveal table{ font-size:0.80em; }
+.reveal table th{ background:#eef2f8; }
+.reveal pre code{ font-size:0.72em; line-height:1.25; }
+.reveal .small{ font-size:0.78em; }
+.reveal .muted{ color:#5a6472; }
+.reveal blockquote{
+  border-left:4px solid var(--hs-accent);
+  background:#f6f8fc; padding:0.4em 0.9em; font-style:normal;
+}
+.callout-ts{
+  border-left:5px solid var(--hs-accent2);
+  background:#fdf1ef; padding:0.5em 0.9em; border-radius:4px; margin-top:0.4em;
+}
+.keybox{
+  border:1px solid #d5dded; background:#f6f8fc;
+  border-radius:6px; padding:0.5em 0.9em;
+}
+.widget{
+  border:1px solid #d5dded; border-radius:8px; padding:0.7em 0.9em;
+  background:#fbfcfe;
+}
+.posterior{ font-size:1.9em; color:var(--hs-accent2); font-weight:700; }
+.reveal .columns{ align-items:center; }
+</style>
+```
+
+```{r}
+#| echo: false
+#| include: false
+# ------------------------------------------------------------------
+# Setup: libraries and the plotting helpers used throughout the deck.
+# (Hidden — these are the same helpers as the lecture notebook.)
+# All theoretical quantities use base-R `stats` routines.
+# ------------------------------------------------------------------
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(gridExtra)
+})
+
+# Time-series line plot; optional dashed reference line at the mean.
+ts_plot <- function(x, mu = NULL, title = NULL) {
+  time_idx <- if (is.ts(x)) as.numeric(time(x)) else seq_along(x)
+  df <- data.frame(time = time_idx, value = as.numeric(x))
+  p <- ggplot(df, aes(time, value)) +
+    theme_classic() + geom_line() + labs(x = "Time", y = NULL, title = title)
+  if (!is.null(mu)) p <- p + geom_hline(yintercept = mu, linetype = "dashed")
+  p
+}
+
+# Theoretical ACF of an ARMA process, lags 1..L (lag 0 dropped).
+acf_plot <- function(ar = numeric(0), ma = numeric(0), L = 15, title = NULL) {
+  rho <- ARMAacf(ar = ar, ma = ma, lag.max = L)[-1]
+  df  <- data.frame(lag = seq_len(L), acf = as.numeric(rho))
+  ggplot(df, aes(lag, acf)) + theme_classic() +
+    geom_hline(yintercept = 0) +
+    geom_segment(aes(xend = lag, y = 0, yend = acf), linewidth = 1) +
+    geom_point(size = 2) +
+    scale_x_continuous(breaks = seq(0, L, by = 3)) +
+    labs(x = "Lag", y = "ACF", title = title)
+}
+
+# Theoretical PACF of an ARMA process, lags 1..L.
+pacf_plot <- function(ar = numeric(0), ma = numeric(0), L = 15, title = NULL) {
+  pac <- ARMAacf(ar = ar, ma = ma, lag.max = L, pacf = TRUE)
+  df  <- data.frame(lag = seq_len(L), pacf = as.numeric(pac))
+  ggplot(df, aes(lag, pacf)) + theme_classic() +
+    geom_hline(yintercept = 0) +
+    geom_segment(aes(xend = lag, y = 0, yend = pacf), linewidth = 1) +
+    geom_point(size = 2) +
+    scale_x_continuous(breaks = seq(0, L, by = 3)) +
+    labs(x = "Lag", y = "PACF", title = title)
+}
+
+# Theoretical impulse response = Wold coefficients psi_0=1, psi_1, psi_2, ...
+irf_plot <- function(ar = numeric(0), ma = numeric(0), h = 20, title = NULL) {
+  psi <- c(1, ARMAtoMA(ar = ar, ma = ma, lag.max = h))
+  df  <- data.frame(horizon = 0:h, response = psi)
+  ggplot(df, aes(horizon, response)) + theme_classic() +
+    geom_hline(yintercept = 0) +
+    geom_segment(aes(xend = horizon, y = 0, yend = response)) +
+    geom_point() +
+    scale_x_continuous(breaks = seq(0, h, by = 4)) +
+    labs(x = "Horizon after a unit innovation", y = "Response", title = title)
+}
+
+# Sample ACF with approximate +/- 2/sqrt(T) bands (dashed red).
+sample_acf_plot <- function(x, L = 20, title = NULL) {
+  a  <- acf(x, plot = FALSE, lag.max = L)
+  df <- data.frame(lag = as.numeric(a$lag)[-1], acf = as.numeric(a$acf)[-1])
+  b  <- 2 / sqrt(length(x))
+  ggplot(df, aes(lag, acf)) + theme_classic() +
+    geom_hline(yintercept = 0) +
+    geom_segment(aes(xend = lag, y = 0, yend = acf), linewidth = 1) +
+    geom_point(size = 2) +
+    geom_hline(yintercept = c(b, -b), linetype = "dashed", colour = "red") +
+    scale_x_continuous(breaks = seq(0, L, by = 3)) +
+    labs(x = "Lag", y = "Sample ACF", title = title)
+}
+
+# Sample PACF with approximate +/- 2/sqrt(T) bands (dashed red).
+sample_pacf_plot <- function(x, L = 20, title = NULL) {
+  a  <- pacf(x, plot = FALSE, lag.max = L)
+  df <- data.frame(lag = as.numeric(a$lag), acf = as.numeric(a$acf))
+  b  <- 2 / sqrt(length(x))
+  ggplot(df, aes(lag, acf)) + theme_classic() +
+    geom_hline(yintercept = 0) +
+    geom_segment(aes(xend = lag, y = 0, yend = acf), linewidth = 1) +
+    geom_point(size = 2) +
+    geom_hline(yintercept = c(b, -b), linetype = "dashed", colour = "red") +
+    scale_x_continuous(breaks = seq(0, L, by = 3)) +
+    labs(x = "Lag", y = "Sample PACF", title = title)
+}
+
+# Roots of a lag polynomial on the complex plane, with the unit circle.
+roots_plot <- function(roots, title = NULL) {
+  theta <- seq(0, 2 * pi, length.out = 400)
+  circ  <- data.frame(x = cos(theta), y = sin(theta))
+  df    <- data.frame(Real = Re(roots), Imaginary = Im(roots),
+                      outside = ifelse(Mod(roots) > 1, "outside", "inside"))
+  ggplot() + theme_classic() +
+    geom_path(data = circ, aes(x, y), colour = "grey55") +
+    geom_hline(yintercept = 0) + geom_vline(xintercept = 0) +
+    geom_point(data = df, aes(Real, Imaginary, colour = outside), size = 3) +
+    scale_colour_manual(values = c(outside = "black", inside = "red"),
+                        name = NULL) +
+    coord_equal() +
+    labs(x = "Real part", y = "Imaginary part", title = title)
+}
+```
+
+# Roadmap {.center}
+
+::: {.incremental}
+- **AR process**: solutions, the impulse response, persistence, Yule–Walker moments, the characteristic root, the eigenvalue condition
+- **PACF**: the tool that reads off AR order, and the ACF/PACF duality
+- **Invertibility**: the MA-side mirror of stationarity
+- **ARMA($p,q$)**: mixing the two families, and parameter redundancy
+- **Identification**: fingerprinting a model from its ACF and PACF
+:::
+
+
+
+# 1&nbsp;&nbsp;The autoregressive process AR(1) {background-color="#1b3a6b"}
+
+## AR(1) Perocess {.smaller}
+
+
+$$
+Y_t=\phi Y_{t-1}+\varepsilon_t,
+\qquad
+\varepsilon_t\sim WN(0,\sigma^2).
+$$
+
+Substituting the recursion into itself gives the **recursive (backward) solution**
+
+$$
+Y_t=\phi^t Y_0+\sum_{i=0}^{t-1}\phi^{\,i}\varepsilon_{t-i},
+$$
+
+and projecting forward $j$ periods gives the **forward solution**
+
+$$
+Y_{t+j}=\phi^{\,j+1}Y_{t-1}+\sum_{i=0}^{j}\phi^{\,i}\varepsilon_{t+j-i},\qquad j>0.
+$$
+
+::: {.keybox}
+The **forward** form is the natural starting point for forecasting; the **backward** form shows the initial condition $Y_0$ fading (or growing) as $\phi^{\,t}$.
+:::
+
+## Dynamic multipliers and the impulse response {.smaller}
+
+Because $Y_t$ is a weighted sum of past shocks, we can ask exactly how much a single innovation matters, and for how long.
+
+The **dynamic multiplier** is
+
+$$
+\frac{\partial Y_t}{\partial \varepsilon_{t-j}}=\phi^{\,j}
+\qquad\Longleftrightarrow\qquad
+\frac{\partial Y_{t+j}}{\partial \varepsilon_t}=\phi^{\,j}.
+$$
+
+Plotted against the horizon $j$, the sequence $\{\phi^{\,j}\}$ is the **impulse response function (IRF)** 
+
+## Dynamic multipliers and the impulse response {.smaller}
+The cumulative effect is $\sum_{i=0}^{j}\phi^{\,i}$, and for $|\phi|<1$ the **long-run (total) effect** of a unit shock is
+
+$$
+\lim_{j\to\infty}\sum_{i=0}^{j}\phi^{\,i}=\frac{1}{1-\phi}.
+$$
+
+> The closer $\phi$ is to one, the more slowly the response decays and the larger the accumulated effect — this is exactly what we mean by **persistence**.
+
+## Stability, stationarity, and the Wold form {.smaller}
+
+Three cases exhaust the AR(1):
+
+| condition | behaviour |
+|:---|:---|
+| $\lvert\phi\rvert<1$ | **stationary**; shocks decay geometrically |
+| $\phi=1$ | **random walk**; a unit root, non-stationary |
+| $\phi=-1$ | alternating unit root, non-stationary |
+| $\lvert\phi\rvert>1$ | **explosive** |
+
+When $|\phi|<1$ the backward solution converges ($\phi^tY_0$ vanishes) and we recover the **Wold / MA($\infty$) representation**
+
+$$
+Y_t=\sum_{j=0}^{\infty}\phi^{\,j}\varepsilon_{t-j}.
+$$
+
+## Drift, moments, and the half-life {.smaller}
+
+Adding a constant, for $|\phi|<1$,
+
+$$
+Y_t=c+\phi Y_{t-1}+\varepsilon_t
+\quad\Longrightarrow\quad
+Y_t=\frac{c}{1-\phi}+\sum_{i=0}^{\infty}\phi^{\,i}\varepsilon_{t-i}.
+$$
+
+The stationary moments are
+
+$$
+\mu=\frac{c}{1-\phi},
+\qquad
+\gamma_0=\frac{\sigma^2}{1-\phi^2},
+\qquad
+\gamma_j=\phi^{\,j}\gamma_0,
+\qquad
+\rho_j=\phi^{\,j}.
+$$
+
+## Autocorrelation Function
+The ACF **decays geometrically** rather than cutting off — the defining contrast with an MA process. A convenient summary of persistence is the **half-life**:
+
+$$
+\phi^{\,h}=\tfrac12
+\quad\Longrightarrow\quad
+h=\frac{\ln 0.5}{\ln\phi}\qquad(0<\phi<1).
+$$
+
+::: {.keybox}
+MA: ACF **cuts off**, PACF decays.  AR(1): ACF **decays**, PACF cuts off after lag 1. The two are mirror images — the seed of Box–Jenkins identification.
+:::
+
+## The lag operator and the characteristic root {.smaller}
+
+The lag operator writes the AR(1) compactly, and turns stationarity into a statement about a root:
+
+$$
+(1-\phi L)\,Y_t=\varepsilon_t
+\quad\Longrightarrow\quad
+\text{characteristic polynomial }1-\phi z,
+\quad
+z^\star=\frac{1}{\phi}.
+$$
+
+Stationarity requires the root **outside the unit circle**, $|z^\star|>1$, which is exactly $|\phi|<1$. 
+
+## The lag operator and the characteristic root {.smaller}
+Inverting the operator as a geometric series reproduces the Wold form:
+
+$$
+(1-\phi L)^{-1}=\sum_{j=0}^{\infty}\phi^{\,j}L^{\,j}
+\quad\Longrightarrow\quad
+Y_t=\sum_{j=0}^{\infty}\phi^{\,j}\varepsilon_{t-j}=\Psi(L)\varepsilon_t.
+$$
+
+> "Root outside the unit circle" and "$|\phi|<1$" are the **same condition**. The root language is what generalises cleanly to AR(2) and AR($p$).
+
+## Predict before you simulate {.smaller}
+
+We simulate three stationary AR(1) processes with common mean $\mu=2$ (so $c=\mu(1-\phi)$):
+
+$$
+\phi=0.8\;(c=0.4),
+\qquad
+\phi=0.4\;(c=1.2),
+\qquad
+\phi=-0.7\;(c=3.4).
+$$
+
+> **Predict, before the code runs:**
+>
+> 1. Which series looks the **most persistent** — longest, smoothest excursions from the mean?
+> 2. For which $\phi$ does the ACF **decay most slowly**?
+> 3. What is the qualitative difference in the ACF when $\phi<0$?
+> 4. For an AR(1), at which lag should the **PACF cut off**?
+
+## R — simulate three AR(1) processes {.smaller}
+
+```{r}
+#| fig-height: 6.2
+# Three AR(1) processes: realizations, theoretical ACF, theoretical PACF
+set.seed(123)
+
+mu <- 2
+n  <- 250
+phi_a <- 0.8; phi_b <- 0.4; phi_c <- -0.7
+
+y_a <- mu + arima.sim(model = list(ar = phi_a), n = n)
+y_b <- mu + arima.sim(model = list(ar = phi_b), n = n)
+y_c <- mu + arima.sim(model = list(ar = phi_c), n = n)
+
+g_a <- ts_plot(y_a, mu = mu, title = "AR(1): phi = 0.8  (c = 0.4)")
+g_b <- ts_plot(y_b, mu = mu, title = "AR(1): phi = 0.4  (c = 1.2)")
+g_c <- ts_plot(y_c, mu = mu, title = "AR(1): phi = -0.7 (c = 3.4)")
+
+grid.arrange(
+  g_a, g_b, g_c,
+  acf_plot(ar = phi_a), acf_plot(ar = phi_b), acf_plot(ar = phi_c),
+  pacf_plot(ar = phi_a), pacf_plot(ar = phi_b), pacf_plot(ar = phi_c),
+  ncol = 3
+)
+```
+
+## Reading the graphs {.smaller}
+
+- All three share the unconditional mean $\mu=2$.
+- $\phi=0.8$ is **most persistent**: it wanders for long stretches; its ACF $\rho_j=0.8^{\,j}$ decays slowly.
+- $\phi=0.4$ decays quickly ($\rho_j=0.4^{\,j}$).
+- $\phi=-0.7$ gives an **oscillating** ACF, $\rho_j=(-0.7)^{\,j}$, flipping sign each lag as the series jumps above and below the mean.
+
+::: {.keybox}
+For **every** AR(1) the theoretical **PACF cuts off after lag 1**: $\phi_{11}=\phi$ and $\phi_{jj}=0$ for $j>1$. This mirror-image of the MA case is what makes the PACF the natural tool for identifying AR order.
+:::
+
+## The impulse response as persistence {.smaller}
+
+The IRF $\psi_j=\phi^{\,j}$ makes persistence visual: a bigger $\phi$ means a slower-decaying response and a larger accumulated long-run effect $1/(1-\phi)$.
+
+```{r}
+#| fig-height: 5.4
+# Impulse responses: persistence rises with phi; phi<0 oscillates
+p1 <- irf_plot(ar = 0.8,  h = 20, title = "IRF: phi = 0.8  (long-run effect 5.0)")
+p2 <- irf_plot(ar = 0.4,  h = 20, title = "IRF: phi = 0.4  (long-run effect 1.67)")
+p3 <- irf_plot(ar = -0.7, h = 20, title = "IRF: phi = -0.7 (oscillating)")
+grid.arrange(p1, p2, p3, ncol = 1)
+
+cat(sprintf("Long-run effect 1/(1-phi):  phi=0.8 -> %.2f | phi=0.4 -> %.2f\n",
+            1/(1-0.8), 1/(1-0.4)))
+cat(sprintf("Half-life ln(0.5)/ln(phi):  phi=0.8 -> %.2f | phi=0.4 -> %.2f periods\n",
+            log(0.5)/log(0.8), log(0.5)/log(0.4)))
+```
+
+## Try it: the AR(1) coefficient $\phi$ {.updating-slide background-color="#fbfcfe"}
+
+<style>
+.reveal .updating-slide h2 { font-size: 1.45em; }
+.reveal .updating-slide .columns { gap: 1.2em; align-items: flex-start; }
+.reveal .updating-slide .controls-box{
+  font-size: 0.60em; line-height: 1.2; padding: 0.7em;
+  border: 1px solid #d9e2ef; border-radius: 12px; background: white;
+}
+.reveal .updating-slide input[type="range"]{ width: 180px; }
+.reveal .updating-slide .posterior{ font-size: 2.0em; font-weight: 700; color:#c0392b; }
+.reveal .updating-slide .note{ font-size: 0.60em; color:#555; margin-top: 0.8em; }
+</style>
+
+:::: {.columns}
+
+::: {.column width="36%"}
+::: {.controls-box}
+
+```{ojs}
+//| echo: false
+viewof phi = Inputs.range([-0.95, 0.95], {
+  value: 0.8, step: 0.05, label: "AR(1) coefficient φ"
+})
+```
+
+:::
+:::
+
+::: {.column width="64%"}
+
+```{ojs}
+//| echo: false
+Hmax = 20
+irfData = d3.range(0, Hmax + 1).map(j => ({ h: j, psi: Math.pow(phi, j) }))
+
+Plot.plot({
+  height: 300, marginLeft: 45,
+  x: {label: "horizon j", domain: [-0.5, Hmax + 0.5]},
+  y: {label: "ψⱼ = φʲ", domain: [-1.05, 1.05], grid: true},
+  marks: [
+    Plot.ruleY([0]),
+    Plot.ruleX(irfData, {x: "h", y1: 0, y2: "psi", stroke: "#1b3a6b", strokeWidth: 2}),
+    Plot.dot(irfData, {x: "h", y: "psi", fill: "#1b3a6b", r: 3})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+longRun = 1 / (1 - phi)
+halfLife = (phi > 0) ? Math.log(0.5) / Math.log(phi) : Math.log(0.5) / Math.log(Math.abs(phi))
+html`<div>
+  <div class="muted">Long-run effect &nbsp; 1 / (1 − φ)</div>
+  <div class="posterior">${longRun.toFixed(2)}</div>
+  <div class="note">
+    half-life ≈ <b>${halfLife.toFixed(2)}</b> periods &nbsp;·&nbsp;
+    ${phi < 0 ? "φ &lt; 0 ⇒ response <b>alternates sign</b>" : "monotone decay"}
+    &nbsp;·&nbsp; ACF ρⱼ = φʲ, PACF cuts off after lag 1
+  </div>
+</div>`
+```
+
+:::
+
+::::
+
+
+
+# 2&nbsp;&nbsp;The AR(2) process {background-color="#1b3a6b"}
+
+## Moments: the Yule–Walker equations {.smaller}
+
+$$
+Y_t=c+\phi_1 Y_{t-1}+\phi_2 Y_{t-2}+\varepsilon_t,
+\qquad
+\mu=\frac{c}{1-\phi_1-\phi_2}.
+$$
+
+Multiplying the mean-corrected equation by $Y_{t-j}$ and taking expectations gives the **Yule–Walker** recursion:
+
+$$
+\gamma_0=\phi_1\gamma_1+\phi_2\gamma_2+\sigma^2,
+\qquad
+\gamma_j=\phi_1\gamma_{j-1}+\phi_2\gamma_{j-2}\quad(j\ge1),
+$$
+
+and, dividing by $\gamma_0$,
+
+$$
+\rho_j=\phi_1\rho_{j-1}+\phi_2\rho_{j-2}\qquad(j\ge1).
+$$
+
+::: {.keybox}
+From $\rho_1,\rho_2$ onward the ACF is generated by the **same second-order recursion**, so it *decays* (possibly with oscillations) rather than cutting off.
+:::
+
+## The AR(2) autocorrelations {.smaller}
+
+Solving the first two Yule–Walker equations explicitly is worth memorising:
+
+$$
+\boxed{\;\rho_1=\frac{\phi_1}{1-\phi_2},
+\qquad
+\rho_2=\phi_2+\frac{\phi_1^2}{1-\phi_2}=\phi_2+\phi_1\rho_1,\;}
+$$
+
+with variance
+
+$$
+\gamma_0=\frac{(1-\phi_2)\,\sigma^2}{(1+\phi_2)\big[(1-\phi_2)^2-\phi_1^2\big]}.
+$$
+
+## Stationarity: roots, the triangle, and complex roots {.smaller}
+
+In lag-operator form $(1-\phi_1 L-\phi_2 L^2)\,Y_t=c+\varepsilon_t$, with characteristic equation
+
+$$
+1-\phi_1 z-\phi_2 z^2=0,
+\qquad
+z_{1,2}=\frac{-\phi_1\pm\sqrt{\phi_1^2+4\phi_2}}{2\phi_2}.
+$$
+
+The process is stationary when **both roots lie outside the unit circle** — equivalently, inside the **stationarity triangle**
+
+$$
+\phi_1+\phi_2<1,
+\qquad
+\phi_2-\phi_1<1,
+\qquad
+-1<\phi_2<1.
+$$
+
+## Stationarity: roots, the triangle, and complex roots {.smaller}
+The discriminant $\phi_1^2+4\phi_2$ decides the dynamics:
+
+- **real distinct roots** ($>0$): ACF/IRF is a sum of two decaying geometrics — monotone or sign-alternating decay;
+- **complex-conjugate roots** ($<0$): a **damped sinusoid** — *pseudo-cycles* of modulus $r=\sqrt{-\phi_2}$ and
+
+$$
+\text{Period}=\frac{2\pi}{\arccos\!\big(\phi_1/(2\sqrt{-\phi_2})\big)}.
+$$
+
+::: {.callout-ts}
+Complex roots are why the AR(2) is the simplest device for capturing **business-cycle-like** behaviour — cycles with no deterministic clock.
+:::
+
+## R — the stationarity triangle {.smaller}
+
+```{r}
+#| fig-height: 5.0
+# The AR(2) stationarity triangle, the complex-root parabola, and four models
+vertices <- data.frame(phi1 = c(-2, 2, 0), phi2 = c(-1, -1, 1))
+grid1    <- seq(-2, 2, length.out = 400)
+parab    <- data.frame(phi1 = grid1, phi2 = -grid1^2 / 4)   # phi1^2 + 4 phi2 = 0
+
+models <- data.frame(
+  phi1  = c(0.5, 1.0,  1.5, -0.6),
+  phi2  = c(0.25, -0.25, -0.75, 0.2),
+  label = c("A", "B", "C", "D")
+)
+
+ggplot() + theme_classic() +
+  geom_polygon(data = vertices, aes(phi1, phi2), fill = "grey92", colour = "black") +
+  geom_line(data = parab, aes(phi1, phi2), linetype = "dashed") +
+  geom_point(data = models, aes(phi1, phi2), size = 2.5) +
+  geom_text(data = models, aes(phi1, phi2, label = label), vjust = -1) +
+  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(-1.1, 1.1)) +
+  labs(x = expression(phi[1]), y = expression(phi[2]),
+       title = "AR(2) stationarity triangle",
+       subtitle = "Shaded: stationary. Below the dashed parabola: complex roots (damped cycles).")
+```
+
+## Predict: four AR(2) processes {.smaller}
+
+$$
+\text{A: } 0.5Y_{t-1}+0.25Y_{t-2},
+\qquad
+\text{B: } 1.0Y_{t-1}-0.25Y_{t-2},
+$$
+$$
+\text{C: } 1.5Y_{t-1}-0.75Y_{t-2},
+\qquad
+\text{D: } -0.6Y_{t-1}+0.2Y_{t-2}.
+$$
+
+All four sit inside the triangle, so all are stationary.
+
+> **Predict:** which one shows **regular cycles**? Check the discriminant $\phi_1^2+4\phi_2$ — model **C** has $1.5^2+4(-0.75)=-0.75<0$.
+
+## R — four AR(2) realizations {.smaller}
+
+```{r}
+#| fig-height: 5.0
+# Four AR(2) realizations
+set.seed(123)
+n <- 250
+
+ar_A <- c(0.5,  0.25)
+ar_B <- c(1.0, -0.25)
+ar_C <- c(1.5, -0.75)
+ar_D <- c(-0.6, 0.2)
+
+y_A <- arima.sim(model = list(ar = ar_A), n = n)
+y_B <- arima.sim(model = list(ar = ar_B), n = n)
+y_C <- arima.sim(model = list(ar = ar_C), n = n)
+y_D <- arima.sim(model = list(ar = ar_D), n = n)
+
+grid.arrange(
+  ts_plot(y_A, title = "A: (0.5, 0.25) real roots"),
+  ts_plot(y_B, title = "B: (1.0, -0.25) repeated root"),
+  ts_plot(y_C, title = "C: (1.5, -0.75) complex -> cycles"),
+  ts_plot(y_D, title = "D: (-0.6, 0.2) real roots"),
+  ncol = 2
+)
+```
+
+## R — ACF and PACF of the four processes {.smaller}
+
+```{r}
+#| fig-height: 6.2
+# Theoretical ACF and PACF of the four AR(2) processes
+grid.arrange(
+  acf_plot(ar = ar_A, title = "ACF A"), acf_plot(ar = ar_B, title = "ACF B"),
+  acf_plot(ar = ar_C, title = "ACF C"), acf_plot(ar = ar_D, title = "ACF D"),
+  pacf_plot(ar = ar_A, title = "PACF A"), pacf_plot(ar = ar_B, title = "PACF B"),
+  pacf_plot(ar = ar_C, title = "PACF C"), pacf_plot(ar = ar_D, title = "PACF D"),
+  ncol = 2
+)
+```
+
+## Reading the graphs {.smaller}
+
+- Every ACF **decays** toward zero; the *pattern* (monotone / oscillatory / cyclical) is set by the characteristic roots.
+- Model **C** has complex roots and shows clear **damped cycles**: inverse-root modulus $\sqrt{0.75}\approx0.87$, $\cos\theta=1.5/(2\sqrt{0.75})=0.866$, so $\theta=\pi/6$ and a period $2\pi/\theta=12$ — a cycle roughly every twelve periods.
+
+::: {.keybox}
+In every case the **PACF cuts off after lag 2**: two nonzero partials, then zero. That is the AR(2) signature.
+:::
+
+## R — confirming the cycle of model C {.smaller}
+
+```{r}
+#| fig-height: 5.0
+# Confirm the cyclical period of model C from its characteristic roots
+r_C <- polyroot(c(1, -ar_C[1], -ar_C[2]))   # 1 - phi1 z - phi2 z^2
+cat("Model C characteristic roots (complex, outside unit circle):\n")
+print(r_C); cat("moduli:", round(Mod(r_C), 3), "\n\n")
+
+# Cycle from the *inverse* roots (eigenvalues of the companion matrix)
+lam    <- 1 / r_C
+period <- 2 * pi / Mod(Arg(lam[1]))
+cat(sprintf("Inverse-root modulus r = %.3f, implied cycle period = %.1f periods\n",
+            Mod(lam[1]), period))
+
+# Real vs complex roots also show up in the impulse response
+grid.arrange(
+  irf_plot(ar = ar_A, h = 24, title = "IRF A: real roots -> monotone decay"),
+  irf_plot(ar = ar_C, h = 24, title = "IRF C: complex roots -> damped cycle (~12)"),
+  ncol = 1
+)
+```
+
+## Try it: the AR(2) coefficient plane {.updating-slide background-color="#fbfcfe"}
+
+<style>
+.reveal .updating-slide h2 { font-size: 1.45em; }
+</style>
+
+:::: {.columns}
+
+::: {.column width="36%"}
+::: {.controls-box}
+
+```{ojs}
+//| echo: false
+viewof phi1 = Inputs.range([-2.2, 2.2], {value: 1.5, step: 0.05, label: "φ₁"})
+```
+
+```{ojs}
+//| echo: false
+viewof phi2 = Inputs.range([-1.1, 1.1], {value: -0.75, step: 0.05, label: "φ₂"})
+```
+
+:::
+:::
+
+::: {.column width="64%"}
+
+```{ojs}
+//| echo: false
+triangle = [{phi1: -2, phi2: -1}, {phi1: 2, phi2: -1}, {phi1: 0, phi2: 1}, {phi1: -2, phi2: -1}]
+parabola = d3.range(-2.2, 2.21, 0.02).map(a => ({phi1: a, phi2: -a*a/4}))
+here = [{phi1: phi1, phi2: phi2}]
+
+Plot.plot({
+  height: 320, marginLeft: 45,
+  x: {label: "φ₁", domain: [-2.3, 2.3]},
+  y: {label: "φ₂", domain: [-1.2, 1.2], grid: true},
+  marks: [
+    Plot.line(triangle, {x: "phi1", y: "phi2", fill: "#eef2f8", stroke: "#1b3a6b", strokeWidth: 1.5}),
+    Plot.line(parabola, {x: "phi1", y: "phi2", stroke: "#888", strokeDasharray: "4,3"}),
+    Plot.dot(here, {x: "phi1", y: "phi2", fill: "#c0392b", r: 6})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+stationary = (phi1 + phi2 < 1) && (phi2 - phi1 < 1) && (phi2 > -1) && (phi2 < 1)
+disc = phi1*phi1 + 4*phi2
+complexRoots = disc < 0
+period = complexRoots ? 2*Math.PI / Math.acos(phi1 / (2*Math.sqrt(-phi2))) : null
+html`<div>
+  <div class="posterior">${stationary ? "stationary" : "non-stationary"}</div>
+  <div class="note">
+    discriminant φ₁²+4φ₂ = <b>${disc.toFixed(2)}</b> ⇒
+    ${complexRoots ? "<b>complex roots → damped cycle</b>" : "real roots → monotone/alternating decay"}
+    ${complexRoots ? `&nbsp;·&nbsp; period ≈ <b>${period.toFixed(1)}</b> periods` : ""}
+  </div>
+</div>`
+```
+
+:::
+
+::::
+
+::: {.note}
+Drag the point **below the dashed parabola** and inside the triangle: roots go complex and a pseudo-cycle appears, with the period the readout reports. Leave the triangle and stationarity fails.
+:::
+
+# 3&nbsp;&nbsp;The general AR($p$) process {background-color="#1b3a6b"}
+
+## Definition and the stationarity condition {.smaller}
+
+$$
+Y_t=c+\phi_1 Y_{t-1}+\cdots+\phi_p Y_{t-p}+\varepsilon_t
+\quad\Longleftrightarrow\quad
+\phi(L)\,Y_t=c+\varepsilon_t,
+$$
+
+with AR lag polynomial
+
+$$
+\phi(z)=1-\phi_1 z-\phi_2 z^2-\cdots-\phi_p z^p.
+$$
+
+::: {.keybox}
+An AR($p$) is **stable and covariance-stationary** iff all $p$ roots of $\phi(z)=0$ have modulus greater than one — i.e. all lie **outside the unit circle**.
+:::
+
+## Moments and the Wold form {.smaller}
+
+The Yule–Walker relations extend directly:
+
+$$
+\mu=\frac{c}{1-\phi_1-\cdots-\phi_p},
+\qquad
+\rho_j=\phi_1\rho_{j-1}+\cdots+\phi_p\rho_{j-p}\quad(j>0),
+$$
+
+$$
+\gamma_j=
+\begin{cases}
+\phi_1\gamma_1+\cdots+\phi_p\gamma_p+\sigma^2, & j=0,\\[4pt]
+\phi_1\gamma_{j-1}+\cdots+\phi_p\gamma_{j-p}, & j>0.
+\end{cases}
+$$
+
+Factorising $\phi(L)=\prod_{i=1}^{p}(1-\lambda_i L)$ and inverting each factor (valid when every $|\lambda_i|<1$) gives the **Wold / MA($\infty$)** form for $X_t=Y_t-\mu$:
+
+$$
+X_t=\psi(L)\varepsilon_t,
+\qquad
+\psi(L)=\prod_{i=1}^{p}\Big(\sum_{j=0}^{\infty}\lambda_i^{\,j}L^{\,j}\Big),
+$$
+
+whose coefficients $\psi_j$ are the impulse response.
+
+## Companion form and the eigenvalue condition {.smaller}
+
+Checking $p$ polynomial roots by hand is awkward. The **companion form** turns the AR($p$) into a first-order *vector* recursion whose stability is an eigenvalue problem:
+
+$$
+\mathbf Z_t=F\,\mathbf Z_{t-1}+v_t,
+\quad
+\mathbf Z_t=\begin{bmatrix}X_t\\ X_{t-1}\\ \vdots\\ X_{t-p+1}\end{bmatrix},
+\quad
+F=\begin{bmatrix}
+\phi_1 & \phi_2 & \cdots & \phi_{p-1} & \phi_p\\
+1 & 0 & \cdots & 0 & 0\\
+0 & 1 & \cdots & 0 & 0\\
+\vdots & & \ddots & & \vdots\\
+0 & 0 & \cdots & 1 & 0
+\end{bmatrix}.
+$$
+
+::: {.keybox}
+Stationary iff **all eigenvalues of $F$ lie inside the unit circle**, $|\lambda_i|<1$. The eigenvalues of $F$ are exactly the **reciprocals of the characteristic roots** — "eigenvalues inside" and "roots outside" say the same thing. 
+:::
+
+## R — two equivalent stationarity checks {.smaller}
+
+```{r}
+#| fig-height: 4.4
+# Two equivalent stationarity checks for AR(2) model A: (0.5, 0.25)
+ar_A <- c(0.5, 0.25)
+
+# (i) roots of 1 - phi1 z - phi2 z^2 : want modulus > 1
+roots_A <- polyroot(c(1, -ar_A[1], -ar_A[2]))
+cat("Characteristic roots:", round(roots_A, 3), " | moduli:",
+    round(Mod(roots_A), 3), "(outside unit circle)\n")
+
+# (ii) eigenvalues of the companion matrix F : want modulus < 1
+F_A <- rbind(ar_A, c(1, 0))
+eig_A <- eigen(F_A)$values
+cat("Companion eigenvalues:", round(eig_A, 3), " | moduli:",
+    round(Mod(eig_A), 3), "(inside unit circle)\n")
+cat("Reciprocal check 1/roots:", round(1/roots_A, 3), "\n")
+
+roots_plot(roots_A, title = "AR(2) model A: characteristic roots vs unit circle")
+```
+
+::: {.callout-ts}
+The two checks are numerically dual: the companion eigenvalues equal $1/\text{roots}$. If either test puts a value on the wrong side of the unit circle, the process is not stationary.
+:::
+
+# 4&nbsp;&nbsp;The partial autocorrelation function {background-color="#1b3a6b"}
+
+## What the PACF measures {.smaller}
+
+For an AR($p$) the ACF decays and never cleanly signals the order $p$. The **PACF** fixes this. The $j$-th partial autocorrelation is the correlation between $Y_t$ and $Y_{t-j}$ **after removing** the linear influence of the intervening lags:
+
+$$
+\phi_{jj}=\operatorname{Corr}\big(Y_t,\,Y_{t-j}\mid Y_{t-1},\ldots,Y_{t-j+1}\big).
+$$
+
+Operationally, on mean-corrected data $X_t=Y_t-\mu$, run the nested regressions
+
+$$
+X_t=\phi_{11}X_{t-1}+e_t,
+$$
+$$
+X_t=\phi_{12}X_{t-1}+\phi_{22}X_{t-2}+e_t,
+$$
+$$
+X_t=\phi_{13}X_{t-1}+\phi_{23}X_{t-2}+\phi_{33}X_{t-3}+e_t,\ \ldots
+$$
+
+The **last** coefficient $\phi_{jj}$ is the $j$-th PACF value: the *extra* explanatory power of $Y_{t-j}$ once all shorter lags are in.
+
+## The identification duality {.smaller}
+
+::: {.callout-ts}
+**The identification duality.** For an **AR($p$)** the PACF **cuts off after lag $p$** while the ACF decays. For an **MA($q$)** it is the mirror image: the ACF cuts off after lag $q$ while the PACF decays. Reading the two together is the heart of **Box–Jenkins** identification.
+:::
+
+> The ACF answers "how far back does *correlation* reach?"; the PACF answers "how far back does *direct* dependence reach?" AR order lives in the second question.
+
+## R — ACF decays, PACF cuts off at the AR order {.smaller}
+
+```{r}
+#| fig-height: 5.4
+# ACF decays but PACF cuts off at the AR order: AR(1), AR(2), AR(4)
+set.seed(123)
+n <- 250
+
+ar1 <- 0.8
+ar2 <- c(0.5, 0.25)
+ar4 <- c(0.5, 0.3, -0.1, 0.1)
+
+grid.arrange(
+  acf_plot(ar = ar1, title = "ACF: AR(1)"),
+  acf_plot(ar = ar2, title = "ACF: AR(2)"),
+  acf_plot(ar = ar4, title = "ACF: AR(4)"),
+  pacf_plot(ar = ar1, title = "PACF: AR(1) cuts off at 1"),
+  pacf_plot(ar = ar2, title = "PACF: AR(2) cuts off at 2"),
+  pacf_plot(ar = ar4, title = "PACF: AR(4) cuts off at 4"),
+  ncol = 3
+)
+```
+
+::: {.keybox}
+The number of nonzero PACF spikes reads off the AR order directly: **AR($p$) $\Rightarrow$ PACF cuts off at lag $p$**, whatever the ACF is doing.
+:::
+
+## Population versus sample correlogram {.smaller}
+
+Every ACF/PACF so far is a **population** quantity from known coefficients. In practice we see one realization and estimate a **sample** correlogram, fluctuating around the truth inside approximate $\pm 2/\sqrt{T}$ bands (dashed red). The identification logic must be read *through* that sampling noise.
+
+> **Predict:** for a simulated AR(2) at $T=250$, roughly how many sample PACF spikes should clearly exceed the bands?
+
+```{r}
+#| fig-height: 4.8
+# Theoretical vs sample correlogram for one AR(2) realization
+set.seed(2024)
+y_ar2 <- arima.sim(model = list(ar = c(0.5, 0.25)), n = 250)
+
+grid.arrange(
+  acf_plot(ar = c(0.5, 0.25), title = "Population ACF: AR(2)"),
+  sample_acf_plot(y_ar2,       title = "Sample ACF (T = 250)"),
+  pacf_plot(ar = c(0.5, 0.25), title = "Population PACF: AR(2)"),
+  sample_pacf_plot(y_ar2,      title = "Sample PACF (T = 250)"),
+  ncol = 2
+)
+```
+
+# 5&nbsp;&nbsp;Invertibility: the dual of stationarity {background-color="#1b3a6b"}
+
+## Invertibility of an MA process {.smaller}
+
+Just as a stationary AR can be written as an MA($\infty$), an **invertible MA** can be written as an AR($\infty$). Invertibility makes the innovation **recoverable from current and past observations** — indispensable for forecasting and for a *unique* parameterisation (recall the MA(1) $\theta$ vs $1/\theta$ ambiguity).
+
+For an MA(1),
+
+$$
+Y_t-\mu=(1+\beta L)\varepsilon_t
+\;\Longrightarrow\;
+\varepsilon_t=(1+\beta L)^{-1}(Y_t-\mu)=\sum_{j=0}^{\infty}(-\beta)^{\,j}(Y_{t-j}-\mu),
+$$
+
+which converges iff $|\beta|<1$: the root of $1+\beta z=0$ lies outside the unit circle. In general MA($q$) is invertible iff every root of $1+\beta_1 z+\cdots+\beta_q z^q=0$ lies outside the unit circle.
+
+::: {.callout-ts}
+The exact mirror of AR stationarity: **stationarity constrains the AR roots, invertibility constrains the MA roots.** Same "outside the unit circle" rule, different polynomial.
+:::
+
+## R — checking MA(2) invertibility {.smaller}
+
+```{r}
+# Invertibility of an MA(2): Y_t = eps_t + 1.0 eps_{t-1} + 0.7 eps_{t-2}
+ma_roots <- polyroot(c(1, 1.0, 0.7))     # 1 + 1.0 z + 0.7 z^2
+cat("MA(2) roots:", round(ma_roots, 3), "\n")
+cat("moduli     :", round(Mod(ma_roots), 3), " -> all > 1, so invertible\n")
+```
+
+::: {.keybox}
+Both roots have modulus $\approx 1.20>1$, so this MA(2) is **invertible** and has a well-defined AR($\infty$) representation.
+:::
+
+## Predict: two invertible MA(2) processes {.smaller}
+
+$$
+Y_{1t}=2+\varepsilon_t+1.0\,\varepsilon_{t-1}+0.7\,\varepsilon_{t-2},
+\qquad
+Y_{2t}=2+\varepsilon_t-1.2\,\varepsilon_{t-1}+0.25\,\varepsilon_{t-2}.
+$$
+
+> **Predict:** the **ACF** should cut off after lag 2 for both. The **PACF** should *decay* (monotone or oscillatory, depending on the MA roots) rather than cut off — the reverse of the AR pattern.
+
+## R — two MA(2) processes {.smaller}
+
+```{r}
+#| fig-height: 5.4
+# Two MA(2) processes: realizations, ACF (cuts off at 2), PACF (decays)
+set.seed(123)
+n <- 250
+ma_1 <- c(1.0, 0.7)
+ma_2 <- c(-1.2, 0.25)
+
+s1 <- 2 + arima.sim(model = list(ma = ma_1), n = n)
+s2 <- 2 + arima.sim(model = list(ma = ma_2), n = n)
+
+grid.arrange(
+  ts_plot(s1, mu = 2, title = "MA(2): theta = (1.0, 0.7)"),
+  ts_plot(s2, mu = 2, title = "MA(2): theta = (-1.2, 0.25)"),
+  acf_plot(ma = ma_1, title = "ACF: cuts off after lag 2"),
+  acf_plot(ma = ma_2, title = "ACF: cuts off after lag 2"),
+  pacf_plot(ma = ma_1, title = "PACF: decays"),
+  pacf_plot(ma = ma_2, title = "PACF: decays"),
+  ncol = 2
+)
+```
+
+# 6&nbsp;&nbsp;The ARMA($p,q$) process {background-color="#1b3a6b"}
+
+## Mixing the two families {.smaller}
+
+$$
+Y_t=c+\phi_1 Y_{t-1}+\cdots+\phi_p Y_{t-p}
++\varepsilon_t+\beta_1\varepsilon_{t-1}+\cdots+\beta_q\varepsilon_{t-q},
+$$
+
+or, with $\phi(L)=1-\phi_1 L-\cdots-\phi_p L^p$ and $\beta(L)=1+\beta_1 L+\cdots+\beta_q L^q$,
+
+$$
+\phi(L)\,Y_t=c+\beta(L)\,\varepsilon_t.
+$$
+
+Two **separate** conditions govern its behaviour:
+
+::: {.keybox}
+- **Stationarity** depends only on the **AR** polynomial $\phi(L)$ — its roots outside the unit circle.
+- **Invertibility** depends only on the **MA** polynomial $\beta(L)$ — its roots outside the unit circle.
+:::
+
+When stationary, the Wold representation is $Y_t=\phi(L)^{-1}c+\dfrac{\beta(L)}{\phi(L)}\varepsilon_t$.
+
+## Moments and the ARMA(1,1) {.smaller}
+
+Past lag $q$, the ACF obeys the **pure-AR** recursion; for $j\le q$ the MA terms add extra covariance. For the ARMA(1,1) $Y_t=c+\phi Y_{t-1}+\varepsilon_t+\beta\varepsilon_{t-1}$,
+
+$$
+\mu=\frac{c}{1-\phi},
+\qquad
+\gamma_0=\frac{1+2\phi\beta+\beta^2}{1-\phi^2}\,\sigma^2,
+\qquad
+\gamma_1=\frac{(1+\phi\beta)(\phi+\beta)}{1-\phi^2}\,\sigma^2,
+$$
+
+$$
+\rho_1=\frac{(1+\phi\beta)(\phi+\beta)}{1+2\phi\beta+\beta^2},
+\qquad
+\rho_j=\phi\,\rho_{j-1}\ \ (j\ge2).
+$$
+
+> The ACF decays geometrically at rate $\phi$ after lag 1, but the **first-lag value blends both** the AR and MA parameters.
+
+## Parameter redundancy (common factors) {.smaller}
+
+ARMA models are identified only if $\phi(L)$ and $\beta(L)$ share **no common root**. If they do, the common factor cancels and the model is over-parameterised:
+
+$$
+(1-0.5L)\,Y_t=(1-0.5L)\,\varepsilon_t
+\quad\Longrightarrow\quad
+Y_t=\varepsilon_t,
+$$
+
+an "ARMA(1,1)" that is really white noise.
+
+::: {.callout-ts}
+Before trusting an estimated ARMA($p,q$), check the AR and MA roots are not **(nearly) cancelling**. Near-common factors show up as unstable estimates — a standard reason to prefer a smaller, parsimonious model.
+:::
+
+## Predict + R — an ARMA(2,2) {.smaller}
+
+$$
+Y_t=-0.6Y_{t-1}+0.2Y_{t-2}
++\varepsilon_t-1.2\varepsilon_{t-1}+0.25\varepsilon_{t-2}.
+$$
+
+AR part reuses model **D** (stationary); MA part reuses the second MA(2) (invertible).
+
+> **Predict:** with $p>0$ *and* $q>0$, **neither** the ACF nor the PACF should cut off cleanly — both decay.
+
+```{r}
+#| fig-height: 5.2
+# ARMA(2,2): stationary AR part (D) + invertible MA part
+set.seed(123)
+ar_arma <- c(-0.6, 0.2)
+ma_arma <- c(-1.2, 0.25)
+
+y_arma <- arima.sim(model = list(ar = ar_arma, ma = ma_arma), n = 250)
+
+grid.arrange(
+  ts_plot(y_arma, title = "ARMA(2,2) realization"),
+  acf_plot(ar = ar_arma, ma = ma_arma, title = "ACF: decays (no clean cut-off)"),
+  pacf_plot(ar = ar_arma, ma = ma_arma, title = "PACF: decays (no clean cut-off)"),
+  ncol = 1
+)
+```
+
+# 7&nbsp;&nbsp;Identifying a model from ACF and PACF {background-color="#1b3a6b"}
+
+## The identification table {.smaller}
+
+The ACF and PACF together fingerprint the model class. This is the practical payoff of the whole lecture.
+
+| Process | ACF | PACF |
+|:---|:---|:---|
+| **White noise** | zero at all lags $>0$ | zero at all lags $>0$ |
+| **AR($p$)** | decays (monotone or oscillatory) | **cuts off after lag $p$** |
+| **MA($q$)** | **cuts off after lag $q$** | decays (monotone or oscillatory) |
+| **ARMA($p,q$)** | decays after lag $q$ | decays after lag $p$ |
+
+::: {.callout-ts}
+With real data these patterns are seen through sampling noise, so identification narrows the field to a **few** candidate $(p,q)$ — the final choice is settled by estimation and diagnostics next lecture.
+:::
+
+## Sign patterns worth remembering {.smaller}
+
+::: {.keybox}
+- **AR(1)**, $\phi>0$: ACF is positive geometric decay; $\phi<0$: ACF alternates sign. PACF is a single spike $\phi_{11}=\phi$.
+- **MA(1)**, $\beta>0$: single positive ACF spike at lag 1; $\beta<0$: single negative spike. PACF decays.
+- **ARMA(1,1)**: geometric ACF decay after lag 1 with $\operatorname{sign}(\rho_1)=\operatorname{sign}(\phi+\beta)$; PACF decays after lag 1.
+:::
+
+# Recap {background-color="#1b3a6b"}
+
+## Key takeaways {.smaller}
+
+::: {.keybox}
+- **AR(1):** read persistence off the IRF $\psi_j=\phi^{\,j}$, the half-life $\ln 0.5/\ln\phi$, and the long-run effect $1/(1-\phi)$.
+- **Stationarity** = characteristic roots **outside** the unit circle; recover the Wold / MA($\infty$) form by inverting $\phi(L)$.
+- **AR(2):** Yule–Walker moments, the stationarity **triangle**, and complex roots giving damped cycles of period $2\pi/\arccos\!\big(\phi_1/2\sqrt{-\phi_2}\big)$.
+- **AR($p$):** companion form $F$; stationarity iff all **eigenvalues inside** the unit circle (= reciprocals of the roots).
+- **PACF** and the **duality**: AR $\Rightarrow$ PACF cuts off; MA $\Rightarrow$ ACF cuts off.
+- **Invertibility** is the MA-side mirror of stationarity (MA roots outside the unit circle).
+- **ARMA($p,q$):** stationarity from $\phi(L)$, invertibility from $\beta(L)$; watch for **common-factor** redundancy.
+:::
+
+## Exercises {.smaller}
+
+1. **AR(1) moments and persistence.** For $Y_t=1+0.6Y_{t-1}+\varepsilon_t$, $\varepsilon_t\sim WN(0,4)$, find $\mu,\gamma_0,\rho_1,\rho_2$, the long-run effect of a unit shock, and the half-life. Sketch the ACF.
+2. **Stationarity from roots.** Write the characteristic polynomial, find its roots, and decide stationarity for $Y_t=1.2Y_{t-1}-0.32Y_{t-2}+\varepsilon_t$ and $Y_t=0.6Y_{t-1}+0.5Y_{t-2}+\varepsilon_t$.
+3. **The stationarity triangle.** Using $\phi_1+\phi_2<1,\ \phi_2-\phi_1<1,\ -1<\phi_2<1$, decide which of $(0.8,0.1),(1.4,-0.5),(0.3,0.8)$ are stationary. For the stationary ones, which have complex roots?
+4. **Cycles from complex roots.** For $Y_t=1.5Y_{t-1}-0.75Y_{t-2}+\varepsilon_t$, verify the roots are complex and the cycle period is 12. What happens to the amplitude over time, and why?
+5. **ACF/PACF signatures.** Without computing, state whether the ACF and PACF cut off or decay for (a) MA(2); (b) AR(3); (c) ARMA(1,2); (d) white noise. Which pair identifies each order?
+6. **Invertibility.** Show $\beta=0.5$ and $\beta=2$ give the same MA(1) ACF. Which is invertible? Write the invertible one as an AR($\infty$).
+7. **Parameter redundancy.** Show $(1-0.7L)Y_t=(1-0.7L)\varepsilon_t$ collapses to white noise. Why are the ARMA(1,1) parameters unidentified, and how would you spot it from estimated roots?
+8. **Companion form.** Write $F$ for $Y_t=0.9Y_{t-1}-0.2Y_{t-2}+\varepsilon_t$, find its eigenvalues, and confirm they are the reciprocals of the characteristic roots and inside the unit circle.
+
+## Suggested reading {.smaller}
+
+- **Hamilton, J. D. (1994)**, *Time Series Analysis*, Chs. 1–3 — difference equations, lag operators, stationary ARMA moments, companion form.
+- **Brockwell, P. J. & Davis, R. A.**, *Introduction to Time Series and Forecasting* — ARMA models, ACF/PACF, invertibility.
+- **Enders, W.**, *Applied Econometric Time Series* — stationary ARMA models and Box–Jenkins identification.
+- **Hyndman, R. J. & Athanasopoulos, G.**, *Forecasting: Principles and Practice* — a computational treatment of AR, MA, and ARIMA models.
+
+> Next lecture: **estimation and inference** — fitting $\phi,\theta,\sigma^2$, standard errors, information criteria, and diagnostic tests, so the population correlograms here become tools for real data.
+
+::: {.small .muted}
+Source notebook: `07-08-Univariate-Time-Series-modelsII.ipynb` · R 4.6 · packages: ggplot2, gridExtra. All ACF/PACF/IRF figures are **population** quantities (except panels labelled *sample*), produced at render time.
+:::
