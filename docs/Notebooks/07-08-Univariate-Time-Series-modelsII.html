@@ -342,7 +342,8 @@ window.Quarto = {
   <li><a href="#the-ar2-process" id="toc-the-ar2-process" class="nav-link" data-scroll-target="#the-ar2-process">2&nbsp;&nbsp;The AR(2) process</a>
   <ul class="collapse">
   <li><a href="#moments-the-yulewalker-equations" id="toc-moments-the-yulewalker-equations" class="nav-link" data-scroll-target="#moments-the-yulewalker-equations">Moments: the Yule–Walker equations</a></li>
-  <li><a href="#stationarity-roots-the-triangle-and-complex-roots" id="toc-stationarity-roots-the-triangle-and-complex-roots" class="nav-link" data-scroll-target="#stationarity-roots-the-triangle-and-complex-roots">Stationarity: roots, the triangle, and complex roots</a>
+  <li><a href="#stationarity-roots-the-triangle-and-complex-roots" id="toc-stationarity-roots-the-triangle-and-complex-roots" class="nav-link" data-scroll-target="#stationarity-roots-the-triangle-and-complex-roots">Stationarity: roots, the triangle, and complex roots</a></li>
+  <li><a href="#wold-mainfty-representation" id="toc-wold-mainfty-representation" class="nav-link" data-scroll-target="#wold-mainfty-representation">Wold (MA(<span class="math inline">\(\infty\)</span>)) representation</a>
   <ul class="collapse">
   <li><a href="#simulation-four-ar2-processes" id="toc-simulation-four-ar2-processes" class="nav-link" data-scroll-target="#simulation-four-ar2-processes">Simulation: four AR(2) processes</a></li>
   </ul></li>
@@ -801,12 +802,48 @@ z_{1,2}=\frac{-\phi_1\pm\sqrt{\phi_1^2+4\phi_2}}{2\phi_2}.
 <p>The nature of the dynamics depends on the discriminant <span class="math inline">\(\phi_1^2+4\phi_2\)</span>:</p>
 <ul>
 <li><strong>real distinct roots</strong> (<span class="math inline">\(\phi_1^2+4\phi_2&gt;0\)</span>): the ACF/IRF is a sum of two decaying geometric terms — monotone (or sign-alternating) decay;</li>
-<li><strong>complex-conjugate roots</strong> (<span class="math inline">\(\phi_1^2+4\phi_2&lt;0\)</span>): the ACF/IRF is a <strong>damped sinusoid</strong> — the process exhibits <em>pseudo-cycles</em>. The stochastic cycle has modulus <span class="math inline">\(r=\sqrt{-\phi_2}\)</span> and period</li>
+<li><strong>complex-conjugate roots</strong> (<span class="math inline">\(\phi_1^2+4\phi_2&lt;0\)</span>): the ACF/IRF is a <strong>damped sinusoid</strong> — the process exhibits <em>pseudo-cycles</em>.</li>
 </ul>
+<p>The stochastic cycle has modulus <span class="math inline">\(r=\sqrt{-\phi_2}\)</span> and period</p>
 <p><span class="math display">\[
 \text{Period}=\frac{2\pi}{\arccos\!\big(\phi_1/(2\sqrt{-\phi_2})\big)}.
 \]</span></p>
 <p>This is the reason AR(2) models are the simplest device for capturing business-cycle-like behaviour.</p>
+</section>
+<section id="wold-mainfty-representation" class="level2">
+<h2 class="anchored" data-anchor-id="wold-mainfty-representation">Wold (MA(<span class="math inline">\(\infty\)</span>)) representation</h2>
+<p>It is cleanest to work with the <strong>reciprocal roots</strong> <span class="math inline">\(\lambda_{1,2}=1/z_{1,2}\)</span>; equivalently they solve the <em>reversed</em> polynomial <span class="math inline">\(\lambda^2-\phi_1\lambda-\phi_2=0\)</span>,</p>
+<p><span class="math display">\[
+\lambda_{1,2}=\frac{\phi_1\pm\sqrt{\phi_1^2+4\phi_2}}{2},
+\qquad
+\lambda_1+\lambda_2=\phi_1,\quad
+\lambda_1\lambda_2=-\phi_2,
+\]</span></p>
+<p>so that <span class="math inline">\((1-\lambda_1 L)(1-\lambda_2 L)=1-\phi_1 L-\phi_2 L^2\)</span>. The stationarity condition <span class="math inline">\(|z_i|&gt;1\)</span> is exactly <span class="math inline">\(|\lambda_i|&lt;1\)</span>, which is precisely what makes each geometric inversion converge. Writing <span class="math inline">\(X_t=Y_t-\mu\)</span>,</p>
+<p><span class="math display">\[
+X_t=\psi(L)\,\varepsilon_t
+=\frac{\varepsilon_t}{(1-\lambda_1 L)(1-\lambda_2 L)}
+=\sum_{j=0}^{\infty}\psi_j\,\varepsilon_{t-j}.
+\]</span></p>
+<p>Matching coefficients in <span class="math inline">\(\phi(L)\psi(L)=1\)</span> shows the impulse responses obey the <strong>same second-order recursion as the ACF</strong>,</p>
+<p><span class="math display">\[
+\psi_0=1,\qquad \psi_1=\phi_1,\qquad
+\psi_j=\phi_1\psi_{j-1}+\phi_2\psi_{j-2}\quad(j\ge2),
+\]</span></p>
+<p>with the closed form (distinct roots, by partial fractions)</p>
+<p><span class="math display">\[
+\boxed{\;\psi_j=\frac{\lambda_1^{\,j+1}-\lambda_2^{\,j+1}}{\lambda_1-\lambda_2}.\;}
+\]</span></p>
+<p>The three regimes mirror the discriminant cases above:</p>
+<ul>
+<li><strong>real distinct roots</strong> (<span class="math inline">\(\phi_1^2+4\phi_2&gt;0\)</span>): a sum of two decaying geometrics;</li>
+<li><strong>repeated root</strong> (<span class="math inline">\(\phi_1^2+4\phi_2=0\)</span>, <span class="math inline">\(\lambda=\phi_1/2\)</span>): <span class="math inline">\(\psi_j=(j+1)\lambda^{\,j}\)</span>;</li>
+<li><strong>complex roots</strong> (<span class="math inline">\(\phi_1^2+4\phi_2&lt;0\)</span>): with <span class="math inline">\(\lambda_{1,2}=re^{\pm i\theta}\)</span>, <span class="math inline">\(r=\sqrt{-\phi_2}\)</span> and <span class="math inline">\(\theta=\arccos\!\big(\phi_1/(2\sqrt{-\phi_2})\big)\)</span>,</li>
+</ul>
+<p><span class="math display">\[
+\psi_j=r^{\,j}\,\frac{\sin\big((j+1)\theta\big)}{\sin\theta},
+\]</span></p>
+<p>a <strong>damped sinusoid</strong> with the same modulus <span class="math inline">\(r\)</span> and period <span class="math inline">\(2\pi/\theta\)</span> as the ACF — the impulse-response counterpart of the pseudo-cycles above. Restoring the mean gives the full Wold form <span class="math inline">\(Y_t=\mu+\sum_{j\ge0}\psi_j\varepsilon_{t-j}\)</span>; a useful check is <span class="math inline">\(\psi(1)=\sum_j\psi_j=1/(1-\phi_1-\phi_2)\)</span>, the long-run multiplier, consistent with <span class="math inline">\(\mu=c/(1-\phi_1-\phi_2)\)</span>.</p>
 <div id="8c5dbe3a" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show R code</summary>
@@ -979,11 +1016,11 @@ Y_t=c+\phi_1 Y_{t-1}+\cdots+\phi_p Y_{t-p}+\varepsilon_t
 </section>
 <section id="wold-representation" class="level3">
 <h3 class="anchored" data-anchor-id="wold-representation">Wold representation</h3>
-<p>Factorising <span class="math inline">\(\phi(L)=\prod_{i=1}^{p}(1-\lambda_i L)\)</span> and inverting each factor (valid when every <span class="math inline">\(|\lambda_i|&lt;1\)</span>, i.e.&nbsp;every characteristic root is outside the unit circle),</p>
+<p>Factorising <span class="math inline">\(\phi(L)=\prod_{i=1}^{p}(1-\lambda_i L)\)</span>, where the <span class="math inline">\(\lambda_i=1/z_i\)</span> are the <strong>reciprocals of the characteristic roots</strong> (equivalently the roots of the reversed polynomial <span class="math inline">\(\lambda^p-\phi_1\lambda^{p-1}-\cdots-\phi_p=0\)</span>), and inverting each factor (valid when every <span class="math inline">\(|\lambda_i|&lt;1\)</span>, i.e.&nbsp;every characteristic root <span class="math inline">\(z_i\)</span> is outside the unit circle),</p>
 <p><span class="math display">\[
 X_t=\psi(L)\varepsilon_t,
 \qquad
-\psi(L)=\prod_{i=1}^{p}\Big(\sum_{j=0}^{\infty}\lambda_i^{\,j}L^{\,j}\Big),\qquad X_t- Y_t-\mu
+\psi(L)=\prod_{i=1}^{p}\Big(\sum_{j=0}^{\infty}\lambda_i^{\,j}L^{\,j}\Big),\qquad X_t=Y_t-\mu
 \]</span></p>
 <p>an MA(<span class="math inline">\(\infty\)</span>) whose coefficients <span class="math inline">\(\psi_j\)</span> are the impulse response.</p>
 </section>
