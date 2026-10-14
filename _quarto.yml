@@ -60,6 +60,9 @@ website:
           - href: Notebooks/07-08-Univariate-Time-Series-modelsII.ipynb
             text: Univariate-Time-Series-models II
 
+          - href: Notebooks/09-Univariate-Time-Series-modelsIII.ipynb
+            text: Univariate-Time-Series-models III
+
       - section: "Lecture slides"
         contents:
           - href: Slides/00-course-introduction.qmd
