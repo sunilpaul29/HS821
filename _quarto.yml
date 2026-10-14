@@ -83,6 +83,9 @@ website:
           - href: Slides/07-08-Univariate-Time-Series-modelsII.qmd
             text: Univariate-Time-Series-models II
 
+          - href: Slides/09-Univariate-Time-Series-modelsIII.qmd
+            text: Univariate-Time-Series-models III
+
 
 
   page-footer:

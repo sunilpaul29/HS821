@@ -1,0 +1,761 @@
+---
+title: "Univariate Time Series Models III"
+subtitle: "HS 821 · Lecture 9 · Topics in Time Series Econometrics"
+author: "Sunil Paul"
+date: "2026-10-14"
+format:
+  revealjs:
+    theme: default
+    slide-number: c/t
+    show-slide-number: all
+    incremental: false
+    smaller: false
+    scrollable: true
+    center-title-slide: true
+    transition: slide
+    background-transition: fade
+    chalkboard: true
+    code-line-numbers: false
+    code-overflow: wrap
+    html-math-method: mathjax
+    fig-align: center
+    footer: "HS 821 · Univariate Time Series Models III"
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto
+knitr:
+  opts_chunk:
+    dev: "png"
+    dpi: 150
+    fig.width: 7
+    fig.height: 4.2
+---
+
+```{=html}
+<style>
+:root{
+  --hs-accent:#1b3a6b;
+  --hs-accent2:#c0392b;
+}
+.reveal h1,.reveal h2,.reveal h3{ color:var(--hs-accent); font-weight:650; }
+.reveal .slide-number{ background:transparent; color:#888; }
+.reveal section img{ border:none; box-shadow:none; }
+.reveal table{ font-size:0.80em; }
+.reveal table th{ background:#eef2f8; }
+.reveal pre code{ font-size:0.72em; line-height:1.25; }
+.reveal .small{ font-size:0.78em; }
+.reveal .muted{ color:#5a6472; }
+.reveal blockquote{
+  border-left:4px solid var(--hs-accent);
+  background:#f6f8fc; padding:0.4em 0.9em; font-style:normal;
+}
+.callout-ts{
+  border-left:5px solid var(--hs-accent2);
+  background:#fdf1ef; padding:0.5em 0.9em; border-radius:4px; margin-top:0.4em;
+}
+.keybox{
+  border:1px solid #d5dded; background:#f6f8fc;
+  border-radius:6px; padding:0.5em 0.9em;
+}
+.widget{
+  border:1px solid #d5dded; border-radius:8px; padding:0.7em 0.9em;
+  background:#fbfcfe;
+}
+.posterior{ font-size:1.9em; color:var(--hs-accent2); font-weight:700; }
+.reveal .columns{ align-items:center; }
+</style>
+```
+
+```{r}
+#| echo: false
+#| include: false
+# ------------------------------------------------------------------
+# Setup: libraries and the plotting helpers used throughout the deck.
+# (Hidden — the same helpers as the Lecture 9 notebook.)
+# ------------------------------------------------------------------
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(gridExtra)
+})
+
+# Sample ACF with approximate +/- 2/sqrt(T) bands (dashed red); `by` spaces lag labels.
+sample_acf_plot <- function(x, L = 20, title = NULL, by = 3) {
+  a  <- acf(x, plot = FALSE, lag.max = L)
+  df <- data.frame(lag = as.numeric(a$lag)[-1], acf = as.numeric(a$acf)[-1])
+  b  <- 2 / sqrt(length(x))
+  ggplot(df, aes(lag, acf)) + theme_classic() +
+    geom_hline(yintercept = 0) +
+    geom_segment(aes(xend = lag, y = 0, yend = acf), linewidth = 1) +
+    geom_point(size = 2) +
+    geom_hline(yintercept = c(b, -b), linetype = "dashed", colour = "red") +
+    scale_x_continuous(breaks = seq(0, L, by = by)) +
+    labs(x = "Lag", y = "Sample ACF", title = title)
+}
+
+# Sample PACF with the same +/- 2/sqrt(T) bands (Quenouille's test of the AR order).
+sample_pacf_plot <- function(x, L = 20, title = NULL, by = 3) {
+  a  <- pacf(x, plot = FALSE, lag.max = L)
+  df <- data.frame(lag = as.numeric(a$lag), acf = as.numeric(a$acf))
+  b  <- 2 / sqrt(length(x))
+  ggplot(df, aes(lag, acf)) + theme_classic() +
+    geom_hline(yintercept = 0) +
+    geom_segment(aes(xend = lag, y = 0, yend = acf), linewidth = 1) +
+    geom_point(size = 2) +
+    geom_hline(yintercept = c(b, -b), linetype = "dashed", colour = "red") +
+    scale_x_continuous(breaks = seq(0, L, by = by)) +
+    labs(x = "Lag", y = "Sample PACF", title = title)
+}
+```
+
+# Roadmap {.center}
+
+::: {.incremental}
+- **From data to model**: the Box–Jenkins cycle
+- **Identification**: the sample ACF and PACF and their sampling distributions
+- **Portmanteau tests**: Box–Pierce vs Ljung–Box
+- **Method of moments**: Yule–Walker for AR, and why MA models resist it
+- **Least squares**: OLS for AR, its finite-sample bias, and CSS for ARMA
+:::
+
+# From data to model {background-color="#1b3a6b"}
+
+## Known parameters → estimated parameters {.smaller}
+
+Lectures 6–8 treated the ARMA parameters as **known**: every ACF, PACF and impulse
+response was a population object. In practice, we observe **one realization**. Box-Jenkins methodology outlines the process of modelling using observed data.
+
+
+::: {.keybox}
+**The Box–Jenkins cycle**
+
+1. **Identification** — use the sample ACF/PACF to shortlist candidate orders $(p,q)$.
+2. **Estimation** — fit each candidate (moments, least squares, ML, Bayesian); compare with information criteria.
+3. **Diagnostic checking** — do the residuals look like white noise? If not, back to step 1.
+4. **Forecasting and evaluation** — forecast with the accepted model; judge it out of sample.
+:::
+
+::: {.callout-ts}
+All series here are **stationary**. Unit roots, differencing and ARIMA models come in a later lecture.
+:::
+
+## The R toolkit {.smaller}
+
+Everything uses base-R `stats`:
+
+| Function | Job |
+|:---|:---|
+| `acf()`, `pacf()` | sample correlograms |
+| `Box.test()` | Box–Pierce and Ljung–Box portmanteau tests |
+| `ar.yw()`, `ar.ols()` | Yule–Walker and least-squares AR estimation |
+| `arima(..., method = "CSS")` | conditional sum of squares for ARMA |
+| `arima(..., method = "ML")` | exact Gaussian maximum likelihood |
+
+::: {.callout-ts}
+**R convention.** `arima()` reports the **mean** $\mu$ under the label
+`intercept`, not the constant $c$; recover $c=\mu(1-\phi_1-\cdots-\phi_p)$.
+Its MA polynomial is $1+\beta_1L+\cdots+\beta_qL^q$ — the same sign convention as ours.
+:::
+
+# Identification: the sample correlogram {background-color="#1b3a6b"}
+
+## Sample moments {.smaller}
+
+The population moments are estimated by their **sample analogues**:
+
+$$
+\bar y=\frac1T\sum_{t=1}^{T}y_t,
+\qquad
+\hat\gamma_j=\frac1T\sum_{t=j+1}^{T}(y_t-\bar y)(y_{t-j}-\bar y),
+\qquad
+\hat\rho_j=\frac{\hat\gamma_j}{\hat\gamma_0}.
+$$
+
+- The divisor is $T$, **not** $T-j$. This shrinks $\hat\gamma_j$ slightly towards
+  zero at long lags, but guarantees that $\hat\Gamma_p=[\hat\gamma_{|i-j|}]$ is
+  **positive definite** — the reason Yule–Walker always delivers a stationary AR.
+- Long lags rest on few pairs of observations: inspect lags up to about $T/4$.
+
+::: {.keybox}
+The **sample PACF** $\hat\phi_{jj}$ is the last coefficient in the regression of
+$y_t$ on $y_{t-1},\dots,y_{t-j}$ — equivalently, it comes from the $\hat\rho_j$ by
+the **Durbin–Levinson recursion**.
+:::
+
+## How large is "large"? Sampling distributions {.smaller}
+
+**White noise.** If $Y_t$ is i.i.d. with finite variance, for each $j\ge1$
+$$
+\hat\rho_j\;\overset{a}{\sim}\;N\!\left(0,\tfrac1T\right),
+$$
+asymptotically independent across lags $\Rightarrow$ 95% bands $\pm2/\sqrt T$.
+
+**MA($q$): Bartlett's formula.** Beyond the cut-off,
+$$
+\operatorname{Var}(\hat\rho_j)\approx\frac1T\Big(1+2\sum_{i=1}^{q}\rho_i^2\Big),\qquad j>q .
+$$
+The bands **widen with $q$** — a sequential test of the MA order (`acf(x, ci.type = "ma")`).
+
+**AR($p$): Quenouille's result.**
+$$
+\hat\phi_{jj}\;\overset{a}{\sim}\;N\!\left(0,\tfrac1T\right),\qquad j>p,
+$$
+so $\pm2/\sqrt T$ bands on the **sample PACF** test the AR order directly.
+
+## Two cautions {.smaller}
+
+::: {.callout-ts}
+1. **Multiple testing.** With 20 lags and 5% bands, about **one** spike will cross
+   the bands by chance even for white noise.
+2. **Correlation across lags.** Sample autocorrelations of a dependent series are
+   correlated with one another, so a sample ACF looks *smoother*, with longer
+   waves, than its population counterpart.
+:::
+
+> **Do not chase isolated spikes at long, uninterpretable lags.**
+
+## Hands on: SACF and SPACF {.smaller}
+
+We draw (a) **white noise** and (b) an **MA(1) with $\beta=0.7$**, both with $T=100$.
+
+> **Predict:**
+>
+> 1. For white noise, roughly how many of the first 20 sample autocorrelations
+>    should cross $\pm2/\sqrt{T}=\pm0.2$?
+> 2. For the MA(1), $\rho_1=\beta/(1+\beta^2)=0.47$. How much wider are Bartlett's
+>    bands for lags $j>1$ than the naive $\pm0.2$?
+> 3. Which of the four panels should show a **decaying** pattern?
+
+## R — white noise vs MA(1) correlograms {.smaller}
+
+```{r}
+#| fig-height: 5.4
+set.seed(123)
+T  <- 100
+wn <- rnorm(T)
+ma <- arima.sim(model = list(ma = 0.7), n = T)
+
+rho1     <- 0.7 / (1 + 0.7^2)
+bartlett <- 2 * sqrt((1 + 2 * rho1^2) / T)
+cat(sprintf("Naive band: +/- %.3f   Bartlett band for j > 1: +/- %.3f\n", 2 / sqrt(T), bartlett))
+cat("White-noise lags outside +/- 2/sqrt(T):",
+    sum(abs(acf(wn, plot = FALSE, lag.max = 20)$acf[-1]) > 2 / sqrt(T)), "of 20\n")
+
+g_ma <- sample_acf_plot(ma, title = "Sample ACF: MA(1), beta = 0.7") +
+  geom_hline(yintercept = c(bartlett, -bartlett), linetype = "dotted", colour = "blue")
+grid.arrange(sample_acf_plot(wn,  title = "Sample ACF: white noise"),
+             sample_pacf_plot(wn, title = "Sample PACF: white noise"),
+             g_ma,
+             sample_pacf_plot(ma, title = "Sample PACF: MA(1), beta = 0.7"),
+             ncol = 2)
+```
+
+## Reading the graphs {.smaller}
+
+- **White noise:** none of the 20 sample autocorrelations crosses the bands in this
+  draw (lags 12 and 14 come close). One crossing in twenty would have been
+  entirely normal.
+- **MA(1) ACF:** one large spike at lag 1 — **0.32**, well below the population
+  value 0.47, a reminder of sampling noise at $T=100$ — then inside the bands,
+  apart from an isolated spike at lag 20 that just reaches Bartlett's band:
+  exactly the kind of long lag *not* to chase.
+- **MA(1) PACF:** a positive spike, then a negative one, dying out — the
+  alternating decay of an MA(1) with $\beta>0$, read through sampling noise.
+
+::: {.keybox}
+Bartlett's bands (dotted blue) are **20% wider** than the naive ones here
+($\pm0.240$ vs $\pm0.200$). With several large $\hat\rho_i$ the correction matters more.
+:::
+
+## Portmanteau tests: Box–Pierce and Ljung–Box {.smaller}
+
+Test the first $K$ autocorrelations **jointly**, $H_0:\rho_1=\cdots=\rho_K=0$:
+
+$$
+Q_{BP}(K)=T\sum_{k=1}^{K}\hat\rho_k^{\,2},
+\qquad
+Q_{LB}(K)=T(T+2)\sum_{k=1}^{K}\frac{\hat\rho_k^{\,2}}{T-k}.
+$$
+
+Both $\overset{a}{\sim}\chi^2(K)$ under $H_0$. The Ljung–Box weights
+$(T+2)/(T-k)>1$ correct Box–Pierce, whose $\chi^2$ approximation is poor in small
+samples.
+
+::: {.keybox}
+**On residuals the degrees of freedom change.** For the residuals of an
+estimated ARMA($p,q$), the $p+q$ coefficients absorb part of the autocorrelation:
+$$
+Q(K)\;\overset{a}{\sim}\;\chi^2(K-p-q)
+\qquad(\texttt{Box.test(e, lag = K, type = "Ljung-Box", fitdf = p + q)}).
+$$
+:::
+
+**Choosing $K$.** Small $K$ lacks power at longer lags; large $K$ dilutes the test.
+Common choices: $K\approx10$ (non-seasonal), $K\approx2s$ (seasonal, period $s$).
+Reporting several $K$ is good practice.
+
+## Predict before you simulate: test size {.smaller}
+
+We generate **2000 white-noise samples** of length $T=50$ and test with $K=10$ at
+the 5% level.
+
+> **Predict:** which test should reject close to **5%** of the time — and which
+> less often? Then: what happens when we apply Ljung–Box to an AR(1) with
+> $\phi=0.5$?
+
+## R — size and power of the portmanteau tests {.smaller}
+
+```{r}
+# Size under white noise (T = 50, K = 10, nominal 5%)
+set.seed(123)
+reject <- replicate(2000, {
+  e <- rnorm(50)
+  c(BoxPierce = Box.test(e, lag = 10, type = "Box-Pierce")$p.value < 0.05,
+    LjungBox  = Box.test(e, lag = 10, type = "Ljung-Box")$p.value  < 0.05)
+})
+round(rowMeans(reject), 3)
+
+# Power: the same test applied to an AR(1) with phi = 0.5
+set.seed(123)
+Box.test(arima.sim(model = list(ar = 0.5), n = 100), lag = 10, type = "Ljung-Box")
+```
+
+## Reading the output {.smaller}
+
+- **Ljung–Box** rejects about **5%** of the time under the null (0.052), as it should.
+- **Box–Pierce** rejects only about **half** as often (0.026) — it is
+  *undersized* at $T=50$.
+- Against a genuinely dependent AR(1) series, the Ljung–Box statistic is enormous
+  ($Q=53.7$ on 10 df, $p\approx5\times10^{-8}$).
+
+> **This is why software and practice default to Ljung–Box.**
+
+## An identification checklist {.smaller}
+
+::: {.keybox}
+1. **Plot the series.** Look for trends, breaks, outliers, changing variance and seasonality.
+2. **Transform if necessary.** Logs or square roots stabilize a variance that grows
+   with the level; differencing removes stochastic trends (later lecture).
+3. **Compute the sample ACF and PACF** and compare with the fingerprint table of Lectures 6–8.
+4. **Shortlist two to four candidates**, favouring small models (**parsimony**).
+5. **Carry all candidates into estimation**; let information criteria, diagnostics
+   and out-of-sample performance decide.
+:::
+
+::: {.callout-ts}
+Mixed ARMA models are hard to separate by eye: **both** the ACF and the PACF decay.
+:::
+
+# Estimation I: the method of moments {background-color="#1b3a6b"}
+
+## The estimation problem {.smaller}
+
+For an ARMA($p,q$) we must estimate
+$\boldsymbol\theta=(c,\;\phi_1,\dots,\phi_p,\;\beta_1,\dots,\beta_q,\;\sigma^2)'$.
+Three features make this harder than cross-section regression:
+
+- **Dependence.** The joint density of the sample is not the product of the marginals.
+- **Lagged regressors are not strictly exogenous.** $Y_{t-1}$ is uncorrelated with
+  $\varepsilon_t$ but correlated with $\varepsilon_{t-1},\varepsilon_{t-2},\dots$ —
+  this biases least squares in finite samples.
+- **MA terms are unobserved.** Lagged shocks must be reconstructed from the data,
+  making estimation nonlinear.
+
+| Approach | Idea | Natural for |
+|:---|:---|:---|
+| Method of moments (Yule–Walker) | match population and sample autocovariances | pure AR |
+| Least squares (OLS, CSS) | minimize squared one-step errors, conditioning on initial values | AR (OLS); ARMA (CSS) |
+| Exact maximum likelihood | maximize the full Gaussian joint density | any ARMA |
+| Bayesian | likelihood × prior → posterior | any ARMA; small samples |
+
+## The Yule–Walker equations {.smaller}
+
+Multiply $X_t=\phi_1X_{t-1}+\cdots+\phi_pX_{t-p}+\varepsilon_t$ by $X_{t-j}$,
+$j=1,\dots,p$, and take expectations:
+
+$$
+\underbrace{\begin{bmatrix}
+\gamma_0 & \gamma_1 & \cdots & \gamma_{p-1}\\
+\gamma_1 & \gamma_0 & \cdots & \gamma_{p-2}\\
+\vdots & & \ddots & \vdots\\
+\gamma_{p-1} & \gamma_{p-2} & \cdots & \gamma_0
+\end{bmatrix}}_{\Gamma_p}
+\begin{bmatrix}\phi_1\\ \vdots\\ \phi_p\end{bmatrix}
+=
+\underbrace{\begin{bmatrix}\gamma_1\\ \vdots\\ \gamma_p\end{bmatrix}}_{\boldsymbol\gamma_p},
+\qquad
+\sigma^2=\gamma_0-\boldsymbol\phi'\boldsymbol\gamma_p .
+$$
+
+Replacing population by sample moments gives the **Yule–Walker estimator**
+
+$$
+\boxed{\;\hat{\boldsymbol\phi}_{YW}=\hat\Gamma_p^{-1}\hat{\boldsymbol\gamma}_p,
+\qquad
+\hat\sigma^2=\hat\gamma_0-\hat{\boldsymbol\phi}'\hat{\boldsymbol\gamma}_p,
+\qquad
+\hat c=\bar y\,(1-\hat\phi_1-\cdots-\hat\phi_p).\;}
+$$
+
+For an AR(1), $\hat\phi=\hat\rho_1$. For an AR(2):
+$$
+\hat\phi_1=\frac{\hat\rho_1(1-\hat\rho_2)}{1-\hat\rho_1^2},
+\qquad
+\hat\phi_2=\frac{\hat\rho_2-\hat\rho_1^2}{1-\hat\rho_1^2}.
+$$
+
+## Properties of Yule–Walker {.smaller}
+
+::: {.keybox}
+- **Closed form**, no iteration.
+- $\hat\Gamma_p$ positive definite $\Rightarrow$ $\hat{\boldsymbol\phi}_{YW}$ is **always stationary**.
+- $\sqrt T(\hat{\boldsymbol\phi}_{YW}-\boldsymbol\phi)\overset{d}{\to}N(\mathbf 0,\;\sigma^2\Gamma_p^{-1})$ —
+  the same as maximum likelihood, so YW is **asymptotically efficient for pure AR**.
+  For an AR(1), $\operatorname{Var}(\hat\phi)\approx(1-\phi^2)/T$.
+- The last coefficient $\hat\phi_{pp}$ **is** the sample PACF at lag $p$.
+:::
+
+::: {.callout-ts}
+In small samples YW is **biased towards zero**, most severely when roots are close
+to the unit circle.
+:::
+
+> **Predict:** we simulate an AR(2) with $(\phi_1,\phi_2)=(0.5,0.25)$, $T=250$.
+> Will the matrix form, the AR(2) formulas, `ar.yw()` and the lag-2 sample PACF
+> agree — and on what?
+
+## R — Yule–Walker by hand {.smaller}
+
+```{r}
+set.seed(2024)
+y_ar2 <- arima.sim(model = list(ar = c(0.5, 0.25)), n = 250)
+
+g      <- acf(y_ar2, type = "covariance", plot = FALSE, lag.max = 2)$acf[, 1, 1]  # gamma_0..gamma_2
+Gam    <- matrix(c(g[1], g[2], g[2], g[1]), 2, 2)
+phi_yw <- solve(Gam, g[2:3])
+s2_yw  <- g[1] - sum(phi_yw * g[2:3])
+r      <- g / g[1]
+
+cat("True (phi1, phi2)            : 0.5000 0.2500\n")
+cat("Yule-Walker, matrix form     :", round(phi_yw, 4), "  sigma2 =", round(s2_yw, 4), "\n")
+cat("Yule-Walker, AR(2) formulas  :", round(c(r[2] * (1 - r[3]) / (1 - r[2]^2),
+                                            (r[3] - r[2]^2) / (1 - r[2]^2)), 4), "\n")
+cat("ar.yw()                      :", round(ar.yw(y_ar2, order.max = 2, aic = FALSE)$ar, 4), "\n")
+cat("Sample PACF at lag 2         :", round(pacf(y_ar2, plot = FALSE)$acf[2], 4), "  (= phi_22)\n")
+cat("Asymptotic s.e.              :", round(sqrt(diag(s2_yw * solve(Gam) / length(y_ar2))), 4), "\n")
+```
+
+## What you should see {.smaller}
+
+- All three routes give **identical** estimates, $(\hat\phi_1,\hat\phi_2)=(0.522,\,0.172)$:
+  the matrix form, the closed-form AR(2) formulas and `ar.yw()` are the same calculation.
+- The lag-2 **sample PACF equals $\hat\phi_{2}$** exactly (0.1716).
+- $\hat\phi_2=0.17$ is about **1.3 standard errors** (s.e. $\approx0.062$) below the
+  true 0.25 — sampling noise, consistent with the downward small-sample pull.
+
+::: {.keybox}
+**Yule–Walker and the PACF are the same calculation.** Identifying an AR order
+with the sample PACF and estimating it by Yule–Walker use exactly the same numbers.
+:::
+
+## MA models resist the method of moments {.smaller}
+
+For an MA(1), $\rho_1=\beta/(1+\beta^2)$. Matching moments gives
+$\hat\rho_1\beta^2-\beta+\hat\rho_1=0$, whose **invertible** root is
+
+$$
+\hat\beta_{MM}=\frac{1-\sqrt{1-4\hat\rho_1^{\,2}}}{2\hat\rho_1}.
+$$
+
+::: {.callout-ts}
+A real solution exists **only if $|\hat\rho_1|\le0.5$**, because $|\rho_1|\le0.5$
+for every MA(1). When $\beta$ is large, sampling noise often pushes $|\hat\rho_1|$
+above 0.5 — and the estimator **does not exist**. Even when it exists it is
+inefficient: moment estimators are mainly useful as **starting values** for
+likelihood-based estimation.
+:::
+
+> **Predict:** for $\beta=0.9$ (so $\rho_1=0.497$) and $T=100$, in what share of
+> samples does $\hat\beta_{MM}$ fail to exist?
+
+## R — how often does the moment estimator fail? {.smaller}
+
+```{r}
+#| fig-height: 3.8
+set.seed(123)
+rho1_hat <- replicate(2000, {
+  y <- arima.sim(model = list(ma = 0.9), n = 100)
+  acf(y, plot = FALSE)$acf[2]
+})
+cat(sprintf("Share of samples with |rho1_hat| > 0.5 (no real solution): %.1f%%\n",
+            100 * mean(abs(rho1_hat) > 0.5)))
+
+ggplot(data.frame(r = rho1_hat), aes(r)) + theme_classic() +
+  geom_histogram(bins = 40, fill = "grey70", colour = "white") +
+  geom_vline(xintercept = 0.5, linetype = "dashed", colour = "red") +
+  labs(x = expression(hat(rho)[1]), y = "Count",
+       title = "Lag-1 sample autocorrelation, MA(1) with beta = 0.9",
+       subtitle = "Right of the dashed line the moment equation has no real solution")
+```
+
+## Interpretation {.smaller}
+
+- In about **a third** of the samples (36.4%) the moment estimator **does not
+  exist at all** — even though the true model is a perfectly well-behaved,
+  invertible MA(1).
+- The true $\rho_1=0.497$ sits right at the boundary, so the sampling
+  distribution of $\hat\rho_1$ straddles 0.5.
+
+::: {.keybox}
+Likelihood-based estimators have no such problem: they use the **whole
+autocorrelation structure**, not a single moment.
+:::
+
+$$\boxed{\text{well-behaved model}\not\Rightarrow\text{well-behaved moment estimator}}$$
+
+# Estimation II: least squares {background-color="#1b3a6b"}
+
+## OLS for AR($p$) {.smaller}
+
+Conditioning on the first $p$ observations, an AR($p$) is a linear regression for
+$t=p+1,\dots,T$:
+
+$$
+Y_t=\mathbf x_t'\mathbf b+\varepsilon_t,
+\qquad
+\mathbf x_t=(1,\;Y_{t-1},\dots,Y_{t-p})',
+\qquad
+\mathbf b=(c,\;\phi_1,\dots,\phi_p)',
+$$
+
+$$
+\hat{\mathbf b}_{OLS}=\Big(\sum_{t=p+1}^{T}\mathbf x_t\mathbf x_t'\Big)^{-1}\sum_{t=p+1}^{T}\mathbf x_tY_t,
+\qquad
+\hat\sigma^2=\frac{1}{T-p}\sum_{t=p+1}^{T}\hat\varepsilon_t^{\,2}.
+$$
+
+::: {.keybox}
+$E(\varepsilon_t\mid\mathbf x_t)=0$ (**contemporaneous exogeneity**) $\Rightarrow$
+OLS is **consistent and asymptotically normal**; the usual OLS standard errors are
+valid in large samples.
+:::
+
+## …but biased in finite samples {.smaller}
+
+The regressors are **not strictly exogenous**: $\varepsilon_t$ feeds into the
+future regressors $Y_t,Y_{t+1},\dots$, so $E(\hat{\mathbf b})\ne\mathbf b$ in
+finite samples. For an AR(1) with an estimated intercept (Kendall 1954; Marriott
+and Pope 1954):
+
+$$
+E(\hat\phi_{OLS})-\phi\;\approx\;-\frac{1+3\phi}{T}.
+$$
+
+::: {.callout-ts}
+The bias is **downward** and **grows with persistence**: OLS **understates
+persistence**, so estimated half-lives are too short.
+:::
+
+> **Predict:** we draw 2000 samples from an AR(1) with $\phi=0.9$ at
+> $T=25,50,100,250$ and estimate $\phi$ by OLS. What sign does the bias have?
+> Roughly how large is it at $T=25$?
+
+## R — Monte Carlo bias of OLS {.smaller}
+
+```{r}
+#| fig-height: 3.6
+set.seed(123)
+phi  <- 0.9
+Ts   <- c(25, 50, 100, 250)
+ests <- lapply(Ts, function(T) replicate(2000, {
+  y <- arima.sim(model = list(ar = phi), n = T)
+  coef(lm(y[-1] ~ y[-T]))[2]
+}))
+
+bias_tab <- data.frame(T = Ts, mean_phi_hat = sapply(ests, mean),
+                       bias = sapply(ests, mean) - phi, approx_bias = -(1 + 3 * phi) / Ts)
+print(round(bias_tab, 4), row.names = FALSE)
+
+dens <- do.call(rbind, lapply(c(1, 3), function(i)
+  data.frame(phi_hat = ests[[i]], T = paste("T =", Ts[i]))))
+ggplot(dens, aes(phi_hat, linetype = T)) + theme_classic() + geom_density() +
+  geom_vline(xintercept = phi, colour = "red") +
+  labs(x = expression(hat(phi)[OLS]), y = "Density", linetype = NULL,
+       title = "Sampling distribution of OLS in an AR(1) with phi = 0.9 (red line)")
+```
+
+## Reading the output {.smaller}
+
+| $T$ | mean $\hat\phi$ | bias | $-(1+3\phi)/T$ |
+|:---:|:---:|:---:|:---:|
+| 25 | 0.730 | $-0.170$ | $-0.148$ |
+| 50 | 0.818 | $-0.082$ | $-0.074$ |
+| 100 | 0.860 | $-0.040$ | $-0.037$ |
+| 250 | 0.884 | $-0.016$ | $-0.015$ |
+
+- The bias is **negative at every $T$** and roughly **halves each time $T$ doubles**,
+  as the approximation predicts.
+- At $T=25$ the typical estimate is about **0.73**, not 0.9, and the distribution
+  has a long **left tail**.
+
+::: {.keybox}
+**Real-world anchor.** With quarterly macro data, 25 years is $T=100$ — where
+the bias is still about $-0.04$: enough to shorten an estimated **half-life** noticeably.
+:::
+
+## Try it: OLS bias and half-lives {.updating-slide background-color="#fbfcfe"}
+
+<style>
+.reveal .updating-slide h2 { font-size: 1.45em; }
+.reveal .updating-slide .columns { gap: 1.2em; align-items: flex-start; }
+.reveal .updating-slide .controls-box{
+  font-size: 0.60em; line-height: 1.2; padding: 0.7em;
+  border: 1px solid #d9e2ef; border-radius: 12px; background: white;
+}
+.reveal .updating-slide input[type="range"]{ width: 160px; }
+.reveal .updating-slide .posterior{ font-size: 2.0em; font-weight: 700; color:#c0392b; }
+.reveal .updating-slide .note{ font-size: 0.60em; color:#555; margin-top: 0.8em; }
+</style>
+
+:::: {.columns}
+
+::: {.column width="36%"}
+::: {.controls-box}
+
+```{ojs}
+//| echo: false
+viewof phiX = Inputs.range([0.1, 0.98], {
+  value: 0.9, step: 0.01, label: "True AR(1) coefficient φ"
+})
+viewof TX = Inputs.range([20, 500], {
+  value: 100, step: 5, label: "Sample size T"
+})
+```
+
+:::
+:::
+
+::: {.column width="64%"}
+
+```{ojs}
+//| echo: false
+biasAt = T => -(1 + 3 * phiX) / T
+phiHat = Math.max(phiX + biasAt(TX), 0.001)
+halfLife = p => Math.log(0.5) / Math.log(p)
+curve = d3.range(20, 501, 5).map(T => ({T: T, Ephi: phiX + biasAt(T)}))
+
+Plot.plot({
+  height: 280, marginLeft: 50,
+  x: {label: "Sample size T"},
+  y: {label: "Approx. E(φ̂_OLS)", grid: true},
+  marks: [
+    Plot.ruleY([phiX], {stroke: "#c0392b", strokeDasharray: "4,3"}),
+    Plot.line(curve, {x: "T", y: "Ephi", stroke: "#1b3a6b", strokeWidth: 2.5}),
+    Plot.dot([{T: TX, Ephi: phiX + biasAt(TX)}], {x: "T", y: "Ephi", fill: "#c0392b", r: 6})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+html`<div>
+  <div class="muted">Approximate bias &nbsp; −(1 + 3φ)/T</div>
+  <div class="posterior">${biasAt(TX).toFixed(3)}</div>
+  <div class="note">
+    Half-life: true <b>${halfLife(phiX).toFixed(1)}</b> periods
+    &nbsp;·&nbsp; implied by E(φ̂) <b>${halfLife(phiHat).toFixed(1)}</b> periods
+  </div>
+</div>`
+```
+
+:::
+
+::::
+
+::: {.note}
+Push $\phi$ towards one at small $T$: the bias grows, and the implied half-life
+shrinks far more than the coefficient does. Doubling $T$ roughly halves the bias.
+:::
+
+## Conditional least squares for ARMA($p,q$) {.smaller}
+
+With MA terms the lagged shocks are unobserved, so build them **recursively**. For
+trial values of $(c,\boldsymbol\phi,\boldsymbol\beta)$,
+
+$$
+\varepsilon_t(\boldsymbol\phi,\boldsymbol\beta)=Y_t-c-\sum_{i=1}^{p}\phi_iY_{t-i}-\sum_{j=1}^{q}\beta_j\,\varepsilon_{t-j}(\boldsymbol\phi,\boldsymbol\beta),
+\qquad t=p+1,\dots,T,
+$$
+
+with pre-sample shocks set to zero.
+
+::: {.keybox}
+**Conditional sum of squares (CSS)** minimizes
+$S(c,\boldsymbol\phi,\boldsymbol\beta)=\sum_t\varepsilon_t^2$. It is nonlinear in
+$\boldsymbol\beta$, so it is solved numerically: `arima(y, order = c(p, 0, q), method = "CSS")`.
+:::
+
+::: {.callout-ts}
+**Invertibility is what makes CSS work.** An error in the arbitrary start
+$\varepsilon_p=0$ enters $\varepsilon_t$ multiplied by $(-\beta)^{t-p}$ in an
+MA(1). It dies out only if $|\beta|<1$. Near the boundary CSS performs poorly and
+**exact maximum likelihood** is preferred.
+:::
+
+# Recap {background-color="#1b3a6b"}
+
+## Key takeaways {.smaller}
+
+::: {.keybox}
+- **Box–Jenkins:** identify → estimate → check → forecast, and loop back when the residuals say so.
+- **Sampling bands:** $\pm2/\sqrt T$ under white noise; **Bartlett** widens ACF bands beyond an MA($q$) cut-off; **Quenouille** justifies $\pm2/\sqrt T$ on the PACF beyond an AR($p$).
+- **Don't chase** isolated spikes at long lags — about one in twenty crosses by chance.
+- **Ljung–Box** has the right size in small samples; Box–Pierce is undersized. On residuals use $\chi^2(K-p-q)$.
+- **Yule–Walker** is closed form, always stationary, asymptotically efficient for pure AR — and identical to the PACF calculation.
+- **MA moment estimators** can fail to exist ($|\hat\rho_1|>0.5$); use them only as starting values.
+- **OLS for AR** is consistent but biased downward by about $-(1+3\phi)/T$: it **understates persistence**.
+- **CSS** extends least squares to ARMA, and relies on **invertibility**.
+:::
+
+## Exercises {.smaller}
+
+1. **Reading a correlogram.** For $T=150$ the first five sample autocorrelations
+   are $0.42,\,0.08,\,-0.05,\,0.04,\,-0.10$. (a) Which are individually significant
+   using $\pm2/\sqrt T$? (b) Assuming an MA(1), use Bartlett's formula to test
+   $\rho_2=0$. (c) Compute the Ljung–Box statistic $Q(5)$ and test white noise.
+   (d) What model would you propose?
+2. **Yule–Walker by hand.** For an AR(2), $\hat\gamma_0=2$, $\hat\rho_1=0.6$,
+   $\hat\rho_2=0.45$. Compute $\hat\phi_1$, $\hat\phi_2$ and $\hat\sigma^2$. Is the
+   estimated model stationary? Does it have complex roots?
+3. **The method of moments for an MA(1).** (a) For $\hat\rho_1=0.4$, find both
+   solutions of the moment equation and choose the invertible one. (b) Explain why
+   there is no solution for $\hat\rho_1=0.55$. (c) What does this suggest about the
+   true $\beta$, and what would you do in practice?
+
+## Suggested reading {.smaller}
+
+- Hamilton, J. D. (1994), *Time Series Analysis*, Princeton University Press: Ch. 4 (§4.8 on Wold's decomposition and the Box–Jenkins philosophy).
+- Enders, W. (2015), *Applied Econometric Time Series*, 4th ed., Wiley: Ch. 2.
+- Brockwell, P. J. and Davis, R. A. (2016), *Introduction to Time Series and Forecasting*, 3rd ed., Springer: Ch. 5.
+- Box, G. E. P., Jenkins, G. M., Reinsel, G. C. and Ljung, G. M. (2015), *Time Series Analysis: Forecasting and Control*, 5th ed., Wiley — the original methodology.
+- Hyndman, R. J. and Athanasopoulos, G., *Forecasting: Principles and Practice*, 3rd ed., free online at [otexts.com/fpp3](https://otexts.com/fpp3/).
+- Diebold, F. X., *Elements of Forecasting*, 4th ed. ([free PDF on the author's site](https://www.sas.upenn.edu/~fdiebold/Teaching221/BookPhotocopy.pdf)).
+- **Original papers:** Yule (1927) on sunspots and autoregression; Box and Pierce (1970) and Ljung and Box (1978) on portmanteau tests.
+
+> Next: **maximum likelihood and Bayesian estimation** of ARMA models, then
+> information criteria, diagnostic checking and forecasting.
+
+## R quick reference {.smaller}
+
+| Task | Function | Notes |
+|:---|:---|:---|
+| Sample ACF / PACF | `acf(x)`, `pacf(x)` | `acf(x, ci.type = "ma")` draws Bartlett bands |
+| Portmanteau test | `Box.test(e, lag = K, type = "Ljung-Box", fitdf = p + q)` | set `fitdf` when testing residuals |
+| Yule–Walker / OLS for AR | `ar.yw(x, order.max = p, aic = FALSE)`, `ar.ols()` | `aic = TRUE` chooses $p$ by AIC |
+| CSS / exact ML for ARMA | `arima(x, order = c(p, 0, q), method = "CSS")` / `"ML"` | `intercept` is the mean $\mu$ |
+
+::: {.small .muted}
+Source notebook: `09-Univariate-Time-Series-modelsIII.ipynb` · R 4.6 ·
+packages: ggplot2, gridExtra. R figures are produced at render time.
+:::
