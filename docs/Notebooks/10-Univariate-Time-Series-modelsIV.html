@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Univariate Time Series Models IV – HS 821: Topics in Time Series Econometrics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../Notebooks/11-Univariate-Time-Series-modelsV.html" rel="next">
+<link href="../Notebooks/09-Univariate-Time-Series-modelsIII.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-95dd27b9ff1381cec64500a485f2ff81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">HS 821: Topics in Time Series Econometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://moodle.iitgoa.ac.in/course/view.php?id=1275"> <i class="bi bi-mortarboard" role="img">
+</i> 
+<span class="menu-text">Moodle</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html">Univariate timeseris models</a></li><li class="breadcrumb-item"><a href="../Notebooks/10-Univariate-Time-Series-modelsIV.html">Univariate-Time-Series-models IV</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Preliminaries</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/01-Review-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/02-Review-stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics and probability I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/03-Review-stats1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics and probability II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/04-Review-stats2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics and probability III</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Univariate timeseris models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/07-08-Univariate-Time-Series-modelsII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/09-Univariate-Time-Series-modelsIII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/10-Univariate-Time-Series-modelsIV.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Univariate-Time-Series-models IV</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/11-Univariate-Time-Series-modelsV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models V</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/12- ARMA-an application.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models VI</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lecture slides</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/00-course-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/01-Review-stats-slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/03-Review-stats1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/04-Review-stats2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Stats and Prob III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/05-06-Univariate-Time-Series-modelsI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/07-08-Univariate-Time-Series-modelsII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/09-Univariate-Time-Series-modelsIII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate-Time-Series-models III</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#estimation-ii-maximum-likelihood" id="toc-estimation-ii-maximum-likelihood" class="nav-link" data-scroll-target="#estimation-ii-maximum-likelihood">Estimation II: maximum likelihood</a>
+  <ul class="collapse">
+  <li><a href="#the-likelihood-of-a-dependent-sample" id="toc-the-likelihood-of-a-dependent-sample" class="nav-link" data-scroll-target="#the-likelihood-of-a-dependent-sample">The likelihood of a dependent sample</a></li>
+  <li><a href="#exact-likelihood-of-a-gaussian-ar1" id="toc-exact-likelihood-of-a-gaussian-ar1" class="nav-link" data-scroll-target="#exact-likelihood-of-a-gaussian-ar1">Exact likelihood of a Gaussian AR(1)</a></li>
+  <li><a href="#conditional-maximum-likelihood-is-least-squares" id="toc-conditional-maximum-likelihood-is-least-squares" class="nav-link" data-scroll-target="#conditional-maximum-likelihood-is-least-squares">Conditional maximum likelihood is least squares</a></li>
+  <li><a href="#numerical-maximization" id="toc-numerical-maximization" class="nav-link" data-scroll-target="#numerical-maximization">Numerical maximization</a></li>
+  <li><a href="#inference-standard-errors-wald-and-likelihood-ratio-tests" id="toc-inference-standard-errors-wald-and-likelihood-ratio-tests" class="nav-link" data-scroll-target="#inference-standard-errors-wald-and-likelihood-ratio-tests">Inference: standard errors, Wald and likelihood-ratio tests</a></li>
+  <li><a href="#ma-and-arma-likelihoods-the-kalman-filter" id="toc-ma-and-arma-likelihoods-the-kalman-filter" class="nav-link" data-scroll-target="#ma-and-arma-likelihoods-the-kalman-filter">MA and ARMA likelihoods: the Kalman filter</a></li>
+  <li><a href="#when-the-likelihood-is-flat-common-factors" id="toc-when-the-likelihood-is-flat-common-factors" class="nav-link" data-scroll-target="#when-the-likelihood-is-flat-common-factors">When the likelihood is flat: common factors</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key takeaways</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
+  <ul class="collapse">
+  <li><a href="#exercise-4-likelihoods" id="toc-exercise-4-likelihoods" class="nav-link" data-scroll-target="#exercise-4-likelihoods">Exercise 4 — Likelihoods</a></li>
+  <li><a href="#exercise-5-inference" id="toc-exercise-5-inference" class="nav-link" data-scroll-target="#exercise-5-inference">Exercise 5 — Inference</a></li>
+  </ul></li>
+  <li><a href="#suggested-reading" id="toc-suggested-reading" class="nav-link" data-scroll-target="#suggested-reading">Suggested reading</a></li>
+  <li><a href="#appendix-a-mathematical-toolkit-and-learning-resources" id="toc-appendix-a-mathematical-toolkit-and-learning-resources" class="nav-link" data-scroll-target="#appendix-a-mathematical-toolkit-and-learning-resources">Appendix A: Mathematical toolkit and learning resources</a></li>
+  <li><a href="#appendix-b-r-quick-reference" id="toc-appendix-b-r-quick-reference" class="nav-link" data-scroll-target="#appendix-b-r-quick-reference">Appendix B: R quick reference</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Notebooks/05-06-Univariate-Time-Series-modelsI.html">Univariate timeseris models</a></li><li class="breadcrumb-item"><a href="../Notebooks/10-Univariate-Time-Series-modelsIV.html">Univariate-Time-Series-models IV</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Univariate Time Series Models IV</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>HS 821 · Lectures 11 · Topics in Time Series Econometrics</strong></p>
+<p><strong>Sunil Paul</strong></p>
+<p>October 2026 · R 4.6</p>
+<p>This lecture covers the estimation of ARMA models using ML methods</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>All estimation uses base-R <code>stats</code>:</p>
+<ul>
+<li><code>arima()</code> — conditional-sum-of-squares (<code>method = "CSS"</code>) or exact Gaussian maximum likelihood (<code>method = "ML"</code>) for ARMA models;</li>
+<li><code>optim()</code> — numerical maximization of a likelihood we write ourselves;</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>R convention.</strong> <code>arima()</code> reports the <strong>mean</strong> <span class="math inline">\(\mu\)</span> under the label <code>intercept</code>, not the constant <span class="math inline">\(c\)</span>; recover <span class="math inline">\(c=\mu(1-\phi_1-\cdots-\phi_p)\)</span> when needed. Its MA polynomial is <span class="math inline">\(1+\beta_1L+\cdots+\beta_qL^q\)</span>, the same sign convention as ours.</p>
+</blockquote>
+<div id="lec911-002" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup: plotting helpers (Lectures 6-8 helpers + three new ones)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width =</span> <span class="dv">10</span>, <span class="at">repr.plot.height =</span> <span class="dv">6</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Time-series line plot; optional dashed reference line at the mean.</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>ts_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">mu =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  time_idx <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">is.ts</span>(x)) <span class="fu">as.numeric</span>(<span class="fu">time</span>(x)) <span class="cf">else</span> <span class="fu">seq_along</span>(x)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> time_idx, <span class="at">value =</span> <span class="fu">as.numeric</span>(x))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(time, value)) <span class="sc">+</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(mu)) p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> mu, <span class="at">linetype =</span> <span class="st">"dashed"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  p</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical ACF of an ARMA process, lags 1..L (lag 0 dropped).</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>acf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ar =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">ma =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">L =</span> <span class="dv">15</span>, <span class="at">title =</span> <span class="cn">NULL</span>, <span class="at">by =</span> <span class="dv">3</span>) {</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  rho <span class="ot">&lt;-</span> <span class="fu">ARMAacf</span>(<span class="at">ar =</span> ar, <span class="at">ma =</span> ma, <span class="at">lag.max =</span> L)[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  df  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag =</span> <span class="fu">seq_len</span>(L), <span class="at">acf =</span> <span class="fu">as.numeric</span>(rho))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(lag, acf)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> lag, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> acf), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, L, <span class="at">by =</span> by)) <span class="sc">+</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Lag"</span>, <span class="at">y =</span> <span class="st">"ACF"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical PACF of an ARMA process, lags 1..L.</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>pacf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ar =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">ma =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">L =</span> <span class="dv">15</span>, <span class="at">title =</span> <span class="cn">NULL</span>, <span class="at">by =</span> <span class="dv">3</span>) {</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  pac <span class="ot">&lt;-</span> <span class="fu">ARMAacf</span>(<span class="at">ar =</span> ar, <span class="at">ma =</span> ma, <span class="at">lag.max =</span> L, <span class="at">pacf =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  df  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag =</span> <span class="fu">seq_len</span>(L), <span class="at">pacf =</span> <span class="fu">as.numeric</span>(pac))</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(lag, pacf)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> lag, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> pacf), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, L, <span class="at">by =</span> by)) <span class="sc">+</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Lag"</span>, <span class="at">y =</span> <span class="st">"PACF"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Theoretical impulse response = Wold coefficients psi_0=1, psi_1, psi_2, ...</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>irf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ar =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">ma =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">h =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  psi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">ARMAtoMA</span>(<span class="at">ar =</span> ar, <span class="at">ma =</span> ma, <span class="at">lag.max =</span> h))</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  df  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">horizon =</span> <span class="dv">0</span><span class="sc">:</span>h, <span class="at">response =</span> psi)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(horizon, response)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> horizon, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> response)) <span class="sc">+</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, h, <span class="at">by =</span> <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Horizon after a unit innovation"</span>, <span class="at">y =</span> <span class="st">"Response"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample ACF / PACF with approximate +/- 2/sqrt(T) bands.</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>sample_acf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">L =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="cn">NULL</span>, <span class="at">by =</span> <span class="dv">3</span>) {</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  a  <span class="ot">&lt;-</span> <span class="fu">acf</span>(x, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">lag.max =</span> L)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag =</span> <span class="fu">as.numeric</span>(a<span class="sc">$</span>lag)[<span class="sc">-</span><span class="dv">1</span>], <span class="at">acf =</span> <span class="fu">as.numeric</span>(a<span class="sc">$</span>acf)[<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>  b  <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(lag, acf)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> lag, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> acf), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(b, <span class="sc">-</span>b), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, L, <span class="at">by =</span> by)) <span class="sc">+</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Lag"</span>, <span class="at">y =</span> <span class="st">"Sample ACF"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>sample_pacf_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">L =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="cn">NULL</span>, <span class="at">by =</span> <span class="dv">3</span>) {</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>  a  <span class="ot">&lt;-</span> <span class="fu">pacf</span>(x, <span class="at">plot =</span> <span class="cn">FALSE</span>, <span class="at">lag.max =</span> L)</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag =</span> <span class="fu">as.numeric</span>(a<span class="sc">$</span>lag), <span class="at">acf =</span> <span class="fu">as.numeric</span>(a<span class="sc">$</span>acf))</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>  b  <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(lag, acf)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> lag, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> acf), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(b, <span class="sc">-</span>b), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, L, <span class="at">by =</span> by)) <span class="sc">+</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Lag"</span>, <span class="at">y =</span> <span class="st">"Sample PACF"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Roots of a lag polynomial on the complex plane, with the unit circle.</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>roots_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(roots, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">2</span> <span class="sc">*</span> pi, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>  circ  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">cos</span>(theta), <span class="at">y =</span> <span class="fu">sin</span>(theta))</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>  df    <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Real =</span> <span class="fu">Re</span>(roots), <span class="at">Imaginary =</span> <span class="fu">Im</span>(roots),</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>                      <span class="at">outside =</span> <span class="fu">ifelse</span>(<span class="fu">Mod</span>(roots) <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="st">"outside"</span>, <span class="st">"inside"</span>))</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_path</span>(<span class="at">data =</span> circ, <span class="fu">aes</span>(x, y), <span class="at">colour =</span> <span class="st">"grey55"</span>) <span class="sc">+</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(Real, Imaginary, <span class="at">colour =</span> outside), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">outside =</span> <span class="st">"black"</span>, <span class="at">inside =</span> <span class="st">"red"</span>),</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>                        <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Real part"</span>, <span class="at">y =</span> <span class="st">"Imaginary part"</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW. Residual diagnostics for an arima() fit: residual series, residual ACF,</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="co"># and Ljung-Box p-values for K = p+q+1, ..., L with the corrected df = K - p - q.</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>resid_panel <span class="ot">&lt;-</span> <span class="cf">function</span>(fit, <span class="at">L =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>  e     <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">residuals</span>(fit))</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>  fitdf <span class="ot">&lt;-</span> <span class="fu">sum</span>(fit<span class="sc">$</span>arma[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])                    <span class="co"># p + q (+ seasonal P + Q)</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>  lags  <span class="ot">&lt;-</span> (fitdf <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>L</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>  pv    <span class="ot">&lt;-</span> <span class="fu">sapply</span>(lags, <span class="cf">function</span>(k)</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Box.test</span>(e, <span class="at">lag =</span> k, <span class="at">type =</span> <span class="st">"Ljung-Box"</span>, <span class="at">fitdf =</span> fitdf)<span class="sc">$</span>p.value)</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>  g1 <span class="ot">&lt;-</span> <span class="fu">ts_plot</span>(e, <span class="at">mu =</span> <span class="dv">0</span>, <span class="at">title =</span> <span class="fu">paste</span>(title, <span class="st">"- residuals"</span>))</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>  g2 <span class="ot">&lt;-</span> <span class="fu">sample_acf_plot</span>(e, <span class="at">L =</span> L, <span class="at">title =</span> <span class="st">"Residual ACF"</span>)</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>  g3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">lag =</span> lags, <span class="at">p =</span> pv), <span class="fu">aes</span>(lag, p)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.05</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of lags K"</span>, <span class="at">y =</span> <span class="st">"p-value"</span>, <span class="at">title =</span> <span class="st">"Ljung-Box p-values"</span>)</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grid.arrange</span>(g1, g2, g3, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW. Fan chart: last n_show observations, point forecast, 80% and 95% bands.</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="co"># t_end is the time index of the last observation.</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>fan_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(y, mean, lo80, hi80, lo95, hi95, <span class="at">n_show =</span> <span class="dv">60</span>,</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>                     <span class="at">t_end =</span> <span class="fu">length</span>(y), <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>  y   <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(y); h <span class="ot">&lt;-</span> <span class="fu">length</span>(mean)</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> (t_end <span class="sc">-</span> n_show <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>t_end, <span class="at">value =</span> <span class="fu">tail</span>(y, n_show))</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>  fc  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> t_end <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span>h, <span class="at">mean =</span> <span class="fu">as.numeric</span>(mean),</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>                    <span class="at">lo80 =</span> <span class="fu">as.numeric</span>(lo80), <span class="at">hi80 =</span> <span class="fu">as.numeric</span>(hi80),</span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>                    <span class="at">lo95 =</span> <span class="fu">as.numeric</span>(lo95), <span class="at">hi95 =</span> <span class="fu">as.numeric</span>(hi95))</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_ribbon</span>(<span class="at">data =</span> fc, <span class="fu">aes</span>(time, <span class="at">ymin =</span> lo95, <span class="at">ymax =</span> hi95), <span class="at">fill =</span> <span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_ribbon</span>(<span class="at">data =</span> fc, <span class="fu">aes</span>(time, <span class="at">ymin =</span> lo80, <span class="at">ymax =</span> hi80), <span class="at">fill =</span> <span class="st">"grey65"</span>) <span class="sc">+</span></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> obs, <span class="fu">aes</span>(time, value)) <span class="sc">+</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> fc, <span class="fu">aes</span>(time, mean), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> title)</span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW. MCMC output for one parameter: trace plot and posterior histogram</span></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="co"># (solid line: posterior mean; optional dashed red line: true value).</span></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>mcmc_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(draws, name, <span class="at">true =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">iter =</span> <span class="fu">seq_along</span>(draws), <span class="at">value =</span> <span class="fu">as.numeric</span>(draws))</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>  g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(iter, value)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Iteration (after burn-in)"</span>, <span class="at">y =</span> name, <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Trace:"</span>, name))</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>  g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(value)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">fill =</span> <span class="st">"grey70"</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(df<span class="sc">$</span>value)) <span class="sc">+</span></span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> name, <span class="at">y =</span> <span class="st">"Count"</span>, <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Posterior:"</span>, name))</span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(true))</span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>    g2 <span class="ot">&lt;-</span> g2 <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> true, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>)</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(g1, g2)</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="estimation-ii-maximum-likelihood" class="level1">
+<h1>Estimation II: maximum likelihood</h1>
+<section id="the-likelihood-of-a-dependent-sample" class="level2">
+<h2 class="anchored" data-anchor-id="the-likelihood-of-a-dependent-sample">The likelihood of a dependent sample</h2>
+<p>Assume Gaussian innovations, <span class="math inline">\(\varepsilon_t\sim\text{i.i.d. }N(0,\sigma^2)\)</span>. Since observations are dependent we cannot multiply marginal densities. Instead we condition repeatedly — the <strong>prediction-error decomposition</strong>:</p>
+<p><span class="math display">\[
+f(y_1,\dots,y_T;\boldsymbol\theta)=f(y_1;\boldsymbol\theta)\prod_{t=2}^{T}f(y_t\mid y_{t-1},\dots,y_1;\boldsymbol\theta).
+\]</span></p>
+<p>For a Gaussian ARMA each conditional density is normal, <span class="math inline">\(y_t\mid\mathcal F_{t-1}\sim N(\hat y_{t|t-1},F_t)\)</span>, where <span class="math inline">\(\hat y_{t|t-1}=E(y_t\mid\mathcal F_{t-1})\)</span> is the <strong>one-step forecast</strong> and <span class="math inline">\(F_t\)</span> its mean squared error. Taking logs,</p>
+<p><span class="math display">\[
+\boxed{\;\ell(\boldsymbol\theta)=\log L(\boldsymbol\theta)
+=-\frac T2\log2\pi-\frac12\sum_{t=1}^{T}\log F_t-\frac12\sum_{t=1}^{T}\frac{(y_t-\hat y_{t|t-1})^2}{F_t}.\;}
+\]</span></p>
+<p>Maximum likelihood chooses the parameters that make one-step forecast errors small relative to their predicted variance. <strong>Estimation and forecasting are two sides of the same object</strong>: the likelihood is built from the forecasts of Section 7. For a stationary model <span class="math inline">\(F_t\to\sigma^2\)</span> as <span class="math inline">\(t\)</span> grows, because the effect of the unknown initial conditions dies out.</p>
+</section>
+<section id="exact-likelihood-of-a-gaussian-ar1" class="level2">
+<h2 class="anchored" data-anchor-id="exact-likelihood-of-a-gaussian-ar1">Exact likelihood of a Gaussian AR(1)</h2>
+<p>For <span class="math inline">\(Y_t=c+\phi Y_{t-1}+\varepsilon_t\)</span> with <span class="math inline">\(|\phi|&lt;1\)</span>, the first observation is drawn from the stationary distribution and each later one depends only on its predecessor:</p>
+<p><span class="math display">\[
+y_1\sim N\!\Big(\frac{c}{1-\phi},\;\frac{\sigma^2}{1-\phi^2}\Big),
+\qquad
+y_t\mid y_{t-1}\sim N\big(c+\phi y_{t-1},\;\sigma^2\big),\quad t=2,\dots,T.
+\]</span></p>
+<p>The exact log-likelihood is therefore</p>
+<p><span class="math display">\[
+\ell(c,\phi,\sigma^2)=
+\underbrace{-\tfrac12\log2\pi-\tfrac12\log\frac{\sigma^2}{1-\phi^2}-\frac{(1-\phi^2)\big(y_1-\frac{c}{1-\phi}\big)^2}{2\sigma^2}}_{\text{first observation}}
+\;\underbrace{-\;\frac{T-1}{2}\log2\pi-\frac{T-1}{2}\log\sigma^2-\sum_{t=2}^{T}\frac{(y_t-c-\phi y_{t-1})^2}{2\sigma^2}}_{\text{conditional likelihood }\ell_c}.
+\]</span></p>
+<p>Equivalently, in matrix form <span class="math inline">\(\mathbf y\sim N(\mu\mathbf 1,\sigma^2V)\)</span> with <span class="math inline">\(V_{ij}=\phi^{|i-j|}/(1-\phi^2)\)</span>, so <span class="math inline">\(\ell=-\frac T2\log2\pi-\frac12\log|\sigma^2V|-\frac{1}{2\sigma^2}(\mathbf y-\mu\mathbf 1)'V^{-1}(\mathbf y-\mu\mathbf 1)\)</span>. The prediction-error decomposition evaluates the same number without inverting a <span class="math inline">\(T\times T\)</span> matrix.</p>
+</section>
+<section id="conditional-maximum-likelihood-is-least-squares" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-maximum-likelihood-is-least-squares">Conditional maximum likelihood is least squares</h2>
+<p>Treat <span class="math inline">\(y_1\)</span> as fixed and maximize only <span class="math inline">\(\ell_c\)</span>. The first-order conditions for <span class="math inline">\((c,\phi)\)</span> minimize <span class="math inline">\(\sum_{t\ge2}(y_t-c-\phi y_{t-1})^2\)</span> — exactly OLS — and <span class="math inline">\(\hat\sigma^2=\text{SSR}/(T-1)\)</span>. The same holds for AR(<span class="math inline">\(p\)</span>) (condition on <span class="math inline">\(p\)</span> observations) and for ARMA (condition on initial observations and set pre-sample shocks to zero, giving CSS):</p>
+<blockquote class="blockquote">
+<p><strong>Gaussian conditional ML = least squares.</strong> The estimators of Section 2 are maximum likelihood estimators that discard the information in the first observations.</p>
+</blockquote>
+<p>Exact and conditional ML differ when <span class="math inline">\(T\)</span> is small or <span class="math inline">\(\phi\)</span> is near one. The first-observation term contains <span class="math inline">\(\tfrac12\log(1-\phi^2)\)</span>, which falls to <span class="math inline">\(-\infty\)</span> as <span class="math inline">\(|\phi|\to1\)</span>, so exact ML keeps estimates inside the stationary region automatically; OLS can return <span class="math inline">\(|\hat\phi|\ge1\)</span>.</p>
+</section>
+<section id="numerical-maximization" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-maximization">Numerical maximization</h2>
+<p>Apart from the conditional AR case, the first-order conditions have no closed-form solution. <strong>Newton–Raphson</strong> iterates</p>
+<p><span class="math display">\[
+\boldsymbol\theta^{(k+1)}=\boldsymbol\theta^{(k)}-\Big[\mathbf H\big(\boldsymbol\theta^{(k)}\big)\Big]^{-1}\mathbf s\big(\boldsymbol\theta^{(k)}\big),
+\qquad
+\mathbf s=\frac{\partial\ell}{\partial\boldsymbol\theta}\ \text{(score)},
+\quad
+\mathbf H=\frac{\partial^2\ell}{\partial\boldsymbol\theta\,\partial\boldsymbol\theta'}\ \text{(Hessian)},
+\]</span></p>
+<p>which is a sequence of quadratic approximations to <span class="math inline">\(\ell\)</span>. In practice:</p>
+<ul>
+<li><strong>Starting values</strong> come from Yule–Walker or CSS. R’s default <code>arima(method = "CSS-ML")</code> runs CSS first, then exact ML.</li>
+<li><strong>Constraints</strong> are imposed by re-parametrizing: <span class="math inline">\(\sigma^2=e^{\omega}\)</span>, and for an AR(1) <span class="math inline">\(\phi=\tanh\kappa\in(-1,1)\)</span>. For AR(<span class="math inline">\(p\)</span>), <code>arima()</code> maps the coefficients to partial autocorrelations in <span class="math inline">\((-1,1)\)</span> (<code>transform.pars = TRUE</code>), so the optimizer cannot leave the stationary region.</li>
+<li><strong>Quasi-Newton</strong> methods such as BFGS approximate the Hessian from successive gradients: <code>optim(..., method = "BFGS")</code>.</li>
+<li><strong>Check convergence</strong> (<code>fit$code == 0</code> in <code>arima()</code>), and try several starting values if the likelihood may have more than one peak.</li>
+</ul>
+<p>The next cell writes the exact AR(1) log-likelihood by hand, maximizes it with <code>optim()</code>, and compares the result with OLS and with <code>arima()</code>.</p>
+<div id="lec911-019" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exact Gaussian ML for an AR(1), by hand, on the phi = 0.8 series of Lectures 6-8 (Section 1)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>y_a <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> <span class="fl">0.8</span>), <span class="at">n =</span> <span class="dv">250</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(y_a); T <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Negative exact log-likelihood in unconstrained parameters (c, kappa, omega):</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   phi = tanh(kappa) keeps |phi| &lt; 1, sigma2 = exp(omega) keeps sigma2 &gt; 0</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>negll_ar1 <span class="ot">&lt;-</span> <span class="cf">function</span>(par, y) {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  c   <span class="ot">&lt;-</span> par[<span class="dv">1</span>]; phi <span class="ot">&lt;-</span> <span class="fu">tanh</span>(par[<span class="dv">2</span>]); s2 <span class="ot">&lt;-</span> <span class="fu">exp</span>(par[<span class="dv">3</span>]); T <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  ll1 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y[<span class="dv">1</span>], c <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> phi), <span class="fu">sqrt</span>(s2 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> phi<span class="sc">^</span><span class="dv">2</span>)), <span class="at">log =</span> <span class="cn">TRUE</span>)  <span class="co"># first observation</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  ll2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">dnorm</span>(y[<span class="sc">-</span><span class="dv">1</span>], c <span class="sc">+</span> phi <span class="sc">*</span> y[<span class="sc">-</span>T], <span class="fu">sqrt</span>(s2), <span class="at">log =</span> <span class="cn">TRUE</span>))        <span class="co"># t = 2, ..., T</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span>(ll1 <span class="sc">+</span> ll2)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>ols   <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">~</span> y[<span class="sc">-</span>T])                                        <span class="co"># conditional ML = OLS</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(ols)[<span class="dv">1</span>], <span class="fu">atanh</span>(<span class="fu">coef</span>(ols)[<span class="dv">2</span>]), <span class="fu">log</span>(<span class="fu">mean</span>(<span class="fu">resid</span>(ols)<span class="sc">^</span><span class="dv">2</span>)))</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>opt   <span class="ot">&lt;-</span> <span class="fu">optim</span>(start, negll_ar1, <span class="at">y =</span> y, <span class="at">method =</span> <span class="st">"BFGS"</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>c_ml  <span class="ot">&lt;-</span> opt<span class="sc">$</span>par[<span class="dv">1</span>]; phi_ml <span class="ot">&lt;-</span> <span class="fu">tanh</span>(opt<span class="sc">$</span>par[<span class="dv">2</span>]); s2_ml <span class="ot">&lt;-</span> <span class="fu">exp</span>(opt<span class="sc">$</span>par[<span class="dv">3</span>])</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>fit_ml <span class="ot">&lt;-</span> <span class="fu">arima</span>(y, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"OLS (conditional ML)"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">coef</span>(ols)[<span class="dv">2</span>], <span class="fu">coef</span>(ols)[<span class="dv">1</span>] <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">coef</span>(ols)[<span class="dv">2</span>]), <span class="fu">sum</span>(<span class="fu">resid</span>(ols)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (T <span class="sc">-</span> <span class="dv">1</span>)),</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Exact ML by hand"</span>     <span class="ot">=</span> <span class="fu">c</span>(phi_ml, c_ml <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> phi_ml), s2_ml),</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"arima(method = 'ML')"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">coef</span>(fit_ml)[<span class="dv">1</span>], <span class="fu">coef</span>(fit_ml)[<span class="dv">2</span>], fit_ml<span class="sc">$</span>sigma2))</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tab) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"phi"</span>, <span class="st">"mu"</span>, <span class="st">"sigma2"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(tab, <span class="dv">4</span>))</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Log-likelihood at the maximum: by hand %.3f | arima() %.3f</span><span class="sc">\n</span><span class="st">"</span>, <span class="sc">-</span>opt<span class="sc">$</span>value, fit_ml<span class="sc">$</span>loglik))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        phi     mu sigma2
+OLS (conditional ML) 0.7085 2.0756 0.8675
+Exact ML by hand     0.7147 2.0194 0.8753
+arima(method = 'ML') 0.7147 2.0194 0.8753
+
+Log-likelihood at the maximum: by hand -338.444 | arima() -338.444</code></pre>
+</div>
+</div>
+<p><strong>Reading the output.</strong> The hand-coded exact likelihood and <code>arima()</code> agree to four decimals; OLS differs only slightly because with <span class="math inline">\(T=250\)</span> the first observation carries little weight. Note that <span class="math inline">\(\hat\phi\approx0.71\)</span> although the data were generated with <span class="math inline">\(\phi=0.8\)</span>: a single realization of 250 observations leaves real sampling uncertainty, which is what standard errors and intervals measure.</p>
+</section>
+<section id="inference-standard-errors-wald-and-likelihood-ratio-tests" class="level2">
+<h2 class="anchored" data-anchor-id="inference-standard-errors-wald-and-likelihood-ratio-tests">Inference: standard errors, Wald and likelihood-ratio tests</h2>
+<p>Under regularity conditions — stationarity, invertibility, no common AR/MA roots, true parameters in the interior of the parameter space, finite fourth moments —</p>
+<p><span class="math display">\[
+\hat{\boldsymbol\theta}_{ML}\overset{p}{\to}\boldsymbol\theta_0,
+\qquad
+\sqrt T\big(\hat{\boldsymbol\theta}_{ML}-\boldsymbol\theta_0\big)\overset{d}{\to}N\big(\mathbf 0,\;\mathcal I(\boldsymbol\theta_0)^{-1}\big),
+\qquad
+\mathcal I(\boldsymbol\theta)=-\operatorname*{plim}\frac1T\frac{\partial^2\ell}{\partial\boldsymbol\theta\,\partial\boldsymbol\theta'}.
+\]</span></p>
+<p>In practice <span class="math inline">\(\widehat{\operatorname{Var}}(\hat{\boldsymbol\theta})=\big[-\mathbf H(\hat{\boldsymbol\theta})\big]^{-1}\)</span>, the inverse of the observed information. This is what <code>arima()</code> stores in <code>fit$var.coef</code>. Useful benchmarks:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Asymptotic variance of the coefficient estimates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AR(1)</td>
+<td><span class="math inline">\(\operatorname{Var}(\hat\phi)\approx(1-\phi^2)/T\)</span></td>
+</tr>
+<tr class="even">
+<td>MA(1)</td>
+<td><span class="math inline">\(\operatorname{Var}(\hat\beta)\approx(1-\beta^2)/T\)</span></td>
+</tr>
+<tr class="odd">
+<td>AR(2)</td>
+<td><span class="math inline">\(\operatorname{Var}(\hat\phi_1)=\operatorname{Var}(\hat\phi_2)\approx(1-\phi_2^2)/T\)</span>, <span class="math inline">\(\operatorname{Corr}(\hat\phi_1,\hat\phi_2)\approx-\phi_1/(1-\phi_2)\)</span></td>
+</tr>
+<tr class="even">
+<td>ARMA(1,1)</td>
+<td><span class="math inline">\(\operatorname{Var}(\hat\phi)\approx\dfrac{(1+\phi\beta)^2(1-\phi^2)}{(\phi+\beta)^2\,T}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The ARMA(1,1) formula explodes as <span class="math inline">\(\phi+\beta\to0\)</span>, which is the common-factor case discussed below.</p>
+<p><strong>Tests.</strong> For a restriction such as <span class="math inline">\(\phi_2=0\)</span>:</p>
+<ul>
+<li><strong>Wald / <span class="math inline">\(t\)</span>:</strong> <span class="math inline">\(z=(\hat\theta_i-\theta_{i,0})/\operatorname{se}(\hat\theta_i)\overset{a}{\sim}N(0,1)\)</span>; jointly, <span class="math inline">\(W=(R\hat{\boldsymbol\theta}-r)'\big[R\widehat{\operatorname{Var}}(\hat{\boldsymbol\theta})R'\big]^{-1}(R\hat{\boldsymbol\theta}-r)\overset{a}{\sim}\chi^2(m)\)</span>.</li>
+<li><strong>Likelihood ratio:</strong> <span class="math inline">\(LR=2\big[\ell(\hat{\boldsymbol\theta}_U)-\ell(\hat{\boldsymbol\theta}_R)\big]\overset{a}{\sim}\chi^2(m)\)</span> for <span class="math inline">\(m\)</span> restrictions. The models must be <strong>nested</strong>: AR(1) is nested in AR(2) and in ARMA(1,1), but AR(1) and MA(1) are not nested in each other.</li>
+<li><strong>Lagrange multiplier (score):</strong> needs only the restricted model; the Breusch–Godfrey diagnostic test of Section 6 is of this type.</li>
+</ul>
+<p><strong>Likelihood-ratio intervals.</strong> The <em>profile</em> log-likelihood <span class="math inline">\(\ell_p(\phi)=\max_{c,\sigma^2}\ell(c,\phi,\sigma^2)\)</span> gives the 95% interval <span class="math inline">\(\{\phi:2[\ell(\hat{\boldsymbol\theta})-\ell_p(\phi)]\le3.84\}\)</span>. Unlike the Wald interval <span class="math inline">\(\hat\phi\pm1.96\operatorname{se}\)</span> it need not be symmetric, which matters near the stationarity boundary.</p>
+<div id="lec911-021" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Profile log-likelihood of phi: Wald vs likelihood-ratio intervals</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.55</span>, <span class="fl">0.92</span>, <span class="at">by =</span> <span class="fl">0.0025</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>prof <span class="ot">&lt;-</span> <span class="fu">sapply</span>(grid, <span class="cf">function</span>(p)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arima</span>(y, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">fixed =</span> <span class="fu">c</span>(p, <span class="cn">NA</span>), <span class="at">transform.pars =</span> <span class="cn">FALSE</span>, <span class="at">method =</span> <span class="st">"ML"</span>)<span class="sc">$</span>loglik)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>se_phi  <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(fit_ml<span class="sc">$</span>var.coef[<span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>wald_ci <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_ml)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">1.96</span> <span class="sc">*</span> se_phi</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>lr_ci   <span class="ot">&lt;-</span> <span class="fu">range</span>(grid[prof <span class="sc">&gt;=</span> fit_ml<span class="sc">$</span>loglik <span class="sc">-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>])</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"phi_hat = %.3f | s.e. from the Hessian %.4f | formula sqrt((1 - phi^2)/T) %.4f</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">coef</span>(fit_ml)[<span class="dv">1</span>], se_phi, <span class="fu">sqrt</span>((<span class="dv">1</span> <span class="sc">-</span> <span class="fu">coef</span>(fit_ml)[<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> T)))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"95%% Wald interval [%.3f, %.3f]   95%% LR interval [%.3f, %.3f]</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            wald_ci[<span class="dv">1</span>], wald_ci[<span class="dv">2</span>], lr_ci[<span class="dv">1</span>], lr_ci[<span class="dv">2</span>]))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">phi =</span> grid, <span class="at">ll =</span> prof), <span class="fu">aes</span>(phi, ll)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> fit_ml<span class="sc">$</span>loglik <span class="sc">-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">coef</span>(fit_ml)[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.8</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(phi), <span class="at">y =</span> <span class="st">"Profile log-likelihood"</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Profile likelihood of phi (solid: MLE; dotted: true value 0.8)"</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Values of phi above the dashed red line form the 95% likelihood-ratio interval"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>phi_hat = 0.715 | s.e. from the Hessian 0.0443 | formula sqrt((1 - phi^2)/T) 0.0442
+95% Wald interval [0.628, 0.802]   95% LR interval [0.628, 0.800]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-Univariate-Time-Series-modelsIV_files/figure-html/cell-4-output-2.png" width="600" height="360" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="lec911-022" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y_ar2 <span class="ot">&lt;-</span> <span class="fu">arima.sim</span>(<span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>)), <span class="at">n =</span> <span class="dv">250</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood-ratio and Wald tests of AR(1) against AR(2), on the AR(2) series y_ar2 (true phi2 = 0.25)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>f_ar1 <span class="ot">&lt;-</span> <span class="fu">arima</span>(y_ar2, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>f_ar2 <span class="ot">&lt;-</span> <span class="fu">arima</span>(y_ar2, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>LR <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (f_ar2<span class="sc">$</span>loglik <span class="sc">-</span> f_ar1<span class="sc">$</span>loglik)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"LR = %.2f  (p-value %.5f, chi-square with 1 df)</span><span class="sc">\n</span><span class="st">"</span>, LR, <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(LR, <span class="dv">1</span>)))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Wald z for phi2 = %.2f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">coef</span>(f_ar2)[<span class="dv">2</span>] <span class="sc">/</span> <span class="fu">sqrt</span>(f_ar2<span class="sc">$</span>var.coef[<span class="dv">2</span>, <span class="dv">2</span>])))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cbind</span>(<span class="at">estimate =</span> <span class="fu">coef</span>(f_ar2), <span class="at">s.e. =</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(f_ar2<span class="sc">$</span>var.coef))), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>LR = 8.66  (p-value 0.00326, chi-square with 1 df)
+Wald z for phi2 = 2.97</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small">
+<caption>A matrix: 3 × 2 of type dbl</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">estimate</th>
+<th data-quarto-table-cell-role="th" scope="col">s.e.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th" scope="row">ar1</th>
+<td>0.5212</td>
+<td>0.0620</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th" scope="row">ar2</th>
+<td>0.1862</td>
+<td>0.0627</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th" scope="row">intercept</th>
+<td>0.1658</td>
+<td>0.2044</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Reading the output.</strong> The Hessian standard error matches the textbook formula <span class="math inline">\(\sqrt{(1-\hat\phi^2)/T}\)</span>. Here the Wald and LR intervals almost coincide, because with <span class="math inline">\(T=250\)</span> and <span class="math inline">\(\hat\phi\approx0.7\)</span> the profile likelihood is very close to a parabola; the true value 0.8 sits right at the upper edge of both. The two intervals diverge when <span class="math inline">\(T\)</span> is small or <span class="math inline">\(\hat\phi\)</span> is close to one, where the likelihood is skewed (Exercise 5). For the AR(2) data, both the LR and the Wald test reject the AR(1) restriction at the 1% level — in large samples the Wald, LR and LM tests give the same answer.</p>
+</section>
+<section id="ma-and-arma-likelihoods-the-kalman-filter" class="level2">
+<h2 class="anchored" data-anchor-id="ma-and-arma-likelihoods-the-kalman-filter">MA and ARMA likelihoods: the Kalman filter</h2>
+<p>With MA terms the one-step forecasts <span class="math inline">\(\hat y_{t|t-1}\)</span> depend on unobserved past shocks, so the exact <span class="math inline">\(F_t\)</span> differ from <span class="math inline">\(\sigma^2\)</span> at the start of the sample. The exact likelihood is computed by writing the ARMA model in <strong>state-space form</strong>, e.g.&nbsp;with <span class="math inline">\(r=\max(p,q+1)\)</span>,</p>
+<p><span class="math display">\[
+\boldsymbol\alpha_t=F\boldsymbol\alpha_{t-1}+R\,\varepsilon_t,
+\qquad
+y_t=\mu+\mathbf z'\boldsymbol\alpha_t,
+\qquad
+\mathbf z=(1,0,\dots,0)',\quad R=(1,\beta_1,\dots,\beta_{r-1})',
+\]</span></p>
+<p>where <span class="math inline">\(F\)</span> is the <span class="math inline">\(r\times r\)</span> <strong>companion matrix</strong> of Lectures 6–8, Section 3. The <strong>Kalman filter</strong> then produces <span class="math inline">\(\hat y_{t|t-1}\)</span> and <span class="math inline">\(F_t\)</span> recursively and plugs them into the prediction-error decomposition. This is what <code>arima(method = "ML")</code> does (Gardner, Harvey and Phillips, 1980). The Kalman filter itself is developed in a later lecture (Hamilton, Ch. 13).</p>
+<p>For an MA(1) the <strong>conditional</strong> likelihood is simple: with <span class="math inline">\(\varepsilon_0=0\)</span>,</p>
+<p><span class="math display">\[
+\varepsilon_t=y_t-\mu-\beta\varepsilon_{t-1},
+\qquad
+\ell_c(\mu,\beta,\sigma^2)=-\frac T2\log(2\pi\sigma^2)-\frac{1}{2\sigma^2}\sum_{t=1}^{T}\varepsilon_t^2 .
+\]</span></p>
+<p>Because <span class="math inline">\(\beta\)</span> and <span class="math inline">\(1/\beta\)</span> imply the same autocorrelations (Lecture 5), estimation is restricted to the invertible region <span class="math inline">\(|\beta|&lt;1\)</span>.</p>
+</section>
+<section id="when-the-likelihood-is-flat-common-factors" class="level2">
+<h2 class="anchored" data-anchor-id="when-the-likelihood-is-flat-common-factors">When the likelihood is flat: common factors</h2>
+<p>Lectures 6–8 showed that an ARMA(1,1) with <span class="math inline">\(\beta=-\phi\)</span> collapses to white noise: <span class="math inline">\((1-\phi L)Y_t=(1-\phi L)\varepsilon_t\Rightarrow Y_t=\varepsilon_t\)</span>. If we fit an ARMA(1,1) to data that are really white noise, <em>every</em> pair with <span class="math inline">\(\beta=-\phi\)</span> fits equally well, so the likelihood has a <strong>ridge</strong> instead of a peak. The Hessian is then nearly singular, standard errors are huge or undefined, and the optimizer may stop anywhere along the ridge.</p>
+<p><strong>Predict:</strong> where in the <span class="math inline">\((\phi,\beta)\)</span> plane will the likelihood of white-noise data be highest?</p>
+<div id="lec911-024" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Show R code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional log-likelihood of an ARMA(1,1) fitted to white noise: a ridge along beta = -phi</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>css_ll <span class="ot">&lt;-</span> <span class="cf">function</span>(phi, beta, y) {                     <span class="co"># concentrated over sigma2</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">-</span> phi <span class="sc">*</span> y[<span class="sc">-</span><span class="fu">length</span>(y)]                     <span class="co"># u_t = (1 - phi L) y_t</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  e <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">filter</span>(u, <span class="sc">-</span>beta, <span class="at">method =</span> <span class="st">"recursive"</span>)   <span class="co"># e_t = u_t - beta e_{t-1}</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">length</span>(e) <span class="sc">/</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">log</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> <span class="fu">mean</span>(e<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>g  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.95</span>, <span class="fl">0.95</span>, <span class="at">length.out =</span> <span class="dv">77</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>ll <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">phi =</span> g, <span class="at">beta =</span> g)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>ll<span class="sc">$</span>value <span class="ot">&lt;-</span> <span class="fu">mapply</span>(css_ll, ll<span class="sc">$</span>phi, ll<span class="sc">$</span>beta, <span class="at">MoreArgs =</span> <span class="fu">list</span>(<span class="at">y =</span> w))</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>mx <span class="ot">&lt;-</span> <span class="fu">max</span>(ll<span class="sc">$</span>value)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ll, <span class="fu">aes</span>(phi, beta, <span class="at">z =</span> value)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour_filled</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, mx <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">20</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">2</span>), mx <span class="sc">+</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_grey</span>(<span class="at">start =</span> <span class="fl">0.95</span>, <span class="at">end =</span> <span class="fl">0.25</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"&gt; 40"</span>, <span class="st">"20-40"</span>, <span class="st">"10-20"</span>, <span class="st">"5-10"</span>, <span class="st">"2-5"</span>, <span class="st">"&lt; 2"</span>)) <span class="sc">+</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(phi), <span class="at">y =</span> <span class="fu">expression</span>(beta), <span class="at">fill =</span> <span class="st">"Log-lik below max"</span>,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"ARMA(1,1) likelihood for white-noise data"</span>,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Dashed red line: beta = -phi, the common-factor ridge"</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>fit_wn <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">arima</span>(w, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">method =</span> <span class="st">"ML"</span>))</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">ARMA(1,1) fitted to white noise:</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(<span class="fu">cbind</span>(<span class="at">estimate =</span> <span class="fu">coef</span>(fit_wn), <span class="at">s.e. =</span> <span class="fu">suppressWarnings</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(fit_wn<span class="sc">$</span>var.coef)))), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ARMA(1,1) fitted to white noise:
+          estimate  s.e.
+ar1         -0.293   NaN
+ma1          0.284   NaN
+intercept   -0.027 0.068</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-Univariate-Time-Series-modelsIV_files/figure-html/cell-6-output-2.png" width="600" height="360" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Reading the graph.</strong> The darkest band — parameter values within two log-points of the maximum — runs along the line <span class="math inline">\(\beta=-\phi\)</span>: the data cannot tell these parameter pairs apart. The fitted ARMA(1,1) reports estimates of <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\beta\)</span> that nearly cancel, with standard errors that are not even computable (<code>NaN</code>). This is how over-parameterization shows up in practice: unstable estimates, a near-singular Hessian, and estimated AR and MA roots that almost coincide. The cure is a smaller model.</p>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key takeaways</h2>
+<p>You should now be able to:</p>
+<ul>
+<li>write the Gaussian likelihood through the prediction-error decomposition, show that conditional ML is least squares, and maximize the exact likelihood numerically;</li>
+<li>compute ML standard errors from the Hessian, run Wald and LR tests, build profile-likelihood intervals, and recognize a flat likelihood caused by common factors;</li>
+</ul>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<section id="exercise-4-likelihoods" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4-likelihoods">Exercise 4 — Likelihoods</h3>
+<ol type="a">
+<li>Write the conditional log-likelihood of a Gaussian AR(2), conditioning on <span class="math inline">\(y_1,y_2\)</span>, and show that maximizing it over <span class="math inline">\((c,\phi_1,\phi_2)\)</span> is OLS. (b) What is the distribution of <span class="math inline">\((y_1,y_2)'\)</span> that the exact likelihood adds? (c) Why does exact ML never return a non-stationary estimate?</li>
+</ol>
+</section>
+<section id="exercise-5-inference" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5-inference">Exercise 5 — Inference</h3>
+<p>An AR(1) estimated by ML with <span class="math inline">\(T=100\)</span> gives <span class="math inline">\(\hat\phi=0.9\)</span>. (a) Compute the asymptotic standard error and a 95% Wald interval. (b) Why might a likelihood-ratio interval be asymmetric here, and on which side would it be shorter? (c) An AR(2) fitted to the same data has a log-likelihood 2.6 higher. Test <span class="math inline">\(\phi_2=0\)</span> with an LR test.</p>
+</section>
+</section>
+<section id="suggested-reading" class="level2">
+<h2 class="anchored" data-anchor-id="suggested-reading">Suggested reading</h2>
+<ul>
+<li>Hamilton, J. D. (1994), <em>Time Series Analysis</em>, Princeton University Press: Ch. 5 (maximum likelihood estimation of AR, MA and ARMA models, numerical optimization, inference), Ch. 7 (asymptotic theory), and Ch. 13 (the Kalman filter and exact ARMA likelihoods).</li>
+<li>Enders, W. (2015), <em>Applied Econometric Time Series</em>, 4th ed., Wiley: Ch. 2</li>
+<li>Brockwell, P. J. and Davis, R. A. (2016), <em>Introduction to Time Series and Forecasting</em>, 3rd ed., Springer: Ch. 5 (preliminary estimation, maximum likelihood, diagnostic checking, order selection, forecasting ARMA processes).</li>
+<li>Box, G. E. P., Jenkins, G. M., Reinsel, G. C. and Ljung, G. M. (2015), <em>Time Series Analysis: Forecasting and Control</em>, 5th ed., Wiley — the original methodology.</li>
+<li>Hyndman, R. J. and Athanasopoulos, G., <em>Forecasting: Principles and Practice</em>, 3rd ed., free online at <a href="https://otexts.com/fpp3/">otexts.com/fpp3</a>: <a href="https://otexts.com/fpp3/accuracy.html">Section 5.8, evaluating point forecast accuracy</a> and <a href="https://otexts.com/fpp3/arima.html">Chapter 9, ARIMA models</a>.</li>
+<li>Diebold, F. X., <em>Elements of Forecasting</em>, 4th ed.&nbsp;(<a href="https://www.sas.upenn.edu/~fdiebold/Teaching221/BookPhotocopy.pdf">free PDF on the author’s site</a>): Ch. 8–9 (ARMA models and forecasting cycles) and Ch. 12 (evaluating and combining forecasts).</li>
+<li></li>
+</ul>
+</section>
+<section id="appendix-a-mathematical-toolkit-and-learning-resources" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-a-mathematical-toolkit-and-learning-resources">Appendix A: Mathematical toolkit and learning resources</h2>
+<p>The table maps each mathematical concept to where it is used in Lectures 6–11 and to free videos and readings. A sensible order: refresh items 1–4 before Sections 2–3 (and the roots material of Lectures 6–8), items 5–8 before Section 3, and items 9–10 before Section 4.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Concept</th>
+<th>Where it is used</th>
+<th>Videos and readings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><strong>Multivariate calculus and optimization</strong>: gradient, Hessian, second-order conditions, Taylor expansion, Newton’s method</td>
+<td>Score and Hessian; Newton–Raphson; standard errors; Laplace approximation behind BIC</td>
+<td>Simon and Blume, <em>Mathematics for Economists</em>, chapters on multivariable calculus and unconstrained optimization; Hamilton Section 5.7</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><strong>Likelihood and maximum likelihood</strong> (i.i.d. case first)</td>
+<td>Section 3</td>
+<td>MIT OCW 18.05: <a href="https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/pages/classes-reading-and-in-class-materials/">Class 10, likelihood and MLE</a></td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">3 | <strong>Regression in matrix form</strong>: OLS, <span class="math inline">\(R^2\)</span>, heteroskedasticity- and autocorrelation-robust (HAC) standard errors | OLS for AR models; Breusch–Godfrey; Mincer–Zarnowitz; Diebold–Mariano | Wooldridge, <em>Introductory Econometrics</em>, Appendix E and the chapters on serial correlation in time-series regressions |</div>
+</section>
+<section id="appendix-b-r-quick-reference" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-b-r-quick-reference">Appendix B: R quick reference</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Function</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sample ACF / PACF</td>
+<td><code>acf(x)</code>, <code>pacf(x)</code></td>
+<td><code>acf(x, ci.type = "ma")</code> draws Bartlett bands</td>
+</tr>
+<tr class="even">
+<td>Portmanteau test</td>
+<td><code>Box.test(e, lag = K, type = "Ljung-Box", fitdf = p + q)</code></td>
+<td>set <code>fitdf</code> when testing residuals</td>
+</tr>
+<tr class="odd">
+<td>Yule–Walker / OLS for AR</td>
+<td><code>ar.yw(x, order.max = p, aic = FALSE)</code>, <code>ar.ols()</code></td>
+<td><code>aic = TRUE</code> chooses <span class="math inline">\(p\)</span> by AIC</td>
+</tr>
+<tr class="even">
+<td>ARMA estimation</td>
+<td><code>arima(x, order = c(p, 0, q), method = "ML")</code></td>
+<td><code>"CSS"</code> for conditional least squares; reports the mean as <code>intercept</code></td>
+</tr>
+<tr class="odd">
+<td>Standard errors, information criteria</td>
+<td><code>sqrt(diag(fit$var.coef))</code>, <code>AIC(fit)</code>, <code>BIC(fit)</code>, <code>fit$loglik</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Residuals</td>
+<td><code>residuals(fit)</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Numerical optimization</td>
+<td><code>optim(start, negll, method = "BFGS", hessian = TRUE)</code></td>
+<td>minimize the negative log-likelihood</td>
+</tr>
+<tr class="even">
+<td>Random draws</td>
+<td><code>rnorm()</code>, <code>rgamma()</code>, <code>runif()</code></td>
+<td>inverse-Gamma draw: <code>1 / rgamma(1, shape, rate)</code></td>
+</tr>
+<tr class="odd">
+<td>Packages for further work</td>
+<td><code>forecast</code>, <code>fable</code>, <code>coda</code>, <code>rstan</code> / <code>brms</code>, <code>bayesforecast</code>, <code>sandwich</code></td>
+<td>automatic ARIMA, MCMC diagnostics, Bayesian ARMA, HAC standard errors</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/sunilpaul29\.github\.io\/HS821\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../Notebooks/09-Univariate-Time-Series-modelsIII.html" class="pagination-link" aria-label="Univariate-Time-Series-models III">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Univariate-Time-Series-models III</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../Notebooks/11-Univariate-Time-Series-modelsV.html" class="pagination-link" aria-label="Univariate-Time-Series-models V">
+        <span class="nav-page-text">Univariate-Time-Series-models V</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>HS 821: Topics in Time Series Econometrics</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Moodle remains the official course platform.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

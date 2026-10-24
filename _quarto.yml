@@ -63,6 +63,16 @@ website:
           - href: Notebooks/09-Univariate-Time-Series-modelsIII.ipynb
             text: Univariate-Time-Series-models III
 
+          - href: Notebooks/10-Univariate-Time-Series-modelsIV.ipynb
+            text: Univariate-Time-Series-models IV
+
+          - href: Notebooks/11-Univariate-Time-Series-modelsV.ipynb
+            text: Univariate-Time-Series-models V
+
+          - href: Notebooks/12- ARMA-an application.ipynb
+            text: Univariate-Time-Series-models VI
+
+
       - section: "Lecture slides"
         contents:
           - href: Slides/00-course-introduction.qmd
