@@ -72,6 +72,9 @@ website:
           - href: Notebooks/12- ARMA-an application.ipynb
             text: Univariate-Time-Series-models VI
 
+          - href: Notebooks/13- Unitroots.ipynb
+            text: Unitroots
+
 
       - section: "Lecture slides"
         contents:
@@ -95,6 +98,10 @@ website:
 
           - href: Slides/09-Univariate-Time-Series-modelsIII.qmd
             text: Univariate-Time-Series-models III
+
+          - href: Slides/13-Unitroots.qmd
+            text: Unitroots
+
 
 
 
