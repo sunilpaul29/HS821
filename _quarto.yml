@@ -75,6 +75,11 @@ website:
           - href: Notebooks/13- Unitroots.ipynb
             text: Unitroots
 
+      - section: "Multivariate timeseris models"
+        contents:
+          - href: Notebooks/14-VAR.ipynb
+            text: Vector Autoregressions I
+
 
       - section: "Lecture slides"
         contents:
@@ -100,6 +105,9 @@ website:
             text: Univariate-Time-Series-models III
 
           - href: Slides/13-Unitroots.qmd
+            text: Unitroots
+
+          - href: Slides/14-VAR.qmd
             text: Unitroots
 
 

@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Slides/00-course-introduction.html" rel="next">
+<link href="../Notebooks/14-VAR.html" rel="next">
 <link href="../Notebooks/12- ARMA-an application.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -299,12 +299,29 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Lecture slides</span></a>
+ <span class="menu-text">Multivariate timeseris models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Notebooks/14-VAR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vector Autoregressions I</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lecture slides</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Slides/00-course-introduction.html" class="sidebar-item-text sidebar-link">
@@ -350,6 +367,12 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Slides/13-Unitroots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unitroots</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Slides/14-VAR.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Unitroots</span></a>
   </div>
 </li>
@@ -639,21 +662,22 @@ The downloaded binary packages are in
 </section>
 <section id="deterministic-and-stochastic-trends" class="level1">
 <h1>1&nbsp;&nbsp;Deterministic and stochastic trends</h1>
-<p>A <strong>deterministic trend</strong> is a known function of time. The simplest has constant increments, <span class="math inline">\(\Delta Y_t=\delta\)</span>, with solution <span class="math inline">\(Y_t=Y_0+\delta t\)</span>. Adding a stationary disturbance gives a <strong>trend-stationary (TS)</strong> process</p>
+<p>A <strong>deterministic trend</strong> is a known function of time. The simplest has constant increments, <span class="math inline">\(\Delta Y_t=\delta\)</span>, with solution <span class="math inline">\(Y_t=Y_0+\delta t\)</span>.</p>
+<p>Adding a stationary disturbance gives a <strong>trend-stationary (TS)</strong> process</p>
 <p><span class="math display">\[
 Y_t=\mu+\delta t+u_t,\qquad u_t\ \text{a stationary ARMA process}.
 \]</span></p>
 <p>Shocks have only <strong>temporary</strong> effects: <span class="math inline">\(Y_t\)</span> wanders around the line <span class="math inline">\(\mu+\delta t\)</span> and keeps returning to it. Regressing on a constant and time and keeping the residuals (<strong>detrending</strong>) leaves a stationary series.</p>
 <p>A <strong>stochastic trend</strong> is the accumulation of past shocks. The canonical case is the random walk with drift,</p>
 <p><span class="math display">\[
-\Delta Y_t=\delta+\varepsilon_t
+\Delta Y_t=\mu+\varepsilon_t
 \quad\Longrightarrow\quad
-Y_t=Y_0+\delta t+\sum_{i=1}^{t}\varepsilon_i ,
+Y_t=Y_0+\mu t+\sum_{i=1}^{t}\varepsilon_i ,
 \]</span></p>
-<p>in which every innovation has a <strong>permanent</strong> effect, because it enters every future <span class="math inline">\(Y_{t+h}\)</span> with weight one. <span class="math inline">\(Y_t\)</span> is not stationary but <span class="math inline">\(\Delta Y_t\)</span> is, so the process is called <strong>difference-stationary (DS)</strong>. More generally a DS process is <span class="math inline">\(\Delta Y_t=\delta+u_t\)</span> with <span class="math inline">\(u_t\)</span> stationary.</p>
+<p>in which every innovation has a <strong>permanent</strong> effect, because it enters every future <span class="math inline">\(Y_{t+h}\)</span> with weight one. <span class="math inline">\(Y_t\)</span> is not stationary but <span class="math inline">\(\Delta Y_t\)</span> is, so the process is called <strong>difference-stationary (DS)</strong>. More generally a DS process is <span class="math inline">\(\Delta Y_t=\mu+u_t\)</span> with <span class="math inline">\(u_t\)</span> stationary.</p>
 <section id="predict-before-you-simulate" class="level3">
 <h3 class="anchored" data-anchor-id="predict-before-you-simulate">Predict before you simulate</h3>
-<p>Below, a TS series (<span class="math inline">\(\mu=0.8\)</span>, <span class="math inline">\(\delta=0.2\)</span>, AR(1) noise with <span class="math inline">\(\phi=0.8\)</span>) and a random walk with the same drift <span class="math inline">\(\delta=0.2\)</span> are drawn with <span class="math inline">\(T=500\)</span>, each shown with its fitted OLS trend line. Which one keeps returning to its trend line? Which one could stay on one side of it for a hundred periods? We also count how often each series crosses its fitted trend.</p>
+<p>Below, a TS series (<span class="math inline">\(\mu=0.8\)</span>, <span class="math inline">\(\delta=0.2\)</span>, AR(1) noise with <span class="math inline">\(\phi=0.8\)</span>) and a random walk with drift <span class="math inline">\(\mu=0.2\)</span> are drawn with <span class="math inline">\(T=500\)</span>, each shown with its fitted OLS trend line. Which one keeps returning to its trend line? Which one could stay on one side of it for a hundred periods? We also count how often each series crosses its fitted trend.</p>
 <div id="lec10-004" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-26T09:38:41.455741Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-26T09:38:41.411087Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-26T09:38:41.989517Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-26T09:38:41.987413Z&quot;}}" data-execution_count="2">
 <details class="code-fold">
 <summary>Show R code</summary>
@@ -2342,8 +2366,8 @@ Phillips-Perron    0.055       0.444       0.986</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Slides/00-course-introduction.html" class="pagination-link" aria-label="Course introduction">
-        <span class="nav-page-text">Course introduction</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Notebooks/14-VAR.html" class="pagination-link" aria-label="Vector Autoregressions I">
+        <span class="nav-page-text">Vector Autoregressions I</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

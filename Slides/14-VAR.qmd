@@ -1,0 +1,644 @@
+---
+title: "Multivariate Time Series Models I: Vector Autoregressions"
+subtitle: "HS 821 · Lecture 11 · Topics in Time Series Econometrics"
+author: "Sunil Paul"
+date: "2026-11-03"
+format:
+  revealjs:
+    theme: default
+    slide-number: c/t
+    show-slide-number: all
+    incremental: false
+    smaller: false
+    scrollable: true
+    center-title-slide: true
+    transition: slide
+    background-transition: fade
+    chalkboard: true
+    html-math-method: mathjax
+    fig-align: center
+    footer: "HS 821 · Vector Autoregressions"
+execute:
+  echo: false
+---
+
+# Roadmap {.center}
+
+```{=html}
+<style>
+:root{
+  --hs-accent:#1b3a6b;
+  --hs-accent2:#c0392b;
+}
+.reveal h1,.reveal h2,.reveal h3{ color:var(--hs-accent); font-weight:650; }
+.reveal .slide-number{ background:transparent; color:#888; }
+.reveal section img{ border:none; box-shadow:none; }
+.reveal table{ font-size:0.80em; }
+.reveal table th{ background:#eef2f8; }
+.reveal .small{ font-size:0.78em; }
+.reveal .muted{ color:#5a6472; }
+.reveal blockquote{
+  border-left:4px solid var(--hs-accent);
+  background:#f6f8fc; padding:0.4em 0.9em; font-style:normal;
+}
+.callout-ts{
+  border-left:5px solid var(--hs-accent2);
+  background:#fdf1ef; padding:0.5em 0.9em; border-radius:4px; margin-top:0.4em;
+}
+.keybox{
+  border:1px solid #d5dded; background:#f6f8fc;
+  border-radius:6px; padding:0.5em 0.9em;
+}
+.posterior{ font-size:1.9em; color:var(--hs-accent2); font-weight:700; }
+.reveal .columns{ align-items:center; }
+</style>
+```
+
+::: {.incremental}
+
+- **Structural VAR → reduced form**: what OLS can and cannot estimate
+- **Stability**, the companion form and the **VMA (Wold)** representation
+- **Impulse responses** and **recursive (Cholesky) identification**
+- **Variance decomposition**
+- **Specification**: lag length, estimation, diagnostics
+:::
+
+
+# Why model several series together {background-color="#1b3a6b"}
+
+## Four uses of time-series econometrics {.smaller}
+
+1. **Data description**: levels, growth, seasonality, volatility, co-movement
+2. **Forecasting**: predict, then evaluate against outcomes
+3. **Structural inference**: how shocks propagate, and through which channels
+4. **Policy analysis**: counterfactual responses to policy or technology shocks
+
+::: {.keybox}
+1–2 need only a **reduced form**; 3–4 need a **structural** interpretation. The gap between the two is this lecture's theme.
+:::
+
+## From one equation to a system {.smaller}
+
+| | Univariate AR($p$) | Distributed lag | VAR($p$) |
+|:---|:---|:---|:---|
+| Variables explained | one | one | all $k$ |
+| Other variables | none | exogenous | endogenous, with feedback |
+| Equations | 1 | 1 | $k$ |
+| Lag coefficients | $p$ | $p$ + regressor lags | $k^2p$ |
+| Typical use | forecasting | effect of a known input | shock transmission |
+
+In a VAR every variable is regressed on $p$ lags of **itself and all others**; none is declared exogenous in advance.
+
+> Sims (1980): the restrictions identifying large macro models were **"incredible"**. Let the data describe the dynamics **before** imposing structure.
+
+
+# From the structural VAR to the reduced form {background-color="#1b3a6b"}
+
+## A bivariate structural VAR {.smaller}
+
+$$
+\begin{aligned}
+Y_t &= b_{10} - b_{12}Z_t + c_{11}Y_{t-1} + c_{12}Z_{t-1} + \varepsilon_{yt},\\
+Z_t &= b_{20} - b_{21}Y_t + c_{21}Y_{t-1} + c_{22}Z_{t-1} + \varepsilon_{zt}
+\end{aligned}
+$$
+
+- $Y_t,Z_t\sim I(0)$; $\varepsilon_{yt},\varepsilon_{zt}$ uncorrelated white noise with variances $\sigma_y^2,\sigma_z^2$
+- Order $p=1$, dimension $k=2$
+- $-b_{12}$, $-b_{21}$: **contemporaneous** effects of each variable on the other
+
+::: {.keybox}
+The $\varepsilon$'s are **structural shocks**: uncorrelated, with an economic label (demand, policy). The $b_{ij}$ and $c_{ij}$ describe **behaviour**.
+:::
+
+## OLS fails on the structural equations {.smaller}
+
+> **Predict:** is the regressor $Z_t$ correlated with the error $\varepsilon_{yt}$?
+
+$$
+\operatorname{Cov}(Z_t,\varepsilon_{yt})=\frac{-b_{21}\,\sigma_y^2}{1-b_{12}b_{21}}\neq0\qquad\text{whenever }b_{21}\neq0
+$$
+
+::: {.callout-ts}
+The **simultaneous-equations problem**: OLS on the structural equations is **inconsistent**.
+:::
+
+## Structural and reduced form {.smaller}
+
+In matrix form, the **structural VAR (SVAR)** is
+$$
+BX_t=\Gamma_0+\Gamma_1X_{t-1}+\varepsilon_t,\qquad
+B=\begin{bmatrix}1&b_{12}\\b_{21}&1\end{bmatrix},\quad
+X_t=\begin{bmatrix}Y_t\\Z_t\end{bmatrix}.
+$$
+
+If $B$ is nonsingular, premultiplying by $B^{-1}$ gives the **reduced (standard) form**:
+$$
+X_t=A_0+A_1X_{t-1}+e_t,\qquad A_i=B^{-1}\Gamma_i,\quad e_t=B^{-1}\varepsilon_t .
+$$
+
+With $p$ lags: $X_t=A_0+A_1X_{t-1}+\cdots+A_pX_{t-p}+e_t$.
+
+## What the reduced form buys, and what it hides {.smaller}
+
+- **OLS works.** The regressors are predetermined, so OLS equation by equation is consistent, and efficient too (same regressors, so SUR = OLS).
+- **The structure is absorbed.** $A_0$, $A_1$ and $e_t$ mix the structural parameters.
+- **The errors are correlated mixtures** of both shocks:
+
+  $$
+  e_{1t}=\frac{\varepsilon_{yt}-b_{12}\varepsilon_{zt}}{1-b_{12}b_{21}},\qquad
+  e_{2t}=\frac{\varepsilon_{zt}-b_{21}\varepsilon_{yt}}{1-b_{12}b_{21}},\qquad
+  \Sigma_e=B^{-1}\Sigma_\varepsilon B^{-1\prime}.
+  $$
+
+::: {.callout-ts}
+**The identification problem:** $\Sigma_e$ has **3** distinct elements but depends on **4** unknowns: $b_{12}$, $b_{21}$, $\sigma_y^2$, $\sigma_z^2$.
+:::
+
+
+# Stability and the VMA representation {background-color="#1b3a6b"}
+
+## Stability of a VAR(1) {.smaller}
+
+In deviations from the mean, $X_t=A_1X_{t-1}+e_t$, so
+$$
+X_t=A_1^{\,t}X_0+\sum_{j=0}^{t-1}A_1^{\,j}e_{t-j}.
+$$
+
+**Stable** ($A_1^{\,j}\to0$) $\iff$ every eigenvalue of $A_1$ has $|\lambda|<1$ $\iff$ the roots $z_i=1/\lambda_i$ of
+$$
+\det(I-A_1z)=(1-\lambda_1z)(1-\lambda_2z)
+$$
+lie **outside** the unit circle. A stable VAR is covariance stationary.
+
+::: {.keybox}
+The eigenvalues are the **inverse roots**, as for the AR(2) in Lecture 10. A diagonal $A_1$ gives two unrelated AR(1)s.
+:::
+
+## Each variable is a univariate ARMA(2,1) {.smaller}
+
+Multiplying $(I-A_1L)X_t=e_t$ by the adjugate of $I-A_1L$:
+$$
+\det(I-A_1L)\,Y_t=(1-a_{22}L)\,e_{1t}+a_{12}\,e_{2,t-1}.
+$$
+
+::: {.keybox}
+$Y_t$ and $Z_t$ are both **ARMA(2,1)** with the **same** AR polynomial. A series that looks like a univariate ARMA may be **one element of a small VAR**.
+:::
+
+## VAR($p$): the companion form {.smaller}
+
+Stacking $p$ lags gives a VAR(1) in the $kp$-vector $\mathbf X_t=(X_t',\dots,X_{t-p+1}')'$:
+$$
+\mathbf X_t=\Pi_0+\Pi_1\mathbf X_{t-1}+E_t,\qquad
+\Pi_1=\begin{bmatrix}
+A_1&A_2&\cdots&A_{p-1}&A_p\\
+I&0&\cdots&0&0\\
+0&I&\cdots&0&0\\
+\vdots&\vdots&\ddots&\vdots&\vdots\\
+0&0&\cdots&I&0
+\end{bmatrix}.
+$$
+
+**Stable** $\iff$ all $kp$ eigenvalues of $\Pi_1$ have modulus $<1$ $\iff$ all roots of $\det(I-A_1z-\cdots-A_pz^p)$ lie outside the unit circle.
+
+::: {.callout-ts}
+**Unit root:** $z=1$ is a root iff $\det A(1)=0$, which means a stochastic trend. Whether some combination of the variables is stationary is the question of **cointegration**.
+:::
+
+## Two first-order systems {.smaller}
+
+| | $A_1$ | Eigenvalues | Roots $z$ | Half-life $\ln0.5/\ln\lambda_{\max}$ |
+|:---|:---:|:---:|:---:|:---:|
+| Persistent | $\begin{bmatrix}0.625&0.5\\0.25&0.625\end{bmatrix}$ | 0.979, 0.271 | 1.022, 3.684 | ≈ 32 periods |
+| Worked example | $\begin{bmatrix}0.7&0.2\\0.2&0.7\end{bmatrix}$ | 0.9, 0.5 | 1.111, 2 | ≈ 6.6 periods |
+
+Both are stable. The second returns as the worked example.
+
+> A root just outside the unit circle means **stable, but slow**.
+
+## The VMA (Wold) representation {.smaller}
+
+If the VAR is stable, $A(L)=I-A_1L-\cdots-A_pL^p$ is invertible and
+$$
+X_t=\mu+\sum_{j=0}^{\infty}\Phi_je_{t-j},\qquad
+\mu=A(1)^{-1}A_0,\qquad
+\Phi_0=I,\quad \Phi_j=\sum_{i=1}^{\min(j,p)}A_i\Phi_{j-i}.
+$$
+For a VAR(1), $\Phi_j=A_1^{\,j}$.
+
+- **Variance:** $\operatorname{Var}(X_t)=\sum_j\Phi_j\Sigma_e\Phi_j'$
+- **$n$-step forecast error:** $X_{t+n}-E_tX_{t+n}=\sum_{j=0}^{n-1}\Phi_je_{t+n-j}$
+
+::: {.keybox}
+Every stationary VAR is a **VMA($\infty$)** in its one-step forecast errors: the multivariate **Wold representation**. The $\Phi_j$ are the building blocks of impulse responses and variance decompositions.
+:::
+
+
+# Impulse responses and identification {background-color="#1b3a6b"}
+
+## Forecast-error impulse responses {.smaller}
+
+The elements of $\Phi_h$,
+$$
+\phi_{ij,h}=\frac{\partial X_{i,t+h}}{\partial e_{jt}},
+$$
+give the response of variable $i$, $h$ periods later, to a unit **reduced-form** innovation $e_{jt}$.
+
+::: {.callout-ts}
+They have two problems:
+
+1. $\Phi_0=I$ moves $e_1$ while holding $e_2$ fixed. Since $e_1$ and $e_2$ are **correlated**, that experiment is unrepresentative.
+2. Each $e_{jt}$ mixes the structural shocks, so it has **no economic label**.
+:::
+
+## Structural impulse responses {.smaller}
+
+Substituting $e_t=B^{-1}\varepsilon_t$:
+$$
+X_t=\mu+\sum_{j=0}^{\infty}\Psi_j\varepsilon_{t-j},\qquad
+\Psi_j=\Phi_jB^{-1},\qquad
+\psi_{ij,h}=\frac{\partial X_{i,t+h}}{\partial\varepsilon_{jt}} .
+$$
+
+- **Impact:** $\Psi_0=B^{-1}$; for a VAR(1), $\Psi_h=A_1\Psi_{h-1}$
+- **Decay:** $\Psi_h\to0$ if the VAR is stable
+- **Long-run cumulated effect:** $\sum_h\Psi_h=A(1)^{-1}B^{-1}$. For growth rates, this is the effect on the **level**.
+- **Scaling:** one-s.d. shocks use $\Psi_h\Sigma_\varepsilon^{1/2}$, which changes magnitudes but not shapes
+
+## Identification: counting parameters {.smaller}
+
+Can we recover the structure from $\hat A_i$ and $\hat\Sigma_e$? Not without restrictions (Sims 1980).
+
+| Bivariate VAR(1) | Reduced form | Structural form |
+|:---|:---:|:---:|
+| Intercepts | 2 | 2 |
+| Lag coefficients | 4 | 4 |
+| Contemporaneous $b_{12},b_{21}$ | — | 2 |
+| Shock (co)variances | 3 | 2 |
+| **Total** | **9** | **10** |
+
+::: {.keybox}
+Given $B$, everything else follows ($\Gamma_i=BA_i$), so the shortfall lies in $\Sigma_e=B^{-1}\Sigma_\varepsilon B^{-1\prime}$. In general there are $k(k+1)/2$ moments for $k^2$ unknowns, so we need
+$$
+\frac{k(k-1)}{2}\ \text{restrictions}\qquad(1,\ 3,\ 10\ \text{for}\ k=2,\ 3,\ 5).
+$$
+:::
+
+## Recursive identification {.smaller}
+
+**Recursive ordering** (Sims 1980): earlier variables can affect later ones within the period, but not vice versa.
+
+Assume $Z_t$ does **not** respond to $Y_t$ within the period. Then $b_{21}=0$ and $Z$ is ordered **first**:
+$$
+B=\begin{bmatrix}1&b_{12}\\0&1\end{bmatrix},\qquad
+e_{1t}=\varepsilon_{yt}-b_{12}\varepsilon_{zt},\qquad e_{2t}=\varepsilon_{zt}.
+$$
+
+This gives three equations in three unknowns:
+$$
+\sigma_1^2=\sigma_y^2+b_{12}^2\sigma_z^2,\quad
+\sigma_2^2=\sigma_z^2,\quad
+\sigma_{12}=-b_{12}\sigma_z^2
+\quad\Longrightarrow\quad
+b_{12}=-\frac{\sigma_{12}}{\sigma_2^2},\quad
+\sigma_y^2=\sigma_1^2-\frac{\sigma_{12}^2}{\sigma_2^2}.
+$$
+
+::: {.keybox}
+**Exactly identified.** With $k$ variables, a recursive ordering zeroes one triangle of $B$, which gives exactly $k(k-1)/2$ restrictions.
+:::
+
+## The Cholesky factorization does it in one step {.smaller}
+
+Let $P\equiv B^{-1}\Sigma_\varepsilon^{1/2}$. Then $\Sigma_e=PP'$, and under a recursive ordering $P$ is **triangular**: it is the unique **Cholesky factor** of $\Sigma_e$. In the $2\times2$ case:
+$$
+\begin{bmatrix}a_{11}&a_{12}\\a_{12}&a_{22}\end{bmatrix}=PP',\qquad
+P=\begin{bmatrix}\sqrt{a_{11}}&0\\[2pt]\dfrac{a_{12}}{\sqrt{a_{11}}}&\sqrt{a_{22}-\dfrac{a_{12}^2}{a_{11}}}\end{bmatrix}.
+$$
+
+::: {.keybox}
+- $\operatorname{diag}(P)$ gives the structural standard deviations
+- dividing each column of $P$ by its diagonal element gives $B^{-1}$
+- $\Phi_hP$ gives the **orthogonalized** (one-s.d.) impulse responses
+:::
+
+## The ordering is an assumption {.smaller}
+
+With $Y$ first ($b_{12}=0$), the $2\times2$ formula gives
+$$
+\sigma_y^2=\sigma_1^2,\qquad b_{21}=-\frac{\sigma_{12}}{\sigma_1^2},\qquad \sigma_z^2=\sigma_2^2-\frac{\sigma_{12}^2}{\sigma_1^2}.
+$$
+To put $Z$ first instead, reorder $\Sigma_e$ as $(Z,Y)$, factor it, and reorder back.
+
+- The **first** variable responds on impact only to its own shock, and its shock moves every variable.
+- The **last** variable responds on impact to all shocks.
+
+::: {.callout-ts}
+Different orderings give different IRFs and FEVDs, and the gap **grows with the residual correlations**. Let economic judgment choose: *which variable cannot react within the period?*
+:::
+
+## Other identifying restrictions {.smaller}
+
+1. **Non-recursive short-run** zeros in $B$, or a known elasticity (Sims 1986; Bernanke 1986)
+2. **Long-run** restrictions on $\sum_h\Psi_h$: e.g. demand shocks have no long-run effect on output (Blanchard and Quah 1989)
+3. **Sign restrictions** on responses, which identify a **set** of structures (Uhlig 2005)
+4. **External instruments** correlated with only one shock (Stock and Watson 2018)
+
+::: {.keybox}
+Once $B$ is pinned down: $\hat\varepsilon_t=\hat B\hat e_t$ and $\hat\Psi_h=\hat\Phi_h\hat B^{-1}$.
+:::
+
+
+# Variance decomposition {background-color="#1b3a6b"}
+
+## Forecast-error variance decomposition {.smaller}
+
+The $n$-step forecast error in terms of structural shocks is
+$$
+X_{t+n}-E_tX_{t+n}=\sum_{i=0}^{n-1}\Psi_i\varepsilon_{t+n-i}.
+$$
+The shocks are uncorrelated, so the variance splits into **one term per shock**:
+$$
+\sigma_Y(n)^2=\sigma_y^2\sum_{i=0}^{n-1}\psi_{11,i}^2+\sigma_z^2\sum_{i=0}^{n-1}\psi_{12,i}^2,
+\qquad
+\text{share of }\varepsilon_z=\frac{\sigma_z^2\sum_{i=0}^{n-1}\psi_{12,i}^2}{\sigma_Y(n)^2}.
+$$
+
+::: {.keybox}
+With Cholesky identification, each term is a **sum of squared one-s.d. responses** $\Phi_iP$. IRFs and the FEVD together make up **innovation accounting**.
+:::
+
+## Reading a variance decomposition {.smaller}
+
+- If $\varepsilon_z$ explains **none** of $Y$'s forecast-error variance, $Y$ is **exogenous** to $Z$. If it explains **most** of it, $Y$ is highly **endogenous**.
+- A variable typically explains most of its own variance at short horizons and less at long ones.
+
+::: {.callout-ts}
+Under a recursive ordering, the first variable's one-step variance comes entirely from its own shock **by construction**. That is an assumption, not a finding.
+:::
+
+
+# Worked example: Cholesky identification step by step {background-color="#1b3a6b"}
+
+## Steps 1–2: reduced form and ordering {.smaller}
+
+$$
+\begin{aligned}
+Y_t &= 0.7\,Y_{t-1}+0.2\,Z_{t-1}+e_{1t},\\
+Z_t &= 0.2\,Y_{t-1}+0.7\,Z_{t-1}+e_{2t},
+\end{aligned}
+\qquad
+\Sigma_e=\begin{bmatrix}0.5&0.4\\0.4&0.5\end{bmatrix}
+$$
+
+- **Stable:** the eigenvalues are $0.9$ and $0.5$
+- **Residual correlation** $0.4/0.5=0.8$: high, so the ordering will matter
+- **Ordering:** assume $Z_t$ does not respond to $Y_t$ within the period ($b_{21}=0$, $Z$ first). That leaves 3 unknowns and 3 moments, so the model is **exactly identified**.
+
+## Steps 3–4: Cholesky factor and structure {.smaller}
+
+Factor $\Sigma_e$ in the order $(Z,Y)$, then return to the order $(Y,Z)$:
+$$
+P_{(Z,Y)}=\begin{bmatrix}\sqrt{0.5}&0\\[2pt]0.4/\sqrt{0.5}&\sqrt{0.5-0.4^2/0.5}\end{bmatrix}
+=\begin{bmatrix}0.7071&0\\0.5657&0.4243\end{bmatrix}
+\quad\Longrightarrow\quad
+P=\begin{bmatrix}0.4243&0.5657\\0&0.7071\end{bmatrix}.
+$$
+
+Match with $P=B^{-1}\Sigma_\varepsilon^{1/2}=\begin{bmatrix}\sigma_y&-b_{12}\sigma_z\\0&\sigma_z\end{bmatrix}$:
+$$
+\sigma_z^2=0.5,\qquad \sigma_y^2=0.18,\qquad -b_{12}=0.5657/0.7071=0.8 .
+$$
+
+## Step 5: structural coefficients and shocks {.smaller}
+
+With $\Gamma_1=BA_1$: $c_{11}=0.7-0.8(0.2)=0.54$ and $c_{12}=0.2-0.8(0.7)=-0.36$, so
+$$
+\begin{aligned}
+Y_t &= 0.8\,Z_t+0.54\,Y_{t-1}-0.36\,Z_{t-1}+\varepsilon_{yt}, &\quad \sigma_y^2&=0.18,\\
+Z_t &= 0.2\,Y_{t-1}+0.7\,Z_{t-1}+\varepsilon_{zt}, &\quad \sigma_z^2&=0.5,
+\end{aligned}
+$$
+with $e_{1t}=\varepsilon_{yt}+0.8\,\varepsilon_{zt}$ and $e_{2t}=\varepsilon_{zt}$.
+
+::: {.callout-ts}
+$c_{12}=-0.36$ but $a_{12}=0.2$: **reduced-form coefficients can differ in sign from the structural ones.**
+:::
+
+## Step 6: structural impulse responses {.smaller}
+
+$\Psi_0=B^{-1}=\begin{bmatrix}1&0.8\\0&1\end{bmatrix}$, and then $\Psi_h=A_1\Psi_{h-1}$:
+
+| $h$ | $Y$ to $\varepsilon_y$ | $Z$ to $\varepsilon_y$ | $Y$ to $\varepsilon_z$ | $Z$ to $\varepsilon_z$ |
+|:---:|:---:|:---:|:---:|:---:|
+| 0 | 1.00 | 0.00 | 0.80 | 1.00 |
+| 1 | 0.70 | 0.20 | 0.76 | 0.86 |
+| 2 | 0.53 | 0.28 | 0.70 | 0.75 |
+
+- $Z$ does not respond to $\varepsilon_y$ on impact, by assumption.
+- $\varepsilon_z$ has the larger effect on $Y$: it also moves $Z$, which feeds back into $Y$.
+- The responses decay at about the rate of the dominant eigenvalue, $0.9$. For one-s.d. shocks, scale by $\sigma_y=0.42$ and $\sigma_z=0.71$.
+
+## Step 7: variance decomposition at $n=1$ {.smaller}
+
+The one-step forecast error is $\Psi_0\varepsilon_{t+1}$. Using the one-s.d. responses $P$:
+
+- **$Y$:** $0.4243^2+0.5657^2=0.18+0.32=0.5$, so **36%** comes from $\varepsilon_y$ and **64%** from $\varepsilon_z$
+- **$Z$:** $0.7071^2=0.5$, so **100%** comes from $\varepsilon_z$, as the recursive restriction imposes
+
+> **Predict:** as the horizon $n$ grows, does $\varepsilon_z$'s share of $Y$'s variance rise or fall?
+
+## Step 8: reverse the ordering {.smaller}
+
+With $Y$ first ($b_{12}=0$):
+$$
+P=\begin{bmatrix}0.7071&0\\0.5657&0.4243\end{bmatrix},\qquad
+\sigma_y^2=0.5,\quad \sigma_z^2=0.18,\quad b_{21}=-0.8 .
+$$
+
+| One-step share of $\varepsilon_z$ in… | $Z$ first | $Y$ first |
+|:---|:---:|:---:|
+| $Y$'s variance | 64% | 0% |
+| $Z$'s variance | 100% | 36% |
+
+Every $(b_{12},b_{21})$ on the curve $b_{21}=-(\sigma_{12}+b_{12}\sigma_2^2)/(\sigma_1^2+b_{12}\sigma_{12})$ fits $\Sigma_e$ equally well. The two orderings are its intercepts, $(-0.8,0)$ and $(0,-0.8)$.
+
+::: {.keybox}
+With $\rho=0.8$ the ordering **decides** the answer. Check the residual correlations, **justify** the ordering, and **report** how the results change under other orderings.
+:::
+
+## Try it: how much does the ordering matter? {.updating-slide background-color="#fbfcfe"}
+
+<style>
+.reveal .updating-slide h2 { font-size: 1.45em; }
+.reveal .updating-slide .columns { gap: 1.2em; align-items: flex-start; }
+.reveal .updating-slide .controls-box{
+  font-size: 0.60em; line-height: 1.2; padding: 0.7em;
+  border: 1px solid #d9e2ef; border-radius: 12px; background: white;
+}
+.reveal .updating-slide input[type="range"]{ width: 160px; }
+.reveal .updating-slide .posterior{ font-size: 2.0em; font-weight: 700; color:#c0392b; }
+.reveal .updating-slide .note{ font-size: 0.60em; color:#555; margin-top: 0.8em; }
+</style>
+
+:::: {.columns}
+
+::: {.column width="36%"}
+::: {.controls-box}
+
+```{ojs}
+//| echo: false
+viewof rho = Inputs.range([0, 0.95], {
+  value: 0.8, step: 0.05, label: "residual correlation ρ"
+})
+```
+
+The worked example with residual correlation $\rho$. The lines show $\varepsilon_z$'s share of $Y$'s $n$-step forecast-error variance under each ordering.
+
+:::
+:::
+
+::: {.column width="64%"}
+
+```{ojs}
+//| echo: false
+fev = {
+  const s = 0.5, s12 = rho * s;
+  const A = [[0.7, 0.2], [0.2, 0.7]];
+  const mul = (X, Y) => [
+    [X[0][0] * Y[0][0] + X[0][1] * Y[1][0], X[0][0] * Y[0][1] + X[0][1] * Y[1][1]],
+    [X[1][0] * Y[0][0] + X[1][1] * Y[1][0], X[1][0] * Y[0][1] + X[1][1] * Y[1][1]]
+  ];
+  // Cholesky factors in the order (Y, Z); columns = (eps_y, eps_z)
+  const Pz = [[Math.sqrt(s - s12 * s12 / s), s12 / Math.sqrt(s)], [0, Math.sqrt(s)]];  // Z first
+  const Py = [[Math.sqrt(s), 0], [s12 / Math.sqrt(s), Math.sqrt(s - s12 * s12 / s)]];  // Y first
+  const out = [];
+  let F = [[1, 0], [0, 1]];          // Phi_h = A1^h
+  let cz = [0, 0], cy = [0, 0];      // cumulated squared responses of Y to (eps_y, eps_z)
+  for (let n = 1; n <= 20; n++) {
+    const Rz = mul(F, Pz), Ry = mul(F, Py);
+    cz = [cz[0] + Rz[0][0] ** 2, cz[1] + Rz[0][1] ** 2];
+    cy = [cy[0] + Ry[0][0] ** 2, cy[1] + Ry[0][1] ** 2];
+    out.push({n: n, ordering: "Z first", share: 100 * cz[1] / (cz[0] + cz[1])});
+    out.push({n: n, ordering: "Y first", share: 100 * cy[1] / (cy[0] + cy[1])});
+    F = mul(A, F);
+  }
+  return out;
+}
+
+Plot.plot({
+  height: 250, marginLeft: 50,
+  x: {label: "forecast horizon n", domain: [1, 20]},
+  y: {label: "% of Y's forecast-error variance from ε_z", domain: [0, 100], grid: true},
+  color: {domain: ["Z first", "Y first"], range: ["#1b3a6b", "#c0392b"], legend: true},
+  marks: [
+    Plot.line(fev, {x: "n", y: "share", stroke: "ordering", strokeWidth: 2.2}),
+    Plot.dot(fev, {x: "n", y: "share", fill: "ordering", r: 2.5})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+at20 = ({
+  z: fev.find(d => d.n === 20 && d.ordering === "Z first").share,
+  y: fev.find(d => d.n === 20 && d.ordering === "Y first").share
+})
+
+html`<div>
+  <div class="muted">Gap at n = 20: share of ε_z in Y's variance, Z first minus Y first</div>
+  <div class="posterior">${(at20.z - at20.y).toFixed(1)} pp</div>
+  <div class="note">
+    Z first: <b>${at20.z.toFixed(1)}%</b> &nbsp;·&nbsp; Y first: <b>${at20.y.toFixed(1)}%</b>
+    &nbsp;·&nbsp; one-step share with Z first: <b>${(100 * rho * rho).toFixed(0)}%</b> (= ρ²)
+    &nbsp;·&nbsp; b₁₂ (Z first) = b₂₁ (Y first) = <b>${(-rho).toFixed(2)}</b>
+  </div>
+</div>`
+```
+
+:::
+
+::::
+
+::: {.note}
+At $\rho=0$ the lines **coincide** and the ordering is irrelevant. Raise $\rho$ and they split; $\rho=0.8$ is the worked example.
+:::
+
+## The steps in summary {.smaller}
+
+| Step | Computation | Result in the example |
+|:---|:---|:---|
+| 1. Reduced form | OLS $\hat A_1$, $\hat\Sigma_e$; stability, residual correlation | eigenvalues 0.9, 0.5; $\rho_{12}=0.8$ |
+| 2. Ordering | which variable cannot respond within the period? | $Z$ first ($b_{21}=0$) |
+| 3. Cholesky factor | factor $\hat\Sigma_e$ in the chosen order, reorder back | $P=\begin{bmatrix}0.4243&0.5657\\0&0.7071\end{bmatrix}$ |
+| 4. Structure | $\sigma$'s from $\operatorname{diag}(P)$; $B^{-1}$ = columns of $P$ ÷ diagonal | $\sigma_y^2=0.18$, $\sigma_z^2=0.5$, $b_{12}=-0.8$ |
+| 5. Coefficients and shocks | $\Gamma_i=BA_i$; $\varepsilon_t=Be_t$ | $c_{11}=0.54$, $c_{12}=-0.36$ |
+| 6. Impulse responses | $\Phi_hB^{-1}$ (one unit) or $\Phi_hP$ (one s.d.) | impact $(1,0)$ and $(0.8,1)$ |
+| 7. Variance decomposition | sums of squared one-s.d. responses | $Y$: 64% $\varepsilon_z$ at $n=1$ |
+| 8. Robustness | repeat with other plausible orderings | conclusions reverse |
+
+
+# Specification, estimation and diagnostics {background-color="#1b3a6b"}
+
+## Choosing the lag length {.smaller}
+
+**LR test** (Sims 1980), with both models estimated on the **same sample**:
+$$
+LR=(T-c)\big(\ln|\hat\Sigma_r|-\ln|\hat\Sigma_u|\big)\ \overset{a}{\sim}\ \chi^2\big(k^2(p_u-p_r)\big),
+$$
+where $c=1+kp_u$ is the number of parameters per unrestricted equation (a small-sample correction).
+
+**Information criteria**, with $N=k^2p+k$ parameters in total:
+$$
+AIC=T\ln|\hat\Sigma|+2N,\qquad SBC=T\ln|\hat\Sigma|+N\ln T .
+$$
+
+::: {.keybox}
+Minimize on a **common sample**. SBC picks shorter lags than AIC. Adding lags does **not** fix omitted variables.
+:::
+
+## Estimation and diagnostics {.smaller}
+
+- **Estimate** by OLS equation by equation, choosing the variables by theory.
+- **Over-parameterized** ($k+pk^2$ coefficients): interpret the IRFs and FEVDs, not single coefficients.
+- **Residuals:** test for serial correlation with multivariate portmanteau or LM tests; check normality and heteroskedasticity.
+- **Stability:** all companion eigenvalues must lie inside the unit circle.
+- **Forecast** by iterating $E_tX_{t+n}=\hat A_0+\hat A_1E_tX_{t+n-1}+\cdots+\hat A_pE_tX_{t+n-p}$.
+
+
+# Recap {background-color="#1b3a6b"}
+
+## Key takeaways {.smaller}
+
+::: {.keybox}
+- **Structural vs reduced form:** OLS can't estimate the SVAR but can estimate the reduced form, whose errors $e_t=B^{-1}\varepsilon_t$ are **correlated mixtures**.
+- **Stability:** companion eigenvalues inside the unit circle ⇒ $X_t=\mu+\sum_j\Phi_je_{t-j}$.
+- **Structural IRFs:** $\Psi_h=\Phi_hB^{-1}$, with long-run effect $A(1)^{-1}B^{-1}$.
+- **Identification:** we need $k(k-1)/2$ restrictions. A recursive ordering supplies them, solved by the Cholesky factor $P=B^{-1}\Sigma_\varepsilon^{1/2}$.
+- **FEVD:** sums of squared one-s.d. responses.
+- **The ordering is an assumption:** with $\rho=0.8$, $\varepsilon_z$'s one-step share of $Y$ swings from 64% to 0%.
+- **Specification:** LR or AIC/SBC on a common sample; check residuals and stability.
+:::
+
+## Suggested reading {.smaller}
+
+- Enders (2015), *Applied Econometric Time Series*, 4th ed., Ch. 5: the basis of this lecture
+- Hamilton (1994), *Time Series Analysis*, Chs. 10–11
+- Lütkepohl (2005), *New Introduction to Multiple Time Series Analysis*, Chs. 2–4 and 9
+- Kilian and Lütkepohl (2017), *Structural Vector Autoregressive Analysis*: the modern reference on identification
+- Stock and Watson (2001), "Vector autoregressions", *JEP* 15(4): short and readable
+
+> Next: when $\det A(1)=0$, is some combination of the variables stationary? That is **cointegration**.
+
+## Original papers {.smaller}
+
+::: {.small}
+*Foundations:* Wold (1938, *A Study in the Analysis of Stationary Time Series*); Zellner (1962, *JASA*); Sims (1980, *Econometrica*); Sims (1986, *Federal Reserve Bank of Minneapolis Quarterly Review*); Bernanke (1986, *Carnegie-Rochester Conference Series on Public Policy*).
+
+*Identification:* Blanchard and Quah (1989, *AER*); Christiano, Eichenbaum and Evans (1999, *Handbook of Macroeconomics* 1A); Uhlig (2005, *JME*); Rubio-Ramírez, Waggoner and Zha (2010, *REStud*); Stock and Watson (2018, *Economic Journal*).
+
+*Inference on impulse responses:* Kilian (1998, *REStat*).
+
+*Surveys:* Ramey (2016, *Handbook of Macroeconomics* 2A) on macroeconomic shocks and their propagation.
+:::

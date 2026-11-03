@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Sunil Paul">
+  <meta name="dcterms.date" content="2026-11-03">
+  <title>HS 821: Topics in Time Series Econometrics – Multivariate Time Series Models I: Vector Autoregressions</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Multivariate Time Series Models I: Vector Autoregressions</h1>
+  <p class="subtitle">HS 821 · Lecture 11 · Topics in Time Series Econometrics</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Sunil Paul
+</div>
+</div>
+</div>
+
+  <p class="date">2026-11-03</p>
+</section>
+<section id="roadmap" class="title-slide slide level1 center">
+<h1>Roadmap</h1>
+<style>
+:root{
+  --hs-accent:#1b3a6b;
+  --hs-accent2:#c0392b;
+}
+.reveal h1,.reveal h2,.reveal h3{ color:var(--hs-accent); font-weight:650; }
+.reveal .slide-number{ background:transparent; color:#888; }
+.reveal section img{ border:none; box-shadow:none; }
+.reveal table{ font-size:0.80em; }
+.reveal table th{ background:#eef2f8; }
+.reveal .small{ font-size:0.78em; }
+.reveal .muted{ color:#5a6472; }
+.reveal blockquote{
+  border-left:4px solid var(--hs-accent);
+  background:#f6f8fc; padding:0.4em 0.9em; font-style:normal;
+}
+.callout-ts{
+  border-left:5px solid var(--hs-accent2);
+  background:#fdf1ef; padding:0.5em 0.9em; border-radius:4px; margin-top:0.4em;
+}
+.keybox{
+  border:1px solid #d5dded; background:#f6f8fc;
+  border-radius:6px; padding:0.5em 0.9em;
+}
+.posterior{ font-size:1.9em; color:var(--hs-accent2); font-weight:700; }
+.reveal .columns{ align-items:center; }
+</style>
+<ul>
+<li class="fragment"><strong>Structural VAR → reduced form</strong>: what OLS can and cannot estimate</li>
+<li class="fragment"><strong>Stability</strong>, the companion form and the <strong>VMA (Wold)</strong> representation</li>
+<li class="fragment"><strong>Impulse responses</strong> and <strong>recursive (Cholesky) identification</strong></li>
+<li class="fragment"><strong>Variance decomposition</strong></li>
+<li class="fragment"><strong>Specification</strong>: lag length, estimation, diagnostics</li>
+</ul>
+</section>
+
+<section>
+<section id="why-model-several-series-together" class="title-slide slide level1 center" data-background-color="#1b3a6b">
+<h1>Why model several series together</h1>
+
+</section>
+<section id="four-uses-of-time-series-econometrics" class="slide level2 smaller scrollable">
+<h2>Four uses of time-series econometrics</h2>
+<ol type="1">
+<li><strong>Data description</strong>: levels, growth, seasonality, volatility, co-movement</li>
+<li><strong>Forecasting</strong>: predict, then evaluate against outcomes</li>
+<li><strong>Structural inference</strong>: how shocks propagate, and through which channels</li>
+<li><strong>Policy analysis</strong>: counterfactual responses to policy or technology shocks</li>
+</ol>
+<div class="keybox">
+<p>1–2 need only a <strong>reduced form</strong>; 3–4 need a <strong>structural</strong> interpretation. The gap between the two is this lecture’s theme.</p>
+</div>
+</section>
+<section id="from-one-equation-to-a-system" class="slide level2 smaller">
+<h2>From one equation to a system</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Univariate AR(<span class="math inline">\(p\)</span>)</th>
+<th style="text-align: left;">Distributed lag</th>
+<th style="text-align: left;">VAR(<span class="math inline">\(p\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Variables explained</td>
+<td style="text-align: left;">one</td>
+<td style="text-align: left;">one</td>
+<td style="text-align: left;">all <span class="math inline">\(k\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other variables</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">exogenous</td>
+<td style="text-align: left;">endogenous, with feedback</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Equations</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;"><span class="math inline">\(k\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lag coefficients</td>
+<td style="text-align: left;"><span class="math inline">\(p\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(p\)</span> + regressor lags</td>
+<td style="text-align: left;"><span class="math inline">\(k^2p\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Typical use</td>
+<td style="text-align: left;">forecasting</td>
+<td style="text-align: left;">effect of a known input</td>
+<td style="text-align: left;">shock transmission</td>
+</tr>
+</tbody>
+</table>
+<p>In a VAR every variable is regressed on <span class="math inline">\(p\)</span> lags of <strong>itself and all others</strong>; none is declared exogenous in advance.</p>
+<blockquote>
+<p>Sims (1980): the restrictions identifying large macro models were <strong>“incredible”</strong>. Let the data describe the dynamics <strong>before</strong> imposing structure.</p>
+</blockquote>
+</section></section>
+<section>
+<section id="from-the-structural-var-to-the-reduced-form" class="title-slide slide level1 center" data-background-color="#1b3a6b">
+<h1>From the structural VAR to the reduced form</h1>
+
+</section>
+<section id="a-bivariate-structural-var" class="slide level2 smaller">
+<h2>A bivariate structural VAR</h2>
+<p><span class="math display">\[
+\begin{aligned}
+Y_t &amp;= b_{10} - b_{12}Z_t + c_{11}Y_{t-1} + c_{12}Z_{t-1} + \varepsilon_{yt},\\
+Z_t &amp;= b_{20} - b_{21}Y_t + c_{21}Y_{t-1} + c_{22}Z_{t-1} + \varepsilon_{zt}
+\end{aligned}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(Y_t,Z_t\sim I(0)\)</span>; <span class="math inline">\(\varepsilon_{yt},\varepsilon_{zt}\)</span> uncorrelated white noise with variances <span class="math inline">\(\sigma_y^2,\sigma_z^2\)</span></li>
+<li>Order <span class="math inline">\(p=1\)</span>, dimension <span class="math inline">\(k=2\)</span></li>
+<li><span class="math inline">\(-b_{12}\)</span>, <span class="math inline">\(-b_{21}\)</span>: <strong>contemporaneous</strong> effects of each variable on the other</li>
+</ul>
+<div class="keybox">
+<p>The <span class="math inline">\(\varepsilon\)</span>’s are <strong>structural shocks</strong>: uncorrelated, with an economic label (demand, policy). The <span class="math inline">\(b_{ij}\)</span> and <span class="math inline">\(c_{ij}\)</span> describe <strong>behaviour</strong>.</p>
+</div>
+</section>
+<section id="ols-fails-on-the-structural-equations" class="slide level2 smaller">
+<h2>OLS fails on the structural equations</h2>
+<blockquote>
+<p><strong>Predict:</strong> is the regressor <span class="math inline">\(Z_t\)</span> correlated with the error <span class="math inline">\(\varepsilon_{yt}\)</span>?</p>
+</blockquote>
+<p><span class="math display">\[
+\operatorname{Cov}(Z_t,\varepsilon_{yt})=\frac{-b_{21}\,\sigma_y^2}{1-b_{12}b_{21}}\neq0\qquad\text{whenever }b_{21}\neq0
+\]</span></p>
+<div class="callout-ts">
+<p>The <strong>simultaneous-equations problem</strong>: OLS on the structural equations is <strong>inconsistent</strong>.</p>
+</div>
+</section>
+<section id="structural-and-reduced-form" class="slide level2 smaller">
+<h2>Structural and reduced form</h2>
+<p>In matrix form, the <strong>structural VAR (SVAR)</strong> is <span class="math display">\[
+BX_t=\Gamma_0+\Gamma_1X_{t-1}+\varepsilon_t,\qquad
+B=\begin{bmatrix}1&amp;b_{12}\\b_{21}&amp;1\end{bmatrix},\quad
+X_t=\begin{bmatrix}Y_t\\Z_t\end{bmatrix}.
+\]</span></p>
+<p>If <span class="math inline">\(B\)</span> is nonsingular, premultiplying by <span class="math inline">\(B^{-1}\)</span> gives the <strong>reduced (standard) form</strong>: <span class="math display">\[
+X_t=A_0+A_1X_{t-1}+e_t,\qquad A_i=B^{-1}\Gamma_i,\quad e_t=B^{-1}\varepsilon_t .
+\]</span></p>
+<p>With <span class="math inline">\(p\)</span> lags: <span class="math inline">\(X_t=A_0+A_1X_{t-1}+\cdots+A_pX_{t-p}+e_t\)</span>.</p>
+</section>
+<section id="what-the-reduced-form-buys-and-what-it-hides" class="slide level2 smaller">
+<h2>What the reduced form buys, and what it hides</h2>
+<ul>
+<li><p><strong>OLS works.</strong> The regressors are predetermined, so OLS equation by equation is consistent, and efficient too (same regressors, so SUR = OLS).</p></li>
+<li><p><strong>The structure is absorbed.</strong> <span class="math inline">\(A_0\)</span>, <span class="math inline">\(A_1\)</span> and <span class="math inline">\(e_t\)</span> mix the structural parameters.</p></li>
+<li><p><strong>The errors are correlated mixtures</strong> of both shocks:</p>
+<p><span class="math display">\[
+e_{1t}=\frac{\varepsilon_{yt}-b_{12}\varepsilon_{zt}}{1-b_{12}b_{21}},\qquad
+e_{2t}=\frac{\varepsilon_{zt}-b_{21}\varepsilon_{yt}}{1-b_{12}b_{21}},\qquad
+\Sigma_e=B^{-1}\Sigma_\varepsilon B^{-1\prime}.
+\]</span></p></li>
+</ul>
+<div class="callout-ts">
+<p><strong>The identification problem:</strong> <span class="math inline">\(\Sigma_e\)</span> has <strong>3</strong> distinct elements but depends on <strong>4</strong> unknowns: <span class="math inline">\(b_{12}\)</span>, <span class="math inline">\(b_{21}\)</span>, <span class="math inline">\(\sigma_y^2\)</span>, <span class="math inline">\(\sigma_z^2\)</span>.</p>
+</div>
+</section></section>
+<section>
+<section id="stability-and-the-vma-representation" class="title-slide slide level1 center" data-background-color="#1b3a6b">
+<h1>Stability and the VMA representation</h1>
+
+</section>
+<section id="stability-of-a-var1" class="slide level2 smaller">
+<h2>Stability of a VAR(1)</h2>
+<p>In deviations from the mean, <span class="math inline">\(X_t=A_1X_{t-1}+e_t\)</span>, so <span class="math display">\[
+X_t=A_1^{\,t}X_0+\sum_{j=0}^{t-1}A_1^{\,j}e_{t-j}.
+\]</span></p>
+<p><strong>Stable</strong> (<span class="math inline">\(A_1^{\,j}\to0\)</span>) <span class="math inline">\(\iff\)</span> every eigenvalue of <span class="math inline">\(A_1\)</span> has <span class="math inline">\(|\lambda|&lt;1\)</span> <span class="math inline">\(\iff\)</span> the roots <span class="math inline">\(z_i=1/\lambda_i\)</span> of <span class="math display">\[
+\det(I-A_1z)=(1-\lambda_1z)(1-\lambda_2z)
+\]</span> lie <strong>outside</strong> the unit circle. A stable VAR is covariance stationary.</p>
+<div class="keybox">
+<p>The eigenvalues are the <strong>inverse roots</strong>, as for the AR(2) in Lecture 10. A diagonal <span class="math inline">\(A_1\)</span> gives two unrelated AR(1)s.</p>
+</div>
+</section>
+<section id="each-variable-is-a-univariate-arma21" class="slide level2 smaller">
+<h2>Each variable is a univariate ARMA(2,1)</h2>
+<p>Multiplying <span class="math inline">\((I-A_1L)X_t=e_t\)</span> by the adjugate of <span class="math inline">\(I-A_1L\)</span>: <span class="math display">\[
+\det(I-A_1L)\,Y_t=(1-a_{22}L)\,e_{1t}+a_{12}\,e_{2,t-1}.
+\]</span></p>
+<div class="keybox">
+<p><span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Z_t\)</span> are both <strong>ARMA(2,1)</strong> with the <strong>same</strong> AR polynomial. A series that looks like a univariate ARMA may be <strong>one element of a small VAR</strong>.</p>
+</div>
+</section>
+<section id="varp-the-companion-form" class="slide level2 smaller">
+<h2>VAR(<span class="math inline">\(p\)</span>): the companion form</h2>
+<p>Stacking <span class="math inline">\(p\)</span> lags gives a VAR(1) in the <span class="math inline">\(kp\)</span>-vector <span class="math inline">\(\mathbf X_t=(X_t',\dots,X_{t-p+1}')'\)</span>: <span class="math display">\[
+\mathbf X_t=\Pi_0+\Pi_1\mathbf X_{t-1}+E_t,\qquad
+\Pi_1=\begin{bmatrix}
+A_1&amp;A_2&amp;\cdots&amp;A_{p-1}&amp;A_p\\
+I&amp;0&amp;\cdots&amp;0&amp;0\\
+0&amp;I&amp;\cdots&amp;0&amp;0\\
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots&amp;\vdots\\
+0&amp;0&amp;\cdots&amp;I&amp;0
+\end{bmatrix}.
+\]</span></p>
+<p><strong>Stable</strong> <span class="math inline">\(\iff\)</span> all <span class="math inline">\(kp\)</span> eigenvalues of <span class="math inline">\(\Pi_1\)</span> have modulus <span class="math inline">\(&lt;1\)</span> <span class="math inline">\(\iff\)</span> all roots of <span class="math inline">\(\det(I-A_1z-\cdots-A_pz^p)\)</span> lie outside the unit circle.</p>
+<div class="callout-ts">
+<p><strong>Unit root:</strong> <span class="math inline">\(z=1\)</span> is a root iff <span class="math inline">\(\det A(1)=0\)</span>, which means a stochastic trend. Whether some combination of the variables is stationary is the question of <strong>cointegration</strong>.</p>
+</div>
+</section>
+<section id="two-first-order-systems" class="slide level2 smaller">
+<h2>Two first-order systems</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;"><span class="math inline">\(A_1\)</span></th>
+<th style="text-align: center;">Eigenvalues</th>
+<th style="text-align: center;">Roots <span class="math inline">\(z\)</span></th>
+<th style="text-align: center;">Half-life <span class="math inline">\(\ln0.5/\ln\lambda_{\max}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Persistent</td>
+<td style="text-align: center;"><span class="math inline">\(\begin{bmatrix}0.625&amp;0.5\\0.25&amp;0.625\end{bmatrix}\)</span></td>
+<td style="text-align: center;">0.979, 0.271</td>
+<td style="text-align: center;">1.022, 3.684</td>
+<td style="text-align: center;">≈ 32 periods</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Worked example</td>
+<td style="text-align: center;"><span class="math inline">\(\begin{bmatrix}0.7&amp;0.2\\0.2&amp;0.7\end{bmatrix}\)</span></td>
+<td style="text-align: center;">0.9, 0.5</td>
+<td style="text-align: center;">1.111, 2</td>
+<td style="text-align: center;">≈ 6.6 periods</td>
+</tr>
+</tbody>
+</table>
+<p>Both are stable. The second returns as the worked example.</p>
+<blockquote>
+<p>A root just outside the unit circle means <strong>stable, but slow</strong>.</p>
+</blockquote>
+</section>
+<section id="the-vma-wold-representation" class="slide level2 smaller">
+<h2>The VMA (Wold) representation</h2>
+<p>If the VAR is stable, <span class="math inline">\(A(L)=I-A_1L-\cdots-A_pL^p\)</span> is invertible and <span class="math display">\[
+X_t=\mu+\sum_{j=0}^{\infty}\Phi_je_{t-j},\qquad
+\mu=A(1)^{-1}A_0,\qquad
+\Phi_0=I,\quad \Phi_j=\sum_{i=1}^{\min(j,p)}A_i\Phi_{j-i}.
+\]</span> For a VAR(1), <span class="math inline">\(\Phi_j=A_1^{\,j}\)</span>.</p>
+<ul>
+<li><strong>Variance:</strong> <span class="math inline">\(\operatorname{Var}(X_t)=\sum_j\Phi_j\Sigma_e\Phi_j'\)</span></li>
+<li><strong><span class="math inline">\(n\)</span>-step forecast error:</strong> <span class="math inline">\(X_{t+n}-E_tX_{t+n}=\sum_{j=0}^{n-1}\Phi_je_{t+n-j}\)</span></li>
+</ul>
+<div class="keybox">
+<p>Every stationary VAR is a <strong>VMA(<span class="math inline">\(\infty\)</span>)</strong> in its one-step forecast errors: the multivariate <strong>Wold representation</strong>. The <span class="math inline">\(\Phi_j\)</span> are the building blocks of impulse responses and variance decompositions.</p>
+</div>
+</section></section>
+<section>
+<section id="impulse-responses-and-identification" class="title-slide slide level1 center" data-background-color="#1b3a6b">
+<h1>Impulse responses and identification</h1>
+
+</section>
+<section id="forecast-error-impulse-responses" class="slide level2 smaller scrollable">
+<h2>Forecast-error impulse responses</h2>
+<p>The elements of <span class="math inline">\(\Phi_h\)</span>, <span class="math display">\[
+\phi_{ij,h}=\frac{\partial X_{i,t+h}}{\partial e_{jt}},
+\]</span> give the response of variable <span class="math inline">\(i\)</span>, <span class="math inline">\(h\)</span> periods later, to a unit <strong>reduced-form</strong> innovation <span class="math inline">\(e_{jt}\)</span>.</p>
+<div class="callout-ts">
+<p>They have two problems:</p>
+<ol type="1">
+<li><span class="math inline">\(\Phi_0=I\)</span> moves <span class="math inline">\(e_1\)</span> while holding <span class="math inline">\(e_2\)</span> fixed. Since <span class="math inline">\(e_1\)</span> and <span class="math inline">\(e_2\)</span> are <strong>correlated</strong>, that experiment is unrepresentative.</li>
+<li>Each <span class="math inline">\(e_{jt}\)</span> mixes the structural shocks, so it has <strong>no economic label</strong>.</li>
+</ol>
+</div>
+</section>
+<section id="structural-impulse-responses" class="slide level2 smaller">
+<h2>Structural impulse responses</h2>
+<p>Substituting <span class="math inline">\(e_t=B^{-1}\varepsilon_t\)</span>: <span class="math display">\[
+X_t=\mu+\sum_{j=0}^{\infty}\Psi_j\varepsilon_{t-j},\qquad
+\Psi_j=\Phi_jB^{-1},\qquad
+\psi_{ij,h}=\frac{\partial X_{i,t+h}}{\partial\varepsilon_{jt}} .
+\]</span></p>
+<ul>
+<li><strong>Impact:</strong> <span class="math inline">\(\Psi_0=B^{-1}\)</span>; for a VAR(1), <span class="math inline">\(\Psi_h=A_1\Psi_{h-1}\)</span></li>
+<li><strong>Decay:</strong> <span class="math inline">\(\Psi_h\to0\)</span> if the VAR is stable</li>
+<li><strong>Long-run cumulated effect:</strong> <span class="math inline">\(\sum_h\Psi_h=A(1)^{-1}B^{-1}\)</span>. For growth rates, this is the effect on the <strong>level</strong>.</li>
+<li><strong>Scaling:</strong> one-s.d. shocks use <span class="math inline">\(\Psi_h\Sigma_\varepsilon^{1/2}\)</span>, which changes magnitudes but not shapes</li>
+</ul>
+</section>
+<section id="identification-counting-parameters" class="slide level2 smaller">
+<h2>Identification: counting parameters</h2>
+<p>Can we recover the structure from <span class="math inline">\(\hat A_i\)</span> and <span class="math inline">\(\hat\Sigma_e\)</span>? Not without restrictions (Sims 1980).</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Bivariate VAR(1)</th>
+<th style="text-align: center;">Reduced form</th>
+<th style="text-align: center;">Structural form</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercepts</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lag coefficients</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Contemporaneous <span class="math inline">\(b_{12},b_{21}\)</span></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Shock (co)variances</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>9</strong></td>
+<td style="text-align: center;"><strong>10</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="keybox">
+<p>Given <span class="math inline">\(B\)</span>, everything else follows (<span class="math inline">\(\Gamma_i=BA_i\)</span>), so the shortfall lies in <span class="math inline">\(\Sigma_e=B^{-1}\Sigma_\varepsilon B^{-1\prime}\)</span>. In general there are <span class="math inline">\(k(k+1)/2\)</span> moments for <span class="math inline">\(k^2\)</span> unknowns, so we need <span class="math display">\[
+\frac{k(k-1)}{2}\ \text{restrictions}\qquad(1,\ 3,\ 10\ \text{for}\ k=2,\ 3,\ 5).
+\]</span></p>
+</div>
+</section>
+<section id="recursive-identification" class="slide level2 smaller">
+<h2>Recursive identification</h2>
+<p><strong>Recursive ordering</strong> (Sims 1980): earlier variables can affect later ones within the period, but not vice versa.</p>
+<p>Assume <span class="math inline">\(Z_t\)</span> does <strong>not</strong> respond to <span class="math inline">\(Y_t\)</span> within the period. Then <span class="math inline">\(b_{21}=0\)</span> and <span class="math inline">\(Z\)</span> is ordered <strong>first</strong>: <span class="math display">\[
+B=\begin{bmatrix}1&amp;b_{12}\\0&amp;1\end{bmatrix},\qquad
+e_{1t}=\varepsilon_{yt}-b_{12}\varepsilon_{zt},\qquad e_{2t}=\varepsilon_{zt}.
+\]</span></p>
+<p>This gives three equations in three unknowns: <span class="math display">\[
+\sigma_1^2=\sigma_y^2+b_{12}^2\sigma_z^2,\quad
+\sigma_2^2=\sigma_z^2,\quad
+\sigma_{12}=-b_{12}\sigma_z^2
+\quad\Longrightarrow\quad
+b_{12}=-\frac{\sigma_{12}}{\sigma_2^2},\quad
+\sigma_y^2=\sigma_1^2-\frac{\sigma_{12}^2}{\sigma_2^2}.
+\]</span></p>
+<div class="keybox">
+<p><strong>Exactly identified.</strong> With <span class="math inline">\(k\)</span> variables, a recursive ordering zeroes one triangle of <span class="math inline">\(B\)</span>, which gives exactly <span class="math inline">\(k(k-1)/2\)</span> restrictions.</p>
+</div>
+</section>
+<section id="the-cholesky-factorization-does-it-in-one-step" class="slide level2 smaller">
+<h2>The Cholesky factorization does it in one step</h2>
+<p>Let <span class="math inline">\(P\equiv B^{-1}\Sigma_\varepsilon^{1/2}\)</span>. Then <span class="math inline">\(\Sigma_e=PP'\)</span>, and under a recursive ordering <span class="math inline">\(P\)</span> is <strong>triangular</strong>: it is the unique <strong>Cholesky factor</strong> of <span class="math inline">\(\Sigma_e\)</span>. In the <span class="math inline">\(2\times2\)</span> case: <span class="math display">\[
+\begin{bmatrix}a_{11}&amp;a_{12}\\a_{12}&amp;a_{22}\end{bmatrix}=PP',\qquad
+P=\begin{bmatrix}\sqrt{a_{11}}&amp;0\\[2pt]\dfrac{a_{12}}{\sqrt{a_{11}}}&amp;\sqrt{a_{22}-\dfrac{a_{12}^2}{a_{11}}}\end{bmatrix}.
+\]</span></p>
+<div class="keybox">
+<ul>
+<li><span class="math inline">\(\operatorname{diag}(P)\)</span> gives the structural standard deviations</li>
+<li>dividing each column of <span class="math inline">\(P\)</span> by its diagonal element gives <span class="math inline">\(B^{-1}\)</span></li>
+<li><span class="math inline">\(\Phi_hP\)</span> gives the <strong>orthogonalized</strong> (one-s.d.) impulse responses</li>
+</ul>
+</div>
+</section>
+<section id="the-ordering-is-an-assumption" class="slide level2 smaller">
+<h2>The ordering is an assumption</h2>
+<p>With <span class="math inline">\(Y\)</span> first (<span class="math inline">\(b_{12}=0\)</span>), the <span class="math inline">\(2\times2\)</span> formula gives <span class="math display">\[
+\sigma_y^2=\sigma_1^2,\qquad b_{21}=-\frac{\sigma_{12}}{\sigma_1^2},\qquad \sigma_z^2=\sigma_2^2-\frac{\sigma_{12}^2}{\sigma_1^2}.
+\]</span> To put <span class="math inline">\(Z\)</span> first instead, reorder <span class="math inline">\(\Sigma_e\)</span> as <span class="math inline">\((Z,Y)\)</span>, factor it, and reorder back.</p>
+<ul>
+<li>The <strong>first</strong> variable responds on impact only to its own shock, and its shock moves every variable.</li>
+<li>The <strong>last</strong> variable responds on impact to all shocks.</li>
+</ul>
+<div class="callout-ts">
+<p>Different orderings give different IRFs and FEVDs, and the gap <strong>grows with the residual correlations</strong>. Let economic judgment choose: <em>which variable cannot react within the period?</em></p>
+</div>
+</section>
+<section id="other-identifying-restrictions" class="slide level2 smaller scrollable">
+<h2>Other identifying restrictions</h2>
+<ol type="1">
+<li><strong>Non-recursive short-run</strong> zeros in <span class="math inline">\(B\)</span>, or a known elasticity (Sims 1986; Bernanke 1986)</li>
+<li><strong>Long-run</strong> restrictions on <span class="math inline">\(\sum_h\Psi_h\)</span>: e.g.&nbsp;demand shocks have no long-run effect on output (Blanchard and Quah 1989)</li>
+<li><strong>Sign restrictions</strong> on responses, which identify a <strong>set</strong> of structures (Uhlig 2005)</li>
+<li><strong>External instruments</strong> correlated with only one shock (Stock and Watson 2018)</li>
+</ol>
+<div class="keybox">
+<p>Once <span class="math inline">\(B\)</span> is pinned down: <span class="math inline">\(\hat\varepsilon_t=\hat B\hat e_t\)</span> and <span class="math inline">\(\hat\Psi_h=\hat\Phi_h\hat B^{-1}\)</span>.</p>
+</div>
+</section></section>
+<section>
+<section id="variance-decomposition" class="title-slide slide level1 center" data-background-color="#1b3a6b">
+<h1>Variance decomposition</h1>
+
+</section>
+<section id="forecast-error-variance-decomposition" class="slide level2 smaller">
+<h2>Forecast-error variance decomposition</h2>
+<p>The <span class="math inline">\(n\)</span>-step forecast error in terms of structural shocks is <span class="math display">\[
+X_{t+n}-E_tX_{t+n}=\sum_{i=0}^{n-1}\Psi_i\varepsilon_{t+n-i}.
+\]</span> The shocks are uncorrelated, so the variance splits into <strong>one term per shock</strong>: <span class="math display">\[
+\sigma_Y(n)^2=\sigma_y^2\sum_{i=0}^{n-1}\psi_{11,i}^2+\sigma_z^2\sum_{i=0}^{n-1}\psi_{12,i}^2,
+\qquad
+\text{share of }\varepsilon_z=\frac{\sigma_z^2\sum_{i=0}^{n-1}\psi_{12,i}^2}{\sigma_Y(n)^2}.
+\]</span></p>
+<div class="keybox">
+<p>With Cholesky identification, each term is a <strong>sum of squared one-s.d. responses</strong> <span class="math inline">\(\Phi_iP\)</span>. IRFs and the FEVD together make up <strong>innovation accounting</strong>.</p>
+</div>
+</section>
+<section id="reading-a-variance-decomposition" class="slide level2 smaller">
+<h2>Reading a variance decomposition</h2>
+<ul>
+<li>If <span class="math inline">\(\varepsilon_z\)</span> explains <strong>none</strong> of <span class="math inline">\(Y\)</span>’s forecast-error variance, <span class="math inline">\(Y\)</span> is <strong>exogenous</strong> to <span class="math inline">\(Z\)</span>. If it explains <strong>most</strong> of it, <span class="math inline">\(Y\)</span> is highly <strong>endogenous</strong>.</li>
+<li>A variable typically explains most of its own variance at short horizons and less at long ones.</li>
+</ul>
+<div class="callout-ts">
+<p>Under a recursive ordering, the first variable’s one-step variance comes entirely from its own shock <strong>by construction</strong>. That is an assumption, not a finding.</p>
+</div>
+</section></section>
+<section>
+<section id="worked-example-cholesky-identification-step-by-step" class="title-slide slide level1 center" data-background-color="#1b3a6b">
+<h1>Worked example: Cholesky identification step by step</h1>
+
+</section>
+<section id="steps-12-reduced-form-and-ordering" class="slide level2 smaller">
+<h2>Steps 1–2: reduced form and ordering</h2>
+<p><span class="math display">\[
+\begin{aligned}
+Y_t &amp;= 0.7\,Y_{t-1}+0.2\,Z_{t-1}+e_{1t},\\
+Z_t &amp;= 0.2\,Y_{t-1}+0.7\,Z_{t-1}+e_{2t},
+\end{aligned}
+\qquad
+\Sigma_e=\begin{bmatrix}0.5&amp;0.4\\0.4&amp;0.5\end{bmatrix}
+\]</span></p>
+<ul>
+<li><strong>Stable:</strong> the eigenvalues are <span class="math inline">\(0.9\)</span> and <span class="math inline">\(0.5\)</span></li>
+<li><strong>Residual correlation</strong> <span class="math inline">\(0.4/0.5=0.8\)</span>: high, so the ordering will matter</li>
+<li><strong>Ordering:</strong> assume <span class="math inline">\(Z_t\)</span> does not respond to <span class="math inline">\(Y_t\)</span> within the period (<span class="math inline">\(b_{21}=0\)</span>, <span class="math inline">\(Z\)</span> first). That leaves 3 unknowns and 3 moments, so the model is <strong>exactly identified</strong>.</li>
+</ul>
+</section>
+<section id="steps-34-cholesky-factor-and-structure" class="slide level2 smaller">
+<h2>Steps 3–4: Cholesky factor and structure</h2>
+<p>Factor <span class="math inline">\(\Sigma_e\)</span> in the order <span class="math inline">\((Z,Y)\)</span>, then return to the order <span class="math inline">\((Y,Z)\)</span>: <span class="math display">\[
+P_{(Z,Y)}=\begin{bmatrix}\sqrt{0.5}&amp;0\\[2pt]0.4/\sqrt{0.5}&amp;\sqrt{0.5-0.4^2/0.5}\end{bmatrix}
+=\begin{bmatrix}0.7071&amp;0\\0.5657&amp;0.4243\end{bmatrix}
+\quad\Longrightarrow\quad
+P=\begin{bmatrix}0.4243&amp;0.5657\\0&amp;0.7071\end{bmatrix}.
+\]</span></p>
+<p>Match with <span class="math inline">\(P=B^{-1}\Sigma_\varepsilon^{1/2}=\begin{bmatrix}\sigma_y&amp;-b_{12}\sigma_z\\0&amp;\sigma_z\end{bmatrix}\)</span>: <span class="math display">\[
+\sigma_z^2=0.5,\qquad \sigma_y^2=0.18,\qquad -b_{12}=0.5657/0.7071=0.8 .
+\]</span></p>
+</section>
+<section id="step-5-structural-coefficients-and-shocks" class="slide level2 smaller">
+<h2>Step 5: structural coefficients and shocks</h2>
+<p>With <span class="math inline">\(\Gamma_1=BA_1\)</span>: <span class="math inline">\(c_{11}=0.7-0.8(0.2)=0.54\)</span> and <span class="math inline">\(c_{12}=0.2-0.8(0.7)=-0.36\)</span>, so <span class="math display">\[
+\begin{aligned}
+Y_t &amp;= 0.8\,Z_t+0.54\,Y_{t-1}-0.36\,Z_{t-1}+\varepsilon_{yt}, &amp;\quad \sigma_y^2&amp;=0.18,\\
+Z_t &amp;= 0.2\,Y_{t-1}+0.7\,Z_{t-1}+\varepsilon_{zt}, &amp;\quad \sigma_z^2&amp;=0.5,
+\end{aligned}
+\]</span> with <span class="math inline">\(e_{1t}=\varepsilon_{yt}+0.8\,\varepsilon_{zt}\)</span> and <span class="math inline">\(e_{2t}=\varepsilon_{zt}\)</span>.</p>
+<div class="callout-ts">
+<p><span class="math inline">\(c_{12}=-0.36\)</span> but <span class="math inline">\(a_{12}=0.2\)</span>: <strong>reduced-form coefficients can differ in sign from the structural ones.</strong></p>
+</div>
+</section>
+<section id="step-6-structural-impulse-responses" class="slide level2 smaller">
+<h2>Step 6: structural impulse responses</h2>
+<p><span class="math inline">\(\Psi_0=B^{-1}=\begin{bmatrix}1&amp;0.8\\0&amp;1\end{bmatrix}\)</span>, and then <span class="math inline">\(\Psi_h=A_1\Psi_{h-1}\)</span>:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(h\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(Y\)</span> to <span class="math inline">\(\varepsilon_y\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(Z\)</span> to <span class="math inline">\(\varepsilon_y\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(Y\)</span> to <span class="math inline">\(\varepsilon_z\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(Z\)</span> to <span class="math inline">\(\varepsilon_z\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">0.80</td>
+<td style="text-align: center;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.70</td>
+<td style="text-align: center;">0.20</td>
+<td style="text-align: center;">0.76</td>
+<td style="text-align: center;">0.86</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.53</td>
+<td style="text-align: center;">0.28</td>
+<td style="text-align: center;">0.70</td>
+<td style="text-align: center;">0.75</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><span class="math inline">\(Z\)</span> does not respond to <span class="math inline">\(\varepsilon_y\)</span> on impact, by assumption.</li>
+<li><span class="math inline">\(\varepsilon_z\)</span> has the larger effect on <span class="math inline">\(Y\)</span>: it also moves <span class="math inline">\(Z\)</span>, which feeds back into <span class="math inline">\(Y\)</span>.</li>
+<li>The responses decay at about the rate of the dominant eigenvalue, <span class="math inline">\(0.9\)</span>. For one-s.d. shocks, scale by <span class="math inline">\(\sigma_y=0.42\)</span> and <span class="math inline">\(\sigma_z=0.71\)</span>.</li>
+</ul>
+</section>
+<section id="step-7-variance-decomposition-at-n1" class="slide level2 smaller">
+<h2>Step 7: variance decomposition at <span class="math inline">\(n=1\)</span></h2>
+<p>The one-step forecast error is <span class="math inline">\(\Psi_0\varepsilon_{t+1}\)</span>. Using the one-s.d. responses <span class="math inline">\(P\)</span>:</p>
+<ul>
+<li><strong><span class="math inline">\(Y\)</span>:</strong> <span class="math inline">\(0.4243^2+0.5657^2=0.18+0.32=0.5\)</span>, so <strong>36%</strong> comes from <span class="math inline">\(\varepsilon_y\)</span> and <strong>64%</strong> from <span class="math inline">\(\varepsilon_z\)</span></li>
+<li><strong><span class="math inline">\(Z\)</span>:</strong> <span class="math inline">\(0.7071^2=0.5\)</span>, so <strong>100%</strong> comes from <span class="math inline">\(\varepsilon_z\)</span>, as the recursive restriction imposes</li>
+</ul>
+<blockquote>
+<p><strong>Predict:</strong> as the horizon <span class="math inline">\(n\)</span> grows, does <span class="math inline">\(\varepsilon_z\)</span>’s share of <span class="math inline">\(Y\)</span>’s variance rise or fall?</p>
+</blockquote>
+</section>
+<section id="step-8-reverse-the-ordering" class="slide level2 smaller">
+<h2>Step 8: reverse the ordering</h2>
+<p>With <span class="math inline">\(Y\)</span> first (<span class="math inline">\(b_{12}=0\)</span>): <span class="math display">\[
+P=\begin{bmatrix}0.7071&amp;0\\0.5657&amp;0.4243\end{bmatrix},\qquad
+\sigma_y^2=0.5,\quad \sigma_z^2=0.18,\quad b_{21}=-0.8 .
+\]</span></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">One-step share of <span class="math inline">\(\varepsilon_z\)</span> in…</th>
+<th style="text-align: center;"><span class="math inline">\(Z\)</span> first</th>
+<th style="text-align: center;"><span class="math inline">\(Y\)</span> first</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(Y\)</span>’s variance</td>
+<td style="text-align: center;">64%</td>
+<td style="text-align: center;">0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(Z\)</span>’s variance</td>
+<td style="text-align: center;">100%</td>
+<td style="text-align: center;">36%</td>
+</tr>
+</tbody>
+</table>
+<p>Every <span class="math inline">\((b_{12},b_{21})\)</span> on the curve <span class="math inline">\(b_{21}=-(\sigma_{12}+b_{12}\sigma_2^2)/(\sigma_1^2+b_{12}\sigma_{12})\)</span> fits <span class="math inline">\(\Sigma_e\)</span> equally well. The two orderings are its intercepts, <span class="math inline">\((-0.8,0)\)</span> and <span class="math inline">\((0,-0.8)\)</span>.</p>
+<div class="keybox">
+<p>With <span class="math inline">\(\rho=0.8\)</span> the ordering <strong>decides</strong> the answer. Check the residual correlations, <strong>justify</strong> the ordering, and <strong>report</strong> how the results change under other orderings.</p>
+</div>
+</section>
+<section id="try-it-how-much-does-the-ordering-matter" class="slide level2 updating-slide" data-background-color="#fbfcfe">
+<h2>Try it: how much does the ordering matter?</h2>
+<style>
+.reveal .updating-slide h2 { font-size: 1.45em; }
+.reveal .updating-slide .columns { gap: 1.2em; align-items: flex-start; }
+.reveal .updating-slide .controls-box{
+  font-size: 0.60em; line-height: 1.2; padding: 0.7em;
+  border: 1px solid #d9e2ef; border-radius: 12px; background: white;
+}
+.reveal .updating-slide input[type="range"]{ width: 160px; }
+.reveal .updating-slide .posterior{ font-size: 2.0em; font-weight: 700; color:#c0392b; }
+.reveal .updating-slide .note{ font-size: 0.60em; color:#555; margin-top: 0.8em; }
+</style>
+<div class="columns">
+<div class="column" style="width:36%;">
+<div class="controls-box">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="491" data-source-offset="0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 490;"><span id="cb1-491"><a aria-label="491"></a>viewof rho <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="fl">0.95</span>]<span class="op">,</span> {</span>
+<span id="cb1-492"><a aria-label="492"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.8</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"residual correlation ρ"</span></span>
+<span id="cb1-493"><a aria-label="493"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<p>The worked example with residual correlation <span class="math inline">\(\rho\)</span>. The lines show <span class="math inline">\(\varepsilon_z\)</span>’s share of <span class="math inline">\(Y\)</span>’s <span class="math inline">\(n\)</span>-step forecast-error variance under each ordering.</p>
+</div>
+</div><div class="column" style="width:64%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="506" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 505;"><span id="cb2-506"><a aria-label="506"></a>fev <span class="op">=</span> {</span>
+<span id="cb2-507"><a aria-label="507"></a>  <span class="kw">const</span> s <span class="op">=</span> <span class="fl">0.5</span><span class="op">,</span> s12 <span class="op">=</span> rho <span class="op">*</span> s<span class="op">;</span></span>
+<span id="cb2-508"><a aria-label="508"></a>  <span class="kw">const</span> A <span class="op">=</span> [[<span class="fl">0.7</span><span class="op">,</span> <span class="fl">0.2</span>]<span class="op">,</span> [<span class="fl">0.2</span><span class="op">,</span> <span class="fl">0.7</span>]]<span class="op">;</span></span>
+<span id="cb2-509"><a aria-label="509"></a>  <span class="kw">const</span> mul <span class="op">=</span> (X<span class="op">,</span> Y) <span class="kw">=&gt;</span> [</span>
+<span id="cb2-510"><a aria-label="510"></a>    [X[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">*</span> Y[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> X[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">*</span> Y[<span class="dv">1</span>][<span class="dv">0</span>]<span class="op">,</span> X[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">*</span> Y[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">+</span> X[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">*</span> Y[<span class="dv">1</span>][<span class="dv">1</span>]]<span class="op">,</span></span>
+<span id="cb2-511"><a aria-label="511"></a>    [X[<span class="dv">1</span>][<span class="dv">0</span>] <span class="op">*</span> Y[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> X[<span class="dv">1</span>][<span class="dv">1</span>] <span class="op">*</span> Y[<span class="dv">1</span>][<span class="dv">0</span>]<span class="op">,</span> X[<span class="dv">1</span>][<span class="dv">0</span>] <span class="op">*</span> Y[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">+</span> X[<span class="dv">1</span>][<span class="dv">1</span>] <span class="op">*</span> Y[<span class="dv">1</span>][<span class="dv">1</span>]]</span>
+<span id="cb2-512"><a aria-label="512"></a>  ]<span class="op">;</span></span>
+<span id="cb2-513"><a aria-label="513"></a>  <span class="co">// Cholesky factors in the order (Y, Z); columns = (eps_y, eps_z)</span></span>
+<span id="cb2-514"><a aria-label="514"></a>  <span class="kw">const</span> Pz <span class="op">=</span> [[<span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(s <span class="op">-</span> s12 <span class="op">*</span> s12 <span class="op">/</span> s)<span class="op">,</span> s12 <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(s)]<span class="op">,</span> [<span class="dv">0</span><span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(s)]]<span class="op">;</span>  <span class="co">// Z first</span></span>
+<span id="cb2-515"><a aria-label="515"></a>  <span class="kw">const</span> Py <span class="op">=</span> [[<span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(s)<span class="op">,</span> <span class="dv">0</span>]<span class="op">,</span> [s12 <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(s)<span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(s <span class="op">-</span> s12 <span class="op">*</span> s12 <span class="op">/</span> s)]]<span class="op">;</span>  <span class="co">// Y first</span></span>
+<span id="cb2-516"><a aria-label="516"></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-517"><a aria-label="517"></a>  <span class="kw">let</span> F <span class="op">=</span> [[<span class="dv">1</span><span class="op">,</span> <span class="dv">0</span>]<span class="op">,</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]]<span class="op">;</span>          <span class="co">// Phi_h = A1^h</span></span>
+<span id="cb2-518"><a aria-label="518"></a>  <span class="kw">let</span> cz <span class="op">=</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>]<span class="op">,</span> cy <span class="op">=</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>]<span class="op">;</span>      <span class="co">// cumulated squared responses of Y to (eps_y, eps_z)</span></span>
+<span id="cb2-519"><a aria-label="519"></a>  <span class="cf">for</span> (<span class="kw">let</span> n <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> n <span class="op">&lt;=</span> <span class="dv">20</span><span class="op">;</span> n<span class="op">++</span>) {</span>
+<span id="cb2-520"><a aria-label="520"></a>    <span class="kw">const</span> Rz <span class="op">=</span> <span class="fu">mul</span>(F<span class="op">,</span> Pz)<span class="op">,</span> Ry <span class="op">=</span> <span class="fu">mul</span>(F<span class="op">,</span> Py)<span class="op">;</span></span>
+<span id="cb2-521"><a aria-label="521"></a>    cz <span class="op">=</span> [cz[<span class="dv">0</span>] <span class="op">+</span> Rz[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">**</span> <span class="dv">2</span><span class="op">,</span> cz[<span class="dv">1</span>] <span class="op">+</span> Rz[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">**</span> <span class="dv">2</span>]<span class="op">;</span></span>
+<span id="cb2-522"><a aria-label="522"></a>    cy <span class="op">=</span> [cy[<span class="dv">0</span>] <span class="op">+</span> Ry[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">**</span> <span class="dv">2</span><span class="op">,</span> cy[<span class="dv">1</span>] <span class="op">+</span> Ry[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">**</span> <span class="dv">2</span>]<span class="op">;</span></span>
+<span id="cb2-523"><a aria-label="523"></a>    out<span class="op">.</span><span class="fu">push</span>({<span class="dt">n</span><span class="op">:</span> n<span class="op">,</span> <span class="dt">ordering</span><span class="op">:</span> <span class="st">"Z first"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="dv">100</span> <span class="op">*</span> cz[<span class="dv">1</span>] <span class="op">/</span> (cz[<span class="dv">0</span>] <span class="op">+</span> cz[<span class="dv">1</span>])})<span class="op">;</span></span>
+<span id="cb2-524"><a aria-label="524"></a>    out<span class="op">.</span><span class="fu">push</span>({<span class="dt">n</span><span class="op">:</span> n<span class="op">,</span> <span class="dt">ordering</span><span class="op">:</span> <span class="st">"Y first"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="dv">100</span> <span class="op">*</span> cy[<span class="dv">1</span>] <span class="op">/</span> (cy[<span class="dv">0</span>] <span class="op">+</span> cy[<span class="dv">1</span>])})<span class="op">;</span></span>
+<span id="cb2-525"><a aria-label="525"></a>    F <span class="op">=</span> <span class="fu">mul</span>(A<span class="op">,</span> F)<span class="op">;</span></span>
+<span id="cb2-526"><a aria-label="526"></a>  }</span>
+<span id="cb2-527"><a aria-label="527"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb2-528"><a aria-label="528"></a>}</span>
+<span id="cb2-529"><a aria-label="529"></a></span>
+<span id="cb2-530"><a aria-label="530"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb2-531"><a aria-label="531"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">250</span><span class="op">,</span> <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb2-532"><a aria-label="532"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"forecast horizon n"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">20</span>]}<span class="op">,</span></span>
+<span id="cb2-533"><a aria-label="533"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"% of Y's forecast-error variance from ε_z"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
+<span id="cb2-534"><a aria-label="534"></a>  <span class="dt">color</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="st">"Z first"</span><span class="op">,</span> <span class="st">"Y first"</span>]<span class="op">,</span> <span class="dt">range</span><span class="op">:</span> [<span class="st">"#1b3a6b"</span><span class="op">,</span> <span class="st">"#c0392b"</span>]<span class="op">,</span> <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
+<span id="cb2-535"><a aria-label="535"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb2-536"><a aria-label="536"></a>    Plot<span class="op">.</span><span class="fu">line</span>(fev<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"share"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"ordering"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.2</span>})<span class="op">,</span></span>
+<span id="cb2-537"><a aria-label="537"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(fev<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"n"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"share"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"ordering"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="fl">2.5</span>})</span>
+<span id="cb2-538"><a aria-label="538"></a>  ]</span>
+<span id="cb2-539"><a aria-label="539"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="544" data-source-offset="-0"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 543;"><span id="cb3-544"><a aria-label="544"></a>at20 <span class="op">=</span> ({</span>
+<span id="cb3-545"><a aria-label="545"></a>  <span class="dt">z</span><span class="op">:</span> fev<span class="op">.</span><span class="fu">find</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">n</span> <span class="op">===</span> <span class="dv">20</span> <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">ordering</span> <span class="op">===</span> <span class="st">"Z first"</span>)<span class="op">.</span><span class="at">share</span><span class="op">,</span></span>
+<span id="cb3-546"><a aria-label="546"></a>  <span class="dt">y</span><span class="op">:</span> fev<span class="op">.</span><span class="fu">find</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">n</span> <span class="op">===</span> <span class="dv">20</span> <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">ordering</span> <span class="op">===</span> <span class="st">"Y first"</span>)<span class="op">.</span><span class="at">share</span></span>
+<span id="cb3-547"><a aria-label="547"></a>})</span>
+<span id="cb3-548"><a aria-label="548"></a></span>
+<span id="cb3-549"><a aria-label="549"></a><span class="fu">html</span><span class="vs">`&lt;div&gt;</span></span>
+<span id="cb3-550"><a aria-label="550"></a><span class="vs">  &lt;div class="muted"&gt;Gap at n = 20: share of ε_z in Y's variance, Z first minus Y first&lt;/div&gt;</span></span>
+<span id="cb3-551"><a aria-label="551"></a><span class="vs">  &lt;div class="posterior"&gt;</span><span class="sc">${</span>(at20<span class="op">.</span><span class="at">z</span> <span class="op">-</span> at20<span class="op">.</span><span class="at">y</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs"> pp&lt;/div&gt;</span></span>
+<span id="cb3-552"><a aria-label="552"></a><span class="vs">  &lt;div class="note"&gt;</span></span>
+<span id="cb3-553"><a aria-label="553"></a><span class="vs">    Z first: &lt;b&gt;</span><span class="sc">${</span>at20<span class="op">.</span><span class="at">z</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%&lt;/b&gt; &amp;nbsp;·&amp;nbsp; Y first: &lt;b&gt;</span><span class="sc">${</span>at20<span class="op">.</span><span class="at">y</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">%&lt;/b&gt;</span></span>
+<span id="cb3-554"><a aria-label="554"></a><span class="vs">    &amp;nbsp;·&amp;nbsp; one-step share with Z first: &lt;b&gt;</span><span class="sc">${</span>(<span class="dv">100</span> <span class="op">*</span> rho <span class="op">*</span> rho)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">0</span>)<span class="sc">}</span><span class="vs">%&lt;/b&gt; (= ρ²)</span></span>
+<span id="cb3-555"><a aria-label="555"></a><span class="vs">    &amp;nbsp;·&amp;nbsp; b₁₂ (Z first) = b₂₁ (Y first) = &lt;b&gt;</span><span class="sc">${</span>(<span class="op">-</span>rho)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">&lt;/b&gt;</span></span>
+<span id="cb3-556"><a aria-label="556"></a><span class="vs">  &lt;/div&gt;</span></span>
+<span id="cb3-557"><a aria-label="557"></a><span class="vs">&lt;/div&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</div></div>
+<div class="note">
+<p>At <span class="math inline">\(\rho=0\)</span> the lines <strong>coincide</strong> and the ordering is irrelevant. Raise <span class="math inline">\(\rho\)</span> and they split; <span class="math inline">\(\rho=0.8\)</span> is the worked example.</p>
+</div>
+</section>
+<section id="the-steps-in-summary" class="slide level2 smaller">
+<h2>The steps in summary</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Step</th>
+<th style="text-align: left;">Computation</th>
+<th style="text-align: left;">Result in the example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1. Reduced form</td>
+<td style="text-align: left;">OLS <span class="math inline">\(\hat A_1\)</span>, <span class="math inline">\(\hat\Sigma_e\)</span>; stability, residual correlation</td>
+<td style="text-align: left;">eigenvalues 0.9, 0.5; <span class="math inline">\(\rho_{12}=0.8\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2. Ordering</td>
+<td style="text-align: left;">which variable cannot respond within the period?</td>
+<td style="text-align: left;"><span class="math inline">\(Z\)</span> first (<span class="math inline">\(b_{21}=0\)</span>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3. Cholesky factor</td>
+<td style="text-align: left;">factor <span class="math inline">\(\hat\Sigma_e\)</span> in the chosen order, reorder back</td>
+<td style="text-align: left;"><span class="math inline">\(P=\begin{bmatrix}0.4243&amp;0.5657\\0&amp;0.7071\end{bmatrix}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4. Structure</td>
+<td style="text-align: left;"><span class="math inline">\(\sigma\)</span>’s from <span class="math inline">\(\operatorname{diag}(P)\)</span>; <span class="math inline">\(B^{-1}\)</span> = columns of <span class="math inline">\(P\)</span> ÷ diagonal</td>
+<td style="text-align: left;"><span class="math inline">\(\sigma_y^2=0.18\)</span>, <span class="math inline">\(\sigma_z^2=0.5\)</span>, <span class="math inline">\(b_{12}=-0.8\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5. Coefficients and shocks</td>
+<td style="text-align: left;"><span class="math inline">\(\Gamma_i=BA_i\)</span>; <span class="math inline">\(\varepsilon_t=Be_t\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(c_{11}=0.54\)</span>, <span class="math inline">\(c_{12}=-0.36\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6. Impulse responses</td>
+<td style="text-align: left;"><span class="math inline">\(\Phi_hB^{-1}\)</span> (one unit) or <span class="math inline">\(\Phi_hP\)</span> (one s.d.)</td>
+<td style="text-align: left;">impact <span class="math inline">\((1,0)\)</span> and <span class="math inline">\((0.8,1)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7. Variance decomposition</td>
+<td style="text-align: left;">sums of squared one-s.d. responses</td>
+<td style="text-align: left;"><span class="math inline">\(Y\)</span>: 64% <span class="math inline">\(\varepsilon_z\)</span> at <span class="math inline">\(n=1\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8. Robustness</td>
+<td style="text-align: left;">repeat with other plausible orderings</td>
+<td style="text-align: left;">conclusions reverse</td>
+</tr>
+</tbody>
+</table>
+</section></section>
+<section>
+<section id="specification-estimation-and-diagnostics" class="title-slide slide level1 center" data-background-color="#1b3a6b">
+<h1>Specification, estimation and diagnostics</h1>
+
+</section>
+<section id="choosing-the-lag-length" class="slide level2 smaller">
+<h2>Choosing the lag length</h2>
+<p><strong>LR test</strong> (Sims 1980), with both models estimated on the <strong>same sample</strong>: <span class="math display">\[
+LR=(T-c)\big(\ln|\hat\Sigma_r|-\ln|\hat\Sigma_u|\big)\ \overset{a}{\sim}\ \chi^2\big(k^2(p_u-p_r)\big),
+\]</span> where <span class="math inline">\(c=1+kp_u\)</span> is the number of parameters per unrestricted equation (a small-sample correction).</p>
+<p><strong>Information criteria</strong>, with <span class="math inline">\(N=k^2p+k\)</span> parameters in total: <span class="math display">\[
+AIC=T\ln|\hat\Sigma|+2N,\qquad SBC=T\ln|\hat\Sigma|+N\ln T .
+\]</span></p>
+<div class="keybox">
+<p>Minimize on a <strong>common sample</strong>. SBC picks shorter lags than AIC. Adding lags does <strong>not</strong> fix omitted variables.</p>
+</div>
+</section>
+<section id="estimation-and-diagnostics" class="slide level2 smaller">
+<h2>Estimation and diagnostics</h2>
+<ul>
+<li><strong>Estimate</strong> by OLS equation by equation, choosing the variables by theory.</li>
+<li><strong>Over-parameterized</strong> (<span class="math inline">\(k+pk^2\)</span> coefficients): interpret the IRFs and FEVDs, not single coefficients.</li>
+<li><strong>Residuals:</strong> test for serial correlation with multivariate portmanteau or LM tests; check normality and heteroskedasticity.</li>
+<li><strong>Stability:</strong> all companion eigenvalues must lie inside the unit circle.</li>
+<li><strong>Forecast</strong> by iterating <span class="math inline">\(E_tX_{t+n}=\hat A_0+\hat A_1E_tX_{t+n-1}+\cdots+\hat A_pE_tX_{t+n-p}\)</span>.</li>
+</ul>
+</section></section>
+<section>
+<section id="recap" class="title-slide slide level1 center" data-background-color="#1b3a6b">
+<h1>Recap</h1>
+
+</section>
+<section id="key-takeaways" class="slide level2 smaller">
+<h2>Key takeaways</h2>
+<div class="keybox">
+<ul>
+<li><strong>Structural vs reduced form:</strong> OLS can’t estimate the SVAR but can estimate the reduced form, whose errors <span class="math inline">\(e_t=B^{-1}\varepsilon_t\)</span> are <strong>correlated mixtures</strong>.</li>
+<li><strong>Stability:</strong> companion eigenvalues inside the unit circle ⇒ <span class="math inline">\(X_t=\mu+\sum_j\Phi_je_{t-j}\)</span>.</li>
+<li><strong>Structural IRFs:</strong> <span class="math inline">\(\Psi_h=\Phi_hB^{-1}\)</span>, with long-run effect <span class="math inline">\(A(1)^{-1}B^{-1}\)</span>.</li>
+<li><strong>Identification:</strong> we need <span class="math inline">\(k(k-1)/2\)</span> restrictions. A recursive ordering supplies them, solved by the Cholesky factor <span class="math inline">\(P=B^{-1}\Sigma_\varepsilon^{1/2}\)</span>.</li>
+<li><strong>FEVD:</strong> sums of squared one-s.d. responses.</li>
+<li><strong>The ordering is an assumption:</strong> with <span class="math inline">\(\rho=0.8\)</span>, <span class="math inline">\(\varepsilon_z\)</span>’s one-step share of <span class="math inline">\(Y\)</span> swings from 64% to 0%.</li>
+<li><strong>Specification:</strong> LR or AIC/SBC on a common sample; check residuals and stability.</li>
+</ul>
+</div>
+</section>
+<section id="suggested-reading" class="slide level2 smaller">
+<h2>Suggested reading</h2>
+<ul>
+<li>Enders (2015), <em>Applied Econometric Time Series</em>, 4th ed., Ch. 5: the basis of this lecture</li>
+<li>Hamilton (1994), <em>Time Series Analysis</em>, Chs. 10–11</li>
+<li>Lütkepohl (2005), <em>New Introduction to Multiple Time Series Analysis</em>, Chs. 2–4 and 9</li>
+<li>Kilian and Lütkepohl (2017), <em>Structural Vector Autoregressive Analysis</em>: the modern reference on identification</li>
+<li>Stock and Watson (2001), “Vector autoregressions”, <em>JEP</em> 15(4): short and readable</li>
+</ul>
+<blockquote>
+<p>Next: when <span class="math inline">\(\det A(1)=0\)</span>, is some combination of the variables stationary? That is <strong>cointegration</strong>.</p>
+</blockquote>
+</section>
+<section id="original-papers" class="slide level2 smaller">
+<h2>Original papers</h2>
+<div class="small">
+<p><em>Foundations:</em> Wold (1938, <em>A Study in the Analysis of Stationary Time Series</em>); Zellner (1962, <em>JASA</em>); Sims (1980, <em>Econometrica</em>); Sims (1986, <em>Federal Reserve Bank of Minneapolis Quarterly Review</em>); Bernanke (1986, <em>Carnegie-Rochester Conference Series on Public Policy</em>).</p>
+<p><em>Identification:</em> Blanchard and Quah (1989, <em>AER</em>); Christiano, Eichenbaum and Evans (1999, <em>Handbook of Macroeconomics</em> 1A); Uhlig (2005, <em>JME</em>); Rubio-Ramírez, Waggoner and Zha (2010, <em>REStud</em>); Stock and Watson (2018, <em>Economic Journal</em>).</p>
+<p><em>Inference on impulse responses:</em> Kilian (1998, <em>REStat</em>).</p>
+<p><em>Surveys:</em> Ramey (2016, <em>Handbook of Macroeconomics</em> 2A) on macroeconomic shocks and their propagation.</p>
+</div>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>HS 821 · Vector Autoregressions</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiByaG8gPSBJbnB1dHMucmFuZ2UoWzAsIDAuOTVdLCB7XG4gIHZhbHVlOiAwLjgsIHN0ZXA6IDAuMDUsIGxhYmVsOiBcInJlc2lkdWFsIGNvcnJlbGF0aW9uIM+BXCJcbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJmZXYgPSB7XG4gIGNvbnN0IHMgPSAwLjUsIHMxMiA9IHJobyAqIHM7XG4gIGNvbnN0IEEgPSBbWzAuNywgMC4yXSwgWzAuMiwgMC43XV07XG4gIGNvbnN0IG11bCA9IChYLCBZKSA9PiBbXG4gICAgW1hbMF1bMF0gKiBZWzBdWzBdICsgWFswXVsxXSAqIFlbMV1bMF0sIFhbMF1bMF0gKiBZWzBdWzFdICsgWFswXVsxXSAqIFlbMV1bMV1dLFxuICAgIFtYWzFdWzBdICogWVswXVswXSArIFhbMV1bMV0gKiBZWzFdWzBdLCBYWzFdWzBdICogWVswXVsxXSArIFhbMV1bMV0gKiBZWzFdWzFdXVxuICBdO1xuICAvLyBDaG9sZXNreSBmYWN0b3JzIGluIHRoZSBvcmRlciAoWSwgWik7IGNvbHVtbnMgPSAoZXBzX3ksIGVwc196KVxuICBjb25zdCBQeiA9IFtbTWF0aC5zcXJ0KHMgLSBzMTIgKiBzMTIgLyBzKSwgczEyIC8gTWF0aC5zcXJ0KHMpXSwgWzAsIE1hdGguc3FydChzKV1dOyAgLy8gWiBmaXJzdFxuICBjb25zdCBQeSA9IFtbTWF0aC5zcXJ0KHMpLCAwXSwgW3MxMiAvIE1hdGguc3FydChzKSwgTWF0aC5zcXJ0KHMgLSBzMTIgKiBzMTIgLyBzKV1dOyAgLy8gWSBmaXJzdFxuICBjb25zdCBvdXQgPSBbXTtcbiAgbGV0IEYgPSBbWzEsIDBdLCBbMCwgMV1dOyAgICAgICAgICAvLyBQaGlfaCA9IEExXmhcbiAgbGV0IGN6ID0gWzAsIDBdLCBjeSA9IFswLCAwXTsgICAgICAvLyBjdW11bGF0ZWQgc3F1YXJlZCByZXNwb25zZXMgb2YgWSB0byAoZXBzX3ksIGVwc196KVxuICBmb3IgKGxldCBuID0gMTsgbiA8PSAyMDsgbisrKSB7XG4gICAgY29uc3QgUnogPSBtdWwoRiwgUHopLCBSeSA9IG11bChGLCBQeSk7XG4gICAgY3ogPSBbY3pbMF0gKyBSelswXVswXSAqKiAyLCBjelsxXSArIFJ6WzBdWzFdICoqIDJdO1xuICAgIGN5ID0gW2N5WzBdICsgUnlbMF1bMF0gKiogMiwgY3lbMV0gKyBSeVswXVsxXSAqKiAyXTtcbiAgICBvdXQucHVzaCh7bjogbiwgb3JkZXJpbmc6IFwiWiBmaXJzdFwiLCBzaGFyZTogMTAwICogY3pbMV0gLyAoY3pbMF0gKyBjelsxXSl9KTtcbiAgICBvdXQucHVzaCh7bjogbiwgb3JkZXJpbmc6IFwiWSBmaXJzdFwiLCBzaGFyZTogMTAwICogY3lbMV0gLyAoY3lbMF0gKyBjeVsxXSl9KTtcbiAgICBGID0gbXVsKEEsIEYpO1xuICB9XG4gIHJldHVybiBvdXQ7XG59XG5cblBsb3QucGxvdCh7XG4gIGhlaWdodDogMjUwLCBtYXJnaW5MZWZ0OiA1MCxcbiAgeDoge2xhYmVsOiBcImZvcmVjYXN0IGhvcml6b24gblwiLCBkb21haW46IFsxLCAyMF19LFxuICB5OiB7bGFiZWw6IFwiJSBvZiBZJ3MgZm9yZWNhc3QtZXJyb3IgdmFyaWFuY2UgZnJvbSDOtV96XCIsIGRvbWFpbjogWzAsIDEwMF0sIGdyaWQ6IHRydWV9LFxuICBjb2xvcjoge2RvbWFpbjogW1wiWiBmaXJzdFwiLCBcIlkgZmlyc3RcIl0sIHJhbmdlOiBbXCIjMWIzYTZiXCIsIFwiI2MwMzkyYlwiXSwgbGVnZW5kOiB0cnVlfSxcbiAgbWFya3M6IFtcbiAgICBQbG90LmxpbmUoZmV2LCB7eDogXCJuXCIsIHk6IFwic2hhcmVcIiwgc3Ryb2tlOiBcIm9yZGVyaW5nXCIsIHN0cm9rZVdpZHRoOiAyLjJ9KSxcbiAgICBQbG90LmRvdChmZXYsIHt4OiBcIm5cIiwgeTogXCJzaGFyZVwiLCBmaWxsOiBcIm9yZGVyaW5nXCIsIHI6IDIuNX0pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJhdDIwID0gKHtcbiAgejogZmV2LmZpbmQoZCA9PiBkLm4gPT09IDIwICYmIGQub3JkZXJpbmcgPT09IFwiWiBmaXJzdFwiKS5zaGFyZSxcbiAgeTogZmV2LmZpbmQoZCA9PiBkLm4gPT09IDIwICYmIGQub3JkZXJpbmcgPT09IFwiWSBmaXJzdFwiKS5zaGFyZVxufSlcblxuaHRtbGA8ZGl2PlxuICA8ZGl2IGNsYXNzPVwibXV0ZWRcIj5HYXAgYXQgbiA9IDIwOiBzaGFyZSBvZiDOtV96IGluIFkncyB2YXJpYW5jZSwgWiBmaXJzdCBtaW51cyBZIGZpcnN0PC9kaXY+XG4gIDxkaXYgY2xhc3M9XCJwb3N0ZXJpb3JcIj4keyhhdDIwLnogLSBhdDIwLnkpLnRvRml4ZWQoMSl9IHBwPC9kaXY+XG4gIDxkaXYgY2xhc3M9XCJub3RlXCI+XG4gICAgWiBmaXJzdDogPGI+JHthdDIwLnoudG9GaXhlZCgxKX0lPC9iPiAmbmJzcDvCtyZuYnNwOyBZIGZpcnN0OiA8Yj4ke2F0MjAueS50b0ZpeGVkKDEpfSU8L2I+XG4gICAgJm5ic3A7wrcmbmJzcDsgb25lLXN0ZXAgc2hhcmUgd2l0aCBaIGZpcnN0OiA8Yj4keygxMDAgKiByaG8gKiByaG8pLnRvRml4ZWQoMCl9JTwvYj4gKD0gz4HCsilcbiAgICAmbmJzcDvCtyZuYnNwOyBi4oKB4oKCIChaIGZpcnN0KSA9IGLigoLigoEgKFkgZmlyc3QpID0gPGI+JHsoLXJobykudG9GaXhlZCgyKX08L2I+XG4gIDwvZGl2PlxuPC9kaXY+YFxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdyaG8nKSJ9XX0=
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../Slides";
+    window._ojs.paths.runtimeToRoot = "../..";
+    window._ojs.paths.docToRoot = "..";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/sunilpaul29\.github\.io\/HS821\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
